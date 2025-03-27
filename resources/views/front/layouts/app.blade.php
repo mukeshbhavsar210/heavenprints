@@ -100,22 +100,6 @@
 						<div class="col-md-9 col-12">
 							<div class="collapse navbar-collapse" id="navbarSupportedContent">
 								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-									<li class="nav-item dropdown">
-										<a class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-											Customize
-										</a>
-										<ul class="dropdown-menu dropdown-menu-dark">
-											<li>
-												<a class="dropdown-item nav-link" href="{{ route('front.neon')}}">
-													<div class="nav_thumb"> 
-														<img src="{{ asset('uploads/sub_category/neon.jpg') }}" alt="" />
-														<p class="nav_name">Neon</p>
-													</div>			
-												</a>
-											</li>
-										</ul>							
-									</li>
-
 									@if (getCategories()->isNotEmpty())
 										@foreach (getCategories() as $category )
 											<li class="nav-item dropdown">

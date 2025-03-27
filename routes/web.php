@@ -69,7 +69,7 @@ Route::controller(CartController::class)->group(function() {
 
 //Neon
 Route::controller(NeonController::class)->group(function() {
-    Route::get('/products/customize-neon-signs', 'index')->name('front.neon');
+    //Route::get('/products/customize-neon-signs', 'index')->name('front.neon');
     Route::post('/generate-svg', 'generateSvg')->name('generate.svg');
     Route::get('/download-svg/{id}', 'download')->name('download.svg');
     Route::post('/update-svg', 'updateSVG')->name('store.svg');

@@ -12,6 +12,9 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class ShopController extends Controller {
     public function index(Request $request, $categorySlug = null, $subCategorySlug = null) {
 
+        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
+        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
+
         $categorySelected = ' ';
         $subCategorySelected = ' ';
         $brandsArray = [];
@@ -76,6 +79,9 @@ class ShopController extends Controller {
         $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
         $data['priceMin'] = intval($request->get('price_min'));
         $data['sort'] = $request->get('sort');
+
+        $data['colors'] = $colors;
+        $data['fonts'] = $fonts;
 
         return view('front.shop.default.index',$data);
     }
