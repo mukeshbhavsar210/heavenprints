@@ -42,6 +42,10 @@
                 </div>
             </form>
             <div class="card-body table-responsive p-0">
+                @php
+                    use Illuminate\Support\Str;
+                @endphp
+
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
@@ -50,7 +54,6 @@
                             <th>Product</th>
                             <th>Price</th>
                             <th>Qty</th>
-                            <th>SKU</th>
                             <th width="100">Status</th>
                             <th width="100">Action</th>
                         </tr>
@@ -65,15 +68,43 @@
                                 <td>{{ $product->id }}</td>
                                 <td>
                                     @if (!empty($productImage->image))
-                                        <img src="{{ asset('uploads/product/small/'.$productImage->image) }}" class="img-thumbnail" width="50" >
+                                        <img src="{{ asset('uploads/product/small/'.$productImage->image) }}" class="img-thumbnail" width="75" >
                                         @else
-                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" class="img-thumbnail" width="50"  />
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" class="img-thumbnail" width="75"  />
                                     @endif
                                 </td>
-                                <td><a href="#">{{ $product->title }}</a></td>
-                                <td>₹{{ $product->price }}</td>
-                                <td>{{ $product->qty }} left in Stock</td>
-                                <td>{{ $product->sku }}</td>
+                                <td>
+                                    <h5 class="mb-0">{{ Str::limit($product->name, 30, '...') }}</h5>
+                                    <span style="font-size:14px;">
+                                        @if($product->metal_type)
+                                            Category: {{ $product->metal_type }}
+                                        @elseif (!empty($product->sizes))
+                                            <b>Size:</b>
+                                            @foreach(json_decode($product->sizes) as $size)
+                                                    {{ $size }},
+                                            @endforeach
+                                        @endif                                        
+
+                                        @if(!empty($product->colors))
+                                            , Color:
+                                            @foreach(json_decode($product->colors) as $color)
+                                                {{ $color }}
+                                            @endforeach
+                                        @endif
+                                    </span>
+                                </td>
+                                <td>₹{{ $product->price }}<br />
+                                    <span style="font-size:14px;">
+                                        @if($product->compare_price)
+                                            Offer: {{ $product->compare_price }}
+                                        @else
+                                            <span>No Offer</span>
+                                        @endif
+                                    </span>      
+                                </td>
+                                <td>{{ $product->qty }} <span style="font-size:14px;">Stock</span><br />
+                                    <span style="font-size:14px;">{{ $product->sku }}</span>                                    
+                                </td>
                                 <td>
                                     @if ($product->status == 1)
                                         <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
