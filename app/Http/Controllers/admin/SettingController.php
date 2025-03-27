@@ -166,7 +166,10 @@ class SettingController extends Controller {
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
                 $image->toJpeg(80)->save($path);
-                $image->cover(1000,400)->save($path);
+                // $image->resize(1000, null, function ($constraint) {
+                //     $constraint->aspectRatio();
+                // });
+                $image->cover(1000,300)->save($path);
                 //$image->save($path);
                 $banner->image = $fileName;
                 $banner->save();

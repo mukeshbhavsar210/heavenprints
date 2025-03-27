@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
+use App\Models\ProductImage;
 use Illuminate\Contracts\Session\Session;
 use Razorpay\Api\Api;
 use Illuminate\Support\Str;
@@ -257,7 +258,6 @@ class CartController extends Controller {
         $zip = $request->zip;
         $notes = $request->notes;
 
-
         try {
             $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
 
@@ -364,6 +364,21 @@ class CartController extends Controller {
                 'status' => 'pending',
                 'country_id' => $country,
             ]); 
+
+            // Save to database
+            $product = new Product();
+            $product->name = $item->name;
+            $product->slug = $item->name;
+            $product->product_type = $item->options->category;
+            $product->font = $item->options->font;
+            $product->size = $item->options->size;
+            $product->color = $item->options->color;
+            $product->save();   
+            
+            // $productImage = new ProductImage();
+            // $productImage->product_id = 'Kusum';
+            // $productImage->image = 'Shantilal';
+            // $productImage->save();
             
             foreach (Cart::content() as $item) {
                 OrderItem::create([
@@ -414,224 +429,6 @@ class CartController extends Controller {
         }
     }
 
-
-
-    // public function processCheckout(Request $request){
-    //     Log::info('Payment Request Received', $request->all());
-    //     $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
-    //     $amount = $request->amount * 100; // Convert to paise
-    //     try {
-    //         $orderData = [
-    //                 'receipt'         => 'rcptid_' . time(),
-    //                 'amount'          => $amount, // Amount in paise
-    //                 'currency'        => 'INR',
-    //                 'payment_capture' => 1 // Auto-capture
-    //             ];
-    
-    //             $order = $api->order->create($orderData);
-    //             Log::info('Order Created: ' . json_encode($order));
-
-    //             return response()->json([
-    //                 'order_id' => $order['id'],
-    //                 'amount' => $order['amount'],
-    //                 'currency' => $order['currency'],
-    //                 'key' => config('services.razorpay.key')
-    //             ]);
-
-    //         Cart::destroy();
-    
-    //         return response()->json(['success' => true, 'message' => 'Order placed successfully!']);
-    //     } catch (\Exception $e) {
-    //         Log::error('Order Checkout Failed: ' . $e->getMessage());
-    //         return response()->json(['error' => 'Payment verification failed!']);
-    //     }
-    // }
-
-    
-    // public function verifyPayment(Request $request) {
-    //     Log::info('Verifying Payment', $request->all());
-
-    //     $razorpayPaymentId = $request->razorpay_payment_id;
-    //     $razorpayOrderId = $request->razorpay_order_id;
-    //     $signature = $request->razorpay_signature;
-    //     $amount = $request->amount ?? 0;
-
-    //     $first_name = $request->first_name;
-    //     $last_name = $request->last_name;
-    //     $email = $request->email;
-    //     $mobile = $request->mobile;
-    //     $address = $request->address;
-    //     $order_notes = $request->order_notes;
-    //     $apartment = $request->apartment;
-    //     $city = $request->city;
-    //     $country = $request->country;
-    //     $state = $request->state;
-    //     $zip = $request->zip;
-    //     $notes = $request->notes;
-
-    //     try {
-    //         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
-
-    //         $attributes = [
-    //             'razorpay_payment_id' => $razorpayPaymentId,
-    //             'razorpay_order_id'   => $razorpayOrderId,
-    //             'razorpay_signature'  => $signature
-    //         ];
-
-    //         $api->utility->verifyPaymentSignature($attributes);
-
-    //         //Step 1: apply validations while make orders
-    //         $validator = Validator::make($request->all(),[
-    //             'first_name' => 'required|min:5',
-    //             'last_name' => 'required',
-    //             'mobile' => 'required',
-    //             'email' => 'required|email',
-    //             'address' => 'required|min:10',
-    //             'city' => 'required',
-    //             'state' => 'required',
-    //             'zip' => 'required'
-    //         ]);
-
-    //         if ($validator->fails()){
-    //             return response()->json([
-    //                 'message' => 'Please fix the errors',
-    //                 'status' => false,
-    //                 'errors' => $validator->errors()
-    //             ]);
-    //         }
-        
-    //         $user = Auth::user();
-
-    //         //Step 2: Save user address
-    //         $address = CustomerAddress::updateOrCreate(
-    //             ['user_id' => $user->id ],
-    //             [
-    //                 'user_id' => $user->id,
-    //                 'first_name' => $first_name,
-    //                 'last_name' => $last_name,
-    //                 'mobile' => $mobile,
-    //                 'email' => $email,
-    //                 'country_id' => $country,
-    //                 'address' => $address,
-    //                 'apartment' => $apartment,
-    //                 'city' => $city,
-    //                 'state' => $state,
-    //                 'zip' => $zip,
-    //                 'notes' => $order_notes,
-    //             ]
-    //         );
-
-    //         //Step 3: Store data in orders table
-    //         $discountCodeId = NULL;
-    //         $promoCode = '';
-    //         $shipping = 0;
-    //         $discount = 0;
-    //         $subTotal = Cart::subtotal(2,'.','');
-
-    //         // Apply Discount
-    //         if (session()->has('code')) {
-    //             $code = session()->get('code');
-    //             if($code->type == 'percent'){
-    //                 $discount = ($code->discount_amount/100)*$subTotal;
-    //             } else {
-    //                 $discount = $code->discount_amount;
-    //             }
-    //             $discountCodeId = $code->id;
-    //             $promoCode = $code->code;
-    //         }
-
-    //         // Calculate shipping
-    //         $shippingInfo = ShippingCharge::where('country_id', $request->country)->first();
-
-    //         $totalQty = 0;
-    //         foreach (Cart::content() as $item){
-    //             $totalQty += $item->qty;
-    //         }
-
-    //         if ($shippingInfo != null) {
-    //             $shipping = $totalQty*$shippingInfo->amount;
-    //             $grandTotal = ($subTotal-$discount)+$shipping;
-    //         } else {
-    //             $shippingInfo = ShippingCharge::where('country_id','rest_of_world')->first();
-    //             $shipping = $totalQty*$shippingInfo->amount;
-    //             $grandTotal = ($subTotal - $discount)+$shipping;
-    //         }
-
-    //         //Update product stock
-    //         $productData = Product::find($item->id);
-    //         if($productData->track_qty == 'Yes'){
-    //             $currentQty = $productData->qty;
-    //             $updatedQty = $currentQty-$item->qty;
-    //             $productData->qty = $updatedQty;
-    //             $productData->save();
-    //         }            
-
-    //         $order = Order::create([
-    //             'user_id' => $user->id,
-    //             'subtotal' => $subTotal,
-    //             'shipping' => $shipping,
-    //             'grandtotal' => $grandTotal,
-    //             'discount' => $discount,
-    //             'coupon_code_id' => $discountCodeId,
-    //             'coupon_code' => $promoCode,
-    //             'status' => 'pending',
-    //             'country_id' => $country,
-    //         ]);     
-            
-    //         foreach (Cart::content() as $item) {
-    //             OrderItem::create([
-    //                 'order_id' => $order->id,
-    //                 'product_id' => $item->id,
-    //                 'name' => $item->name,
-    //                 'category' => $item->options->category,
-    //                 'font' => $item->options->font,
-    //                 'size' => $item->options->size,
-    //                 'color' => $item->options->color,
-    //                 'frame' => $item->options->frame,
-    //                 'image' => $item->options->thumb,
-    //                 'border' => $item->options->border,
-    //                 'major' => $item->options->major,
-    //                 'wrap' => $item->options->wrap,                    
-    //                 'wrap_wrap' => $item->options->wrap_wrap,
-    //                 'hardware_style' => $item->options->hardware_style,
-    //                 'hardware_display' => $item->options->hardware_display,
-    //                 'lamination' => $item->options->lamination,
-    //                 'retouching' => $item->options->retouching,
-    //                 'hardware_finishing'=> $item->options->hardware_finishing,
-    //                 'proof' => $item->options->proof,
-    //                 'shape' => $item->options->metalShape,
-    //                 'custom_size1' => $item->options->customSize1,
-    //                 'custom_size2' => $item->options->customSize2,
-    //                 'qty' => $item->qty,
-    //                 'price' => $item->price,
-    //                 'total' => $item->price * $item->qty,                    
-    //             ]);
-    //         }
-
-    //         Payment::create([
-    //             'order_id' => $order->id,
-    //             'product_id' => $item->id,
-    //             'razorpay_payment_id' => $request->razorpay_payment_id,
-    //             'razorpay_order_id' => $request->razorpay_order_id,
-    //             'payment_mode' => $request->payment_mode ?? 'Online',
-    //             'amount' => $item->price * $item->qty,
-    //             'status' => 'Paid',
-    //             'currency' => $request->currency ?? 'INR',
-    //             'payment_data' => json_encode($request->all()),
-    //         ]);
-          
-    //         Cart::destroy();
-    //         session()->forget(['grand_total', 'first_name']);
-
-    //         return response()->json(['status' => 'success', 'message' => 'Payment verified successfully']);
-    //     } catch (\Exception $e) {
-    //         Log::error('Payment Verification Failed: ' . $e->getMessage());
-
-    //         return response()->json(['status' => 'failed', 'message' => 'Payment verification failed'], 500);
-    //     }
-    // }
-    
-
     public function success(){
         return view("front.checkout.success");
     }
@@ -645,9 +442,6 @@ class CartController extends Controller {
             'id' => $id,
         ]);
     }
-
-
-
 
     public function getOrderSummary(Request $request){
         $subTotal = Cart::subtotal(2,'.','');

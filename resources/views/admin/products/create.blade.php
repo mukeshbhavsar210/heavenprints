@@ -16,226 +16,106 @@
     <!-- Main content -->
 
     <section class="content">
-        @include('admin.message')
-    
-        <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" >
-            @csrf
+        <form action="" method="post" name="productForm" id="productForm">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-8 col-12">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                        <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="Slug">
-                                        <input type="hidden" readonly name="product_type" value="default" >
+                                    <div class="col-md-6">
+                                        <label for="title">Title</label>
+                                        <input type="text" name="title" id="title" class="form-control" placeholder="Title">
                                         <p class="error"></p>
                                     </div>
-                                    <div class="col-md-4 col-12">
-                                        <label for="productType">Product Type:</label>
-                                        <select id="productType" class="form-control">
-                                            <option value="">Select Product</option>
-                                            <option value="tshirt">T-Shirt</option>
-                                            <option value="metal">Metal</option>
-                                        </select>
+                                    <div class="col-md-6">
+                                        <label for="slug">Slug</label>
+                                        <input type="text" readonly name="slug" id="slug" class="form-control" placeholder="Slug">
+                                        <p class="error"></p>
                                     </div>
                                 </div>
 
-                                <div id="tshirtDiv" class="hidden">
-                                    <div class="row"> 
-                                        <div class="col-md-12 col-12">   
-                                            <div class="form-group">          
-                                                
-                                                <input type="hidden" name="metal_type" value="t_shirt">
-
-                                                <label for="size">Size</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Small" id="size_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_1">
-                                                            <p>Small</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_2">
-                                                            <p>Medium</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Large" id="size_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_3">
-                                                            <p>Large</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="XL" id="size_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_4">
-                                                            <p>XL</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_5">
-                                                            <p>XXL</p>
-                                                        </label>
-                                                    </div>                                                   
-                                                </div>
-                                                <p class="error"></p>                                           
-                                            </div>  
-                                        </div>  
-                                        <div class="col-md-12 col-12">
-                                            <div class="form-group">
-                                                <label for="colors">Colors</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_1">
-                                                            <p>Red</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_2">
-                                                            <p>Blue</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_3">
-                                                            <p>Black</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_4">
-                                                            <p>Green</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                            <p>Orange</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                            <p>Green</p>
-                                                        </label>
-                                                    </div>  
-                                                                                                 
-                                                </div>
-                                                <p class="error"></p>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                </div>
-                            
-                                <div id="metalDiv" class="hidden">
-                                    <div class="row"> 
-                                        <div class="col-md-6 col-12">   
-                                            <div class="form-group">                                           
-                                                <label for="size">Metal Products</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_1">
-                                                            <p>Canvas</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="acrylic" id="metalProduct_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_2">
-                                                            <p>Acrylic</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="metal" id="metalProduct_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_3">
-                                                            <p>Metal</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="wood" id="metalProduct_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_4">
-                                                            <p>Wood</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="others" id="metalProduct_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_5">
-                                                            <p>Others</p>
-                                                        </label>
-                                                    </div>                                                   
-                                                </div>
-                                                <p class="error"></p>                                           
-                                            </div>  
-                                        </div>   
-                                    </div>
-                                </div>
-                            
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <div class="form-group">
+                                        <div class="mb-3">
                                             <label for="description">Description</label>
                                             <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <label for="short_description">Short Description</label>
-                                        <textarea name="short_description" id="short_description" cols="30" rows="3" class="form-control" ></textarea>
+                                        <textarea name="short_description" id="short_description" cols="30" rows="10" class="summernote" ></textarea>
                                     </div>
-                                    <div class="col-md-6 col-12">
+
+                                    <div class="col-md-6">
                                         <label for="shipping_returns">Shipping & Returns</label>
-                                        <textarea name="shipping_returns" id="shipping_returns" cols="30" rows="3" class="form-control"  ></textarea>
+                                        <textarea name="shipping_returns" id="shipping_returns" cols="30" rows="10" class="summernote"  ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Media</h2>
+                                <div id="image" class="dropzone dz-clickable">
+                                    <div class="dz-message needsclick">
+                                        <br>Drop files here or click to upload.<br><br>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="row" id="product-gallery">
+
+                        </div>
+
                         <div class="card mb-3">
                             <div class="card-body">
+                                <h2 class="h4 mb-3">Pricing</h2>
                                 <div class="row">
-                                    <div class="col-md-8 col-12">
-                                        <h2 class="h4 mb-3">Media</h2>
-                                        <div class="form-group">
-                                            <input type="file" name="image[]" id="fileInput" multiple  accept="image/*" hidden>
-                                            <div id="dropZone" class="drop-zone">
-                                                Drop files here<br /> or click to upload.
-                                            </div>
-                                            <div class="preview-container" id="previewContainer"></div>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <label for="price">Price</label>
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                        <p class="error"></p>
                                     </div>
-
-
-                                    {{-- <div class="col-md-8 col-12">
-                                        <h2 class="h4 mb-3">Media</h2>
-                                        <div id="image" class="dropzone dz-clickable mb-3">
-                                            <div class="dz-message needsclick">
-                                                <br>Drop files here or click to upload.<br><br>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    <div class="col-md-4 col-12">
-                                        <h2 class="h4 mb-3">Pricing</h2>
-                                        <div class="row">
-                                            <div class="col-md-12 col-12">
-                                                <label for="price">Price</label>
-                                                <input type="text" name="price" id="price" class="form-control" placeholder="Price">
-                                                <p class="error"></p>
-                                            </div>
-                                            <div class="col-md-12 col-12">
-                                                <label for="compare_price">Compare at Price</label>
-                                                <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
-                                            </div>
-                                        </div>                                        
+                                    <div class="col-md-6">
+                                        <label for="compare_price">Compare at Price</label>
+                                        <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
                                     </div>
                                 </div>
-                                <div class="row" id="product-gallery"></div>
+                                <p class="text-muted mt-3">To show a reduced price, move the product’s original price into Compare at price. Enter a lower value into Price.</p>
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Inventory</h2>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label for="sku">SKU (Stock Keeping Unit)</label>
+                                        <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
+                                        <p class="error"></p>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <label for="barcode">Barcode</label>
+                                        <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="hidden" name="track_qty" value="No" >
+                                            <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
+                                            <label for="track_qty" class="custom-control-label">Track Qty.</label>
+                                        </div>
+
+                                        <div>
+                                            <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
+                                            <p class="error"></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -248,8 +128,18 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Product status</h2>
+                                <div class="mb-3">
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="1">Active</option>
+                                        <option value="0">Block</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="h4  mb-3">Product category</h2>
@@ -272,73 +162,33 @@
                                         <option value="">Select a Sub category</option>
                                     </select>
                                 </div>
-                                    <div class="mb-3">
-                                        <label for="category">Product brand</label>
-                                        <select name="brand" id="brand" class="form-control">
-                                            <option value="">Select a brand</option>
-    
-                                            @if ($brands->isNotEmpty())
-                                                @foreach ($brands as $brand)
-                                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
                             </div>
                         </div>
-
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h2 class="h4 mb-3">Inventory</h2>
-                                <div class="row">
-                                    <div class="col-md-12 col-12">
-                                        <label for="sku">SKU (Stock Keeping Unit)</label>
-                                        <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
-                                        <p class="error"></p>
-                                    </div>
+                                <h2 class="h4 mb-3">Product brand</h2>
+                                <div class="mb-3">
+                                    <select name="brand" id="brand" class="form-control">
+                                        <option value="">Select a brand</option>
 
-                                    <div class="col-md-8 col-8">
-                                        <label for="barcode">Barcode</label>
-                                        <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
-                                    </div>
-
-                                    <div class="col-md-4 col-4">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="hidden" name="track_qty" value="No" >
-                                            <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
-                                            <label for="track_qty" class="custom-control-label">Track</label>
-                                        </div>
-                                        <div>
-                                            <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
-                                            <p class="error"></p>
-                                        </div>
-                                    </div>
+                                        @if ($brands->isNotEmpty())
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="card">
+                        <div class="card mb-3">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <p class="mb-2"><b>Featured</b></p>                                        
-                                        <div class="form-group">
-                                            <select name="is_featured" id="is_featured" class="form-control">
-                                                <option value="No">No</option>
-                                                <option value="Yes">Yes</option>
-                                            </select>
-                                            <p class="error"></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <p class="mb-2"><b>Status</b></p>
-                                        <div class="form-group">
-                                            <select name="status" id="status" class="form-control">
-                                                <option value="1">Active</option>
-                                                <option value="0">Block</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <h2 class="h4 mb-3">Featured product</h2>
+                                <div class="mb-3">
+                                    <select name="is_featured" id="is_featured" class="form-control">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                    <p class="error"></p>
                                 </div>
                             </div>
                         </div>
@@ -351,11 +201,13 @@
                 </div>
             </div>
         </form>
+        <!-- /.card -->
     </section>
 @endsection
 
 @section('customJs')
 <script>
+
     $('.related-product').select2({
         ajax: {
             url: '{{ route('products.getProducts') }}',
@@ -371,7 +223,7 @@
         }
     });
 
-    $('#name').change(function(){
+    $('#title').change(function(){
         element = $(this);
         $("button[type=submit]").prop('disabled', true);
         $.ajax({
@@ -387,6 +239,53 @@
             }
         });
     })
+
+
+
+    //Product form add details in database
+    $("#productForm").submit(function(event){
+        event.preventDefault();
+
+        var formArray = $(this).serializeArray();
+        $("button[type='submit']").prop('disabled',true);
+
+        $.ajax({
+            url: '{{ route("products.store") }}',
+            type: 'post',
+            data: formArray,
+            dataType: 'json',
+            success: function(response){
+
+                $("button[type='submit']").prop('disabled',false);
+
+                if (response['status'] == true) {
+
+                    $(".error").removeClass('invalid-feedback').html('');
+                    $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
+
+                    window.location.href="{{ route('products.index') }}";
+
+                } else {
+                    var errors = response['errors'];
+
+                    $(".error").removeClass('invalid-feedback').html('');
+                    $("input[type='text'], select, input[type='number']").removeClass('is-invalid');
+
+                    $.each(errors, function(key,value){
+                        $(`#${key}`).addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(value);
+                    });
+                }
+            },
+
+            error: function(){
+                console.log("Something went wrong")
+            }
+        });
+    });
+
 
 
     $("#category").change(function(){
@@ -408,87 +307,40 @@
         });
     })
 
+    //File image uplaod
+    Dropzone.autoDiscover = false;
+        const dropzone = $("#image").dropzone({
+            url:  "{{ route('temp-images.create') }}",
+            method: "post", // Ensure this is POST
+            maxFiles: 10,
+            paramName: 'image',
+            addRemoveLinks: true,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }, success: function(file, response){
+                $("#image_id").val(response.image_id);
+                console.log(response)
 
-    //Dropzone
-    let dropZone = $('#dropZone');
-    let fileInput = $('#fileInput');
-    let previewContainer = $('#previewContainer');
-    let uploadButton = $('#uploadButton');
-
-    // Click to open file selector
-    dropZone.on('click', function () {
-        fileInput.click();
-    });
-
-    // File input change event
-    fileInput.on('change', function (event) {
-        handleFiles(event.target.files);
-    });
-
-    // Drag over event
-    dropZone.on('dragover', function (event) {
-        event.preventDefault();
-        dropZone.addClass('dragover');
-    });
-
-    // Drag leave event
-    dropZone.on('dragleave', function () {
-        dropZone.removeClass('dragover');
-    });
-
-    // Drop event
-    dropZone.on('drop', function (event) {
-        event.preventDefault();
-        dropZone.removeClass('dragover');
-        let files = event.originalEvent.dataTransfer.files;
-        handleFiles(files);
-    });
-
-    function handleFiles(files) {
-        if (files.length > 0) {
-            let file = files[0];
-
-            // Show image preview
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                previewContainer.html(`
-                    <div class="preview-container">
-                        <img src="${e.target.result}" class="preview-image">
-                        <button type="button" class="delete-btn" onclick="removeImage()">×</button>
+               var html = `<div class="col-md-2" id="image-row-${response.image_id}">
+                    <div class="card">
+                        <input type="hidden" name="image_array[]" value="${response.image_id}" >
+                        <img src="${response.ImagePath}" />
+                        <a href="javascript:void(0)" onclick="deleteImage(${response.image_id})" class="deleteCardImg">X</a>
                     </div>
-                `);
-                uploadButton.show(); // Show upload button after selecting image
-            };
-            reader.readAsDataURL(file);
+                </div>`;
 
-            // Assign file to input
-            fileInput.prop('files', files);
-        }
-    }
-
-    function removeImage() {
-        $('#previewContainer').html('');
-        $('#fileInput').val('');
-        $('#uploadButton').hide();
-    }
-
-    
-
-        //ToggleeClass for Dropdown top main
-        $('#productType').on('change', function () {
-            var selectedValue = $(this).val();
-            // Hide all divs first
-            $('#tshirtDiv, #metalDiv, #mugDiv').hide();
-            
-            // Show the selected div
-            if (selectedValue == 'tshirt') {
-                $('#tshirtDiv').show();
-            } else if (selectedValue == 'metal') {
-                $('#metalDiv').show();
-            } else if (selectedValue == 'mug') {
-                $('#mugDiv').show();
+                $("#product-gallery").append(html);
+            },
+            complete: function(file){
+                this.removeFile(file);
             }
         });
-    
+
+        function deleteImage(id){
+            $("#image-row-"+id).remove();
+        }
+
 </script>
+
 @endsection

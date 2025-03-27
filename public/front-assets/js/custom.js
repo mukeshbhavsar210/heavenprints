@@ -111,6 +111,107 @@ $(document).ready(function(){
 
     var lazyLoadInstance = new LazyLoad({elements_selector:"img.lazy, video.lazy, div.lazy, section.lazy, header.lazy, footer.lazy,iframe.lazy"});
     let bannerHeight = $(window).height();
+    
+    $('#homeBanner').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        fade: true,
+        arrows: true,
+        prevArrow:'<i class="icon-left-arrow right-arrow arrow"></i>',
+        nextArrow:'<i class="icon-right-arrow left-arrow arrow"></i>',
+        cssEase: 'linear'
+    });
+
+    $('.slider-for').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        fade: true,
+        asNavFor: '.slider-nav'
+      });
+      $('.slider-nav').slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        asNavFor: '.slider-for',
+        dots: false,
+        centerMode: true,
+        arrows: true,
+        focusOnSelect: true
+      });
+
+
+      $('.autoplay').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        fade: true,
+        cssEase: 'linear'
+      });
+
+      $('.slick-gallery').slick({
+        slidesToShow: 3, // Adjust based on design
+        slidesToScroll: 1,
+        autoplay: true, // Enables auto-play
+        autoplaySpeed: 2000, // 2 seconds per slide
+        dots: true, // Shows navigation dots
+        arrows: true, // Enables previous/next buttons
+        infinite: true, // Infinite loop scrolling
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+    
+
+      $('.responsive').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 1000,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4,
+              infinite: true,
+              dots: true
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+          // You can unslick at a given breakpoint now by adding:
+          // settings: "unslick"
+          // instead of a settings object
+        ]
+      });
+
     $("#related-products").not('.slick-initialized').slick({
         centerMode: false,
         slidesToShow: 4,
@@ -165,6 +266,9 @@ $(document).ready(function(){
         }]     
     });
 });
+
+
+
 
 
 $('.btnNext').click(function(){

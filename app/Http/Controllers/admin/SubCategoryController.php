@@ -88,7 +88,68 @@ class SubCategoryController extends Controller {
 
 
 
-    public function update($categoryId, Request $request){
+    public function update($id, Request $request){
+
+        $subCategory = SubCategory::find($id);
+
+        if(empty($subCategory)){
+            $request->session()->flash('error','Record not found');
+            return response([
+                'status' => false,
+                'notFound' => true,
+            ]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'slug_sub_category' => 'required|unique:sub_categories,slug_sub_category,'.$subCategory->id.',id',
+            'category' => 'required',
+            'status' => 'required',
+        ]);
+
+        if ($validator->passes()) {
+            $subCategory->name = $request->name;
+            $subCategory->slug_sub_category = $request->slug_sub_category;
+            $subCategory->status = $request->status;
+            $subCategory->showHome = $request->showHome;
+            $subCategory->category_id = $request->category;
+            $subCategory->save();
+
+            // Save image here
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($subCategory->image) {
+                    $oldImagePath = public_path('/uploads/sub_category/' . $subCategory->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+            
+                // Process new image upload
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $subCategory->slug_category . '_' . time() . '.' . $extension;
+            
+                // Define paths
+                $uploadPath = public_path('/uploads/sub_category/');
+            
+                // Process and save the image
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($file);
+                $image->toJpeg(80)->save($uploadPath . $fileName);  // Save original image
+            
+                // Update category image field
+                $subCategory->image = $fileName;
+                $subCategory->save();
+            }
+            return redirect()->route('sub-categories.index')->with('success','Sub-Category updated successfully.');
+        } else {
+            return redirect()->route('sub-categories.index')->withInput()->withErrors($validator);
+        }   
+    }
+
+
+    public function update_old($categoryId, Request $request){
         $category = SubCategory::find($categoryId);
 
         if (empty($category)) {

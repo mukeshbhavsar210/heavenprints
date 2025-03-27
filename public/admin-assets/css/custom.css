@@ -202,48 +202,42 @@ input:checked + .slider { box-shadow:0 0 0 2px #007bff,0 0 2px #007bff; }
 
 .activeShirt { display: block !important;}
 
-.modal{
-  &.drawer{
-    display: flex !important;
-    pointer-events: none;
-    * {
-      pointer-events: none;
-    }
-
-    .modal-dialog{
-      margin: 0px;
-      display: flex;
-      flex: auto;
-      transform: translate(25%, 0);
-      .modal-content{
-        border:none;
-        border-radius: 0px;
-        .modal-body{
-          overflow-y: scroll; height: 500px;
-        }
-      }
-    }
-
-    &.show{
-      pointer-events: auto;
-      * {
-        pointer-events: auto;
-      }
-      .modal-dialog{
-        transform: translate(0, 0);
-        
-      }
-    }
-
-    &.right-align{ overflow-y: hidden;
-      flex-direction: row-reverse; padding:0 !important;
-    }
-    &.left-align{
-      &:not(.show){
-        .modal-dialog{
-          transform: translate(-25%, 0);
-        }
-      }
-    }
-  }
+.modal.drawer {
+	 display: flex !important;
+	 pointer-events: none;
 }
+ .modal.drawer * {
+	 pointer-events: none;
+}
+ .modal.drawer .modal-dialog {
+	 margin: 0px;
+	 display: flex;
+	 flex: auto;
+	 transform: translate(25%, 0);
+}
+ .modal.drawer .modal-dialog .modal-content {
+	 border: none;
+	 border-radius: 0px;
+}
+ .modal.drawer .modal-dialog .modal-content .modal-body {
+	 overflow-y: scroll;
+	 height: 500px;
+}
+ .modal.drawer.show {
+	 pointer-events: auto;
+}
+ .modal.drawer.show * {
+	 pointer-events: auto;
+}
+ .modal.drawer.show .modal-dialog {
+	 transform: translate(0, 0);
+}
+ .modal.drawer.right-align {
+	 overflow-y: hidden;
+	 flex-direction: row-reverse;
+	 padding: 0 !important;
+}
+ .modal.drawer.left-align:not(.show) .modal-dialog {
+	 transform: translate(-25%, 0);
+}
+ 

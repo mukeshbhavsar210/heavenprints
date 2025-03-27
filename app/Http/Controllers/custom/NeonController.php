@@ -39,16 +39,7 @@ class NeonController extends Controller {
 
         // Save to database
         $product = new Product();
-        //$product->light_category = $request->input('light_category');
         $product->name = $request->input('text');
-        $product->color = $request->input('color');
-        $product->font = $request->input('font');
-        $product->size = $request->input('size');
-        $product->price = $request->input('price');
-        $product->product_type = 'Neon';
-        $product->qty = 1;
-        $product->track_qty = 'No';
-        $product->status = 0;
         $product->save();
 
         //Save photos to Product Image

@@ -3,81 +3,20 @@
 @section('content')
 
     @if (getBanners()->isNotEmpty())
-        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
-            <div class="carousel-inner">           
-                @foreach (getBanners() as $banner)
-                    <div class="carousel-item active">
-                        <picture>
-                            @if ($banner->image != "")
-                                <img src="{{ asset('uploads/banner/'.$banner->image) }} " alt="" class="img-fluid">
-                            @endif
-                        </picture>        
-                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                            <div class="p-3">
-                                <h1 class="display-4 text-white mb-3">{{ $banner->name }}</h1>
-                                <p class="mx-md-5 px-5">{{ $banner->description }}</p>
-                                <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
-                            </div>
-                        </div>
-                    </div>                        
+        <div id="homeBanner" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">                                
+                @foreach (getBanners() as $key => $productImage)
+                    <div class="carousel-item {{ ($key == 0) ? 'active' : ' ' }}">
+                        <img class="w-100 h-100" src="{{ asset('uploads/banners/'.$productImage->image) }}" alt="Image">
+                    </div>
                 @endforeach
-            
-            {{-- <div class="carousel-item active">
-                <picture>
-                    <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-1-m.jpg') }}" />
-                    <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-1.jpg') }}" />
-                    <img src="{{ asset('front-assets/images/carousel-1.jpg') }}" alt="" />
-                </picture>
-
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3">
-                        <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
-                        <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
-                    </div>
-                </div>
             </div>
-            <div class="carousel-item">
-                <picture>
-                    <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-2-m.jpg') }}" />
-                    <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-2.jpg') }}" />
-                    <img src="{{ asset('front-assets/images/carousel-2.jpg') }}" alt="" />
-                </picture>
-
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3">
-                        <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
-                        <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <!-- <img src="images/carousel-3.jpg" class="d-block w-100" alt=""> -->
-
-                <picture>
-                    <source media="(max-width: 799px)" srcset="{{ asset('front-assets/images/carousel-3-m.jpg') }} " />
-                    <source media="(min-width: 800px)" srcset="{{ asset('front-assets/images/carousel-3.jpg') }} " />
-                    <img src="{{ asset('front-assets/images/carousel-2.jpg') }} " alt="" />
-                </picture>
-
-                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3">
-                        <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
-                        <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
-                    </div>
-                </div>
-            </div> --}}
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
+                <i class="fa fa-2x fa-angle-left text-dark"></i>
+            </a>
+            <a class="carousel-control-next" href="#product-carousel" data-bs-slide="next">
+                <i class="fa fa-2x fa-angle-right text-dark"></i>
+            </a>
         </div>
     @endif
     
@@ -168,17 +107,15 @@
             </div>
         </section>
     @endif
-    
-    @if ($latestProducts->isNotEmpty())
-        <section class="section-4 pt-5">
-            <div class="container">
-                <div class="section-title"><h2>Latest Products</h2></div>
-                <div class="row pb-3">
-                    @foreach ($latestProducts as $product)
-                        @php
-                            $productImage = $product->product_images->first();
-                        @endphp
-    
+
+<div class="container">
+    @if ($latestProducts->isNotEmpty())       
+        <div class="section-title"><h2>Latest Products</h2></div>
+            <div class="row">
+                @foreach ($latestProducts as $product)
+                    @php
+                        $productImage = $product->product_images->first();
+                    @endphp
                         <div class="col-md-3 col-6">
                             <div class="product-image position-relative">
                                 <a href="" class="product-img">
@@ -222,10 +159,54 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-            
+
+                    {{-- <div class="autoplay">
+                        <div>
+                            <div class="product-image position-relative">
+                                <a href="" class="product-img">
+                                    @if (!empty($productImage->image))
+                                        <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                    @else
+                                        <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                    @endif
+                                </a>
+                                <div class="product-action">
+                                    <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+                                    @if ($product->track_qty == 'Yes')
+                                        @if ($product->qty > 0)
+                                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
+                                                <i class="fa fa-shopping-cart"></i> Add To Cart
+                                            </a>
+                                        @else
+                                            <a class="btn btn-dark" href="javascript:void(0);">
+                                                <i class="fa fa-shopping-cart"></i> Out of Stock
+                                            </a>
+                                        @endif
+                                    @else
+                                    <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
+                                        <i class="fa fa-shopping-cart"></i> Add To Cart
+                                    </a>
+                                    @endif
+
+                                    @if($product->metal_type)
+                                        <p class="selectedCategory">{{ $product->metal_type }}</p>
+                                    @endif 
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
+                                <div class="price mt-2">
+                                    <p class="h5"><strong>₹ {{ $product->price }}</strong>
+                                        @if ($product->compare_price > 0)
+                                            <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                @endforeach
+        @endif
+    </div>    
+
 @endsection
