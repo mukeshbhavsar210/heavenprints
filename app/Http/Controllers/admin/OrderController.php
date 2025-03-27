@@ -7,8 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
-{
+class OrderController extends Controller {
     public function index(Request $request){
 
         $orders = Order::latest('orders.created_at')->select('orders.*','users.first_name','users.last_name','users.email');
@@ -28,13 +27,22 @@ class OrderController extends Controller
     }
 
     public function detail($orderId){
+        $order = Order::where('orders.id',$orderId)->with(['payments', 'customerAddress'])
+                ->leftJoin('customer_addresses', 'orders.user_id', '=', 'customer_addresses.user_id', )
+                ->leftJoin('countries', 'customer_addresses.country_id', '=', 'countries.id')
+                ->select('orders.*', 'customer_addresses.address',   )
+                ->first();
 
-        $order = Order::select('orders.*','countries.name as countryName' )
-            ->where('orders.id',$orderId)
-            ->leftJoin('countries','countries.id','orders.country_id')
-            ->first();
+        //$orderItems = OrderItem::where('order_id',$orderId)->get();
 
-        $orderItems = OrderItem::where('order_id',$orderId)->get();
+        $orderItems = OrderItem::where('order_id',$orderId)->select(
+                            'order_items.*', 
+                            'products.font', 
+                            'products.colors', 
+                            'products.sizes',                            
+                        )
+                        ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
+                        ->get();
 
         return view('admin.orders.detail',[
             'order' => $order,

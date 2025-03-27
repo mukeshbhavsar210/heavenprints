@@ -30,10 +30,12 @@ class CategoryController extends Controller
         return view('admin.category.create');
     }
 
+
+
+
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug_category' => 'required|unique:categories',
         ]);
 
         if ($validator->passes()) {
@@ -42,42 +44,25 @@ class CategoryController extends Controller
             $category->slug_category = $request->slug_category;
             $category->status = $request->status;
             $category->showHome = $request->showHome;
-            $category->save();
 
-            // Save image here
-            if (!empty($request->image_id)) {
-                $tempImage = TempImage::find($request->image_id);
-                $extArray = explode('.',$tempImage->name);
-                $ext = last($extArray);
-
-                $newImageName = $category->id.'_'.$category->name.'.'.$ext;                
-                $sPath = public_path().'/temp/'.$tempImage->name;
-                $dPath = public_path().'/uploads/category/'.$newImageName;                
-                File::copy($sPath,$dPath);
-
-                //Generate thumbnail
-                $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
+            //Image upload
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $extenstion = $file->getClientOriginalExtension();
+                $fileName = $category->slug_category.'_'.time().'.'.$extenstion;
+                $path = public_path().'/uploads/category/'.$fileName;
                 $manager = new ImageManager(new Driver());
-                $image = $manager->read($sPath);
-                $image->cover(300,300);
-                $image->save($dPath);                
-                $category->image = $newImageName;
+                $image = $manager->read($file);
+                $image->toJpeg(80)->save($path);
+                $image->cover(300,300)->save($path);
+                $category->image = $fileName;
                 $category->save();
-            }
+            };
 
-            $request->session()->flash('success', 'Category added successfully');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Category added successfully'
-            ]);
-
+            return redirect()->route('categories.index')->with('success','Category added successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('categories.index')->withInput()->withErrors($validator);
+        }            
     }
 
 
@@ -93,8 +78,8 @@ class CategoryController extends Controller
 
 
 
-    public function update($categoryId, Request $request){
 
+    public function update($categoryId, Request $request){
         $category = Category::find($categoryId);
 
         if (empty($category)) {
@@ -108,7 +93,7 @@ class CategoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug' => 'required|unique:categories,slug,'.$category->id.',id',
+            'slug_category' => 'required|unique:categories,slug_category,'.$category->id.',id',
         ]);
 
         if ($validator->passes()) {
@@ -121,42 +106,38 @@ class CategoryController extends Controller
             $oldImage = $category->image;
 
             // Save image here
-            if (!empty($request->image_id)) {
-                $tempImage = TempImage::find($request->image_id);
-                $extArray = explode('.',$tempImage->name);
-                $ext = last($extArray);
-
-                $newImageName = $category->id.'-'.time().'.'.$ext;
-                $sPath = public_path().'/temp/'.$tempImage->name;
-                $dPath = public_path().'/uploads/category/'.$newImageName;
-                File::copy($sPath,$dPath);
-
-                //Generate image thumbnail
-                $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
-                File::copy($sPath,$dPath);
-
-                $category->image = $newImageName;
+            if ($request->hasFile('image')) {
+                // Delete old image if exists
+                if ($category->image) {
+                    $oldImagePath = public_path('/uploads/category/' . $category->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
+            
+                // Process new image upload
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $category->slug_category . '_' . time() . '.' . $extension;
+            
+                // Define paths
+                $uploadPath = public_path('/uploads/category/');
+            
+                // Process and save the image
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($file);
+                $image->toJpeg(80)->save($uploadPath . $fileName);  // Save original image
+            
+                // Update category image field
+                $category->image = $fileName;
                 $category->save();
-
-                //Delete old image
-                File::delete(public_path().'/uploads/category/thumb/'.$oldImage);
-                File::delete(public_path().'/uploads/category/'.$oldImage);
             }
-
-            $request->session()->flash('success', 'Category updated successfully');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Category updated successfully'
-            ]);
-
+            return redirect()->route('categories.index')->with('success','Category updated successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('categories.index')->withInput()->withErrors($validator);
+        }    
     }
+
 
     public function destroy($categoryId, Request $request){
         $category = Category::find($categoryId);
@@ -171,7 +152,6 @@ class CategoryController extends Controller
         }
 
         //Delete old image
-        File::delete(public_path().'/uploads/category/thumb/'.$category->image);
         File::delete(public_path().'/uploads/category/'.$category->image);
 
         $category->delete();

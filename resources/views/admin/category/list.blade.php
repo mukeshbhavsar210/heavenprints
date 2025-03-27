@@ -59,7 +59,7 @@
                             @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $category->id }}</td>
-                                    <td><img style="border-radius: 5px; width:50px; height:50px" src="{{ asset('uploads/category/thumb/'.$category->image) }}" alt="" /></td>
+                                    <td><img style="border-radius: 5px; width:50px; height:50px" src="{{ asset('uploads/category/'.$category->image) }}" alt="" /></td>
                                     <td>{{ $category->name }}</td>
                                     <td>
                                         @if($category->status == 1)
