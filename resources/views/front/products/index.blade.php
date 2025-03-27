@@ -8,10 +8,24 @@
                 <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
                 <li class="breadcrumb-item">{{ $product->name }}</li>
             </ol>
-    
+
             <div class="row">
-                <div class="col-md-6 col-12">
-                    <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="col-md-5 col-12">
+                    <div class="slider-for">
+                        @if ($product->product_images)
+                            @foreach ($product->product_images as $key => $productImage)
+                                <img class="img-thumbnail" src="{{ asset('uploads/product/small/'.$productImage->image) }}" alt="Image">
+                            @endforeach
+                        @endif
+                    </div>
+                    <div class="slider-nav">
+                        @if ($product->product_images)
+                            @foreach ($product->product_images as $key => $productImage)
+                                <img class="img-thumbnail" src="{{ asset('uploads/product/small/'.$productImage->image) }}" alt="Image">
+                            @endforeach
+                        @endif
+                    </div>
+                    {{-- <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner bg-light">                    
                             @if ($product->product_images)
                                 @foreach ($product->product_images as $key => $productImage)
@@ -27,10 +41,10 @@
                         <a class="carousel-control-next" href="#product-carousel" data-bs-slide="next">
                             <i class="fa fa-2x fa-angle-right text-dark"></i>
                         </a>
-                    </div>                    
+                    </div>                     --}}
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-md-7 col-12">
                     <h1>{{ $product->name }}</h1>
 
                     <div class="d-flex mt-3 mb-3">

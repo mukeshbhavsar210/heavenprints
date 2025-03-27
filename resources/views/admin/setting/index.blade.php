@@ -90,7 +90,7 @@
                 
                                                     <div class="mb-3">
                                                         <label for="description">Description</label>
-                                                        <textarea name="description" id="description" class="form-control" cols="5" rows="5" placeholder="Description"></textarea>
+                                                        <textarea name="description" id="description" class="form-control" cols="3" rows="3" placeholder="Description"></textarea>
                                                         <p></p>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary">Create</button>
@@ -101,59 +101,61 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                
+                                    
                         @php
                             $banners = \App\Models\Banner::get();
                         @endphp
-
-                        <table class="table table-hover text-nowrap">
-                            <thead>
-                                <tr>
-                                    <th width="100">Image</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th width="100">Status</th>
-                                    <th width="100">Action</th>
-                                </tr>
-                            </thead>
-                                <tbody>
-                                    @if ($banners->isNotEmpty())
-                                        @foreach ($banners as $value)
-                                            <tr>
-                                                <td width="100"><img src="{{ asset('uploads/banners/'.$value->image) }}" alt="" style="width: 100px;" /></td>
-                                                <td>{{ $value->name }}</td>
-                                                <td>{{ $value->description }}</td>
-                                                <td>
-                                                    @if($value->status == 1)
-                                                        <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                        </svg>
-                                                    @else
-                                                    <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    
-                                                    <a href="#" onclick="deleteBanner({{ $value->id }})" class="text-danger w-4 h-4 mr-1">
-                                                        <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                            <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        
+                        @if ($banners->isNotEmpty())
+                            <div class="row mt-3">
+                                @foreach ($banners as $value)                               
+                                    <div class="col-md-6 col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-md-10 col-12">
+                                                        <h3 class="mb-0">{{ $value->name }}</h3>
+                                                    </div>
+                                                    <div class="col-md-2 col-12">
+                                                        @if($value->status == 1)
+                                                            <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                             </svg>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                <tr>
-                                    <td colspan="5">Records not found</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                                        @else
+                                                            <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        @endif
+                                                    
+                                                        <a href="#" onclick="deleteBanner({{ $value->id }})"  class="text-danger">
+                                                            <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                              </svg>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <img src="{{ asset('uploads/banners/'.$value->image) }}" alt="" style="width: 100%;" />
+                                                    </div>
+                                                    <div class="col-md-6 col-12">
+                                                        <p>{{ $value->description }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            @endforeach
+                            @else
+                            <div class="card text-center p-4 mt-3">
+                                <p>No Banner created yet</p>
+                            </div>
+                        @endif
                 </div>
             </div>
+        </div>
             <div class="tab-pane " id="tabs-2" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
@@ -162,7 +164,8 @@
                             <div class="row">
                                 <div class="col-md-3 col-12">
                                     <label for="status">Media</label>
-                                    <div class="form-group">
+                                    <input type="file" name="image" id="fileInput" accept="image/*" >
+                                    {{-- <div class="form-group">
                                         <input type="file" name="image" id="fileInput" accept="image/*" hidden>
                                         <div id="dropZone" class="drop-zone">
                                             Drop files here or click to upload.
@@ -172,7 +175,7 @@
                                                 <img style="width:200px" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
                                             @endif
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-md-9 col-12">
                                     <div class="row">

@@ -114,7 +114,8 @@ header .navbar .nav-link:hover .nav_name { color:var(--primary); }
 .navbar-toggler .navbar-toggler-icon { color:var(--primary) }
 .navbar-toggler:focus{box-shadow:none}ul{margin:0px;padding:0px}ul li{list-style:none}
 
-
+.slider-nav { margin-top: 15px;}
+.slider-nav .img-thumbnail { margin: 0 7px;}
 
 header { background-color: var(--white); position: fixed; top:0; left:0; width: 100%; z-index: 99;}
 .navbar .btn { padding:13px; font-size: 15px; height: 51px;}
@@ -128,6 +129,7 @@ main section { padding-top: 25px;}
 .page-header.is-sticky { position: fixed; height: 100px; top:0; width: 100%; z-index: 99; }
 .back-to-top { position: fixed; bottom:15px; right:17px; display: inline-block; cursor: pointer; z-index: 999; }
 
+#homeBanner { height: 380px; margin-bottom: 30px;}
 
 .talk { border-right:1px #ccc solid; margin-right: 15px; height: 35px; margin-top: 5px; }
 .talk .icon { float: left; width: 40px; margin-top:7px; }

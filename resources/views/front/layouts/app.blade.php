@@ -34,8 +34,7 @@
 				<div class="row">
 					<div class="col-md-8 col-5 d-flex">
 						<a href="{{ route('front.home') }}" class="text-decoration-none" title="{{ $settings->name }}">
-							{{-- <img style="width: 130px;" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" /> --}}
-							<h3>{{ $settings->name }}</h3>
+							<img style="width: 130px;" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
 						</a>
 					</div>
 

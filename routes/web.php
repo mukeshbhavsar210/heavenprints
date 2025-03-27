@@ -25,6 +25,7 @@ use App\Http\Controllers\custom\FrameController;
 use App\Http\Controllers\custom\MetalFrameController;
 use App\Http\Controllers\custom\NeonController;
 use App\Http\Controllers\admin\PriceController;
+use App\Http\Controllers\admin\SampleController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

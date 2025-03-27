@@ -7,11 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Flash;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\TempImage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Models\Setting;
 
-class CategoryController extends Controller {
+class SampleController extends Controller
+{
     public function index(Request $request){
         $categories = Category::latest();
 
@@ -20,11 +25,11 @@ class CategoryController extends Controller {
         }
 
         $categories = $categories->paginate(10);
-        return view('admin.category.list', compact('categories'));
+        return view('admin.product_new.list', compact('categories'));
     }
 
     public function create(){
-        return view('admin.category.create');
+        return view('admin.product_new.create');
     }
 
 
@@ -36,29 +41,48 @@ class CategoryController extends Controller {
         ]);
 
         if ($validator->passes()) {
-            $category = new Category();
-            $category->name = $request->name;
-            $category->slug_category = $request->slug_category;
-            $category->status = $request->status;
-            $category->showHome = $request->showHome;
+            $product = new Product();
+            $product->name = $request->name;
+            $product->slug = $request->slug;            
 
             //Image upload
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $extenstion = $file->getClientOriginalExtension();
-                $fileName = $category->slug_category.'_'.time().'.'.$extenstion;
-                $path = public_path().'/uploads/category/'.$fileName;
+                $fileName = $product->slug.'_'.time().'.'.$extenstion;
+                $path = public_path().'/uploads/product/large/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
                 $image->toJpeg(80)->save($path);
                 $image->cover(300,300)->save($path);
-                $category->image = $fileName;
-                $category->save();
+                $product->image = $fileName;
+                $product->save();
             };
 
-            return redirect()->route('categories.index')->with('success','Category added successfully.');
+            // if ($request->hasFile('image')) {
+            //     foreach ($request->file('image') as $file) {
+            //         $extension = $file->getClientOriginalExtension();
+            //         $fileName = $product->slug . '_' . time() . '.' . $extension;
+            //         $path = public_path('/uploads/product/large/' . $fileName);
+
+            //         $manager = new ImageManager(new Driver());
+            //         $image = $manager->read($file);
+
+            //         $image->toJpeg(80)->save($path);
+
+            //         $thumbPath = public_path('/uploads/product/small/' . $fileName);
+            //         $image->cover(300, 300)->save($thumbPath);
+
+            //         $categoryImage = new ProductImage();
+            //         $categoryImage->product_id = $product->id;
+            //         $categoryImage->image = $fileName;
+            //         $categoryImage->save();
+            //     }
+            // }
+
+            return redirect()->route('samples.index')->with('success','Product added successfully.');
         } else {
-            return redirect()->route('categories.index')->withInput()->withErrors($validator);
+            return redirect()->route('samples.index')->withInput()->withErrors($validator);
         }            
     }
 
@@ -67,10 +91,10 @@ class CategoryController extends Controller {
         $category = Category::find($categoryId);
 
         if (empty($category)) {
-            return redirect()->route('categories.index');
+            return redirect()->route('samples.index');
         }
 
-        return view('admin.category.edit', compact('category'));
+        return view('admin.product_new.edit', compact('category'));
     }
 
 
@@ -129,9 +153,9 @@ class CategoryController extends Controller {
                 $category->image = $fileName;
                 $category->save();
             }
-            return redirect()->route('categories.index')->with('success','Category updated successfully.');
+            return redirect()->route('samples.index')->with('success','Category updated successfully.');
         } else {
-            return redirect()->route('categories.index')->withInput()->withErrors($validator);
+            return redirect()->route('samples.index')->withInput()->withErrors($validator);
         }    
     }
 
@@ -145,7 +169,7 @@ class CategoryController extends Controller {
                 'status' => true,
                 'message' => 'Category not found'
             ]);
-            //return redirect()->route('categories.index');
+            //return redirect()->route('samples.index');
         }
 
         //Delete old image

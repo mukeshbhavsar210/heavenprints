@@ -56,7 +56,7 @@
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $subCategory->name }}">
-                                        <input type="text" name="slug_sub_category" id="slug_sub_category"  value="{{ $subCategory->slug_sub_category }}">
+                                        <input type="hidden" name="slug_sub_category" id="slug_sub_category"  value="{{ $subCategory->slug_sub_category }}">
                                         <p></p>
                                     </div>
                                 </div>
