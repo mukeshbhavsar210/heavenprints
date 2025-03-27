@@ -99,55 +99,32 @@ class ProductController extends Controller {
 
             $product->save();
 
-            if (!empty($request->image_array)) {
-                foreach ($request->image_array as $temp_image_id) {
-                    $tempImageInfo = TempImage::find($temp_image_id);
-                    $extArray = explode('.',$tempImageInfo->name);
-                    $ext = last($extArray);
-    
-                    $productImage = new ProductImage();
-                    $productImage->product_id = $product->id;
-                    $productImage->image = "NULL";
-                    $productImage->save();
-    
-                    $imageName = $product->id.'-'.$productImage->id.'-'.time().'.'.$ext;
-                    $productImage->image = $imageName;
-                    $productImage->save();
-    
-                    //Large Image
-                    $sourcePath = public_path().'/temp/'.$tempImageInfo->name;
-                    $destPath = public_path().'/uploads/product/large/'.$imageName;
+            // Check if multiple images are uploaded
+            if ($request->hasFile('image')) {
+                foreach ($request->file('image') as $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = $product->slug . '_' . time() . '.' . $extension;
+                    $path = public_path('/uploads/product/large/' . $fileName);
+
                     $manager = new ImageManager(new Driver());
-                    $image = $manager->read($sourcePath);
-                    // $image->resize(1000, null, function ($constraint) {
-                    //     $constraint->aspectRatio();
-                    // });
-                    $image->cover(950,750);
-                    $image->save($destPath);
-    
-                    //Generate Thumnail
-                    $destPath = public_path().'/uploads/product/small/'.$imageName;
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($sourcePath);
-                    $image->cover(300,300);
-                    $image->save($destPath);
+                    $image = $manager->read($file);
+
+                    $image->toJpeg(80)->save($path);
+
+                    $thumbPath = public_path('/uploads/product/small/' . $fileName);
+                    $image->cover(300, 300)->save($thumbPath);
+
+                    $categoryImage = new ProductImage();
+                    $categoryImage->product_id = $product->id;
+                    $categoryImage->image = $fileName;
+                    $categoryImage->save();
                 }
             }
-
-
-        $request->session()->flash('success','Product added successfully');
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Product added successfully'
-        ]);
-
+        
+            return redirect()->route('products.index')->with('success','Product added successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('products.index')->withInput()->withErrors($validator);
+        }    
     }
 
     //Edit Product
@@ -238,19 +215,57 @@ class ProductController extends Controller {
             
             $product->save();
 
-        $request->session()->flash('success','Product updated successfully');
+            if ($request->hasFile('image')) {
+                // Fetch existing images for the product
+                $existingImages = ProductImage::where('product_id', $product->id)->get();
+            
+                // Delete old images from storage
+                foreach ($existingImages as $oldImage) {
+                    $largeImagePath = public_path('/uploads/product/large/' . $oldImage->image);
+                    $thumbImagePath = public_path('/uploads/product/small/' . $oldImage->image);
+            
+                    if (File::exists($largeImagePath)) {
+                        File::delete($largeImagePath);
+                    }
+                    if (File::exists($thumbImagePath)) {
+                        File::delete($thumbImagePath);
+                    }
+            
+                    // Delete the old image record from the database
+                    $oldImage->delete();
+                }
+            
+                // Upload and store the new images
+                foreach ($request->file('image') as $file) {
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = $product->slug . '_' . time() . '.' . $extension;
+            
+                    // Define paths
+                    $largePath = public_path('/uploads/product/large/' . $fileName);
+                    $thumbPath = public_path('/uploads/product/small/' . $fileName);
+            
+                    // Initialize ImageManager
+                    $manager = new ImageManager(new Driver());
+                    $image = $manager->read($file);
+            
+                    // Save original large image
+                    $image->toJpeg(80)->save($largePath);
+            
+                    // Save resized thumbnail
+                    $image->cover(300, 300)->save($thumbPath);
+            
+                    // Save new image details in the database
+                    $newImage = new ProductImage();
+                    $newImage->product_id = $product->id;
+                    $newImage->image = $fileName;
+                    $newImage->save();
+                }
+            }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Product updated successfully'
-        ]);
-
+            return redirect()->route('products.index')->with('success','Product updated successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('products.index')->withInput()->withErrors($validator);
+        }    
     }
 
     //Delete product

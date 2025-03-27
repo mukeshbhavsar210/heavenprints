@@ -40,55 +40,32 @@ class SettingController extends Controller {
             $settings->description = $request->description;
             $settings->save();
 
-            // Save image here
-            // Handle second image if exists
-            if (!empty($request->image1_id)) {
-                $tempImage = TempImage::find($request->image1_id);
-                if ($tempImage) {
-                    $extArray = explode('.', $tempImage->name);
-                    $ext = last($extArray);
-
-                    $newImageName = $settings->name . '.' . $ext;
-                    $sPath = public_path('/temp/' . $tempImage->name);
-                    $dPath = public_path('/uploads/logo/' . $newImageName);
-                    File::copy($sPath, $dPath);
-                    $settings->image = $newImageName;
-                    $settings->save();
-
-                    $oldImage = $settings->image;
-
-                    // Save image here
-                    if (!empty($request->banner_id)) {
-                        $tempImage = TempImage::find($request->banner_id);
-                        $extArray = explode('.',$tempImage->name);
-                        $ext = last($extArray);
-        
-                        $newImageName = $settings->name . '.' . $ext;
-                        $sPath = public_path().'/temp/'.$tempImage->name;
-                        $dPath = public_path().'/uploads/logo/'.$newImageName;
-                        File::copy($sPath,$dPath);
-                        $settings->image = $newImageName;
-                        $settings->save();
-        
-                        //Delete old image
-                        File::delete(public_path().'/uploads/logo/'.$oldImage);
+            //logo upload
+            if ($request->hasFile('image')) {
+                if ($settings->image) {
+                    $oldImagePath = public_path('/uploads/logo/' . $settings->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
                     }
                 }
-            }
 
-            $request->session()->flash('success', 'Information added successfully');
+                $file = $request->file('image');
+                $extenstion = $file->getClientOriginalExtension();
+                $fileName = $settings->name.'.'.$extenstion;
+                $path = public_path().'/uploads/logo/'.$fileName;
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($file);
+                //$image->toJpeg(80)->save($path);
+                //$image->cover(300,300)->save($path);
+                $image->save($path);
+                $settings->image = $fileName;
+                $settings->save();
+            };
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Information added successfully'
-            ]);
-
+            return redirect()->route('settings.index')->with('success','Setting saved successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('settings.index')->withInput()->withErrors($validator);
+        }              
     }
 
 
@@ -167,46 +144,38 @@ class SettingController extends Controller {
         if ($validator->passes()) {
             $banner = new Banner();
             $banner->name = $request->name;
+            $banner->banner_slug = $request->banner_slug;
             $banner->description = $request->description;
             $banner->status = $request->status;
             $banner->showHome = $request->showHome;
             $banner->save();
 
-            // Save image here
-            if (!empty($request->banner_id)) {
-                $tempImage = TempImage::find($request->banner_id);
-                $extArray = explode('.',$tempImage->name);
-                $ext = last($extArray);
+            //logo upload
+            if ($request->hasFile('image')) {
+                if ($banner->image) {
+                    $oldImagePath = public_path('/uploads/banners/' . $banner->image);
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+                }
 
-                $newImageName = $banner->id.'_'.$banner->name.'.'.$ext;                
-                $sPath = public_path().'/temp/'.$tempImage->name;
-                $dPath = public_path().'/uploads/banner/'.$newImageName;                
-                File::copy($sPath,$dPath);
-
-                //Generate thumbnail
-                $dPath = public_path().'/uploads/banner/thumb/'.$newImageName;
+                $file = $request->file('image');
+                $extenstion = $file->getClientOriginalExtension();
+                $fileName = $banner->banner_slug.'.'.$extenstion;
+                $path = public_path().'/uploads/banners/'.$fileName;
                 $manager = new ImageManager(new Driver());
-                $image = $manager->read($sPath);
-                $image->cover(300,300);
-                $image->save($dPath);
-                $image->save($dPath);                                  
-                $banner->image = $newImageName;
+                $image = $manager->read($file);
+                $image->toJpeg(80)->save($path);
+                $image->cover(1000,400)->save($path);
+                //$image->save($path);
+                $banner->image = $fileName;
                 $banner->save();
-            }
+            };
 
-            $request->session()->flash('success', 'Banner added successfully');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Banner added successfully'
-            ]);
-
+            return redirect()->route('settings.index')->with('success','Banner saved successfully.');
         } else {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+            return redirect()->route('settings.index')->withInput()->withErrors($validator);
+        }  
     }
 
 

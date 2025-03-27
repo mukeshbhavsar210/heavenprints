@@ -16,13 +16,26 @@
 
 <section class="content">
     <div class="container-fluid">
-        <form action="" method="post" id="sub_categoryForm" name="sub_categoryForm">
+        @include('admin.message')
+
+        <form action="{{ route('sub-categories.store') }}" method="post" enctype="multipart/form-data" >
+            @csrf
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-6">
+                        <div class="col-md-4 col-12">
+                            <label for="status">Media</label>
+                            <div class="form-group">
+                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                                <div id="dropZone" class="drop-zone">
+                                    Drop files here<br /> or click to upload.
+                                </div>
+                                <div class="preview-container" id="previewContainer"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-6">
+                            <div class="row">                    
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Category</label>
                                         <select name="category" id="category" class="form-control">
@@ -36,7 +49,7 @@
                                         <p></p>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name">
@@ -44,7 +57,7 @@
                                         <p></p>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="showHome">Show</label>
                                         <select name="showHome" id="showHome" class="form-control">
@@ -53,7 +66,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control">
@@ -65,28 +78,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
-                            <div class="mb-3">
-                                <input type="hidden" id="subcategoryImg_id" name="image_id" value=" ">
-                                <label for="image">Image</label>
-                                <div id="image" class="dropzone dz-clickable">
-                                    <div class="dz-message needsclick">
-                                        <br>Drop files here or click to upload.<br><br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- <div class="col-md-4">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here or click to upload.
-                                </div>
-                                <div class="preview-container" id="previewContainer"></div>
-                            </div>
-                        </div> --}}
                     </div>
                     </div>
                 </div>
@@ -176,26 +167,67 @@
     })
 
 
-    Dropzone.autoDiscover = false;
-        const dropzone = $("#image").dropzone({
-            init: function() {
-                this.on('addedfile', function(file) {
-                    if (this.files.length > 1) {
-                        this.removeFile(this.files[0]);
-                    }
-                });
-            },
-            url:  "{{ route('temp-images.create') }}",
-            maxFiles: 1,
-            paramName: 'image',
-            addRemoveLinks: true,
-            acceptedFiles: "image/jpeg,image/png,image/gif",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }, success: function(file, response){
-                $("#subcategoryImg_id").val(response.image_id);
-                console.log(response)
-            }
-        });
+    //Dropzone
+    let dropZone = $('#dropZone');
+    let fileInput = $('#fileInput');
+    let previewContainer = $('#previewContainer');
+    let uploadButton = $('#uploadButton');
+
+    // Click to open file selector
+    dropZone.on('click', function () {
+        fileInput.click();
+    });
+
+    // File input change event
+    fileInput.on('change', function (event) {
+        handleFiles(event.target.files);
+    });
+
+    // Drag over event
+    dropZone.on('dragover', function (event) {
+        event.preventDefault();
+        dropZone.addClass('dragover');
+    });
+
+    // Drag leave event
+    dropZone.on('dragleave', function () {
+        dropZone.removeClass('dragover');
+    });
+
+    // Drop event
+    dropZone.on('drop', function (event) {
+        event.preventDefault();
+        dropZone.removeClass('dragover');
+        let files = event.originalEvent.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            let file = files[0];
+
+            // Show image preview
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                previewContainer.html(`
+                    <div class="preview-container">
+                        <img src="${e.target.result}" class="preview-image">
+                        <button type="button" class="delete-btn" onclick="removeImage()">×</button>
+                    </div>
+                `);
+                uploadButton.show(); // Show upload button after selecting image
+            };
+            reader.readAsDataURL(file);
+
+            // Assign file to input
+            fileInput.prop('files', files);
+        }
+    }
+
+    function removeImage() {
+        $('#previewContainer').html('');
+        $('#fileInput').val('');
+        $('#uploadButton').hide();
+    }
 </script>
 @endsection

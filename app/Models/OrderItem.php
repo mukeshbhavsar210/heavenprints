@@ -9,6 +9,14 @@ class OrderItem extends Model
 {
     use HasFactory;
 
+    public function product_images(){
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
     protected $fillable = [
             'order_id', 
             'product_id', 
