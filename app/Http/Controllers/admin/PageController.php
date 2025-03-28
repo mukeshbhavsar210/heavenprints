@@ -43,6 +43,7 @@ class PageController extends Controller
         $page = new Page;
         $page->name = $request->name;
         $page->slug = $request->slug;
+        $page->category = $request->category;
         $page->content = $request->content;
         $page->save();
 
@@ -95,6 +96,7 @@ class PageController extends Controller
 
         $page->name = $request->name;
         $page->slug = $request->slug;
+        $page->category = $request->category;
         $page->content = $request->content;
         $page->save();
 
@@ -108,10 +110,10 @@ class PageController extends Controller
         ]);
     }
 
+
+
     public function destroy($id){
-
         $page = Page::find($id);
-
         if($page == null) {
             session()->flash('error','Page not found');
             return response()->json([
@@ -120,9 +122,7 @@ class PageController extends Controller
         };
 
         $page->delete();
-
         $message = 'Page deleted successfully.';
-
         session()->flash('success',$message);
 
         return response()->json([

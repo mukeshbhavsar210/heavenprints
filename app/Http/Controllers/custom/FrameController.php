@@ -116,8 +116,6 @@ class FrameController extends Controller {
         return redirect()->route('show.selection');
     }
 
-
-
     public function showSelection(Request $request){
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
@@ -192,7 +190,7 @@ class FrameController extends Controller {
         session()->forget('selection');
         session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
 
-        return view('front.shop.custom_frame.custom', $data);
+        return view('front.shop.custom_frame.custom', $data);        
     }
 
 

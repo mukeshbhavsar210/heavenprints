@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\SampleProduct;
 use App\Models\SubCategory;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
@@ -169,9 +170,9 @@ class ProductController extends Controller {
         $product = Product::find($id);
         $rules = [
             'name' => 'required',
-            'slug' => 'required|unique:products,slug,'.$product->id.',id',
+            // 'slug' => 'required|unique:products,slug,'.$product->id.',id',
             'price' => 'required|numeric',
-            'sku' => 'required|unique:products,sku,'.$product->id.',id',
+            // 'sku' => 'required|unique:products,sku,'.$product->id.',id',
             'track_qty' => 'required|in:Yes,No',
             'category' => 'required|numeric',
             'is_featured' => 'required|in:Yes,No',
@@ -186,6 +187,7 @@ class ProductController extends Controller {
         if ($validator->passes()) {
             $product->name = $request->name;
             $product->slug = $request->slug;
+            $product->product_type = $request->product_type;
             $product->metal_type = $request->metal_type;
             $product->description = $request->description;
             $product->price = $request->price;
@@ -318,12 +320,11 @@ class ProductController extends Controller {
                 }
             }
         }
-
         return response()->json([
             'tags' => $tempProduct,
             'status' => true,
         ]);
-
-
     }
+
+
 }

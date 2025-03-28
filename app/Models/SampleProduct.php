@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class SampleProduct extends Model
 {
     use HasFactory;
 
-    public function product_images(){
-        return $this->hasMany(ProductImage::class);
-    }
-
-    public function images() {
-        return $this->hasMany(ProductImage::class, 'product_id', 'id');
-    }
+    use HasFactory;
 
     protected $fillable = ['name', 'images', 'sizes', 'colors'];
 
+    // Convert JSON fields to arrays automatically
     protected $casts = [
         'images' => 'array',
         'sizes' => 'array',

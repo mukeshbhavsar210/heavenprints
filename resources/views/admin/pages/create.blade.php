@@ -22,19 +22,21 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-8 col-12">
                             <div class="mb-3">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="slug">
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="slug">Slug</label>
-                                <input type="text" readonly name="slug" id="slug" class="form-control" placeholder="slug">
-                                <p></p>
-                            </div>
+                        <div class="col-md-4 col-12">
+                            <label for="category">Status</label>
+                            <select name="category" id="category" class="form-control">
+                                <option value="about_us">About us</option>
+                                <option value="insrpiration">Insrpiration</option>
+                                <option value="products">Our Products</option>
+                            </select>
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">

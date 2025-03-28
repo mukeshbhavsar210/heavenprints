@@ -156,8 +156,8 @@
 				<div class="col-md-2 col-6">
 					<h6>About us</h6>
 					<ul class="mt-3">
-						@if(staticPages()->isNotEmpty())
-							@foreach (staticPages() as $page)
+						@if(aboutusPages()->isNotEmpty())
+							@foreach (aboutusPages() as $page)
 								<li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
 							@endforeach
 						@endif
@@ -165,37 +165,23 @@
 				</div>
 				<div class="col-md-3 col-6">
 					<h6>Inspiration</h6>
-					<ul id="menu_inspi">
-						<li><a href="/refer-a-friend">Refer and Earn</a></li>
-						<li><a href="/sizes-prices">Pricing and Options</a></li>
-						<li><a href="/coupons-codes-and-deals">Special Offers</a></li>
-						<li><a href="/blog">Read our Latest Blog</a></li>
-						<li><a href="/inspiration-photos-gallery">Idea Gallery</a></li>
-					</ul>
+					<ul class="mt-3">
+						@if(insrpirationPages()->isNotEmpty())
+							@foreach (insrpirationPages() as $page)
+								<li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
+							@endforeach
+						@endif
+					</ul>	
 				</div>
 				<div class="col-md-3 col-6">					
 					<h6>Our Products</h6>
-					{{-- @if (allProducts()->isNotEmpty())
-						<ul>
-							@foreach (allProducts() as $value )
-								<li>
-									<a href="{{ route('front.shop',[$category->slug_category,$subCategory->slug_sub_category])}}">
-										{{ $value->name }}
-									</a>
-								</li>
+					<ul class="mt-3">
+						@if(productsPages()->isNotEmpty())
+							@foreach (productsPages() as $page)
+								<li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
 							@endforeach
-						</ul>
-					@endif --}}
-
-					<ul>
-						<li><a href="/photo-pillows">Photo Pillows</a></li>
-						<li><a href="/photo-calendars">Photo Calendars</a></li>
-						<li><a href="/photo-mugs">Photo Mug</a></li>
-						<li><a href="/photo-prints">Photo Prints</a></li>
-						<li><a href="/poster-prints">Poster Prints</a></li>
-						<li><a href="/photo-magnets">Photo Magnets</a></li>
-						<li><a href="/magic-mugs">Magic Photo Mugs</a></li>
-					</ul>					
+						@endif
+					</ul>				
 				</div>
 				<div class="col-md-4 col-12">
 					<h6>Contact</h6>
@@ -404,13 +390,6 @@
 		let size = $("select[name='size']").val();
     	let color = $("select[name='color']").val();		
 		
-		//Neon
-		// let neon_color = $("input[name='neon_color']:checked").val();
-		// let neon_size = $("input[name='neon_size']:checked").val();
-		// let neon_font = $("input[name='neon_font']:checked").val();
-		// let neon_light = $("input[name='neon_light']:checked").val();
-		// let custom_neon = $("input[name='custom_neon']").val();
-
         $.ajax({
             url: '{{ route("front.addToCart") }}',
             type: 'post',
@@ -419,11 +398,6 @@
 				id: id,
 				size: size,
 				color: color,
-				// neon_color: neon_color,
-				// neon_size: neon_size,
-				// neon_font: neon_font,
-				// neon_light: neon_light,
-				// custom_neon: custom_neon
 			},
             dataType: 'json',
             success: function(response){

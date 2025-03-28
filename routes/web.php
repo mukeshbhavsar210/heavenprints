@@ -88,6 +88,7 @@ Route::controller(FrameController::class)->group(function() {
     Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');
     Route::post('/add-to-cart-frame', 'addToCartFrame')->name('cart.add');
     Route::post('/merge', 'mergeImage')->name('merge.image');
+    
     Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
     Route::get('/upload_choice', 'showSelection')->name('show.selection');    
 });
@@ -189,6 +190,8 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/products/{product}', 'update')->name('products.update');            
             Route::delete('/products/{product}', 'destroy')->name('products.delete');
             Route::get('/get-products', 'getProducts')->name('products.getProducts');
+
+            Route::post('/products/store_new', 'storeProduct')->name('products_new.store');
         });
 
         //Sub Categories Connect to main Categories
