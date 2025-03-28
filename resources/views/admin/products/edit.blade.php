@@ -34,15 +34,17 @@
                                     </div>
                                     <div class="col-md-4 col-12">
                                         <label for="productType">Product Type:</label>
-                                        <select id="productType" class="form-control">
+                                        <select id="productType" name="product_type" class="form-control">
                                             <option value="">Select Product</option>
-                                            <option value="tshirt">T-Shirt</option>
+                                            <option value="default">Default</option>
                                             <option value="metal">Metal</option>
+                                            <option value="neon">Neon</option>
+                                            <option value="mug">Mug</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div id="tshirtDiv" class="hidden">
+                                <div id="defaultDiv" class="hidden">
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">   
                                             
@@ -162,6 +164,31 @@
                                                             <p>Others</p>
                                                         </label>
                                                     </div>                                                   
+                                                </div>
+                                                <p class="error"></p>                                           
+                                            </div>  
+                                        </div>   
+                                    </div>
+                                </div>
+
+                                <div id="neonDiv" class="hidden">
+                                    <div class="row"> 
+                                        <div class="col-md-6 col-12">   
+                                            <div class="form-group">                                           
+                                                <label for="size">Neon Products</label>
+                                                <div class="size-picker">
+                                                    <div class="size-picker__item" >
+                                                        <input type="radio" name="product_type" value="neon" id="neonProduct_1" class="size-picker__input">
+                                                        <label class="size-picker__color paddingControl" for="neonProduct_1">
+                                                            <p>NEON</p>
+                                                        </label>
+                                                    </div>
+                                                    <div class="size-picker__item" >
+                                                        <input type="radio" name="product_type" value="floro" id="neonProduct_2" class="size-picker__input">
+                                                        <label class="size-picker__color paddingControl" for="neonProduct_2">
+                                                            <p>FLORO</p>
+                                                        </label>
+                                                    </div>  
                                                 </div>
                                                 <p class="error"></p>                                           
                                             </div>  
@@ -486,13 +513,15 @@
         $('#productType').on('change', function () {
             var selectedValue = $(this).val();
             // Hide all divs first
-            $('#tshirtDiv, #metalDiv, #mugDiv').hide();
+            $('#defaultDiv, #metalDiv, #neonDiv, #mugDiv').hide();
             
             // Show the selected div
-            if (selectedValue == 'tshirt') {
-                $('#tshirtDiv').show();
+            if (selectedValue == 'default') {
+                $('#defaultDiv').show();
             } else if (selectedValue == 'metal') {
                 $('#metalDiv').show();
+            } else if (selectedValue == 'neon') {
+                $('#neonDiv').show();
             } else if (selectedValue == 'mug') {
                 $('#mugDiv').show();
             }

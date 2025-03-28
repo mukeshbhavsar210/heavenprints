@@ -1,14 +1,33 @@
 <div style="font-size: 12px;">
     <p class="m-0">
+        @if($item->options->neon_light == "NEON")
+            You selected: <span class="neon_lightSelected">{{ $item->options->neon_light }}</span><br />
+        @endif
+        @if($item->options->neon_light == "FLORO")
+            You selected: <span class="floro_lightSelected">{{ $item->options->neon_light }}</span><br />
+        @endif
+        
+        @if($item->options->custom_neon )
+            Text: {{ $item->options->custom_neon }}
+        @endif
+        @if($item->options->neon_color)
+            , Color: {{ $item->options->neon_color }}
+        @endif
+        @if($item->options->neon_size)
+            , Size: {{ $item->options->neon_size }}
+        @endif        
+        @if($item->options->neon_font)
+            , Font: {{ $item->options->neon_font }}
+        @endif        
         @if($item->options->color)
             Color: {{ $item->options->color }}
         @endif
         @if($item->options->size)
             , Size: {{ $item->options->size }}
         @endif 
-        @if($item->options->light_category)
+        {{-- @if($item->options->light_category)
             <br /><p class="lightSelected">{{ $item->options->light_category }}</p>
-        @endif  
+        @endif   --}}
         
         @if($item->options->shape) <br />
             Shape: {{ $item->options->shape }} 

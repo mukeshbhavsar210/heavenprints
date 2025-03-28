@@ -1,7 +1,7 @@
 <a class="model-preview" data-bs-toggle="modal" data-bs-target="#modal_{{ $item->id }}" >
     <div class="neon-thumb">
         <svg width="85px" height="85px" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="50%" font-family="{{ $item->options->font }}" font-size="10" fill="{{ $item->options->color }}" text-anchor="left" alignment-baseline="left">{{ $item->name }}</text>
+            <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
         </svg>
     </div>
 </a>
@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body" style="background:#000;">
                 <svg width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
-                    <text x="50%" y="60%" font-family="{{ $item->options->font }}" font-size="80" fill="{{ $item->options->color }}" text-anchor="middle" alignment-baseline="middle">{{ $item->name }}</text>
+                    <text x="50%" y="60%" font-family="{{ $item->options->neon_font }}" font-size="80" fill="{{ $item->options->neon_color }}" text-anchor="middle" alignment-baseline="middle">{{ $item->options->custom_neon }}</text>
                 </svg>
             </div>
         </div>

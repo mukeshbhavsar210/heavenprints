@@ -76,8 +76,11 @@
                                 <td>
                                     <h5 class="mb-0">{{ Str::limit($product->name, 30, '...') }}</h5>
                                     <span style="font-size:14px;">
+                                        @if($product->product_type)
+                                            Product: {{ $product->product_type }}
+                                        @endif
                                         @if($product->metal_type)
-                                            Category: {{ $product->metal_type }}
+                                            , Category: {{ $product->metal_type }}
                                         @elseif (!empty($product->sizes))
                                             <b>Size:</b>
                                             @foreach(json_decode($product->sizes) as $size)
