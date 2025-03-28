@@ -79,21 +79,21 @@
                                         @if($product->product_type)
                                             Product: {{ $product->product_type }}
                                         @endif
-                                        @if($product->metal_type)
+                                        {{--@if($product->metal_type)
                                             , Category: {{ $product->metal_type }}
-                                        @elseif (!empty($product->sizes))
+                                         @elseif (!empty($product->sizes))
                                             <b>Size:</b>
                                             @foreach(json_decode($product->sizes) as $size)
                                                     {{ $size }},
                                             @endforeach
-                                        @endif                                        
+                                        @endif                                         --}}
 
-                                        @if(!empty($product->colors))
+                                        {{-- @if(!empty($product->colors))
                                             , Color:
                                             @foreach(json_decode($product->colors) as $color)
                                                 {{ $color }}
                                             @endforeach
-                                        @endif
+                                        @endif --}}
                                     </span>
                                 </td>
                                 <td>₹{{ $product->price }}<br />

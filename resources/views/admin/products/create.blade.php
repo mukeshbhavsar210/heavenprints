@@ -17,6 +17,55 @@
 
     <section class="content">
         @include('admin.message')
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <form action="{{ route('products_new.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label>Product Name:</label>
+                                        <input type="text" class="form-control" name="name" required>
+                                    </div>
+
+                                    {{-- <div class="col-md-6 col-12">                            
+                                        <label>Upload Images:</label>
+                                        <input type="file" name="images"  class="form-control"  multiple required>
+                                    </div>
+
+                                    <div class="col-md-6 col-12">
+                                        <label>Select Sizes:</label>
+                                        <select name="sizes" multiple  class="form-control"  required>
+                                            <option value="Small">Small</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Large">Large</option>
+                                        </select>
+                                    </div>
+                            
+                                    <div class="col-md-6 col-12">
+                                        <label>Select Colors:</label>
+                                        <select name="colors" multiple  class="form-control"  required>
+                                            <option value="Red">Red</option>
+                                            <option value="Blue">Blue</option>
+                                            <option value="Green">Green</option>
+                                        </select>
+                                    </div> --}}
+
+                                    <div class="col-md-6 col-12 mt-3">
+                                        <button type="submit" class="btn btn-primary">Save Product</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     
         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data" >
             @csrf

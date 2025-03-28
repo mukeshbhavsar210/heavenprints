@@ -155,7 +155,7 @@ main section { padding-top: 25px;}
 .customizeFrames .row>* { padding: 0 4px;}
 .customizeFrames .frame-price { float: right; display: flex; margin-right: 20px; margin-bottom: 10px; }
 .customizeFrames .frame-price h3 { margin-right: 20px; }
-.customizeFrames .calculation-main { border-bottom:1px var(--light-grey) solid; background-color: var(--white); justify-content: flex-end; display: flex; padding:10px;}
+.customizeFrames .calculation-main { border-bottom:1px var(--light-grey) solid; background-color: var(--white); padding:10px;}
 .customizeFrames .calculation-main h3 { display: flex; top: 5px; position: relative; margin-right: 12px;}
 .customizeFrames .calculation-main .right { text-align: right; float: right;}
 

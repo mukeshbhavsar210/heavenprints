@@ -52,8 +52,18 @@ use Illuminate\Support\Facades\Mail;
         return Country::where('id',$id)->first();
     }
 
-    function staticPages(){
-        $pages = Page::orderBy('name','ASC')->get();
+    function aboutusPages(){
+        $pages = Page::orderBy('name','ASC')->where('category','about_us')->get();
+        return $pages;
+    }
+
+    function insrpirationPages(){
+        $pages = Page::orderBy('name','ASC')->where('category','insrpiration')->get();
+        return $pages;
+    }
+
+    function productsPages(){
+        $pages = Page::orderBy('name','ASC')->where('category','products')->get();
         return $pages;
     }
 ?>

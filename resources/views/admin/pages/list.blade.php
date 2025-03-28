@@ -49,7 +49,7 @@
                         <tr>
                             <th width="60">ID</th>
                             <th>Name</th>
-                            <th>Slug</th>
+                            <th>Category</th>
                             <th width="100">Action</th>
                         </tr>
                     </thead>
@@ -59,7 +59,7 @@
                                 <tr>
                                     <td>{{ $page->id }}</td>
                                     <td>{{ $page->name }}</td>
-                                    <td>{{ $page->slug }}</td>
+                                    <td>{{ $page->category }}</td>
                                     <td>
                                         <a href="{{ route('pages.edit', $page->id ) }}">
                                             <svg class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

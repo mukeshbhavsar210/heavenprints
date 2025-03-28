@@ -14,6 +14,10 @@
 
             @if (Request::is('shop/customize/customize-neon'))
                 @include('front.shop.default.neon')
+            
+            @elseif(Request::is('shop/prints/custom-print'))
+                @include('front.shop.default.custom_frame.custom')
+                
             @else
                 <div class="row">
                     <div class="col-md-3 sidebar">
