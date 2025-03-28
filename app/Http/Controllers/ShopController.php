@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\SVG;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Models\ProductImage;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller {
     public function index(Request $request, $categorySlug = null, $subCategorySlug = null) {
@@ -299,4 +302,32 @@ class ShopController extends Controller {
        
         return response()->json(['message' => 'Metal Frame added to cart successfully!']);
     }
+
+
+    // public function storeSVG(Request $request){
+    //     $text = $request->input('text');
+    //     $color = $request->input('color');
+    //     $font = $request->input('font');
+    //     $fontSize = $request->input('fontSize');
+
+    //     $svgContent = '<svg width="300" height="250" style="background: black"  xmlns="http://www.w3.org/2000/svg">
+    //                         <text x="50%" y="50%" font-family="'.$font.'" font-size="'.$fontSize.'" fill="'.$color.'" text-anchor="middle" alignment-baseline="middle">'.$text.'</text>
+    //                     </svg>';
+
+    //     $neon_id = rand(100000, 999999);
+    //     $text = $request->input('text');
+    //     $fileName = $neon_id.'_'.$text.'.svg';        
+    //     Storage::put('public/svg/' . $fileName, $svgContent);
+
+    //     SVG::create([
+    //         'neon_id' => $neon_id,
+    //         'text' => $text,
+    //         'font' => $font,
+    //         'color' => $color,
+    //         'font_size' => $fontSize,
+    //         'file_name' => $fileName
+    //     ]);
+
+    //     return response()->json(['message' => 'SVG saved successfully']);
+    // }
 }

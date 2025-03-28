@@ -81,8 +81,6 @@
                         <div class="row">  
                             @if ($products->isNotEmpty())
                                 @foreach ($products as $product)
-
-                            
                                     @php
                                         $productImage = $product->product_images->first();
                                     @endphp
@@ -180,6 +178,7 @@
                     </div> 
                 </div>
             @endif
+            
     </section>
 @endsection
 
@@ -243,9 +242,9 @@
 
         window.location.href = url;
     }
-</script>
 
-<script>
+
+    //SVG
     document.getElementById("text-input2").addEventListener("input", function() {
         let text = this.value;
 
@@ -260,29 +259,6 @@
         .then(response => response.json())
         .then(data => {
             document.getElementById("rupees").innerText = data.price;
-        })
-        .catch(error => console.error("Error:", error));
-    });
-
-    document.getElementById("generate-svg").addEventListener("click", function() {
-        location.reload();
-
-        let color = document.getElementById("color").value;
-        let font = document.getElementById("font").value;
-
-        fetch("{{ route('generate.svg') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({ color: color, font: font })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById("svg-image").src = data.url + "?t=" + new Date().getTime(); // Prevent cache issues
-            }
         })
         .catch(error => console.error("Error:", error));
     });
@@ -302,35 +278,14 @@
             text.setAttribute('font-size', '90px');
         }
     }    
-
-    $('#name').change(function(){
-        element = $(this);
-        $("button[type=submit]").prop('disabled', true);
-        $.ajax({
-            url: '{{ route("getSlug") }}',
-            type: 'get',
-            data: {title: element.val()},
-            dataType: 'json',
-            success: function(response){
-                $("button[type=submit]").prop('disabled', false);
-                if(response["status"] == true){
-                    $("#slug").val(response["slug"]);
-                }
-            }
-        });
-    })
-
-    document.getElementById("text-input").addEventListener("input", function() {
-        document.getElementById("text-input2").value = this.value;
-    });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     let selectedFontSize = 40; // Default size
 
-    function applySize(size) {
-        selectedFontSize = size;
+    function applySize(neon_size) {
+        selectedFontSize = neon_size;
         updatePreview();
     }
 
@@ -338,92 +293,34 @@
         let text = $('#text').val() || "Preview Text";
         let fontColor = $('#color').val() || "#000000";
         let lightCategory = $('input[name="light_category"]:checked').val() || "Neon Selected";
-        let font = $('input[name="font"]:checked').val() || "Passionate";
-        let color = $('input[name="color"]:checked').val() || "#000000";
-        let size = $('input[name="size"]:checked').val() || "#000000";
+        let neon_font = $('input[name="neon_font"]:checked').val() || "Passionate";
+        let neon_color = $('input[name="neon_color"]:checked').val() || "#000000";
+        let neon_size = $('input[name="neon_size"]:checked').val() || "#000000";
         let charCount = text.length;
         let price = charCount * 3000;
-        let encodedFont = font.replace(/\s+/g, '+'); // Convert "Times New Roman" -> "Times+New+Roman"
+        let encodedFont = neon_font.replace(/\s+/g, '+'); // Convert "Times New Roman" -> "Times+New+Roman"
         let svgContent = `
             <svg width="100%" height="250" style="background: black"  xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=${encodedFont}&display=swap');
                         text {
-                            font-family: '${font}', sans-serif;
+                            font-family: '${neon_font}', sans-serif;
                         }
                     </style>
                 </defs>
-                <text x="50%" y="50%" font-family="${font}" font-size="${selectedFontSize}" fill="${color}" text-anchor="middle" alignment-baseline="middle">${text}</text>
+                <text x="50%" y="50%" font-family="${neon_font}" font-size="${selectedFontSize}" fill="${neon_color}" text-anchor="middle" alignment-baseline="middle">${text}</text>
             </svg>
         `;            
 
         $('#previewContainer').html(svgContent);
         $('#price').text(price);
     }
-
-    function downloadSVG() {
-        let svgContent = $('#previewContainer').html();
-        let blob = new Blob([svgContent], { type: "image/svg+xml" });
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "generated.svg";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
-    function saveSVG() {
-        let svgData = $('#previewContainer').html();
-        let text = $('#text').val();
-        let neon_id = $('#neon_id').val();
-        let color = $('input[name="color"]:checked').val();
-        let size = $('input[name="size"]:checked').val();
-        let light_category = $('input[name="light_category"]:checked').val();
-        let font = $('input[name="font"]:checked').val();
-        let price = $('#price').text();
-
-        $.ajax({
-            url: "{{ route('save.svg') }}",
-            type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                neon_id: neon_id,
-                text: text,                
-                color: color,
-                size: size,
-                font: font,
-                price: price,
-                light_category: light_category,
-                svg: svgData,                
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                window.location.href = "{{ route('front.cart') }}";
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    }
+    
 
     $('#text').on('input', updatePreview);
-    $('input[name="font"]').on('change', updatePreview);
-    $('input[name="color"]').on('change', updatePreview);
-
-    $('.toggle-radio').change(function () {
-        let selectedOptions = $('input[name="option"]:checked').map(function () {
-            return this.value;
-        }).get();
-
-        if (selectedOptions.includes("option1") && selectedOptions.includes("option2")) {
-            $("#hiddenDiv").show();
-        } else {
-            $("#hiddenDiv").hide();
-        }
-    });
+    $('input[name="neon_font"]').on('change', updatePreview);
+    $('input[name="neon_color"]').on('change', updatePreview);
 </script>
 
 @endsection

@@ -36,11 +36,6 @@ class CartController extends Controller {
         }
 
         if (Cart::count() > 0) {
-            //echo "Product already in cart";
-            //Product found in cart
-            //Check if this product already in the cart
-            //Return a message that product already added in your cart
-            //if product not found in the cart, then add product in cart
 
             $cartContent = Cart::content();
             $productAlreadyExist = false;
@@ -56,12 +51,12 @@ class CartController extends Controller {
                         $product->id, 
                         $product->name, 
                         1, 
-                        $product->price, 
+                        $product->price,                        
                         [
                             'category' => 'Default', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                             'size' => $request->size,
-                            'color' => $request->color,
+                            'color' => $request->color
                         ]
                 );
                 $status = true;
@@ -81,7 +76,7 @@ class CartController extends Controller {
                     [
                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                         'size' => $request->size,
-                        'color' => $request->color
+                        'color' => $request->color                                          
                     ]);
             $status = true;
             $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
@@ -95,9 +90,88 @@ class CartController extends Controller {
     }
 
 
+    public function addToCart_neon(Request $request){
+        $product = Product::with('product_images')->find($request->id);
+        $neon_color = $request->neon_color ?? 'Default Red';
+        $neon_size = $request->neon_size ?? 'Default Red';
+        $neon_font = $request->neon_font ?? 'Default Red';
+        $neon_light = $request->neon_light ?? 'Default Light';
+        $custom_neon = $request->custom_neon ?? 'Default Light';
+
+        if ($product == null) {
+            return response()->json([
+                "status"=> false,
+                "message"=> "Product not found"
+            ]);
+        }
+
+        if (Cart::count() > 0) {
+            $cartContent = Cart::content();
+            $productAlreadyExist = false;
+
+            foreach ($cartContent as $item) {
+                if ($item->id == $product->id) {
+                    $productAlreadyExist = true;
+                }
+            }
+
+            if($productAlreadyExist == false){
+                Cart::add(
+                        $product->id, 
+                        $product->name, 
+                        1, 
+                        $request->price,
+                        [
+                            'category' => 'Default', 
+                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'neon_color' => $request->neon_color,
+                            'neon_size' => $request->neon_size,
+                            'neon_font' => $request->neon_font,
+                            'neon_light' => $request->neon_light,
+                            'custom_neon' => $request->custom_neon
+                        ]
+                );
+                $status = true;
+                $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
+                session()->flash('success', $message);
+            } else {
+                $status = false;
+                $message = $product->name.' already added in cart';
+            }
+
+        } else {
+            Cart::add(
+                    $product->id, 
+                    $product->name, 
+                    1, 
+                    $request->price, 
+                    [
+                        'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                        'neon_color' => $request->neon_color,
+                        'neon_size' => $request->neon_size,
+                        'neon_font' => $request->neon_font,
+                        'neon_light' => $request->neon_light,
+                        'custom_neon' => $request->custom_neon                        
+                        
+                    ]);
+            $status = true;
+            $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
+            session()->flash('success', $message);
+        }
+
+        return response()->json([
+            "status"=> $status,
+            "message"=> $message
+        ]);
+    }
+
+
+    
     public function cart(){
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
+
+        //dd($cartContent);
 
         return view('front.cart.index',$data);
     }
@@ -366,29 +440,24 @@ class CartController extends Controller {
             ]); 
 
             // Save to database
-            $product = new Product();
-            $product->name = $item->name;
-            $product->slug = $item->name;
-            $product->product_type = $item->options->category;
-            $product->font = $item->options->font;
-            $product->size = $item->options->size;
-            $product->color = $item->options->color;
-            $product->save();   
-            
-            // $productImage = new ProductImage();
-            // $productImage->product_id = 'Kusum';
-            // $productImage->image = 'Shantilal';
-            // $productImage->save();
+            // $product = new Product();
+            // $product->name = $item->name;
+            // $product->slug = $item->name;
+            // $product->product_type = $item->options->category;
+            // $product->font = $item->options->font;
+            // $product->size = $item->options->size;
+            // $product->color = $item->options->color;
+            // $product->save();   
             
             foreach (Cart::content() as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->id,
                     'name' => $item->name,
-                    'category' => $item->options->category,
-                    'font' => $item->options->font,
-                    'size' => $item->options->size,
-                    'color' => $item->options->color,
+                    'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
+                    'font' => $item->options->font ?? $item->options->neon_font,
+                    'size' => $item->options->size ?? $item->options->neon_size,
+                    'color' => $item->options->color ?? $item->options->neon_color,
                     'frame' => $item->options->frame,
                     'image' => $item->options->thumb,
                     'border' => $item->options->border,

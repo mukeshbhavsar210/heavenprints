@@ -28,7 +28,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
 </head>
 <body data-instant-intensity="mousedown">
-	<header>
+	<header id="mainWrapper">
 		<div class="logoWrapper">
 			<div class="container">
 				<div class="row">
@@ -390,29 +390,26 @@
 <script src="{{ asset('front-assets/js/slick.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/ion.rangeSlider.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
+
 <script>
-window.onscroll = function() {myFunction()};
-
-var navbar = document.getElementById("navbar");
-var sticky = navbar.offsetTop;
-
-function myFunction() {
-  if (window.pageYOffset >= sticky) {
-    navbar.classList.add("sticky")
-  } else {
-    navbar.classList.remove("sticky");
-  }
-}
-
-    $.ajaxSetup({
+	$.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
+	
+	//Add to cart
 	function addToCart(id){
 		let size = $("select[name='size']").val();
-    	let color = $("select[name='color']").val();
+    	let color = $("select[name='color']").val();		
+		
+		//Neon
+		// let neon_color = $("input[name='neon_color']:checked").val();
+		// let neon_size = $("input[name='neon_size']:checked").val();
+		// let neon_font = $("input[name='neon_font']:checked").val();
+		// let neon_light = $("input[name='neon_light']:checked").val();
+		// let custom_neon = $("input[name='custom_neon']").val();
 
         $.ajax({
             url: '{{ route("front.addToCart") }}',
@@ -421,7 +418,12 @@ function myFunction() {
 				_token: '{{ csrf_token() }}', // Include CSRF token
 				id: id,
 				size: size,
-				color: color
+				color: color,
+				// neon_color: neon_color,
+				// neon_size: neon_size,
+				// neon_font: neon_font,
+				// neon_light: neon_light,
+				// custom_neon: custom_neon
 			},
             dataType: 'json',
             success: function(response){
@@ -450,6 +452,18 @@ function myFunction() {
                 }
             }
         })
+
+		window.onscroll = function() {myFunction()};
+		var navbar = document.getElementById("mainWrapper");
+		var sticky = navbar.offsetTop;
+
+		function myFunction() {
+			if (window.pageYOffset >= sticky) {
+				navbar.classList.add("sticky")
+			} else {
+				navbar.classList.remove("sticky");
+			}
+		}
     }
 </script>
 

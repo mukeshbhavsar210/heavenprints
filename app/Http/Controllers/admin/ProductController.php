@@ -18,7 +18,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller {
 
     public function index(Request $request){
-        $products = Product::latest('id')->with('product_images')->where('product_type', 'default');;
+        $products = Product::latest('id')->with('product_images');
 
         if ($request->get('keyword') != ""){
             $products = $products->where('name', 'like', '%'.$request->keyword.'%');
@@ -123,68 +123,6 @@ class ProductController extends Controller {
                     $categoryImage->save();
                 }
             }
-            return redirect()->route('products.index')->with('success','Product added successfully.');
-        } else {
-            return redirect()->route('products.index')->withInput()->withErrors($validator);
-        }    
-    }
-
-
-    public function create_test(){
-        return view('admin.products.test');
-    }
-
-
-
-    public function test(Request $request){
-        $rules = [
-            'name' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(),$rules);
-
-        if ($validator->passes()) {
-            $product = new Product;
-            $product->name = $request->name;
-            $product->slug = $request->slug;
-            $product->save();
-
-            // Check if multiple images are uploaded
-            //Image upload
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $extenstion = $file->getClientOriginalExtension();
-                $fileName = $product->slug.'_'.time().'.'.$extenstion;
-                $path = public_path().'/uploads/product/small/'.$fileName;
-                $manager = new ImageManager(new Driver());
-                $image = $manager->read($file);
-                $image->toJpeg(80)->save($path);
-                $image->cover(300,300)->save($path);
-                $product->image = $fileName;
-                $product->save();
-            };
-
-
-            // if ($request->hasFile('image')) {
-            //     foreach ($request->file('image') as $file) {
-            //         $extension = $file->getClientOriginalExtension();
-            //         $fileName = $product->slug . '_' . time() . '.' . $extension;
-            //         $path = public_path('/uploads/product/large/' . $fileName);
-
-            //         $manager = new ImageManager(new Driver());
-            //         $image = $manager->read($file);
-
-            //         $image->toJpeg(80)->save($path);
-
-            //         $thumbPath = public_path('/uploads/product/small/' . $fileName);
-            //         $image->cover(300, 300)->save($thumbPath);
-
-            //         $categoryImage = new ProductImage();
-            //         $categoryImage->product_id = $product->id;
-            //         $categoryImage->image = $fileName;
-            //         $categoryImage->save();
-            //     }
-            // }
             return redirect()->route('products.index')->with('success','Product added successfully.');
         } else {
             return redirect()->route('products.index')->withInput()->withErrors($validator);

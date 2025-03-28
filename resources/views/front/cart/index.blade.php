@@ -47,9 +47,9 @@
                     @foreach ($cartContent as $item)
                         <div class="row">
                             <div class="col-md-2 col-3 productThumb">                                
-                                @if($item->options->category == 'Neon')
+                                @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
                                     @include('front.cart.neon')
-                                    
+
                                 @elseif ($item->options->category == 'Frame')
                                     @include('front.cart.frame')
 

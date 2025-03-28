@@ -23,9 +23,7 @@ use App\Http\Controllers\ShopController;
 
 use App\Http\Controllers\custom\FrameController;
 use App\Http\Controllers\custom\MetalFrameController;
-use App\Http\Controllers\custom\NeonController;
 use App\Http\Controllers\admin\PriceController;
-use App\Http\Controllers\admin\SampleController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -42,6 +40,10 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
     Route::get('/product/{slug}', 'product')->name('front.product');
+
+    //Neon
+    Route::post('/save-svg', 'saveSVG')->name('save.svg');
+    Route::post('/store-svg', 'storeSVG')->name('update.svg');
 });
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
@@ -50,6 +52,7 @@ Route::controller(CartController::class)->group(function() {
     Route::get('/cart','cart')->name('front.cart');
     Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
+    Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
     Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout','checkout')->name('front.checkout');
@@ -67,16 +70,6 @@ Route::controller(CartController::class)->group(function() {
     Route::get('payment-failed', 'failed')->name('order.failed');
 });
 
-//Neon
-Route::controller(NeonController::class)->group(function() {
-    //Route::get('/products/customize-neon-signs', 'index')->name('front.neon');
-    Route::post('/generate-svg', 'generateSvg')->name('generate.svg');
-    Route::get('/download-svg/{id}', 'download')->name('download.svg');
-    Route::post('/update-svg', 'updateSVG')->name('store.svg');
-    Route::post('/store-svg', 'storeSVG')->name('update.svg');
-    Route::get('/get-stored-svgs', 'getStoredSVGs')->name('get.stored.svgs');
-    Route::post('/save-svg', 'saveSVG')->name('save.svg');
-});
 
 //Metal Frames
 Route::controller(MetalFrameController::class)->group(function() {

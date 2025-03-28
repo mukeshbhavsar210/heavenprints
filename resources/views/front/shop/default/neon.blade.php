@@ -1,3 +1,4 @@
+
 <div class="row">                   
     <div class="col-md-7 col-12">   
         <div class="svgGenerate stickySVG">
@@ -11,92 +12,91 @@
     </div>
             
     <div class="col-md-5 col-12">
-        <h2 id="neon-form" class="mobile_margin">Customize Neon</h2>  
-        <h2 id="floro-form" class="mobile_margin d-none">Customize FloRo Lights</h2>  
+        @if ($products->isNotEmpty())
+            @foreach ($products as $product)
+            
+                <h2 id="neon-form" class="mobile_margin">{{ $product->name }}</h2>  
+                <h2 id="floro-form" class="mobile_margin d-none">Customize FloRo Lights</h2>  
 
-        <div class="categoryPicker">
-            <div class="categoryPicker__item" >
-                <input checked type="radio" name="light_category" value="You selected: NEON Light" id="neonBtn" class="categoryPicker__input" >
-                <label for="neonBtn" class="categoryPicker__color">I want NEON Light</label>
-            </div>
-            <div class="categoryPicker__item" >
-                <input type="radio" name="light_category" value="You selected: FLORO Light" id="floroBtn" class="categoryPicker__input">
-                <label for="floroBtn" class="categoryPicker__color" >I want FLORO Light</label>
-            </div>
-        </div>
-        
-        <h3>₹<span id="price">0</span></h3>
-        
-        <p class="mb-1 mt-3"><b>Type your text</b></p>   
-        <input type="text" id="text" placeholder="Enter text" class="fotm-control">
-
-        @php
-            $randomNumber = rand(100000, 999999);
-        @endphp
-
-        <input type="hidden" id="neon_id" value="{{ $randomNumber }}" readonly>
-        
-        <!-- Font Selection -->
-        <p class="mb-1 mt-4"><b>Pick your font</b></p>
-        <div class="fontScroll">
-            <div class="font-picker">
-                @foreach ($fonts as $font)
-                    <div class="font-picker__item" >
-                        <input type="radio" name="font" value="{{ $font }}" onchange="updatePreview()" {{ $loop->first ? 'checked' : '' }} id="font_{{ $loop->index + 1 }}" class="font-picker__input">
-                        <label class="font-picker__color" for="font_{{ $loop->index + 1 }}">
-                            <span style="font-family:{{ $font }};">{{ $font }}</span>    
-                        </label>
+                <div class="categoryPicker">
+                    <div class="categoryPicker__item" >
+                        <input checked type="radio" name="neon_light" value="NEON" id="neonBtn" class="categoryPicker__input" >
+                        <label for="neonBtn" class="categoryPicker__color">I want NEON Light</label>
                     </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="card-body p-0 mt-3" id="neon-body">
-            <div class="groupDetails">
-                <p><b>Select your color</b></p>
-                <div class="color-picker">
-                    @foreach ($colors as $value)
-                        <div class="color-picker__item" >
-                            <input type="radio" name="color" value="{{ $value }}" onchange="updatePreview()" {{ $loop->first ? 'checked' : '' }}  class="color-picker__input" id="color_{{ $loop->index + 1 }}">
-                            <label class="color-picker__color" for="color_{{ $loop->index + 1 }}"  style="background-color: {{ $value }};"></label>
-                        </div>
-                    @endforeach
-                </div>                       
-            </div>    
-        </div>
-
-        <div class="groupDetails">
-            <p>Pick Your Size?</p>
-            <div class="pickSize">
-                <div class="size-picker">
-                    <div class="size-picker__item" >
-                        <input checked type="radio" name="size" value="Regular" onclick="applySize(50)" id="size_picker_01" class="size-picker__input">
-                        <label class="size-picker__color" for="size_picker_01">
-                            <h6>Regular</h6>
-                            <p>Width:3" <br/> Height:10"</p>
-                        </label>
-                    </div>
-
-                    <div class="size-picker__item" >
-                        <input type="radio" name="size" value="Medium" onclick="applySize(60)" id="size_picker_02" class="size-picker__input">
-                        <label class="size-picker__color" for="size_picker_02">
-                            <h6>Medium</h6>
-                            <p>Width:3" <br/> Height:10"</p>
-                        </label>
-                    </div>
-
-                    <div class="size-picker__item" >
-                        <input type="radio" name="size" value="Large" onclick="applySize(70)" id="size_picker_03" class="size-picker__input">
-                        <label class="size-picker__color" for="size_picker_03">
-                            <h6>Large</h6>
-                            <p>Width:3" <br/> Height:10"</p>
-                        </label>
+                    <div class="categoryPicker__item" >
+                        <input type="radio" name="neon_light" value="FLORO" id="floroBtn" class="categoryPicker__input">
+                        <label for="floroBtn" class="categoryPicker__color" >I want FLORO Light</label>
                     </div>
                 </div>
-            </div>
-        </div>
+                
+                <h3>₹<span name="price" id="price">{{ $product->price }}</span></h3>
+                
+                <p class="mb-1 mt-3"><b>Type your text</b></p>   
+                <input type="text" id="text" name="custom_neon" placeholder="Enter text" class="fotm-control">
 
-        <button class="btn btn-primary" onclick="saveSVG()">Add to Cart</button>
+                <!-- Font Selection -->
+                <p class="mb-1 mt-4"><b>Pick your font</b></p>
+                <div class="fontScroll">
+                    <div class="font-picker">
+                        @foreach ($fonts as $font)
+                            <div class="font-picker__item" >
+                                <input type="radio" name="neon_font" value="{{ $font }}" onchange="updatePreview()" {{ $loop->first ? 'checked' : '' }} id="font_{{ $loop->index + 1 }}" class="font-picker__input">
+                                <label class="font-picker__color" for="font_{{ $loop->index + 1 }}">
+                                    <span style="font-family:{{ $font }};">{{ $font }}</span>    
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="card-body p-0 mt-3" id="neon-body">
+                    <div class="groupDetails">
+                        <p><b>Select your color</b></p>
+                        <div class="color-picker">
+                            @foreach ($colors as $value)
+                                <div class="color-picker__item" >
+                                    <input type="radio" name="neon_color" value="{{ $value }}" onchange="updatePreview()" {{ $loop->first ? 'checked' : '' }}  class="color-picker__input" id="color_{{ $loop->index + 1 }}">
+                                    <label class="color-picker__color" for="color_{{ $loop->index + 1 }}"  style="background-color: {{ $value }};"></label>
+                                </div>
+                            @endforeach
+                        </div>                       
+                    </div>    
+                </div>
+
+                <div class="groupDetails">
+                    <p>Pick Your Size?</p>
+                    <div class="pickSize">
+                        <div class="size-picker">
+                            <div class="size-picker__item" >
+                                <input checked type="radio" name="neon_size" value="Regular" onclick="applySize(50)" id="size_picker_01" class="size-picker__input">
+                                <label class="size-picker__color" for="size_picker_01">
+                                    <h6>Regular</h6>
+                                    <p>Width:3" <br/> Height:10"</p>
+                                </label>
+                            </div>
+                            <div class="size-picker__item" >
+                                <input type="radio" name="neon_size" value="Medium" onclick="applySize(60)" id="size_picker_02" class="size-picker__input">
+                                <label class="size-picker__color" for="size_picker_02">
+                                    <h6>Medium</h6>
+                                    <p>Width:3" <br/> Height:10"</p>
+                                </label>
+                            </div>
+                            <div class="size-picker__item" >
+                                <input type="radio" name="neon_size" value="Large" onclick="applySize(70)" id="size_picker_03" class="size-picker__input">
+                                <label class="size-picker__color" for="size_picker_03">
+                                    <h6>Large</h6>
+                                    <p>Width:3" <br/> Height:10"</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCartNeon({{ $product->id }})">
+                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                </a>
+            @endforeach
+        @endif
     </div>
 </div>
 
@@ -190,3 +190,39 @@
         </div>
     </div>          
 </div>
+
+<script>
+
+    //Add to cart
+	function addToCartNeon(id){
+		let neon_color = $("input[name='neon_color']:checked").val();
+		let neon_size = $("input[name='neon_size']:checked").val();
+		let neon_font = $("input[name='neon_font']:checked").val();
+		let neon_light = $("input[name='neon_light']:checked").val();
+		let custom_neon = $("input[name='custom_neon']").val();
+        let selectedPrice = $("#price").text();
+
+        $.ajax({
+            url: '{{ route("front.addToCart_neon") }}',
+            type: 'post',
+            data: {
+				_token: '{{ csrf_token() }}',
+				id: id,
+                price: selectedPrice,
+				neon_color: neon_color,
+				neon_size: neon_size,
+				neon_font: neon_font,
+				neon_light: neon_light,
+				custom_neon: custom_neon
+			},
+            dataType: 'json',
+            success: function(response){
+                if(response.status == true){
+                    window.location.href= "{{ route('front.cart') }}";
+                } else {
+                    alert(response.message);
+                }
+            }
+        })
+    }
+</script>
