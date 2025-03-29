@@ -15,8 +15,8 @@
             @if (Request::is('shop/customize/customize-neon'))
                 @include('front.shop.default.neon')
             
-            @elseif(Request::is('shop/prints/custom-print'))
-                @include('front.shop.default.custom_frame.custom')
+            {{-- @elseif(Request::is('shop/prints/custom-print'))
+                @include('front.shop.custom_frame.custom') --}}
                 
             @else
                 <div class="row">
@@ -92,8 +92,8 @@
                                     <div class="col-md-4 col-12">
                                         <div class="product-image position-relative">
                                             <a href="{{ route('front.product',$product->slug) }}" class="product-img">
-                                                @if (!empty($productImage->image))
-                                                    <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                                @if (!empty($productImage->image1))
+                                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                                 @else
                                                     <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                                 @endif
@@ -149,23 +149,23 @@
                                             @if(!$product->metal_type || $product->metal_type == 't_shirt')
                                                 <div class="row mt-3">
                                                     <div class="col-md-6 col-12">
-                                                        @if(!empty($product->sizes))
+                                                        {{-- @if(!empty($product->sizes))
                                                             <select name="size" class="form-select">
                                                                 @foreach(json_decode($product->sizes) as $size)
                                                                     <option value="{{ $size }}">{{ $size }}</option>
                                                                 @endforeach
                                                             </select>
-                                                        @endif
+                                                        @endif --}}
                                                     </div>
 
                                                     <div class="col-md-6 col-12">
-                                                        @if(!empty($product->colors))
+                                                        {{-- @if(!empty($product->colors))
                                                             <select name="color" class="form-select">
                                                                 @foreach(json_decode($product->colors) as $color)
                                                                     <option value="{{ $color }}">{{ $color }}</option>
                                                                 @endforeach
                                                             </select>
-                                                        @endif
+                                                        @endif --}}
                                                     </div>
                                                 </div> 
                                             @endif

@@ -241,3 +241,27 @@ input:checked + .slider { box-shadow:0 0 0 2px #007bff,0 0 2px #007bff; }
 	 transform: translate(-25%, 0);
 }
  
+.dropdown-menu-form {
+  padding: 5px 10px 0;
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.required { color: red;}
+
+.disabled-dropzone {
+  pointer-events: none;
+  opacity: 0.5;
+  background: #f0f0f0;
+  text-align: center;
+  padding: 10px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+}
+.uploaded-preview {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+  border-radius: 6px;
+}

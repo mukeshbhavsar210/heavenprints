@@ -7,9 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\SampleProduct;
 use App\Models\SubCategory;
-use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -44,32 +42,29 @@ class ProductController extends Controller {
     }
 
 
-   
-
-
-
     public function store(Request $request){
-        $rules = [
-            'name' => 'required',
-            'slug' => 'required|unique:products',
-            'price' => 'required|numeric',
-            'sku' => 'required|unique:products',
-            'track_qty' => 'required|in:Yes,No',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',   
+            'price' => 'required|min:3',  
             'category' => 'required|numeric',
-            'is_featured' => 'required|in:Yes,No',
-        ];
+            'qty' => 'required',
+            //'track_qty' => 'required|in:Yes,No',
+            //'sku' => 'required|unique:products',                        
+            //'is_featured' => 'required|in:Yes,No',        
+        ]);
 
-        if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
-            $rules['qty'] = 'required|numeric';
-        }
+        // Loop through 1 to 5 and set validation rules dynamically
+        // for ($i = 1; $i <= 5; $i++) {
+        //     $rules["image{$i}"] = 'required|image|mimes:jpg,png,jpeg,gif|max:2048';
+        // }
 
-        $validator = Validator::make($request->all(),$rules);
+        //$validatedData = $request->validate($rules);
 
-        if ($validator->passes()) {
+        if($validator->passes()) {
             $product = new Product;
-            $product->name = $request->name;
+            $product->name = $request->name;   
             $product->slug = $request->slug;
-            $product->product_type = $request->product_type;
+            $product->product_type = $request->product_type;         
             $product->metal_type = $request->metal_type;
             $product->description = $request->description;
             $product->price = $request->price;
@@ -87,50 +82,66 @@ class ProductController extends Controller {
             $product->short_description = $request->short_description;
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
 
-            // Store Size if selected
-            if ($request->has('size')) {
-                $product->sizes = json_encode($request->size); // Convert array to JSON
+            if ($request->has('sizes')) {
+                $product->sizes = json_encode($request->sizes);
             } else {
-                $product->sizes = null; // Store null if not selected
+                $product->sizes = null;
             }
 
-            // Store Color if selected
-            if ($request->has('color')) {
-                $product->colors = json_encode($request->color);
+            if ($request->has('colors')) {
+                $product->colors = json_encode($request->colors);
             } else {
                 $product->colors = null;
             }
 
-            $product->save();
+            $product->save(); 
 
-            // Check if multiple images are uploaded
-            if ($request->hasFile('image')) {
-                foreach ($request->file('image') as $file) {
+            //Image upload
+            $manager = new ImageManager(new Driver());
+            $productImage = new ProductImage();
+            $productImage->product_id = $product->id;
+
+            for ($i = 1; $i <= 5; $i++) {
+                $imageField = 'image' . $i;
+                if ($request->hasFile($imageField)) {
+                    $file = $request->file($imageField);
                     $extension = $file->getClientOriginalExtension();
-                    $fileName = $product->slug . '_' . time() . '.' . $extension;
-                    $path = public_path('/uploads/product/large/' . $fileName);
-
-                    $manager = new ImageManager(new Driver());
+                    $fileName = $product->slug . "_{$i}_" . time() . '.' . $extension;
+                    
+                    // Paths for different image sizes
+                    $smallPath = public_path('/uploads/products/small/' . $fileName);
+                    $largePath = public_path('/uploads/products/large/' . $fileName);
+            
+                    // Process & Save Image
                     $image = $manager->read($file);
-
-                    $image->toJpeg(80)->save($path);
-
-                    $thumbPath = public_path('/uploads/product/small/' . $fileName);
-                    $image->cover(300, 300)->save($thumbPath);
-
-                    $categoryImage = new ProductImage();
-                    $categoryImage->product_id = $product->id;
-                    $categoryImage->image = $fileName;
-                    $categoryImage->save();
+                    
+                    // Save original (optional)
+                    $image->toJpeg(70)->save($smallPath);
+            
+                    // Save resized versions
+                    $image->cover(250, 250)->save($smallPath);  // 200x200 Thumbnail
+                    $image->cover(800, 600)->save($largePath); // 1000x300 Wide Banner
+            
+                    // Assign Image to Corresponding Column in DB
+                    $productImage->{'image' . $i} = $fileName;
                 }
             }
-            return redirect()->route('products.index')->with('success','Product added successfully.');
+            $productImage->save(); // ✅ Save ProductImage after all processing
+
+            session()->flash('success','Product added successfully');
+
+            return response()->json([
+                'status' => true,
+            ]);
         } else {
-            return redirect()->route('products.index')->withInput()->withErrors($validator);
-        }    
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
 
-
+   
 
     //Edit Product
     public function edit($id, Request $request){
@@ -164,27 +175,19 @@ class ProductController extends Controller {
         return view('admin.products.edit',$data);
     }
 
-
-
+    //Product Updates
     public function update($id, Request $request){
         $product = Product::find($id);
         $rules = [
-            'name' => 'required',
-            // 'slug' => 'required|unique:products,slug,'.$product->id.',id',
-            'price' => 'required|numeric',
-            // 'sku' => 'required|unique:products,sku,'.$product->id.',id',
-            'track_qty' => 'required|in:Yes,No',
+            'name' => 'required|min:3',   
+            'price' => 'required|min:3',  
             'category' => 'required|numeric',
-            'is_featured' => 'required|in:Yes,No',
+            'qty' => 'required',
         ];
-
-        if (!empty($request->track_qty) && $request->track_qty == 'Yes') {
-            $rules['qty'] = 'required|numeric';
-        }
 
         $validator = Validator::make($request->all(),$rules);
 
-        if ($validator->passes()) {
+        if($validator->passes()) {
             $product->name = $request->name;
             $product->slug = $request->slug;
             $product->product_type = $request->product_type;
@@ -205,74 +208,107 @@ class ProductController extends Controller {
             $product->short_description = $request->short_description;
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
 
-            // Store Size if selected
             if ($request->has('size')) {
-                $product->sizes = json_encode($request->size); // Convert array to JSON
+                $product->sizes = json_encode($request->size);
             } else {
-                $product->sizes = null; // Store null if not selected
+                $product->sizes = null;
             }
 
-            // Store Color if selected
             if ($request->has('color')) {
                 $product->colors = json_encode($request->color);
             } else {
                 $product->colors = null;
             }
             
-            $product->save();
+            $product->save();            
 
-            if ($request->hasFile('image')) {
-                // Fetch existing images for the product
-                $existingImages = ProductImage::where('product_id', $product->id)->get();
-            
-                // Delete old images from storage
-                foreach ($existingImages as $oldImage) {
-                    $largeImagePath = public_path('/uploads/product/large/' . $oldImage->image);
-                    $thumbImagePath = public_path('/uploads/product/small/' . $oldImage->image);
-            
-                    if (File::exists($largeImagePath)) {
-                        File::delete($largeImagePath);
+            $manager = new ImageManager(new Driver());
+            $productImage = ProductImage::where('product_id', $product->id)->first();
+
+            // If product images exist, delete the old images
+            if ($productImage) {
+                for ($i = 1; $i <= 5; $i++) {
+                    $imageField = 'image' . $i;
+                    if ($request->hasFile($imageField) && !empty($productImage->$imageField)) {
+                        // Delete old images
+                        $oldFileName = $productImage->$imageField;
+                        $smallPath = public_path("/uploads/products/small/" . $oldFileName);
+                        $largePath = public_path("/uploads/products/large/" . $oldFileName);
+
+                        if (File::exists($smallPath)) {
+                            File::delete($smallPath);
+                        }
+                        if (File::exists($largePath)) {
+                            File::delete($largePath);
+                        }
                     }
-                    if (File::exists($thumbImagePath)) {
-                        File::delete($thumbImagePath);
-                    }
-            
-                    // Delete the old image record from the database
-                    $oldImage->delete();
                 }
-            
-                // Upload and store the new images
-                foreach ($request->file('image') as $file) {
-                    $extension = $file->getClientOriginalExtension();
-                    $fileName = $product->slug . '_' . time() . '.' . $extension;
-            
-                    // Define paths
-                    $largePath = public_path('/uploads/product/large/' . $fileName);
-                    $thumbPath = public_path('/uploads/product/small/' . $fileName);
-            
-                    // Initialize ImageManager
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($file);
-            
-                    // Save original large image
-                    $image->toJpeg(80)->save($largePath);
-            
-                    // Save resized thumbnail
-                    $image->cover(300, 300)->save($thumbPath);
-            
-                    // Save new image details in the database
-                    $newImage = new ProductImage();
-                    $newImage->product_id = $product->id;
-                    $newImage->image = $fileName;
-                    $newImage->save();
-                }
+            } else {
+                // Create a new record if product images do not exist
+                $productImage = new ProductImage();
+                $productImage->product_id = $product->id;
             }
 
-            return redirect()->route('products.index')->with('success','Product updated successfully.');
+            // Now, process the new images and update the existing entry
+            for ($i = 1; $i <= 5; $i++) {
+                $imageField = 'image' . $i;
+                if ($request->hasFile($imageField)) {
+                    $file = $request->file($imageField);
+                    $extension = $file->getClientOriginalExtension();
+                    $fileName = $product->slug . "_{$i}_" . time() . '.' . $extension;
+
+                    $smallPath = public_path('/uploads/products/small/' . $fileName);
+                    $largePath = public_path('/uploads/products/large/' . $fileName);
+
+                    $image = $manager->read($file);
+                    $image->toJpeg(70)->save($smallPath);
+                    $image->cover(250, 250)->save($smallPath);
+                    $image->cover(800, 600)->save($largePath);
+
+                    $productImage->$imageField = $fileName;
+                }
+            }
+            $productImage->save();
+
+            session()->flash('success','Product updated successfully');
+
+            return response()->json([
+
+                'status' => true,
+            ]);
         } else {
-            return redirect()->route('products.index')->withInput()->withErrors($validator);
-        }    
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }
     }
+
+
+    public function deleteImage(Request $request)
+{
+    $image = ProductImage::find($request->image_id);
+    
+    if ($image) {
+        // Delete image from storage
+        for ($i = 1; $i <= 5; $i++) {
+            if ($image->{'image' . $i}) {
+                $imagePath = public_path('uploads/products/small/' . $image->{'image' . $i});
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $image->{'image' . $i} = null; // Set the image field to null
+                break;
+            }
+        }
+        $image->save();
+
+        return response()->json(['success' => true]);
+    }
+    
+    return response()->json(['success' => false, 'message' => 'Image not found.']);
+}
+
 
     //Delete product
     public function destroy($id, Request $request){

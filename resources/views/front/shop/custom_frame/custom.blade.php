@@ -4,6 +4,7 @@
 
 @section('content')
 
+Hello
 <div class="container-fluid">            
     <div class="customizeFrames">
     <div class="row">                   
