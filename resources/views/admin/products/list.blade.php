@@ -66,9 +66,35 @@
                             @endphp
                             <tr>
                                 <td>{{ $product->id }}</td>
+                                {{-- <td>
+                                    @if ($productImage)
+                                        @php
+                                            // Loop through all image fields (image1 to image5)
+                                            $images = ['image1', 'image2', 'image3', 'image4', 'image5'];
+                                            $foundImage = false;
+                                        @endphp
+                                        
+                                        @foreach ($images as $imageField)
+                                            @if (!empty($productImage->$imageField))
+                                                <img src="{{ asset('uploads/products/small/' . $productImage->$imageField) }}" 
+                                                     class="img-thumbnail" width="75">
+                                                @php $foundImage = true; @endphp
+                                            @endif
+                                        @endforeach
+                                        
+                                        @if (!$foundImage)
+                                            <img src="{{ asset('admin-assets/img/default-150x150.png') }}" 
+                                                 alt="No Image" class="img-thumbnail" width="75">
+                                        @endif
+                                    @else
+                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" 
+                                             alt="No Image" class="img-thumbnail" width="75">
+                                    @endif
+                                </td> --}}
+
                                 <td>
-                                    @if (!empty($productImage->image))
-                                        <img src="{{ asset('uploads/product/small/'.$productImage->image) }}" class="img-thumbnail" width="75" >
+                                    @if (!empty($productImage->image1))
+                                        <img src="{{ asset('uploads/products/small/'.$productImage->image1) }}" class="img-thumbnail" width="75" >
                                         @else
                                         <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" class="img-thumbnail" width="75"  />
                                     @endif

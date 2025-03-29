@@ -216,7 +216,8 @@ class ShopController extends Controller {
 
 
     public function product($slug){
-        //$product = Product::where('slug',$slug)->with('product_images')->first();
+        $products = Product::latest('id')->with('product_images');
+        $product = Product::where('slug',$slug)->with('product_images')->first();
 
         $product = Product::where('slug',$slug)
                             ->where('product_type', 'default')
@@ -243,13 +244,14 @@ class ShopController extends Controller {
         }
 
         $data['product'] = $product;
+        $data['products'] = $products;
         $data['relatedProducts'] = $relatedProducts;
         $data['shapes'] = $shapes;
         $data['sizes'] = $sizes;
         $data['dropdown_1'] = $dropdown_1;
         $data['dropdown_2'] = $dropdown_2;
 
-        //dd($sizes);        
+        //dd($products);
 
         return view('front.products.index',$data);
     }

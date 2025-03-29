@@ -161,6 +161,8 @@ main section { padding-top: 25px;}
 
 .no-padd { padding:0 !important}
 
+
+
 .cart-summery { border-top: 1px #ccc solid; border-bottom: 1px #ccc solid; margin-top: 20px; padding:25px 0 10px 0; font-weight: normal; font-size: 14px;}
 .cart-summery .row-summary { margin: 0 0 10px 0; display: flex; justify-content: space-between; }
 

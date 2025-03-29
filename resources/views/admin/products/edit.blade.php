@@ -13,13 +13,12 @@
             </div>
         </div>
     </section>
-    <!-- Main content -->
 
     <section class="content">
         @include('admin.message')
-        
-        <form action="{{ route('products.update',$product->id) }}" method="post" enctype="multipart/form-data" >
-            @csrf        
+
+        <form action="" method="post" name="edit_productForm" id="edit_productForm" enctype="multipart/form-data" >   
+            @csrf      
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
@@ -27,108 +26,114 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8 col-12">
-                                        <label for="name">Name</label>
+                                        <label for="name">Name <span class="required">*</span></label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $product->name }}">
                                         <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $product->slug }}">
-                                        <p class="error"></p>
+                                        <p></p>
                                     </div>
-                                    <div class="col-md-4 col-12">
-                                        <label for="productType">Product Type:</label>
+                                    <div class="col-md-2 col-12">
+                                        <label for="productType">Type <span class="required">*</span></label>
                                         <select id="productType" name="product_type" class="form-control">
-                                            <option value="">Select Product</option>
                                             <option value="default">Default</option>
                                             <option value="metal">Metal</option>
                                             <option value="neon">Neon</option>
-                                            <option value="mug">Mug</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div id="defaultDiv" class="hidden">
-                                    <div class="row"> 
-                                        <div class="col-md-12 col-12">   
-                                            
-                                            <input type="hidden" name="metal_type" value="t_shirt">
-
-                                            <div class="form-group">                                           
-                                                <label for="size">Size</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Small" id="size_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_1">
-                                                            <p>Small</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_2">
-                                                            <p>Medium</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="Large" id="size_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_3">
-                                                            <p>Large</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="XL" id="size_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_4">
-                                                            <p>XL</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="size_5">
-                                                            <p>XXL</p>
-                                                        </label>
-                                                    </div>                                                   
-                                                </div>
-                                                <p class="error"></p>                                           
-                                            </div>  
-                                        </div>  
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="colors">Colors</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_1">
-                                                            <p>Red</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_2">
-                                                            <p>Blue</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_3">
-                                                            <p>Black</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_4">
-                                                            <p>Green</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                            <p>Orange</p>
-                                                        </label>
-                                                    </div>                                                   
-                                                </div>
-                                                <p class="error"></p>
-                                            </div>
-                                        </div>  
+                                    <div class="col-md-2 col-2">
+                                        <label for="select">Select:</label>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle btn btn-outline-primary" data-toggle="dropdown" href="#">
+                                                Size/Color
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-form" role="menu">
+                                                <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="metalCheckbox">Sizes</label></li>
+                                                <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="neonCheckbox">Colors</label></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
+                               
+                                <div class="row default"> 
+                                    <div class="col-md-12 col-12" id="metalDiv" style="display: none;">
+                                        <input type="hidden" name="metal_type" value="t_shirt">
+                                        <div class="form-group">                                           
+                                            <label for="size">Size</label>
+                                            <div class="size-picker">
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="sizes[]" value="Small" id="size_1" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="size_1">
+                                                        <p>Small</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="size_2">
+                                                        <p>Medium</p>
+                                                    </label>
+                                                </div>  
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="sizes[]" value="Large" id="size_3" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="size_3">
+                                                        <p>Large</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="sizes[]" value="XL" id="size_4" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="size_4">
+                                                        <p>XL</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="size_5">
+                                                        <p>XXL</p>
+                                                    </label>
+                                                </div>                                                   
+                                            </div>
+                                            <p class="error"></p>                                           
+                                        </div>  
+                                    </div>  
+                                    <div class="col-md-12 col-12" id="neonDiv" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="colors">Colors</label>
+                                            <div class="size-picker">
+                                                <div class="size-picker__item" >
+                                                    <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_1">
+                                                        <p>Red</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_2">
+                                                        <p>Blue</p>
+                                                    </label>
+                                                </div>  
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_3">
+                                                        <p>Black</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_4">
+                                                        <p>Green</p>
+                                                    </label>
+                                                </div>
+                                                <div class="size-picker__item" >
+                                                    <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
+                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_5">
+                                                        <p>Orange</p>
+                                                    </label>
+                                                </div>                                                   
+                                            </div>
+                                            <p class="error"></p>
+                                        </div>
+                                    </div>  
+                                </div>                                
                             
-                                <div id="metalDiv" class="hidden">
+                                <div class="row metal_details hidden"> 
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">   
                                             <div class="form-group">                                           
@@ -171,7 +176,7 @@
                                     </div>
                                 </div>
 
-                                <div id="neonDiv" class="hidden">
+                                <div class="row neon_details hidden">
                                     <div class="row"> 
                                         <div class="col-md-6 col-12">   
                                             <div class="form-group">                                           
@@ -217,56 +222,96 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-8 col-12">
-                                        <label for="status">Media</label>
-                                        <div class="form-group">
-                                            <input type="file" name="image[]" id="fileInput" accept="image/*" hidden multiple>
-                                            <div id="dropZone" class="drop-zone">
-                                                Drop files here<br /> or click to upload.
+                                    <div class="col-md-10 col-9">
+                                        <h2 class="h4 mb-3">Media</h2>
+                                    </div>
+                                    <div class="col-md-2 col-3">
+                                        <button type="button" id="addMoreImages" class="btn btn-primary">Add Image</button>
+                                    </div>
+                                </div>
+                                
+    
+                                <div class="row">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @php
+                                            $imageExists = isset($productImages->{'image' . $i}) && !empty($productImages->{'image' . $i});
+                                        @endphp
+                                
+                                        <div class="col" id="imageWrapper{{ $i }}" style="{{ $i == 1 ? '' : 'display: none;' }}">
+                                            <label for="image{{ $i }}">Media {{ $i }} <span class="required">*</span></label>
+                                            <div class="form-group">
+                                                <input type="file" name="image{{ $i }}" id="fileInput{{ $i }}" 
+                                                       class="fileInput" accept="image/*" hidden 
+                                                       onchange="previewImage(this, {{ $i }})" 
+                                                       {{ $imageExists ? 'disabled' : '' }}> {{-- Disable if image exists --}}
+                                
+                                                <div id="dropZone{{ $i }}" 
+                                                     class="drop-zone {{ $imageExists ? 'disabled-dropzone' : '' }}" 
+                                                     onclick="{{ $imageExists ? '' : 'triggerFileInput(' . $i . ')'}}">
+                                                    @if ($imageExists)
+                                                        <img src="{{ asset('uploads/products/small/' . $productImages->{'image' . $i}) }}" class="uploaded-preview">
+                                                        <p>Image {{ $i }} Uploaded</p>
+                                                    @else
+                                                        Drop files here <br /> Product {{ $i }}
+                                                    @endif
+                                                </div>
+                                
+                                                <div class="preview-container" id="previewContainer{{ $i }}"></div>
                                             </div>
-                                            <div class="preview-container" id="previewContainer"></div>
                                         </div>
-                                    </div>                              
+                                    @endfor
+                                </div>
+                                
 
-                                <div class="col-md-4 col-12">
-                                    <h2 class="h4 mb-2">Pricing</h2>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12">
-                                            <label for="price">Price</label>
-                                            <input type="text" name="price" id="price" class="form-control" placeholder="Price" value="{{ $product->price }}">
-                                            <p class="error"></p>
+                                @if ($productImages->isNotEmpty())
+                                        <div id="product-gallery">
+                                            <h6>Uploaded Images</h6>
+                                            <div class="row">
+                                                @foreach ($productImages as $image)
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if (!empty($image->{'image' . $i})) <!-- Check if image exists -->
+                                                            <div class="col-md-2 image-container" id="image-row-{{ $image->id }}-{{ $i }}">
+                                                                <div class="card">
+                                                                    <input type="hidden" name="image{{ $i }}" value="{{ $image->id }}">
+                                                                    <img src="{{ asset('uploads/products/small/'.$image->{'image'.$i}) }}" class="img-thumbnail" />
+                                                                    <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }}, {{ $i }})" class="deleteCardImg ">
+                                                                        <?xml version="1.0" encoding="utf-8"?>
+                                                                    <svg width="27px" height="27px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z" fill="" /><path d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z" fill="" /><path d="M328 340.8l32-31.2 348 348-32 32z" fill="" /></svg>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    @endfor
+                                                @endforeach
+                                            </div>
                                         </div>
-                                        <div class="col-md-12 col-12">
-                                            <label for="compare_price">Compare at Price</label>
-                                            <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{ $product->compare_price }}">
-                                        </div>
+                                    @else
+                                        <p>No images uploaded yet.</p>
+                                    @endif
+
+                            </div>
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-2">Pricing </h2>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label for="compare_price">Price <span class="required">*</span></label>
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price" value="{{ $product->price }}">
+                                        <p></p>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label for="compare_price">Compare at Price</label>
+                                        <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{ $product->compare_price }}">
                                     </div>
                                 </div>
                             </div>
-                            <div id="product-gallery">
-                                @if ($productImages->isNotEmpty())
-                                <h6>Uploaded images</h6>
-                                <div class="row">
-                                    @foreach ( $productImages as $image)
-                                        <div class="col-md-2 col-3" id="image-row-{{ $image->id }}">
-                                            <div class="card">
-                                                <input type="hidden" name="image_array[]" value="{{ $image->id }}" >
-                                                <img class="img-thumbnail"  src="{{ asset('uploads/product/small/'.$image->image ) }}" />
-                                                <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }})" class="deleteCardImg btn btn-denger">
-                                                    <?xml version="1.0" encoding="utf-8"?>
-                                                    <svg width="25px" height="25px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z" fill="" /><path d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z" fill="" /><path d="M328 340.8l32-31.2 348 348-32 32z" fill="" /></svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    </div>
-                                @endif
-                            </div>
                         </div>
-                    </div>
                         
                         <div class="card mb-3">
                             <div class="card-body">
@@ -281,12 +326,13 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-4 col-12">                        
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="h4  mb-3">Product category</h2>
                                 <div class="mb-3">
-                                    <label for="category">Category</label>
+                                    <label for="category">Category <span class="required">*</span></label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select a category</option>
                                         @if ($categories->isNotEmpty())
@@ -298,9 +344,9 @@
                                     <p class="error"></p>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="category">Sub category</label>
+                                    <label for="category">Sub category <span class="required">*</span></label>
                                     <select name="sub_category" id="sub_category" class="form-control">
-                                        <option value="">Select a Sub category</option>
+                                        <option value="">Select a Sub category </option>
 
                                         @if ($subCategories->isNotEmpty())
                                             @foreach ($subCategories as $subCategory)
@@ -334,16 +380,16 @@
                                         <p class="error"></p>
                                     </div>
 
-                                    <div class="col-md-8 col-8">
+                                    <div class="col-md-6 col-6">
                                         <label for="barcode">Barcode</label>
                                         <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode" value="{{ $product->barcode }}">
                                     </div>
 
-                                    <div class="col-md-4 col-4">
+                                    <div class="col-md-6 col-6">
                                         <div class="custom-control custom-checkbox">
                                             <input type="hidden" name="track_qty" value="No" >
                                             <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" {{ ($product->track_qty == 'Yes') ? 'checked' : ' ' }}>
-                                            <label for="track_qty" class="custom-control-label">Track</label>
+                                            <label for="track_qty" class="custom-control-label">Track <span class="required">*</span></label>
                                         </div>
 
                                         <div>
@@ -381,6 +427,7 @@
                         </div>
                         </div>
                     </div>
+                </div>
 
                 <div class="pb-5 pt-3">
                     <button type="submit" class="btn btn-primary">Update</button>
@@ -388,12 +435,117 @@
                 </div>
             </div>
         </form>
-        <!-- /.card -->
     </section>
 @endsection
 
 @section('customJs')
-<script>
+<script>    
+
+function deleteImage(imageId, slotNumber) {
+        if (!confirm("Are you sure you want to delete this image?")) return;
+
+        $.ajax({
+            url: "{{ route('products.image.delete') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                image_id: imageId
+            },
+            success: function(response) {
+                if (response.success) {
+                    //alert("Image deleted successfully!");
+                    location.reload(); // Refresh the page after deletion
+                    $("#image-row-" + slotNumber).fadeOut(300, function() { 
+                        $(this).html('<p>No image uploaded for slot ' + slotNumber + '</p>').fadeIn();
+                    });
+                } else {
+                    alert("Error deleting image.");
+                }
+            },
+            error: function() {
+                alert("Something went wrong. Please try again.");
+            }
+        });
+    }
+
+
+$("#edit_productForm").submit(function(event){
+    event.preventDefault();
+        $("button[type='submit']").prop('disabled', true);
+
+        var formData = new FormData(this);
+        formData.append('_method', 'PUT');
+
+        $.ajax({
+            url: '{{ route("products.update",$product->id) }}',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response){
+                $("button[type='submit']").prop('disabled', false);
+
+                var errors = response.errors;
+
+                if(response.status == false) {
+                    if(errors.name) {
+                        $("#name").siblings("p").addClass('invalid-feedback').html(errors.name);
+                        $("#name").addClass('is-invalid');
+                    } else {
+                        $("#name").siblings("p").removeClass('invalid-feedback').html();
+                        $("#name").removeClass('is-invalid');
+                    }
+                    if(errors.price) {
+                        $("#price").siblings("p").addClass('invalid-feedback').html(errors.price);
+                        $("#price").addClass('is-invalid');
+                    } else {
+                        $("#price").siblings("p").removeClass('invalid-feedback').html();
+                        $("#price").removeClass('is-invalid');
+                    }
+                    if(errors.category) {
+                        $("#category").siblings("p").addClass('invalid-feedback').html(errors.category);
+                        $("#category").addClass('is-invalid');
+                    } else {
+                        $("#category").siblings("p").removeClass('invalid-feedback').html();
+                        $("#category").removeClass('is-invalid');
+                    }
+                    
+                    if(errors.qty) {
+                        $("#qty").siblings("p").addClass('invalid-feedback').html(errors.qty);
+                        $("#qty").addClass('is-invalid');
+                    } else {
+                        $("#qty").siblings("p").removeClass('invalid-feedback').html();
+                        $("#qty").removeClass('is-invalid');
+                    }
+                    $.each(response.errors, function(key, value) {
+                        let inputField = $("#" + key); // Match input field with error
+                        inputField.addClass("is-invalid");
+                        inputField.siblings(".text-danger").html(value);
+                    });
+                } else {
+                    $("#name").siblings("p").removeClass('invalid-feedback').html();
+                    $("#name").removeClass('is-invalid');
+                    $("#price").siblings("p").removeClass('invalid-feedback').html();
+                    $("#price").removeClass('is-invalid');
+                    $("#category").siblings("p").removeClass('invalid-feedback').html();
+                    $("#category").removeClass('is-invalid');
+                    $("#qty").siblings("p").removeClass('invalid-feedback').html();
+                    $("#qty").removeClass('is-invalid');
+
+                    window.location.href="{{ route('products.index') }}"
+                }
+            },
+            error: function(JQXHR, exception){
+                console.log("Something went wrong");
+            }
+        })
+    });
+
+
     $('.related-product').select2({
         ajax: {
             url: '{{ route('products.getProducts') }}',
@@ -513,20 +665,125 @@
         $('#productType').on('change', function () {
             var selectedValue = $(this).val();
             // Hide all divs first
-            $('#defaultDiv, #metalDiv, #neonDiv, #mugDiv').hide();
+            $('.defaultDiv, .metal_details, .neon_details, #mugDiv').hide();
             
             // Show the selected div
             if (selectedValue == 'default') {
-                $('#defaultDiv').show();
+                $('.defaultDiv').show();
             } else if (selectedValue == 'metal') {
-                $('#metalDiv').show();
+                $('.metal_details').show();
             } else if (selectedValue == 'neon') {
-                $('#neonDiv').show();
-            } else if (selectedValue == 'mug') {
-                $('#mugDiv').show();
+                $('.neon_details').show();
             }
+        });
+    
+
+        function toggleDivs() {
+            let selectedValue = $("#productType").val();
+            $(".hidden-div").hide();
+
+            // Show selected div based on dropdown selection
+            if (selectedValue === "default") {
+                $("#defaultDiv").show();
+            } 
+            
+            if ($("#metalCheckbox").prop("checked")) {
+                $("#metalDiv").show();
+            } 
+            
+            if ($("#neonCheckbox").prop("checked")) {
+                $("#neonDiv").show();
+            }
+        }
+
+        // Event listeners for dropdown and checkboxes
+        $("#productType, .toggle-checkbox").on("change", function () {
+            toggleDivs();
+        });
+
+        // When a checkbox is unchecked, hide the corresponding div
+        $(".toggle-checkbox").on("change", function () {
+            let checkboxId = $(this).attr("id");
+            if (!$(this).prop("checked")) {
+                if (checkboxId === "metalCheckbox") {
+                    $("#metalDiv").hide();
+                } else if (checkboxId === "neonCheckbox") {
+                    $("#neonDiv").hide();
+                }
+            }
+        });
+
+        $('.dropdown-menu').on('click', function(e) {
+            if($(this).hasClass('dropdown-menu-form')) {
+          e.stopPropagation();
+          }
         });
 
 </script>
 
+<script>
+    let currentIndex = 1; // Start from 1
+    const maxFields = 5;  // Maximum 5 fields
+
+    function triggerFileInput(index) {
+        document.getElementById(`fileInput${index}`).click();
+    }
+
+    function addImageField() {
+        if (currentIndex >= maxFields) {
+            alert("You can only upload up to 5 images.");
+            return;
+        }
+
+        currentIndex++;
+        let newField = `
+            <div class="col image-field" id="imageField${currentIndex}">
+                <label for="image${currentIndex}">Media ${currentIndex}</label>
+                <div class="form-group">
+                    <input type="file" name="image${currentIndex}" id="fileInput${currentIndex}" class="fileInput" accept="image/*" hidden>
+                    <div id="dropZone${currentIndex}" class="drop-zone" onclick="triggerFileInput(${currentIndex})">
+                        Drop Product ${currentIndex}
+                    </div>
+                    <div class="preview-container" id="previewContainer${currentIndex}"></div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById("imageFields").insertAdjacentHTML('beforeend', newField);
+    }
+
+
+    let currentImageIndex = 1;
+
+// Show the next image input when clicking "Add More"
+document.getElementById("addMoreImages").addEventListener("click", function () {
+    if (currentImageIndex < 5) {
+        currentImageIndex++;
+        document.getElementById("imageWrapper" + currentImageIndex).style.display = "block";
+    }
+});
+
+// Function to trigger file input
+function triggerFileInput(index) {
+    document.getElementById("fileInput" + index).click();
+}
+
+// Function to preview image
+function previewImage(input, index) {
+    let previewContainer = document.getElementById("previewContainer" + index);
+    previewContainer.innerHTML = ""; // Clear existing preview
+
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let imgElement = document.createElement("img");
+            imgElement.src = e.target.result;
+            imgElement.classList.add("img-thumbnail");
+            imgElement.style.width = "75px"; // Set preview size
+            previewContainer.appendChild(imgElement);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

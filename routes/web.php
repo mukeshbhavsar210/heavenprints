@@ -91,6 +91,7 @@ Route::controller(FrameController::class)->group(function() {
     
     Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
     Route::get('/upload_choice', 'showSelection')->name('show.selection');    
+    //Route::get('/upload_choice', 'showSelection')->name('show.selection');  
 });
 
 //Metal Frame Rates calculations saved in session storage
@@ -185,13 +186,13 @@ Route::group(['prefix' => 'admin'], function(){
         Route::controller(ProductController::class)->group(function() {
             Route::get('/products', 'index')->name('products.index');
             Route::get('/products/create', 'create')->name('products.create');
-            Route::post('/products', 'store')->name('products.store');
-            Route::get('/products/{product}/edit', 'edit')->name('products.edit');
-            Route::post('/products/{product}', 'update')->name('products.update');            
-            Route::delete('/products/{product}', 'destroy')->name('products.delete');
+            Route::post('/products','store')->name('products.store');
+            Route::get('/products/{id}/edit', 'edit')->name('products.edit');
+            Route::put('/products/{id}', 'update')->name('products.update');
+            Route::delete('/products/{id}', 'destroy')->name('products.delete');
             Route::get('/get-products', 'getProducts')->name('products.getProducts');
 
-            Route::post('/products/store_new', 'storeProduct')->name('products_new.store');
+            Route::post('/products/image/delete', 'deleteImage')->name('products.image.delete');
         });
 
         //Sub Categories Connect to main Categories
