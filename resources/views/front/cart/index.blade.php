@@ -57,9 +57,9 @@
                                     @include('front.cart.metal')
                                     
                                 @else                                            
-                                    @if (!empty($item->options->productImage->image))
+                                    @if (!empty($item->options->productImage->image1))
                                         <a class="model-preview" data-bs-toggle="modal" data-bs-target="#defaultModal_{{ $item->id }}">
-                                            <img src="{{ asset('uploads/product/small/'.$item->options->productImage->image) }}" >
+                                            <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
                                         </a>
 
                                         <div class="modal fade" id="defaultModal_{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,7 +70,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <img src="{{ asset('uploads/product/small/'.$item->options->productImage->image) }}" >
+                                                        <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,14 +83,7 @@
                             <div class="col-md-10 col-9">
                                 <div class="row">
                                     <div class="col-md-6 col-12">
-                                        <h5 class="mt-3">{{ $item->name }}
-                                            <span style="font-size: 13px; color:#666;">
-                                                @if($item->options->category)
-                                                    ({{ $item->options->category }})
-                                                @else
-                                                    (Default)
-                                                @endif
-                                            </span>   
+                                        <h5>{{ $item->name }}
                                             @if($item->options->category == 'Frame')
                                                 <a class="model-preview" data-bs-toggle="modal" data-bs-target="#modalDetails_{{ $item->id }}">
                                                     <span style="font-size: 13px; color:#666;">View details</span>

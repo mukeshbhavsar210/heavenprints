@@ -102,6 +102,222 @@ class ShopController extends Controller {
         $data['colors'] = $colors;
         $data['fonts'] = $fonts;
 
+        return view('front.shop.default.index',$data);
+    }
+
+
+
+
+
+
+
+    public function metalProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
+
+        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
+        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
+
+        $categorySelected = ' ';
+        $subCategorySelected = ' ';
+        $brandsArray = [];
+
+        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
+        $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
+
+        $products = Product::where('status',1);
+
+        //Apply filters here
+        if(!empty($categorySlug)) {
+            $category = Category::where('slug_category',$categorySlug)->first();
+            $products = $products->where('category_id',$category->id);
+            $categorySelected = $category->id;
+        }
+
+        if(!empty($subCategorySlug)) {
+            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $products = $products->where('sub_category_id',$subCategory->id);
+            $subCategorySelected = $subCategory->id;
+        }
+
+        if(!empty($request->get('brand'))) {
+            $brandsArray = explode(',',$request->get('brand'));
+            $products = $products->whereIn('brand_id',$brandsArray);
+        }
+
+        // Price slider
+        if($request->get('price_max') != '' && $request->get('price_min') != '') {
+            if($request->get('price_max') == 1000){
+                $products = $products->whereBetween('price',[intval($request->get('price_min')),1000000]);
+            } else {
+                $products = $products->whereBetween('price',[intval($request->get('price_min')),intval($request->get('price_max'))]);
+            }
+        }
+
+        //Search main header
+        if (!empty($request->get('search'))){
+            $products = $products->where('name','like','%'.$request->get('search').'%');
+        }
+
+        if($request->get('sort') != ''){
+            if($request->get('sort') == 'latest'){
+                $products = $products->orderBy('id','DESC');
+            } else if($request->get('sort') == 'price_asc') {
+                $products = $products->orderBy('price','ASC');
+            } else {
+                $products = $products->orderBy('price','DESC');
+            }
+        } else {
+            $products = $products->orderBy('id','DESC');
+        }
+
+        $products = $products->paginate(10);
+
+        $data['categories'] = $categories;
+        $data['brands'] = $brands;
+        $data['products'] = $products;
+        $data['categorySelected'] = $categorySelected;
+        $data['subCategorySelected'] = $subCategorySelected;
+        $data['brandsArray'] = $brandsArray;
+        $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
+        $data['priceMin'] = intval($request->get('price_min'));
+        $data['sort'] = $request->get('sort');
+
+        $data['colors'] = $colors;
+        $data['fonts'] = $fonts;
+
+        return view('front.shop.metal_frame.index',$data);
+    }
+
+
+    public function categoryProducts2($slug_category) {
+        $category = Category::where('slug_category', $slug_category)->firstOrFail();
+        $products = Product::where('category_id', $category->id)->get();
+
+        //$products = $products->paginate(10);
+
+        return view('front.shop.metal_frame.index', compact('category', 'products'));
+    }
+
+
+
+
+    public function neonProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
+        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
+        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
+
+        $categorySelected = ' ';
+        $subCategorySelected = ' ';
+
+        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
+        $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
+
+        $products = Product::where('status',1);
+
+        //Apply filters here
+        if(!empty($categorySlug)) {
+            $category = Category::where('slug_category',$categorySlug)->first();
+            $products = $products->where('category_id',$category->id);
+            $categorySelected = $category->id;
+        }
+
+        if(!empty($subCategorySlug)) {
+            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $products = $products->where('sub_category_id',$subCategory->id);
+            $subCategorySelected = $subCategory->id;
+        }
+
+        //Search main header
+        if (!empty($request->get('search'))){
+            $products = $products->where('name','like','%'.$request->get('search').'%');
+        }
+
+        $products = $products->paginate(10);
+
+        $data['categories'] = $categories;
+        $data['brands'] = $brands;
+        $data['products'] = $products;
+        $data['categorySelected'] = $categorySelected;
+        $data['subCategorySelected'] = $subCategorySelected;
+        $data['colors'] = $colors;
+        $data['fonts'] = $fonts;
+
+        return view('front.shop.neon.index',$data);
+    }
+
+
+
+    public function index_metal(Request $request, $categorySlug = null, $subCategorySlug = null) {
+
+        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
+        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
+
+        $categorySelected = ' ';
+        $subCategorySelected = ' ';
+        $brandsArray = [];
+
+        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
+        $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
+
+        $products = Product::where('status',1)->where('product_type','metal');
+
+        //Apply filters here
+        if(!empty($categorySlug)) {
+            $category = Category::where('slug_category',$categorySlug)->first();
+            $products = $products->where('category_id',$category->id);
+            $categorySelected = $category->id;
+        }
+
+        if(!empty($subCategorySlug)) {
+            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $products = $products->where('sub_category_id',$subCategory->id);
+            $subCategorySelected = $subCategory->id;
+        }
+
+        if(!empty($request->get('brand'))) {
+            $brandsArray = explode(',',$request->get('brand'));
+            $products = $products->whereIn('brand_id',$brandsArray);
+        }
+
+        // Price slider
+        if($request->get('price_max') != '' && $request->get('price_min') != '') {
+            if($request->get('price_max') == 1000){
+                $products = $products->whereBetween('price',[intval($request->get('price_min')),1000000]);
+            } else {
+                $products = $products->whereBetween('price',[intval($request->get('price_min')),intval($request->get('price_max'))]);
+            }
+        }
+
+        //Search main header
+        if (!empty($request->get('search'))){
+            $products = $products->where('name','like','%'.$request->get('search').'%');
+        }
+
+        if($request->get('sort') != ''){
+            if($request->get('sort') == 'latest'){
+                $products = $products->orderBy('id','DESC');
+            } else if($request->get('sort') == 'price_asc') {
+                $products = $products->orderBy('price','ASC');
+            } else {
+                $products = $products->orderBy('price','DESC');
+            }
+        } else {
+            $products = $products->orderBy('id','DESC');
+        }
+
+        $products = $products->paginate(10);
+
+        $data['categories'] = $categories;
+        $data['brands'] = $brands;
+        $data['products'] = $products;
+        $data['categorySelected'] = $categorySelected;
+        $data['subCategorySelected'] = $subCategorySelected;
+        $data['brandsArray'] = $brandsArray;
+        $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
+        $data['priceMin'] = intval($request->get('price_min'));
+        $data['sort'] = $request->get('sort');
+
+        $data['colors'] = $colors;
+        $data['fonts'] = $fonts;
+
 
         //METAL FRAMES
         $tab_canvas = FrameShape::where('types','')->get();
@@ -166,18 +382,17 @@ class ShopController extends Controller {
             'size' => 20,
             'wrap_wrap' => 30,
             'wrap_frame' => 40,
-            'price' => 50, // Default price
+            'price' => 50, 
         ]);
 
         $data['image'] = $image;
 
-        //Select Metal Frame and store in session       
         session()->forget('framePrice');
         session()->forget('sizePrice');
         session()->forget('selection');
         session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
 
-        return view('front.shop.default.index',$data);
+        return view('front.shop.default.metal',$data);
     }
 
 
@@ -251,12 +466,8 @@ class ShopController extends Controller {
         $data['dropdown_1'] = $dropdown_1;
         $data['dropdown_2'] = $dropdown_2;
 
-        //dd($products);
-
         return view('front.products.index',$data);
     }
-
-
 
 
     public function indexMetal() {

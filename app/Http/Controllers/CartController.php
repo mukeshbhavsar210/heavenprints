@@ -74,6 +74,7 @@ class CartController extends Controller {
                     1, 
                     $product->price, 
                     [
+                        'category' => 'Default', 
                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                         'size' => $request->size,
                         'color' => $request->color                                          
@@ -122,7 +123,7 @@ class CartController extends Controller {
                         1, 
                         $request->price,
                         [
-                            'category' => 'Default', 
+                            'category' => 'Neon light', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                             'neon_color' => $request->neon_color,
                             'neon_size' => $request->neon_size,
@@ -146,6 +147,7 @@ class CartController extends Controller {
                     1, 
                     $request->price, 
                     [
+                        'category' => 'Neon light', 
                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                         'neon_color' => $request->neon_color,
                         'neon_size' => $request->neon_size,

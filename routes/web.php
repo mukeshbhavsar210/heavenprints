@@ -38,6 +38,10 @@ Route::controller(FrontController::class)->group(function() {
 
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
+    Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
+    Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
+
+    //Searh products
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
     Route::get('/product/{slug}', 'product')->name('front.product');
 

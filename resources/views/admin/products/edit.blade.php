@@ -25,66 +25,59 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-8 col-12">
+                                    <div class="col-md-9 col-12">
                                         <label for="name">Name <span class="required">*</span></label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $product->name }}">
                                         <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $product->slug }}">
                                         <p></p>
                                     </div>
-                                    <div class="col-md-2 col-12">
+                                    <div class="col-md-3 col-12">
                                         <label for="productType">Type <span class="required">*</span></label>
-                                        <select id="productType" name="product_type" class="form-control">
-                                            <option value="default">Default</option>
-                                            <option value="metal">Metal</option>
-                                            <option value="neon">Neon</option>
+                                        <select id="productType" name="product_type" class="form-control" required>
+                                            <option value="DEFAULT">Default</option>
+                                            <option value="METAL">Metal</option>
+                                            <option value="NEON">Neon</option>                                                                                  
                                         </select>
-                                    </div>
-                                    <div class="col-md-2 col-2">
-                                        <label for="select">Select:</label>
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle btn btn-outline-primary" data-toggle="dropdown" href="#">
-                                                Size/Color
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-menu-form" role="menu">
-                                                <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="metalCheckbox">Sizes</label></li>
-                                                <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="neonCheckbox">Colors</label></li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                                
-                                <div class="row default"> 
-                                    <div class="col-md-12 col-12" id="metalDiv" style="display: none;">
+                                <div class="row default_details hidden">  
+                                    <div class="col-md-12 col-12" >
                                         <input type="hidden" name="metal_type" value="t_shirt">
                                         <div class="form-group">                                           
                                             <label for="size">Size</label>
+
+                                            @php
+                                                $selectedSizes = json_decode($product->sizes, true); 
+                                            @endphp
+
                                             <div class="size-picker">
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="sizes[]" value="Small" id="size_1" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Small", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Small" id="size_1" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="size_1">
                                                         <p>Small</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Medium", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="size_2">
                                                         <p>Medium</p>
                                                     </label>
                                                 </div>  
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="sizes[]" value="Large" id="size_3" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Large", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Large" id="size_3" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="size_3">
                                                         <p>Large</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="sizes[]" value="XL" id="size_4" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("XL", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="XL" id="size_4" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="size_4">
                                                         <p>XL</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("XXL", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="size_5">
                                                         <p>XXL</p>
                                                     </label>
@@ -93,36 +86,41 @@
                                             <p class="error"></p>                                           
                                         </div>  
                                     </div>  
-                                    <div class="col-md-12 col-12" id="neonDiv" style="display: none;">
+                                    <div class="col-md-12 col-12" >
                                         <div class="form-group">
                                             <label for="colors">Colors</label>
+
+                                            @php
+                                                $selectedColors = json_decode($product->colors, true); 
+                                            @endphp
+
                                             <div class="size-picker">
                                                 <div class="size-picker__item" >
-                                                    <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Red", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_1">
                                                         <p>Red</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Blue", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_2">
                                                         <p>Blue</p>
                                                     </label>
                                                 </div>  
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Black", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_3">
                                                         <p>Black</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Green", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_4">
                                                         <p>Green</p>
                                                     </label>
                                                 </div>
                                                 <div class="size-picker__item" >
-                                                    <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
+                                                    <input type="checkbox" {{ in_array("Orange", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_5">
                                                         <p>Orange</p>
                                                     </label>
@@ -133,67 +131,42 @@
                                     </div>  
                                 </div>                                
                             
-                                <div class="row metal_details hidden"> 
+                                <div class="metal_details hidden"> 
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">   
                                             <div class="form-group">                                           
                                                 <label for="size">Metal Products</label>
                                                 <div class="size-picker">
                                                     <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
+                                                        <input {{ ($product->metal_type == "canvas" ? 'checked' : '' )}} type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
                                                         <label class="size-picker__color paddingControl" for="metalProduct_1">
                                                             <p>Canvas</p>
                                                         </label>
                                                     </div>
                                                     <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="acrylic" id="metalProduct_2" class="size-picker__input">
+                                                        <input {{ ($product->metal_type == "acrylic" ? 'checked' : '' )}} type="radio" name="metal_type" value="acrylic" id="metalProduct_2" class="size-picker__input">
                                                         <label class="size-picker__color paddingControl" for="metalProduct_2">
                                                             <p>Acrylic</p>
                                                         </label>
                                                     </div>  
                                                     <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="metal" id="metalProduct_3" class="size-picker__input">
+                                                        <input {{ ($product->metal_type == "metal" ? 'checked' : '' )}} type="radio" name="metal_type" value="metal" id="metalProduct_3" class="size-picker__input">
                                                         <label class="size-picker__color paddingControl" for="metalProduct_3">
                                                             <p>Metal</p>
                                                         </label>
                                                     </div>
                                                     <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="wood" id="metalProduct_4" class="size-picker__input">
+                                                        <input {{ ($product->metal_type == "wood" ? 'checked' : '' )}} type="radio" name="metal_type" value="wood" id="metalProduct_4" class="size-picker__input">
                                                         <label class="size-picker__color paddingControl" for="metalProduct_4">
                                                             <p>Wood</p>
                                                         </label>
                                                     </div>
                                                     <div class="size-picker__item" >
-                                                        <input type="radio" name="metal_type" value="others" id="metalProduct_5" class="size-picker__input">
+                                                        <input {{ ($product->metal_type == "others" ? 'checked' : '' )}} type="radio" name="metal_type" value="others" id="metalProduct_5" class="size-picker__input">
                                                         <label class="size-picker__color paddingControl" for="metalProduct_5">
                                                             <p>Others</p>
                                                         </label>
                                                     </div>                                                   
-                                                </div>
-                                                <p class="error"></p>                                           
-                                            </div>  
-                                        </div>   
-                                    </div>
-                                </div>
-
-                                <div class="row neon_details hidden">
-                                    <div class="row"> 
-                                        <div class="col-md-6 col-12">   
-                                            <div class="form-group">                                           
-                                                <label for="size">Neon Products</label>
-                                                <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="product_type" value="neon" id="neonProduct_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="neonProduct_1">
-                                                            <p>NEON</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input type="radio" name="product_type" value="floro" id="neonProduct_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="neonProduct_2">
-                                                            <p>FLORO</p>
-                                                        </label>
-                                                    </div>  
                                                 </div>
                                                 <p class="error"></p>                                           
                                             </div>  
@@ -234,7 +207,6 @@
                                     </div>
                                 </div>
                                 
-    
                                 <div class="row">
                                     @for ($i = 1; $i <= 5; $i++)
                                         @php
@@ -274,14 +246,15 @@
                                                 @foreach ($productImages as $image)
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         @if (!empty($image->{'image' . $i})) <!-- Check if image exists -->
-                                                            <div class="col-md-2 image-container" id="image-row-{{ $image->id }}-{{ $i }}">
-                                                                <div class="card">
-                                                                    <input type="hidden" name="image{{ $i }}" value="{{ $image->id }}">
-                                                                    <img src="{{ asset('uploads/products/small/'.$image->{'image'.$i}) }}" class="img-thumbnail" />
-                                                                    <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }}, {{ $i }})" class="deleteCardImg ">
-                                                                        <?xml version="1.0" encoding="utf-8"?>
-                                                                    <svg width="27px" height="27px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z" fill="" /><path d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z" fill="" /><path d="M328 340.8l32-31.2 348 348-32 32z" fill="" /></svg>
-                                                                    </a>
+                                                            <div class="col image-container" id="image-row-{{ $image->id }}-{{ $i }}">
+                                                                <input type="hidden" name="image{{ $i }}" value="{{ $image->id }}">
+                                                                <img src="{{ asset('uploads/products/small/'.$image->{'image'.$i}) }}" class="img-thumbnail" />
+                                                                <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }}, {{ $i }})" class="deleteCardImg ">
+                                                                    <?xml version="1.0" encoding="utf-8"?>
+                                                                <svg width="27px" height="27px" viewBox="0 0 1024 1024" fill="#ffffff" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z" fill="" /><path d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z" fill="" /><path d="M328 340.8l32-31.2 348 348-32 32z" fill="" /></svg>
+                                                                </a>
+                                                                <div class="image_flex">
+                                                                    <p class="photo_number">Picture: {{ $i }}</p>
                                                                 </div>
                                                             </div>
                                                         @endif
@@ -661,57 +634,23 @@ $("#edit_productForm").submit(function(event){
         $('#uploadButton').hide();
     }
 
-        //ToggleeClass for Dropdown top main
-        $('#productType').on('change', function () {
-            var selectedValue = $(this).val();
-            // Hide all divs first
-            $('.defaultDiv, .metal_details, .neon_details, #mugDiv').hide();
-            
-            // Show the selected div
-            if (selectedValue == 'default') {
-                $('.defaultDiv').show();
-            } else if (selectedValue == 'metal') {
-                $('.metal_details').show();
-            } else if (selectedValue == 'neon') {
-                $('.neon_details').show();
-            }
-        });
+    //ToggleeClass for Dropdown top main
+    $('#productType').on('change', function () {
+    var selectedValue = $(this).val();
+    // Hide all divs first
+    $('.default_details, .metal_details, .tshirt_details, #mugDiv').hide();
+    
+    // Show the selected div
+    if (selectedValue == 'DEFAULT') {
+        $('.default_details').show();
+    } else if (selectedValue == 'METAL') {
+        $('.metal_details').show();
+    } else if (selectedValue == 'NEON') {
+        $('.tshirt_details').show();
+    }
+});
     
 
-        function toggleDivs() {
-            let selectedValue = $("#productType").val();
-            $(".hidden-div").hide();
-
-            // Show selected div based on dropdown selection
-            if (selectedValue === "default") {
-                $("#defaultDiv").show();
-            } 
-            
-            if ($("#metalCheckbox").prop("checked")) {
-                $("#metalDiv").show();
-            } 
-            
-            if ($("#neonCheckbox").prop("checked")) {
-                $("#neonDiv").show();
-            }
-        }
-
-        // Event listeners for dropdown and checkboxes
-        $("#productType, .toggle-checkbox").on("change", function () {
-            toggleDivs();
-        });
-
-        // When a checkbox is unchecked, hide the corresponding div
-        $(".toggle-checkbox").on("change", function () {
-            let checkboxId = $(this).attr("id");
-            if (!$(this).prop("checked")) {
-                if (checkboxId === "metalCheckbox") {
-                    $("#metalDiv").hide();
-                } else if (checkboxId === "neonCheckbox") {
-                    $("#neonDiv").hide();
-                }
-            }
-        });
 
         $('.dropdown-menu').on('click', function(e) {
             if($(this).hasClass('dropdown-menu-form')) {
@@ -779,7 +718,7 @@ function previewImage(input, index) {
             let imgElement = document.createElement("img");
             imgElement.src = e.target.result;
             imgElement.classList.add("img-thumbnail");
-            imgElement.style.width = "75px"; // Set preview size
+            imgElement.style.width = "100%"; // Set preview size
             previewContainer.appendChild(imgElement);
         };
         reader.readAsDataURL(input.files[0]);

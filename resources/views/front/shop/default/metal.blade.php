@@ -20,67 +20,10 @@
                 
             @else
                 <div class="row">
-                    <div class="col-md-3 sidebar">
-                        <div class="sub-title mt-3"><h2>Categories</h3></div>                    
-                        <div class="accordion accordion-flush" id="accordionExample">                    
-                            @if ($categories->isNotEmpty())
-                                @foreach ($categories as $key => $category)
-                                    <div class="accordion-item">
-                                        @if ($category->sub_category->isNotEmpty())
-                                            <h2 class="accordion-header" id="headingOne">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne-{{ $key }}" aria-expanded="false" aria-controls="collapseOne-{{ $key }}">
-                                                    {{ $category->name }}
-                                                </button>
-                                            </h2>
-                                        @else
-                                            <a href="{{ route("front.shop",$category->slug) }}" class="nav-item nav-link  {{ ($categorySelected == $category->id) ? 'text-primary' : '' }}">{{ $category->name }}</a>
-                                        @endif
-                
-                                        @if ($category->sub_category->isNotEmpty())
-                                            <div id="collapseOne-{{ $key }}" class="accordion-collapse collapse {{ ($categorySelected == $category->id) ? 'show' : ' '}}" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
-                                                <div class="accordion-body">
-                                                    <div class="navbar-nav">
-                                                        @foreach ($category->sub_category as $subCategory)
-                                                            <a href="{{ route("front.shop",[$category->slug,$subCategory->slug]) }}" class="nav-item nav-link {{ ($subCategorySelected == $subCategory->id) ? 'text-primary' : '' }}">{{ $subCategory->name }}</a>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        {{-- Categories filters end  --}}
-                                            
-                        @if ($brands->isNotEmpty())
-                            <div class="sub-title mt-5"><h2>Brand</h3></div>  
-                            @foreach ($brands as $brand)
-                                <div class="form-check mb-2">
-                                    <input {{ (in_array($brand->id, $brandsArray)) ? 'checked' : '' }} class="form-check-input brand-label" type="checkbox" name="brand[]" value="{{ $brand->id }}" id="brand-{{ $brand->id }}">
-                                    <label class="form-check-label" for="brand-{{ $brand->id }}">
-                                        {{ $brand->name }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        @endif                           
-                        {{-- Brand filters end --}}                    
-                        
-                        <div class="sub-title mt-5"><h2>Price</h3></div>                    
-                        <input type="text" class="js-range-slider" name="my_range" value="" />
-                        {{-- Price filters end --}}
-                    </div>
-
                     <div class="col-md-9">
                         <div class="row mb-3">
-                            <div class="col-md-10 col-8"><h3>Products</h3></div>
-                            <div class="col-md-2 col-4">
-                                <select name="sort" id="sort" class="form-control">
-                                    <option value="Latest" {{ ($sort == 'latest') ? 'selected' : ' ' }}>Latest</option>
-                                    <option value="price_desc" {{ ($sort == 'price_desc') ? 'selected' : ' ' }}>Price High</option>
-                                    <option value="price_asc" {{ ($sort == 'price_asc') ? 'selected' : ' ' }}>Price Low</option>
-                                </select>
-                            </div>
+                            <div class="col-md-10 col-8"><h3>Metal Products</h3></div>
+                          
                         </div>
                         <div class="row">  
                             @if ($products->isNotEmpty())
@@ -172,16 +115,16 @@
                                                 </div> 
                                             @endif
 
-                                            <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-3">View Product</a>
+                                            <a href="{{ route('product.details',$product->slug) }}" class="btn btn-primary mt-3">View Product</a>
                                         </div>
                                     </div>
                                 @endforeach
                             @endif      
                         </div>  
             
-                    <div class="col-md-12 pt-5">
+                    {{-- <div class="col-md-12 pt-5">
                         {{ $products->withQueryString()->links() }}
-                    </div> 
+                    </div>  --}}
                 </div>
             @endif
             
@@ -190,64 +133,7 @@
 
 @section('customJs')
 <script>
-    if (window.location.pathname === "neon-sign") {
-        document.getElementById("myDiv").style.display = "block";
-    }
-
-    $(".brand-label").change(function(){
-        apply_filters();
-    });
-
-    rangeSlider = $(".js-range-slider").ionRangeSlider({
-        type: "double",
-        min: 0,
-        max: 1000,
-        from: {{ ($priceMin) }},
-        to: {{ ($priceMax) }},
-        step: 10,
-        skin: "round",
-        max_position: "+",
-        prefix: "₹",
-        onFinish: function(){
-            apply_filters()
-        }
-    });
-
-    var slider = $(".js-range-slider").data("ionRangeSlider");
-
-    $("#sort").change(function(){
-        apply_filters()
-    });
-
-
-    function apply_filters(){
-        var brands = [];
-        $(".brand-label").each(function(){
-            if ($(this).is(":checked") == true){
-                brands.push($(this).val());
-            }
-        });
-
-        var url = '{{ url()->current() }}?';
-
-        //Brand filter
-        if (brands.length > 0) {
-            url += '&brand='+brands.toString();
-        }
-
-        //Price range filter
-        url += '&price_min='+slider.result.from+'&price_max='+slider.result.to;
-
-        //Sorting filter
-        var keyword = $('#search').val();
-        if(keyword.length > 0){
-            url += '&search='+keyword;
-        }
-
-        url += '&sort='+$("#sort").val();
-
-        window.location.href = url;
-    }
+   
 
 
     //SVG

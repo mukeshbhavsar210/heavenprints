@@ -7,9 +7,14 @@ use App\Models\Banner;
 use App\Models\Order;
 use App\Models\Role;
 use App\Models\Page;
+use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Mail;
+
+    function onlyMetalProducts(){
+        return Product::orderBy('name','ASC')->where('product_type','metal')->get();
+    }
 
     function getBanners(){
         return Banner::orderBy('name','ASC')->where('status',1)->where('showHome','Yes')->get();

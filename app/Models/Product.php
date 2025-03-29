@@ -17,10 +17,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
-    protected $fillable = ['name', 'images', 'sizes', 'colors'];
+    protected $fillable = ['name', 'sizes', 'colors'];
 
     protected $casts = [
-        'images' => 'array',
         'sizes' => 'array',
         'colors' => 'array',
     ];
