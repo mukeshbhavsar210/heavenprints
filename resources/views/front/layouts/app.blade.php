@@ -106,7 +106,6 @@
 												<button class="btn dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
 													{{ $category->name }}
 												</button>
-				
 												@if ($category->sub_category->isNotEmpty())
 													<ul class="dropdown-menu dropdown-menu-dark">
 														@foreach ($category->sub_category as $subCategory)
@@ -403,6 +402,31 @@
 	
 	//Add to cart
 	function addToCart(id){
+		let size = $("select[name='size']").val();
+    	let color = $("select[name='color']").val();		
+		
+        $.ajax({
+            url: '{{ route("front.addToCart") }}',
+            type: 'post',
+            data: {
+				_token: '{{ csrf_token() }}', // Include CSRF token
+				id: id,
+				size: size,
+				color: color,
+			},
+            dataType: 'json',
+            success: function(response){
+                if(response.status == true){
+                    window.location.href= "{{ route('front.cart') }}";
+                } else {
+                    alert(response.message);
+                }
+            }
+        })
+    }
+
+
+	function addToCart_Metal(id){
 		let size = $("select[name='size']").val();
     	let color = $("select[name='color']").val();		
 		

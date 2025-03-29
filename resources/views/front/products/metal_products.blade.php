@@ -1,3 +1,32 @@
+<!-- Old Div (Visible Initially) -->
+<div id="oldDiv">
+    <h3>Select Options</h3>
+    <select id="sizeSelect">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+    </select>
+
+    <select id="colorSelect">
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+    </select>
+
+    <button id="saveOptions">Save & Modify</button>
+</div>
+
+<div id="newDiv" style="display: none;">
+    <h3>Modify Your Selection</h3>
+    <p>Size: <span id="selectedSize"></span></p>
+    <p>Color: <span id="selectedColor"></span></p>
+
+    <button onclick="finalSubmit()">Submit</button>
+</div>
+
+
+{{-- @include('front.shop.custom_frame.custom') --}}
+
 <form action="{{ route('store.selection') }}" method="POST" >
     @csrf
     <input type="text" name="category_name" value="{{ $product->metal_type }}" style="display: none;">
@@ -71,6 +100,33 @@
 </form>
 
 <script>
+
+    document.getElementById("saveOptions").addEventListener("click", function() {
+        let size = document.getElementById("sizeSelect").value;
+        let color = document.getElementById("colorSelect").value;
+
+        fetch("{{ route('save.session') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ size: size, color: color })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("oldDiv").style.display = "none";
+                document.getElementById("newDiv").style.display = "block";
+
+                document.getElementById("selectedSize").textContent = size;
+                document.getElementById("selectedColor").textContent = color;
+            }
+        });
+    });
+
+
+
     function customMetalFrame(event) {
         if (event) event.preventDefault(); // Prevent form submission if called on a button click
 

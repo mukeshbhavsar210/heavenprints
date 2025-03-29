@@ -43,11 +43,19 @@ Route::controller(ShopController::class)->group(function() {
 
     //Searh products
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
+
+    //Product details
     Route::get('/product/{slug}', 'product')->name('front.product');
+    Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
     Route::post('/store-svg', 'storeSVG')->name('update.svg');
+
+    Route::post('/save_frame', 'saveSession')->name('save.session');
+
+    
+    
 });
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
@@ -55,8 +63,11 @@ Route::get('/select', function() { return view('select'); })->name('select.page'
 Route::controller(CartController::class)->group(function() {
     Route::get('/cart','cart')->name('front.cart');
     Route::post('/update-cart','updateCart')->name('front.updateCart');
+    
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
+    Route::post('/add-to-cart-metal','addToCart_metal')->name('front.addToCart_metal');
     Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
+
     Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout','checkout')->name('front.checkout');
@@ -94,8 +105,7 @@ Route::controller(FrameController::class)->group(function() {
     Route::post('/merge', 'mergeImage')->name('merge.image');
     
     Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
-    Route::get('/upload_choice', 'showSelection')->name('show.selection');    
-    //Route::get('/upload_choice', 'showSelection')->name('show.selection');  
+    Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
 });
 
 //Metal Frame Rates calculations saved in session storage

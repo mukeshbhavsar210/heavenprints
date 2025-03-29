@@ -6,7 +6,7 @@
         <div class="container">           
             <ol class="breadcrumb primary-color">
                 <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
-                <li class="breadcrumb-item">{{ $product->name }}</li>
+                <li class="breadcrumb-item">Metal Product Details</li>
             </ol>
 
             <div class="row">
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="col-md-7 col-12">
-                    <h1>{{ $product->name }}</h1>
+                  
 
                     <div class="d-flex mt-3 mb-3">
                         <div class="text-primary mr-2">
@@ -65,10 +65,11 @@
 
                     {{-- If Print Main Category selected it will only show --}}
                     @if($product->product_type == 'Metal')
+                        <h2>Mukesh</h2>
                         @include('front.products.metal_products')
                     @endif
 
-                    @if($product->product_type != 'Metal')
+                    @if($product->product_type != 'Prints')
                         @if ($product->track_qty == 'Yes')
                             @if ($product->qty > 0)
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
