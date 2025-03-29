@@ -9,70 +9,42 @@
                 <li class="breadcrumb-item">{{ $product->name }}</li>
             </ol>
 
-            {{-- @if ($products->isNotEmpty())
-                @foreach($products as $product)
-                    @php
-                        $productImage = $product->product_images->first();
-                    @endphp
-                        @if ($productImage)
-                            @php
-                                // Loop through all image fields (image1 to image5)
-                                $images = ['image1', 'image2', 'image3', 'image4', 'image5'];
-                                $foundImage = false;
-                            @endphp
-                            
-                            @foreach ($images as $imageField)
-                                @if (!empty($productImage->$imageField))
-                                    <img src="{{ asset('uploads/products/small/' . $productImage->$imageField) }}" 
-                                            class="img-thumbnail" width="75">
-                                    @php $foundImage = true; @endphp
-                                @endif
-                            @endforeach
-                            
-                            @if (!$foundImage)
-                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" 
-                                        alt="No Image" class="img-thumbnail" width="75">
-                            @endif
-                        @else
-                            <img src="{{ asset('admin-assets/img/default-150x150.png') }}" 
-                                    alt="No Image" class="img-thumbnail" width="75">
-                        @endif
-                    @endforeach
-                @endif --}}
-
             <div class="row">
                 <div class="col-md-5 col-12">
                     <div class="slider-for">
                         @if ($product->product_images)
                             @foreach ($product->product_images as $key => $productImage)
-                                <img class="img-thumbnail" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" alt="Image">
+                                @for ($i = 1; $i <= 5; $i++) 
+                                    @php 
+                                        $imageField = 'image' . $i; 
+                                    @endphp
+                            
+                                    @if (!empty($productImage->$imageField)) 
+                                        <div class="carousel-item {{ ($key == 0 && $i == 1) ? 'active' : '' }}">
+                                            <img style="width: 450px" class="img-thumbnail" src="{{ asset('uploads/products/small/'.$productImage->$imageField) }}" alt="Image {{ $i }}">
+                                        </div>
+                                    @endif
+                                @endfor
                             @endforeach
                         @endif
                     </div>
                     <div class="slider-nav">
                         @if ($product->product_images)
                             @foreach ($product->product_images as $key => $productImage)
-                                <img class="img-thumbnail" src="{{ asset('uploads/product/small/'.$productImage->image) }}" alt="Image">
+                                @for ($i = 1; $i <= 5; $i++) 
+                                    @php 
+                                        $imageField = 'image' . $i; 
+                                    @endphp
+                            
+                                    @if (!empty($productImage->$imageField)) 
+                                        <div class="carousel-item {{ ($key == 0 && $i == 1) ? 'active' : '' }}">
+                                            <img style="width: 80px;" class="img-thumbnail" src="{{ asset('uploads/products/small/'.$productImage->$imageField) }}" alt="Image {{ $i }}">
+                                        </div>
+                                    @endif
+                                @endfor
                             @endforeach
                         @endif
                     </div>
-                    {{-- <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner bg-light">                    
-                            @if ($product->product_images)
-                                @foreach ($product->product_images as $key => $productImage)
-                                    <div class="carousel-item {{ ($key == 0) ? 'active' : ' ' }}">
-                                        <img class="w-100 h-100" src="{{ asset('uploads/product/large/'.$productImage->image) }}" alt="Image">
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
-                            <i class="fa fa-2x fa-angle-left text-dark"></i>
-                        </a>
-                        <a class="carousel-control-next" href="#product-carousel" data-bs-slide="next">
-                            <i class="fa fa-2x fa-angle-right text-dark"></i>
-                        </a>
-                    </div>                     --}}
                 </div>
 
                 <div class="col-md-7 col-12">
@@ -89,22 +61,14 @@
                         <small class="pt-1">(99 Reviews)</small>
                     </div>
 
-                    @if($product->category_name != 'Prints')
-                        <h4>₹{{ $product->price }}
-                            @if ($product->compare_price > 0)
-                                <span class="price text-secondary"><del> ₹{{ $product->compare_price }}</del></span>
-                            @endif
-                        </h4>
-                    @endif
-                
                     <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
                     {{-- If Print Main Category selected it will only show --}}
-                    @if($product->category_name == 'Prints')
+                    @if($product->product_type == 'METAL')
                         @include('front.products.metal_products')
                     @endif
 
-                    @if($product->category_name != 'Prints')
+                    @if($product->product_type != 'Prints')
                         @if ($product->track_qty == 'Yes')
                             @if ($product->qty > 0)
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
@@ -152,43 +116,42 @@
                                 @php
                                     $productImage = $relProduct->product_images->first();
                                 @endphp
-                                    <div class="card product-card">
+                                    <div class=" product-card">
                                         <div class="product-image position-relative">
                                             <a href="" class="product-img">
                                                 @if (!empty($productImage->image))
-                                                    <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
                                                 @else
                                                     <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                                 @endif
                                             </a>
                                             <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-            
-                                            <div class="product-action">
-                                                @if ($relProduct->track_qty == 'Yes')
-                                                    @if ($relProduct->qty > 0)
-                                                        <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
-                                                            <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                        </a>
-                                                    @else
-                                                        <a class="btn btn-dark" href="javascript:void(0);">
-                                                            <i class="fa fa-shopping-cart"></i> Out of Stock
-                                                        </a>
-                                                    @endif
-                                                @else
-                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
-                                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                                </a>
-                                                @endif
-                                            </div>
                                         </div>
-                                        <div class="card-body text-center mt-3">
-                                            <a class="h6 link" href="">{{ $relProduct->title }}</a>
-                                            <div class="price mt-2">
+
+                                        <div class="card-body text-center">
+                                            <a class="h6 link" href="">{{ $relProduct->name }}</a>
+                                            <div class="price mt-2 mb-3">
                                                 <span class="h5"><strong>₹{{ $relProduct->price }}</strong></span>
                                                 @if ($relProduct->compare_price > 0)
                                                     <span class="h6 text-underline"><del>₹{{ $relProduct->compare_price }}</del></span>
                                                 @endif
                                             </div>
+                                                                                   
+                                            @if ($relProduct->track_qty == 'Yes')
+                                                @if ($relProduct->qty > 0)
+                                                    <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
+                                                        Add To Cart
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-dark" href="javascript:void(0);">
+                                                        Out of Stock
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
+                                                    Add To Cart
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 @endforeach

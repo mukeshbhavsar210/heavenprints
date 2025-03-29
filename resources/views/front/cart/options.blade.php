@@ -1,5 +1,12 @@
 <div style="font-size: 12px;">
     <p class="m-0">
+        <span style="font-size: 13px; color:#666;">
+            @if($item->options->category)
+                - {{ $item->options->category }} <br />
+            @else
+                - Main product <br />
+            @endif
+        </span> 
         @if($item->options->neon_light == "NEON")
             You selected: <span class="neon_lightSelected">{{ $item->options->neon_light }}</span><br />
         @endif

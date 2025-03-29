@@ -36,23 +36,11 @@
                                     <label for="productType">Type <span class="required">*</span></label>
                                     <select id="productType" name="product_type" class="form-control" required>
                                         <option value="">Select</option>
-                                        <option value="default">Default</option>
-                                        {{-- <option value="tshirt">T-Shirt</option>  --}}
-                                        <option value="metal">Metal</option>                                                                                   
+                                        <option value="DEFAULT">Default</option>
+                                        <option value="METAL">Metal</option>
+                                        <option value="NEON">Neon</option>
                                     </select>
                                 </div>
-                                {{-- <div class="col-md-2 col-2">
-                                    <label for="select">Select:</label>
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle btn btn-outline-primary" data-toggle="dropdown" href="#">
-                                            Size/Color
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-form" role="menu">
-                                            <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="metalCheckbox">Sizes</label></li>
-                                            <li><label class="checkbox"><input class="toggle-checkbox" type="checkbox" id="neonCheckbox">Colors</label></li>
-                                        </ul>
-                                    </div>
-                                </div> --}}
                             </div>
 
                             <div class="row default_details hidden"> 
@@ -183,8 +171,6 @@
                                     </div>  
                                 </div>   
                             </div>                            
-
-                           
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -494,55 +480,19 @@
 
     //ToggleeClass for Dropdown top main
     $('#productType').on('change', function () {
-            var selectedValue = $(this).val();
-            // Hide all divs first
-            $('.default_details, .metal_details, .tshirt_details, #mugDiv').hide();
-            
-            // Show the selected div
-            if (selectedValue == 'default') {
-                $('.default_details').show();
-            } else if (selectedValue == 'metal') {
-                $('.metal_details').show();
-            } else if (selectedValue == 'tshirt') {
-                $('.tshirt_details').show();
-            }
-        });
-    
-
-        function toggleDivs() {
-            let selectedValue = $("#productType").val();
-            $(".hidden-div").hide();
-
-            // Show selected div based on dropdown selection
-            if (selectedValue === "default") {
-                $("#default_details").show();
-            } 
-            
-            if ($("#metalCheckbox").prop("checked")) {
-                $("#metalDiv").show();
-            } 
-            
-            if ($("#neonCheckbox").prop("checked")) {
-                $("#neonDiv").show();
-            }
+        var selectedValue = $(this).val();
+        // Hide all divs first
+        $('.default_details, .metal_details, .tshirt_details, #mugDiv').hide();
+        
+        // Show the selected div
+        if (selectedValue == 'DEFAULT') {
+            $('.default_details').show();
+        } else if (selectedValue == 'METAL') {
+            $('.metal_details').show();
+        } else if (selectedValue == 'tshirt') {
+            $('.tshirt_details').show();
         }
-
-        // Event listeners for dropdown and checkboxes
-        $("#productType, .toggle-checkbox").on("change", function () {
-            toggleDivs();
-        });
-
-        // When a checkbox is unchecked, hide the corresponding div
-        $(".toggle-checkbox").on("change", function () {
-            let checkboxId = $(this).attr("id");
-            if (!$(this).prop("checked")) {
-                if (checkboxId === "metalCheckbox") {
-                    $("#metalDiv").hide();
-                } else if (checkboxId === "neonCheckbox") {
-                    $("#neonDiv").hide();
-                }
-            }
-        });
+    });       
 
         $('.dropdown-menu').on('click', function(e) {
             if($(this).hasClass('dropdown-menu-form')) {
@@ -666,7 +616,7 @@
                 let imgElement = document.createElement("img");
                 imgElement.src = e.target.result;
                 imgElement.classList.add("img-thumbnail");
-                imgElement.style.width = "75px"; // Set preview size
+                imgElement.style.width = "100%"; // Set preview size
                 previewContainer.appendChild(imgElement);
             };
             reader.readAsDataURL(input.files[0]);

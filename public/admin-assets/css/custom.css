@@ -74,10 +74,11 @@
 .select2-container { width:100% !important;}
 .select2-container--default .select2-selection--multiple .select2-selection__choice { background-color: #fffefa !important; color:#000 !important; font-size:13px !important; padding:5px 10px !important;}
 
-
-
-.deleteCardImg { position: absolute; right:37%; top:37%; background-color: red; border-radius: 100px; padding:0; height:26px; width: 26px; color:#fff; font-size: 13px; text-align: center; }
-.deleteCardImg:hover { background-color: #000; color: #fff;}
+.image-container { position: relative; max-width: 200px;}
+.image-container .image_flex { margin-top: 7px; }
+.image-container .photo_number {  background-color: var(--white); }
+.image-container .deleteCardImg { background-color: red; border-radius: 100px; padding:2px; height:30px; width: 30px; color:#fff; font-size: 13px; position: absolute; top:5%; right:10%; }
+.image-container .deleteCardImg:hover { background-color: #000; color: #fff;}
 
 .alert { position: absolute; top:-46px; left:40%; z-index:9999; width: 400px; padding:8px 13px;}
 .alert .close { padding:7px 10px;}
