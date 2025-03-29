@@ -4,7 +4,6 @@
 
 @section('content')
 
-Hello
 <div class="container-fluid">            
     <div class="customizeFrames">
     <div class="row">                   
@@ -83,12 +82,14 @@ Hello
         </div>
 
         <div class="col-md-7 no-padd"> 
+           
             <div class="calculation-main">
                 <h3>₹<span id="grandTotal">{{ isset($selection['price']) ? $selection['price'] : '0' }}</span></h3>
+                
                 <button onclick="customFrame()" class="btn btn-primary btm-sm ml-3">Add to Cart</button>
             </div>
             <div class="frame-generate">
-                {{-- <table class="table">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Frame</th>
@@ -117,7 +118,7 @@ Hello
                             <td><span id="proofPrice">₹0</span></td>
                         </tr>
                     </tbody>
-                </table>     --}}
+                </table>    
                 
                 {{-- <p><strong>Category:</strong> {{ $selection['category_name'] ?? '' }}, 
                     <strong>Size:</strong> {{ $selection['size'] ?? '' }},

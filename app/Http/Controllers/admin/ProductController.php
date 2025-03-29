@@ -48,6 +48,7 @@ class ProductController extends Controller {
             'price' => 'required|min:3',  
             'category' => 'required|numeric',
             'qty' => 'required',
+            'product_type' => 'required',
             //'track_qty' => 'required|in:Yes,No',
             //'sku' => 'required|unique:products',                        
             //'is_featured' => 'required|in:Yes,No',        
@@ -180,6 +181,7 @@ class ProductController extends Controller {
         $product = Product::find($id);
         $rules = [
             'name' => 'required|min:3',   
+            'product_type' => 'required',
             'price' => 'required|min:3',  
             'category' => 'required|numeric',
             'qty' => 'required',

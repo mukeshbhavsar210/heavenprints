@@ -91,6 +91,75 @@ class CartController extends Controller {
     }
 
 
+
+    public function addToCart_metal(Request $request){
+        $product = Product::with('product_images')->find($request->id);
+        $size = $request->size ?? 'Default Size';
+        $color = $request->color ?? 'Default Red';
+
+        if ($product == null) {
+            return response()->json([
+                "status"=> false,
+                "message"=> "Product not found"
+            ]);
+        }
+
+        if (Cart::count() > 0) {
+
+            $cartContent = Cart::content();
+            $productAlreadyExist = false;
+
+            foreach ($cartContent as $item) {
+                if ($item->id == $product->id) {
+                    $productAlreadyExist = true;
+                }
+            }
+
+            if($productAlreadyExist == false){
+                Cart::add(
+                        $product->id, 
+                        $product->name, 
+                        1, 
+                        $product->price,                        
+                        [
+                            'category' => 'Default', 
+                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'size' => $request->size,
+                            'color' => $request->color
+                        ]
+                );
+                $status = true;
+                $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
+                session()->flash('success', $message);
+            } else {
+                $status = false;
+                $message = $product->name.' already added in cart';
+            }
+
+        } else {
+            Cart::add(
+                    $product->id, 
+                    $product->name, 
+                    1, 
+                    $product->price, 
+                    [
+                        'category' => 'Default', 
+                        'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                        'size' => $request->size,
+                        'color' => $request->color                                          
+                    ]);
+            $status = true;
+            $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
+            session()->flash('success', $message);
+        }
+
+        return response()->json([
+            "status"=> $status,
+            "message"=> $message
+        ]);
+    }
+
+
     public function addToCart_neon(Request $request){
         $product = Product::with('product_images')->find($request->id);
         $neon_color = $request->neon_color ?? 'Default Red';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\custom;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Frame;
 use App\Models\FrameBorder;
 use App\Models\FrameFrame;
@@ -116,7 +117,10 @@ class FrameController extends Controller {
         return redirect()->route('show.selection');
     }
 
-    public function showSelection(Request $request){
+    public function showSelection(Request $request, $categorySlug = null, $subCategorySlug = null){
+
+        $products = Product::where('status',1);
+
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
         $canvas = FrameShape::where('types','canvas')->get();
@@ -184,6 +188,8 @@ class FrameController extends Controller {
 
         $data['image'] = $image;
 
+        $data['products'] = $products;
+
         //Select Metal Frame and store in session       
         session()->forget('framePrice');
         session()->forget('sizePrice');
@@ -247,7 +253,7 @@ class FrameController extends Controller {
         //Save photos to Product Image
         $productImage = new ProductImage();
         $productImage->product_id = $product->id;
-        $productImage->image = $request->input('image');
+        $productImage->image1 = $request->input('image');
         $productImage->save();
 
         // Add to cart
