@@ -3,7 +3,7 @@
 @section('content')
     {{-- If Print Main Category selected it will only show --}}
     @if($product->product_type == 'Metal')
-        @include('front.products.metal_products')
+        @include('front.products.metal_final')
     @else  
         <section class="section-5">
             <div class="container">           
@@ -160,3 +160,12 @@
         </section>
     @endif        
 @endsection
+
+<script>
+    window.onload = function() {
+        sessionStorage.clear();
+    };
+    window.onload = function() {
+        sessionStorage.removeItem('shape');
+    };
+</script>

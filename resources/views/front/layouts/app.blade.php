@@ -392,6 +392,9 @@
 <script src="{{ asset('front-assets/js/ion.rangeSlider.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
 
+
+
+
 <script>
 	$.ajaxSetup({
         headers: {

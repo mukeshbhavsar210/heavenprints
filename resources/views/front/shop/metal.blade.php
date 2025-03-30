@@ -66,48 +66,14 @@
                                         </a>
 
                                         <div class="price mt-2 mb-2">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <h5>₹ {{ $product->price }}
-                                                        @if ($product->compare_price > 0)
-                                                            <span class="text-underline"><del>₹ {{ $product->compare_price }}</del></span>
-                                                        @endif
-                                                    </h5>
-                                                </div>
-                                                <div class="col-4">
-                                                                                        
-                                                </div>
-                                            </div>
+                                            <h5>₹ {{ $product->price }}
+                                                @if ($product->compare_price > 0)
+                                                    <span class="text-underline"><del>₹ {{ $product->compare_price }}</del></span>
+                                                @endif
+                                            </h5>
                                         </div>
                                         
-                                        {{-- if product related to Tshirt it will load below code --}}
-                                        @if(!$product->metal_type || $product->metal_type == 't_shirt')
-                                            <div class="row mt-3">
-                                                <div class="col-md-6 col-6">
-                                                    <div class="form-group">
-                                                        <select name="size" id="size" class="form-control">
-                                                            <option value="">Select Size</option>
-                                                            <option value="Small" {{ old('size', $product->size ?? '') == 'Small' ? 'selected' : '' }}>Small</option>
-                                                            <option value="Medium" {{ old('size', $product->size ?? '') == 'Medium' ? 'selected' : '' }}>Medium</option>
-                                                            <option value="Large" {{ old('size', $product->size ?? '') == 'Large' ? 'selected' : '' }}>Large</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6 col-6">
-                                                    <div class="form-group">
-                                                        <select name="color" id="color" class="form-control">
-                                                            <option value="">Select Color</option>
-                                                            <option value="Red" {{ old('color', $product->color ?? '') == 'Red' ? 'selected' : '' }}>Red</option>
-                                                            <option value="Blue" {{ old('color', $product->color ?? '') == 'Blue' ? 'selected' : '' }}>Blue</option>
-                                                            <option value="Green" {{ old('color', $product->color ?? '') == 'Green' ? 'selected' : '' }}>Green</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                        @endif
-
-                                        <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-3">View Product</a>
+                                        <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
                                     </div>
                                 </div>
                             @endforeach

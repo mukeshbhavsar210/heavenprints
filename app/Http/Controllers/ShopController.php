@@ -30,10 +30,6 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 class ShopController extends Controller {
     public function index(Request $request, $categorySlug = null, $subCategorySlug = null) {
-
-        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
-        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
-
         $categorySelected = ' ';
         $subCategorySelected = ' ';
         $brandsArray = [];
@@ -98,99 +94,18 @@ class ShopController extends Controller {
         $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
         $data['priceMin'] = intval($request->get('price_min'));
         $data['sort'] = $request->get('sort');
-
-        $data['colors'] = $colors;
-        $data['fonts'] = $fonts;
 
         return view('front.shop.index',$data);
     }
 
-    public function metalProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
-
-        $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
-        $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
-
-        $categorySelected = ' ';
-        $subCategorySelected = ' ';
-        $brandsArray = [];
-
-        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
-        $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
-
-        $products = Product::where('status',1);
-
-        //Apply filters here
-        if(!empty($categorySlug)) {
-            $category = Category::where('slug_category',$categorySlug)->first();
-            $products = $products->where('category_id',$category->id);
-            $categorySelected = $category->id;
-        }
-
-        if(!empty($subCategorySlug)) {
-            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
-            $products = $products->where('sub_category_id',$subCategory->id);
-            $subCategorySelected = $subCategory->id;
-        }
-
-        if(!empty($request->get('brand'))) {
-            $brandsArray = explode(',',$request->get('brand'));
-            $products = $products->whereIn('brand_id',$brandsArray);
-        }
-
-        // Price slider
-        if($request->get('price_max') != '' && $request->get('price_min') != '') {
-            if($request->get('price_max') == 1000){
-                $products = $products->whereBetween('price',[intval($request->get('price_min')),1000000]);
-            } else {
-                $products = $products->whereBetween('price',[intval($request->get('price_min')),intval($request->get('price_max'))]);
-            }
-        }
-
-        //Search main header
-        if (!empty($request->get('search'))){
-            $products = $products->where('name','like','%'.$request->get('search').'%');
-        }
-
-        if($request->get('sort') != ''){
-            if($request->get('sort') == 'latest'){
-                $products = $products->orderBy('id','DESC');
-            } else if($request->get('sort') == 'price_asc') {
-                $products = $products->orderBy('price','ASC');
-            } else {
-                $products = $products->orderBy('price','DESC');
-            }
-        } else {
-            $products = $products->orderBy('id','DESC');
-        }
-
-        $products = $products->paginate(10);
-
-        $data['categories'] = $categories;
-        $data['brands'] = $brands;
-        $data['products'] = $products;
-        $data['categorySelected'] = $categorySelected;
-        $data['subCategorySelected'] = $subCategorySelected;
-        $data['brandsArray'] = $brandsArray;
-        $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
-        $data['priceMin'] = intval($request->get('price_min'));
-        $data['sort'] = $request->get('sort');
-
-        $data['colors'] = $colors;
-        $data['fonts'] = $fonts;
-
-        return view('front.shop.metal',$data);
-    }
-
+    //CUSTOM NEON PRODUCT
     public function neonProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
         $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
         $fonts = ['Passionate', 'Dreamy', 'Flowy', 'Original', 'Classic', 'Boujee', 'Funky', 'Chic', 'Delight', 'Classy', 'Romantic', 'Robo', 'Charming', 'Quirky', 'Stylish', 'Sassy', 'Glam', 'DOPE', 'Chemistry', 'Acoustic', 'Sparky', 'Vibey', 'LoFi', 'Bossy', 'ICONIC', 'Jolly', 'MODERN',];
 
         $categorySelected = ' ';
         $subCategorySelected = ' ';
-
-        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
-        $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
-
+        
         $products = Product::where('status',1);
 
         //Apply filters here
@@ -200,21 +115,8 @@ class ShopController extends Controller {
             $categorySelected = $category->id;
         }
 
-        if(!empty($subCategorySlug)) {
-            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
-            $products = $products->where('sub_category_id',$subCategory->id);
-            $subCategorySelected = $subCategory->id;
-        }
-
-        //Search main header
-        if (!empty($request->get('search'))){
-            $products = $products->where('name','like','%'.$request->get('search').'%');
-        }
-
         $products = $products->paginate(10);
 
-        $data['categories'] = $categories;
-        $data['brands'] = $brands;
         $data['products'] = $products;
         $data['categorySelected'] = $categorySelected;
         $data['subCategorySelected'] = $subCategorySelected;
@@ -223,6 +125,40 @@ class ShopController extends Controller {
 
         return view('front.shop.neon',$data);
     }
+
+
+    //METAL PRODUCT
+    public function metalProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
+        $categorySelected = ' ';
+        $subCategorySelected = ' ';        
+
+        $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
+        $products = Product::where('status',1);
+
+        //Apply filters here
+        if(!empty($categorySlug)) {
+            $category = Category::where('slug_category',$categorySlug)->first();
+            $products = $products->where('category_id',$category->id);
+            $categorySelected = $category->id;
+        }
+
+        if(!empty($subCategorySlug)) {
+            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $products = $products->where('sub_category_id',$subCategory->id);
+            $subCategorySelected = $subCategory->id;
+        }
+
+        $products = $products->paginate(10);
+
+        $data['categories'] = $categories;
+        $data['products'] = $products;
+        $data['categorySelected'] = $categorySelected;
+        $data['subCategorySelected'] = $subCategorySelected;
+        
+        return view('front.shop.metal',$data);
+    }
+
+   
 
     public function search(Request $request, $searchCategorySlug = null, $searchSubCategorySlug = null) {
         $categorySelected = ' ';
@@ -268,7 +204,7 @@ class ShopController extends Controller {
                             ->first();
 
         $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
-        $sizes = ['8x8', '10x10', '12x12', '16x16', '20x20', '24x24'];
+        $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
         $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
         $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
 
