@@ -425,19 +425,39 @@
         })
     }
 
-
+	//Add to cart for METAL FRAME
 	function addToCart_Metal(id){
-		let size = $("select[name='size']").val();
-    	let color = $("select[name='color']").val();		
+		let size =  $('input[name="size"]:checked').val() + ' - ₹ ' + $('#sizePrice').text();
+		let frame = $('input[name="frame"]:checked').val() + ' - ₹ ' + $('#framePrice').text() ;
+		let uploadedImageName = "{{ session('uploaded_image') }}";
+		let image = uploadedImageName || 'No image found';
+		let wrap_wrap = $('input[name="wrap_wrap"]:checked').val() + ' - ₹ ' + $('#wrapWrapPrice').text();
+    	let major = $('#major').val();        
+        let border = $('input[name="wrap_border"]:checked').val() + ' - ₹ ' + $('#wrapBorderPrice').text();
+        let wrap_frame = $('input[name="wrap_frame"]:checked').val() + ' - ₹ ' + $('#wrapFramePrice').text();
+        let hardware_style = $('input[name="hardware_style"]:checked').val() + ' - ₹ ' + $('#hardwareStylePrice').text();
+        let hardware_display = $('input[name="hardware_display"]:checked').val() + ' - ₹ ' + $('#hardwareDisplayPrice').text();
+        let lamination = $('input[name="lamination"]:checked').val() + ' - ₹ ' + $('#laminationPrice').text();
+        let proof = $('input[name="proof"]:checked').val() + ' - ₹ ' + $('#proofPrice').text();
+        let retouching = $('input[name="retouching"]:checked').val() + ' - ₹ ' + $('#retouchingPrice').text();
+        let hardware_finishing = $('input[name="hardware_finishing"]:checked').val() + ' - ₹ ' + $('#retouchingPrice').text();
+        let price = $('#grandTotal').text();
 		
         $.ajax({
-            url: '{{ route("front.addToCart") }}',
+            url: '{{ route("front.addToCart_metal") }}',
             type: 'post',
             data: {
 				_token: '{{ csrf_token() }}', // Include CSRF token
 				id: id,
-				size: size,
-				color: color,
+				size: size, 
+				frame: frame, 
+				image: image, 
+				wrap_wrap: wrap_wrap,
+				major: major, 
+                border: border, 
+				wrap_frame: wrap_frame, hardware_style: hardware_style,
+                hardware_display: hardware_display, lamination: lamination, proof: proof, 
+                retouching: retouching, hardware_finishing: hardware_finishing, price: price,
 			},
             dataType: 'json',
             success: function(response){

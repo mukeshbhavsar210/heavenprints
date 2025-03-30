@@ -90,7 +90,14 @@ class CartController extends Controller {
         ]);
     }
 
+    public function cart(){
+        $cartContent = Cart::content();
+        $data['cartContent'] = $cartContent;
 
+        //dd($cartContent);
+
+        return view('front.cart.index',$data);
+    }
 
     public function addToCart_metal(Request $request){
         $product = Product::with('product_images')->find($request->id);
@@ -122,10 +129,22 @@ class CartController extends Controller {
                         1, 
                         $product->price,                        
                         [
-                            'category' => 'Default', 
+                            'category' => 'Frame', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-                            'size' => $request->size,
-                            'color' => $request->color
+                            'size'              => $request->size,
+                            'frame'             => $request->frame,
+                            'image'             => $request->image,
+                            'size'              => $request->size,
+                            'wrap'              => $request->wrap,
+                            'border'            => $request->border,
+                            'major'             => $request->major,
+                            'wrap_wrap'         => $request->wrap_wrap,
+                            'hardware_style'    => $request->hardware_style,
+                            'hardware_display'  => $request->hardware_display,
+                            'lamination'        => $request->lamination,
+                            'retouching'        => $request->retouching,
+                            'hardware_finishing'=> $request->hardware_finishing,
+                            'proof'             => $request->proof
                         ]
                 );
                 $status = true;
@@ -143,10 +162,22 @@ class CartController extends Controller {
                     1, 
                     $product->price, 
                     [
-                        'category' => 'Default', 
-                        'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-                        'size' => $request->size,
-                        'color' => $request->color                                          
+                        'category' => 'Frame', 
+                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'size'              => $request->size,
+                            'frame'             => $request->frame,
+                            'image'             => $request->image,
+                            'size'              => $request->size,                            
+                            'wrap'              => $request->wrap,
+                            'border'            => $request->border,
+                            'major'             => $request->major,
+                            'wrap_wrap'         => $request->wrap_wrap,
+                            'hardware_style'    => $request->hardware_style,
+                            'hardware_display'  => $request->hardware_display,
+                            'lamination'        => $request->lamination,
+                            'retouching'        => $request->retouching,
+                            'hardware_finishing'=> $request->hardware_finishing,
+                            'proof'             => $request->proof                                       
                     ]);
             $status = true;
             $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
@@ -234,17 +265,6 @@ class CartController extends Controller {
             "status"=> $status,
             "message"=> $message
         ]);
-    }
-
-
-    
-    public function cart(){
-        $cartContent = Cart::content();
-        $data['cartContent'] = $cartContent;
-
-        //dd($cartContent);
-
-        return view('front.cart.index',$data);
     }
 
 
