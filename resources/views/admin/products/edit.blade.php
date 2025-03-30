@@ -132,7 +132,7 @@
                                     </div>  
                                 </div>                                
                             
-                                <div class="metal_details hidden"> 
+                                <div class="metal_details hidden {{ $product->product_type == 'Metal' ? 'force_active' : '' }}"> 
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">   
                                             <div class="form-group">                                           

@@ -301,7 +301,6 @@ class CartController extends Controller {
     }
 
 
-
     public function deleteItem(Request $request){
         $rowId = $request->rowId;
         $itemInfo = Cart::get($rowId);
@@ -324,7 +323,6 @@ class CartController extends Controller {
             "message"=> $success,
         ]);
     }
-
 
 
     public function checkout(){
