@@ -53,27 +53,27 @@
                 <div class="rightControl">
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
-                            @include('front.shop.custom_frame.01_tab')
+                            @include('front.products.custom_frame.01_tab')
                         </div>
                         <div class="tab-pane fade" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
-                            @include('front.shop.custom_frame.02_tab')
+                            @include('front.products.custom_frame.02_tab')
                         </div>
                         <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
-                            @include('front.shop.custom_frame.03_tab') 
+                            @include('front.products.custom_frame.03_tab') 
                         </div>
                         <div class="tab-pane fade" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
                             <div class="paddWrapper">
-                                @include('front.shop.custom_frame.04_tab')
+                                @include('front.products.custom_frame.04_tab')
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
                             <div class="paddWrapper">
-                                @include('front.shop.custom_frame.05_tab')
+                                @include('front.products.custom_frame.05_tab')
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
                             <div class="paddWrapper">
-                                @include('front.shop.custom_frame.06_tab')
+                                @include('front.products.custom_frame.06_tab')
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,6 @@
         </div>
 
         <div class="col-md-7 no-padd"> 
-           
             <div class="calculation-main">
                 <h3>₹<span id="grandTotal">{{ isset($selection['price']) ? $selection['price'] : '0' }}</span></h3>
                 
@@ -167,8 +166,6 @@
 </div>
 
 @endsection
-
-
 <script>
     function customFrame() {
         let uploadedImageName = "{{ session('uploaded_image') }}";

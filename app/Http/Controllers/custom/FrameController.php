@@ -102,104 +102,6 @@ class FrameController extends Controller {
         return view('front.shop.custom_frame.index', $data, $options, $selection );
     }
 
-
-    public function storeSelection(Request $request){
-        Session::put('selection', [
-            'category_name' => $request->input('category_name'),
-            'shape' => $request->input('shape'),
-            'size' => $request->input('size'),
-            'custom_size_1' => $request->input('custom_size_1'),
-            'custom_size_2' => $request->input('custom_size_2'),
-            'price' => $request->input('price'),
-        ]);
-
-        //return redirect()->route('frame.front');
-        return redirect()->route('show.selection');
-    }
-
-    public function showSelection(Request $request, $categorySlug = null, $subCategorySlug = null){
-
-        $products = Product::where('status',1);
-
-        $tab_canvas = FrameShape::where('types','')->get();
-        $frame_accordion = FrameShape::get();
-        $canvas = FrameShape::where('types','canvas')->get();
-        $acrylic = FrameShape::where('types','acrylic')->get();
-        $metal = FrameShape::where('types','metal')->get();
-        $wood = FrameShape::where('types','wood')->get();
-        $others = FrameShape::where('types','others')->get();
-        $recommended = FrameSize::where('types','recommended')->get();
-        $square = FrameSize::where('types','square')->get();
-        $panaromic = FrameSize::where('types','panaromic')->get();
-        $large = FrameSize::where('types','large')->get();
-        $small = FrameSize::where('types','small')->get();
-        $wraps = FrameWrap::where('types','wrap')->get();
-        $borders = FrameWrap::where('types','border')->get();    
-        $wrap_borders = FrameBorder::get();
-        $standards = FrameFrame::where('types','standard')->get();
-        $premium = FrameFrame::where('types','premium')->get();
-        $floating = FrameFrame::where('types','floating')->get();                   
-        $hardware_styles = HardwareStyle::get();
-        $hardware_displays = HardwareDisplay::get();
-        $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
-        $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
-        $laminations = Lamination::all();
-        $frameSizes = FrameSize::all();
-        $modifications = Modification::all();
-
-        $selection = Session::get('selection', []);
-
-        $data['canvas'] = $canvas;
-        $data['acrylic'] = $acrylic;
-        $data['metal'] = $metal;
-        $data['wood'] = $wood;
-        $data['others'] = $others;
-        $data['frameSizes'] = $frameSizes;
-        $data['wraps'] = $wraps;
-        $data['borders'] = $borders;
-        $data['wrap_borders'] = $wrap_borders;
-        $data['recommended'] = $recommended;
-        $data['square'] = $square;
-        $data['panaromic'] = $panaromic;
-        $data['large'] = $large;
-        $data['small'] = $small;
-        $data['standards'] = $standards;
-        $data['premium'] = $premium;
-        $data['floating'] = $floating;
-        $data['hardware_styles'] = $hardware_styles;
-        $data['hardware_displays'] = $hardware_displays;
-        $data['hardware_basic_finishings'] = $hardware_basic_finishings;
-        $data['hardware_advance_finishings'] = $hardware_advance_finishings;
-        $data['frame_accordion'] = $frame_accordion;
-        $data['tab_canvas'] = $tab_canvas;
-        $data['laminations'] = $laminations;
-        $data['modifications'] = $modifications;
-        $data['selection'] = $selection;
-
-        // Load stored image and options from session
-        $image = Session::get('uploaded_image');
-        $options = Session::get('image_options', [
-            'frame' => 10,
-            'size' => 20,
-            'wrap_wrap' => 30,
-            'wrap_frame' => 40,
-            'price' => 50, // Default price
-        ]);
-
-        $data['image'] = $image;
-
-        $data['products'] = $products;
-
-        //Select Metal Frame and store in session       
-        session()->forget('framePrice');
-        session()->forget('sizePrice');
-        session()->forget('selection');
-        session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
-
-        return view('front.shop.custom_frame.custom', $data);        
-    }
-
-
    
     public function getFrameDetails(Request $request){
         // Get frame details from database based on selected radio button
@@ -210,7 +112,6 @@ class FrameController extends Controller {
             'price' => $standards->price ?? 0
         ]);
     }
-
 
     public function upload(Request $request) {
         $request->validate([
@@ -233,58 +134,7 @@ class FrameController extends Controller {
             ]);
         }
         return response()->json(['success' => false]);
-    }
-
-
-    public function addToCartFrame(Request $request){
-        $request->validate([
-            //'photo' => 'required|string',            
-            'price' => 'required|numeric',
-        ]);
-
-        $frameName = rand(100000, 999999); // Example: 345678
-
-        // Save to database
-        $product = new Product();
-        $product->name = $frameName;
-        $product->size = $request->input('size');
-        $product->save();
-
-        //Save photos to Product Image
-        $productImage = new ProductImage();
-        $productImage->product_id = $product->id;
-        $productImage->image1 = $request->input('image');
-        $productImage->save();
-
-        // Add to cart
-        Cart::add([
-            'id'      => $product->id,
-            'name'    => $frameName,
-            'qty'     => 1,
-            'price'   => $request->price,
-            'weight'  => 0,
-            'options' => [
-                'category'          => 'Frame',
-                'image'             => $request->image,
-                'size'              => $request->size,
-                'frame'             => $request->frame,
-                'wrap'             => $request->wrap,
-                'border'           => $request->border,
-                'major'            => $request->major,
-                'wrap_wrap'        => $request->wrap_wrap,
-                'hardware_style'   => $request->hardware_style,
-                'hardware_display' => $request->hardware_display,
-                'lamination'       => $request->lamination,
-                'retouching'       => $request->retouching,
-                'hardware_finishing'=> $request->hardware_finishing,
-                'proof'            => $request->proof
-            ]
-        ]);
-       
-        return response()->json(['message' => 'Frame added to cart successfully!']);
-    }
-
-
+    }   
 
     public function delete(){
         session()->forget('uploaded_image');

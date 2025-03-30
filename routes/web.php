@@ -54,8 +54,9 @@ Route::controller(ShopController::class)->group(function() {
 
     Route::post('/save_frame', 'saveSession')->name('save.session');
 
-    
-    
+    //Storing in session and calculations
+    Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
+    Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
 });
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
@@ -100,12 +101,7 @@ Route::controller(FrameController::class)->group(function() {
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');
     Route::post('/upload-image', 'upload')->name('image.upload');
-    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');
-    Route::post('/add-to-cart-frame', 'addToCartFrame')->name('cart.add');
-    Route::post('/merge', 'mergeImage')->name('merge.image');
-    
-    Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
-    Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
+    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
 });
 
 //Metal Frame Rates calculations saved in session storage
