@@ -139,7 +139,7 @@ class CategoryController extends Controller {
     public function destroy($categoryId, Request $request){
         $category = Category::find($categoryId);
 
-         // Prevent deletion for specific categories
+        // Prevent deletion for specific categories
         if ($category->is_protected) {
             return redirect()->back()->with('error', 'This category cannot be deleted.');
         }

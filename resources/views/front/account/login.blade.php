@@ -49,7 +49,7 @@
 
                     <div class="row">
                         <div class="col-md-6 col-12 mt-3">
-                            <a href="#">Forgot Password?</a>
+                            <a href="{{ route('password.request') }}">Forgot Password?</a>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="pull-right">

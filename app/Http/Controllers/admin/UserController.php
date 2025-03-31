@@ -8,8 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     public function index(Request $request){
         $users = User::latest();
 
@@ -31,16 +30,16 @@ class UserController extends Controller
 
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'password' => 'required|min:5',
             'email' => 'required|email|unique:users',
-            'phone' => 'required',
         ]);
 
         if($validator->passes()){
-
             $user = new User;
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->status = $request->status;
@@ -80,7 +79,6 @@ class UserController extends Controller
 
 
     public function update(Request $request, $id){
-
         $user = User::find($id);
 
         if($user == null){
@@ -94,13 +92,14 @@ class UserController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id.',id',
-            'phone' => 'required',
         ]);
 
         if($validator->passes()){
-            $user->name = $request->name;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
             $user->email = $request->email;
             $user->phone = $request->phone;
             $user->status = $request->status;
@@ -111,7 +110,7 @@ class UserController extends Controller
 
             $user->save();
 
-            $message = 'User added successfully';
+            $message = 'User updated successfully';
 
             session()->flash('success',$message);
 
@@ -128,9 +127,15 @@ class UserController extends Controller
         }
     }
 
-    public function destroy($id){
 
+
+    public function destroy($id){
         $user = User::find($id);
+
+        // Prevent deletion for specific categories
+        if ($user->is_protected) {
+            return redirect()->back()->with('error', 'This user cannot be deleted.');
+        }
 
         if($user == null){
             $message = 'User not found';

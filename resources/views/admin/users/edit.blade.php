@@ -18,14 +18,24 @@
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
+
+        {{-- <form action="{{ route('users.update',$user->id) }}" method="post" enctype="multipart/form-data">
+            @csrf --}}
         <form action="" method="post" id="userForm" name="userForm">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3 col-6">
                             <div class="mb-3">
-                                <label for="name">Name</label>
-                                <input value="{{ $user->name }}" type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                <label for="first_name">First Name</label>
+                                <input value="{{ $user->first_name }}" type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="mb-3">
+                                <label for="last_name">Last Name</label>
+                                <input value="{{ $user->last_name }}" type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
                                 <p></p>
                             </div>
                         </div>
@@ -51,7 +61,6 @@
                                 <p></p>
                             </div>
                         </div>
-
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="status">Status</label>
@@ -71,7 +80,6 @@
             </div>
         </form>
     </div>
-    <!-- /.card -->
 </section>
 @endsection
 
@@ -90,7 +98,11 @@
                     $("button[type=submit]").prop('disabled', false);
 
                     if(response["status"] == true){
-                        $('#name').removeClass('is-invalid')
+                        $('#first_name').removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("");
+
+                        $('#last_name').removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback').html("");
 
@@ -102,24 +114,29 @@
                         .siblings('p')
                         .removeClass('invalid-feedback').html("");
 
-                        $('#phone').removeClass('is-invalid')
-                        .siblings('p')
-                        .removeClass('invalid-feedback').html("");
-
                         window.location.href="{{ route('users.index') }}"
 
                     } else {
                         var errors = response['errors']
-                        if(errors['name']){
-                            $('#name').addClass('is-invalid')
+                        if(errors['first_name']){
+                            $('#first_name').addClass('is-invalid')
                             .siblings('p')
-                            .addClass('invalid-feedback').html(errors['name']);
+                            .addClass('invalid-feedback').html(errors['first_name']);
                         } else {
-                            $('#name').removeClass('is-invalid')
+                            $('#first_name').removeClass('is-invalid')
                             .siblings('p')
                             .removeClass('invalid-feedback').html("");
                         }
 
+                        if(errors['last_name']){
+                            $('#last_name').addClass('is-invalid')
+                            .siblings('p')
+                            .addClass('invalid-feedback').html(errors['last_name']);
+                        } else {
+                            $('#last_name').removeClass('is-invalid')
+                            .siblings('p')
+                            .removeClass('invalid-feedback').html("");
+                        }
                         if(errors['email']){
                             $('#email').addClass('is-invalid')
                             .siblings('p')
@@ -129,23 +146,12 @@
                             .siblings('p')
                             .removeClass('invalid-feedback').html("");
                         }
-
                         if(errors['password']){
                             $('#password').addClass('is-invalid')
                             .siblings('p')
                             .addClass('invalid-feedback').html(errors['password']);
                         } else {
                             $('#password').removeClass('is-invalid')
-                            .siblings('p')
-                            .removeClass('invalid-feedback').html("");
-                        }
-
-                        if(errors['phone']){
-                            $('#phone').addClass('is-invalid')
-                            .siblings('p')
-                            .addClass('invalid-feedback').html(errors['phone']);
-                        } else {
-                            $('#phone').removeClass('is-invalid')
                             .siblings('p')
                             .removeClass('invalid-feedback').html("");
                         }

@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\PageController;
@@ -131,6 +132,12 @@ Route::group(['prefix' => 'account'], function(){
             Route::post('/login','authenticate')->name('account.authenticate');
             Route::get('/register','register')->name('account.register');
             Route::post('/process-register','processRegister')->name('account.processRegister');
+
+            //Recovery password
+            Route::get('forgot-password', 'showLinkRequestForm')->name('password.request');
+            Route::post('forgot-password', 'sendResetLinkEmail')->name('password.email');
+            Route::get('reset-password/{token}', 'showResetForm')->name('password.reset');
+            Route::post('reset-password', 'updatePassword')->name('password.update');
         });        
     });
 
@@ -161,6 +168,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['middleware' => 'admin.auth'], function(){
         Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
         Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
+
+        //Category Routes
+        Route::controller(DashboardController::class)->group(function() {
+            Route::get('/dashboard', 'index')->name('dashboard.index');
+        });
 
         //Category Routes
         Route::controller(CategoryController::class)->group(function() {
