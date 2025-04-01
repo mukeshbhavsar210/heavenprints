@@ -15,8 +15,18 @@
 <section class="section-10">
     <div class="container">
         <div class="login-form">            
+        
+          @if(session('status'))
+                <p>{{ session('status') }}</p>
+            @endif
+
+            @if($errors->any())
+                <p>{{ $errors->first() }}</p>
+            @endif
+            
             <form action="{{ route('password.update') }}" method="POST">
                 @csrf
+                
                 <h4 class="modal-title">Reset your password!</h4>
                 <input type="hidden" name="token" value="{{ $token }}">
 
@@ -43,14 +53,6 @@
 
                 <button type="submit" class="btn btn-primary">Reset Password</button>
             </form>
-        
-            @if(session('status'))
-                <p>{{ session('status') }}</p>
-            @endif
-
-            @if($errors->any())
-                <p>{{ $errors->first() }}</p>
-            @endif
         </div>
     </div>
 </section>

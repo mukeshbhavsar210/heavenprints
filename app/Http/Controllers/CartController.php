@@ -90,6 +90,106 @@ class CartController extends Controller {
         ]);
     }
 
+    public function cart(){
+        $cartContent = Cart::content();
+        $data['cartContent'] = $cartContent;
+
+        //dd($cartContent);
+
+        return view('front.cart.index',$data);
+    }
+
+    public function addToCart_metal(Request $request){
+        $product = Product::with('product_images')->find($request->id);
+        $size = $request->size ?? 'Default Size';
+        $color = $request->color ?? 'Default Red';
+
+        if ($product == null) {
+            return response()->json([
+                "status"=> false,
+                "message"=> "Product not found"
+            ]);
+        }
+
+        if (Cart::count() > 0) {
+
+            $cartContent = Cart::content();
+            $productAlreadyExist = false;
+
+            foreach ($cartContent as $item) {
+                if ($item->id == $product->id) {
+                    $productAlreadyExist = true;
+                }
+            }
+
+            if($productAlreadyExist == false){
+                Cart::add(
+                        $product->id, 
+                        $product->name, 
+                        1, 
+                        $product->price,                        
+                        [
+                            'category' => 'Frame', 
+                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'size'              => $request->size,
+                            'frame'             => $request->frame,
+                            'image'             => $request->image,
+                            'size'              => $request->size,
+                            'wrap'              => $request->wrap,
+                            'border'            => $request->border,
+                            'major'             => $request->major,
+                            'wrap_wrap'         => $request->wrap_wrap,
+                            'hardware_style'    => $request->hardware_style,
+                            'hardware_display'  => $request->hardware_display,
+                            'lamination'        => $request->lamination,
+                            'retouching'        => $request->retouching,
+                            'hardware_finishing'=> $request->hardware_finishing,
+                            'proof'             => $request->proof
+                        ]
+                );
+                $status = true;
+                $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
+                session()->flash('success', $message);
+            } else {
+                $status = false;
+                $message = $product->name.' already added in cart';
+            }
+
+        } else {
+            Cart::add(
+                    $product->id, 
+                    $product->name, 
+                    1, 
+                    $product->price, 
+                    [
+                        'category' => 'Frame', 
+                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'size'              => $request->size,
+                            'frame'             => $request->frame,
+                            'image'             => $request->image,
+                            'size'              => $request->size,                            
+                            'wrap'              => $request->wrap,
+                            'border'            => $request->border,
+                            'major'             => $request->major,
+                            'wrap_wrap'         => $request->wrap_wrap,
+                            'hardware_style'    => $request->hardware_style,
+                            'hardware_display'  => $request->hardware_display,
+                            'lamination'        => $request->lamination,
+                            'retouching'        => $request->retouching,
+                            'hardware_finishing'=> $request->hardware_finishing,
+                            'proof'             => $request->proof                                       
+                    ]);
+            $status = true;
+            $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
+            session()->flash('success', $message);
+        }
+
+        return response()->json([
+            "status"=> $status,
+            "message"=> $message
+        ]);
+    }
+
 
     public function addToCart_neon(Request $request){
         $product = Product::with('product_images')->find($request->id);
@@ -168,17 +268,6 @@ class CartController extends Controller {
     }
 
 
-    
-    public function cart(){
-        $cartContent = Cart::content();
-        $data['cartContent'] = $cartContent;
-
-        //dd($cartContent);
-
-        return view('front.cart.index',$data);
-    }
-
-
     public function updateCart(Request $request){
         $rowId = $request->rowId;
         $qty = $request->qty;
@@ -212,7 +301,6 @@ class CartController extends Controller {
     }
 
 
-
     public function deleteItem(Request $request){
         $rowId = $request->rowId;
         $itemInfo = Cart::get($rowId);
@@ -235,7 +323,6 @@ class CartController extends Controller {
             "message"=> $success,
         ]);
     }
-
 
 
     public function checkout(){

@@ -15,24 +15,23 @@
 <section class="section-10">
     <div class="container">
         <div class="login-form">
-            <form action="{{ route('password.email') }}" method="POST">
-                <h4 class="modal-title">Reset your password</h4>
-                @csrf
-                <div class="form-group mt-2 mb-2">
-                    <label>Enter Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-                </div>
-
-                @if(session('status'))
-                    <p class="mb-0">{{ session('status') }}</p>
+                <form action="{{ route('password.email') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label>Enter Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    
+                    @if(session('status'))
+                    <p>{{ session('status') }}</p>
                 @endif
 
                 @if($errors->any())
-                    <p class="mb-0">{{ $errors->first() }}</p>
+                    <p>{{ $errors->first() }}</p>
                 @endif
 
-                <button type="submit" class="btn btn-primary mt-3">Send Password Reset Link</button>
-            </form>
+                    <button type="submit" class="btn btn-primary mt-3">Send Password Reset Link</button>
+                </form>
             </div>
         </div>
     </section>

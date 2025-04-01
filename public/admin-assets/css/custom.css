@@ -83,6 +83,12 @@
 .alert { position: absolute; top:-46px; left:40%; z-index:9999; width: 400px; padding:8px 13px;}
 .alert .close { padding:7px 10px;}
 
+.force_active { display: block !important;}
+
+.metal_product { padding: 3px 8px; border:1px #ccc solid; border-radius: 5px; background-color: var(--primary); color: var(--white); font-size: 13px;}
+.neon_product { padding: 3px 8px; border-radius: 5px; background: linear-gradient(45deg, #5639e6, #FD0C91, #f4d22a);
+  background: -webkit-linear-gradient(45deg, #5639e6, #FD0C91, #f4d22a); color: #fff; font-size: 13px;}
+.default_product { padding: 3px 8px; border:1px #ccc solid; border-radius: 5px; background-color: #000; color: var(--white); font-size: 13px;;}
 
 .filterControls { display: flex; float:right;}
 .filterControls ul, .filterControls li { list-style-type: none; margin-left:15px;}

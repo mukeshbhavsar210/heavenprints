@@ -33,10 +33,11 @@
                                     </div>
                                     <div class="col-md-3 col-12">
                                         <label for="productType">Type <span class="required">*</span></label>
-                                        <select id="productType" name="product_type" class="form-control" required>
-                                            <option value="DEFAULT">Default</option>
-                                            <option value="METAL">Metal</option>
-                                            <option value="NEON">Neon</option>                                                                                  
+                                        <select id="productType" name="product_type" class="form-control" >
+                                            <option value="" disabled selected>Select Type</option> 
+                                            <option {{ ($product->product_type == 'Default' ? 'selected' : '')}} value="Default">Default</option>
+                                            <option {{ ($product->product_type == 'Metal' ? 'selected' : '')}} value="Metal">Metal</option>
+                                            <option {{ ($product->product_type == 'Neon' ? 'selected' : '')}} value="Neon">Neon</option>                                                                                  
                                         </select>
                                     </div>
                                 </div>
@@ -131,7 +132,7 @@
                                     </div>  
                                 </div>                                
                             
-                                <div class="metal_details hidden"> 
+                                <div class="metal_details hidden {{ $product->product_type == 'Metal' ? 'force_active' : '' }}"> 
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">   
                                             <div class="form-group">                                           
@@ -638,14 +639,14 @@ $("#edit_productForm").submit(function(event){
     $('#productType').on('change', function () {
     var selectedValue = $(this).val();
     // Hide all divs first
-    $('.default_details, .metal_details, .tshirt_details, #mugDiv').hide();
+    $('.default_details, .metal_details, .tshirt_details').hide();
     
     // Show the selected div
-    if (selectedValue == 'DEFAULT') {
+    if (selectedValue == 'Default') {
         $('.default_details').show();
-    } else if (selectedValue == 'METAL') {
+    } else if (selectedValue == 'Metal') {
         $('.metal_details').show();
-    } else if (selectedValue == 'NEON') {
+    } else if (selectedValue == 'Neon') {
         $('.tshirt_details').show();
     }
 });

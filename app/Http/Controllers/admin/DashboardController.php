@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class HomeController extends Controller {
+class DashboardController extends Controller {
 
     public function index(Request $request){
 
@@ -35,10 +35,5 @@ class HomeController extends Controller {
                 ->get();
 
         return view('admin.dashboard.index', compact('orders', 'totalCategories', 'totalProducts', 'totalOrders', 'totalRevenue', 'pendingOrders', 'completedOrders', 'latestOrders'));
-    }
-
-    public function logout() {
-        Auth::guard('admin')->logout();
-        return redirect()->route('admin.login');
     }
 }

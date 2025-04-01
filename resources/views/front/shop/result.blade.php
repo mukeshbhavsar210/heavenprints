@@ -23,8 +23,8 @@
                         <div class="col-md-2 col-6">
                             <div class="product-image position-relative">
                                 <a href="{{ route('front.product',$product->slug) }}" class="product-img">
-                                    @if (!empty($productImage->image))
-                                        <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                    @if (!empty($productImage->image1))
+                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                     @else
                                         <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                     @endif

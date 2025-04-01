@@ -98,6 +98,7 @@
         <script src="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
         <script src="{{ asset('admin-assets/plugins/select2/js/select2.min.js') }}"></script>
         <script src="{{ asset('admin-assets/js/datetimepicker.js') }}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<!-- AdminLTE for demo purposes -->
 		{{-- <script src="{{ asset('admin-assets/js/demo.js') }}"></script> --}}
         <script type="text/javascript">

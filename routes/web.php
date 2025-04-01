@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\PageController;
@@ -45,11 +46,20 @@ Route::controller(ShopController::class)->group(function() {
 
     //Searh products
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
+
+    //Product details
     Route::get('/product/{slug}', 'product')->name('front.product');
+    Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
     Route::post('/store-svg', 'storeSVG')->name('update.svg');
+
+    Route::post('/save_frame', 'saveSession')->name('save.session');
+
+    //Storing in session and calculations
+    Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
+    Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
 });
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
@@ -57,8 +67,11 @@ Route::get('/select', function() { return view('select'); })->name('select.page'
 Route::controller(CartController::class)->group(function() {
     Route::get('/cart','cart')->name('front.cart');
     Route::post('/update-cart','updateCart')->name('front.updateCart');
+    
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
+    Route::post('/add-to-cart-metal','addToCart_metal')->name('front.addToCart_metal');
     Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
+
     Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout','checkout')->name('front.checkout');
@@ -91,13 +104,7 @@ Route::controller(FrameController::class)->group(function() {
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');
     Route::post('/upload-image', 'upload')->name('image.upload');
-    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');
-    Route::post('/add-to-cart-frame', 'addToCartFrame')->name('cart.add');
-    Route::post('/merge', 'mergeImage')->name('merge.image');
-    
-    Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
-    Route::get('/upload_choice', 'showSelection')->name('show.selection');    
-    //Route::get('/upload_choice', 'showSelection')->name('show.selection');  
+    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
 });
 
 //Metal Frame Rates calculations saved in session storage
@@ -213,6 +220,11 @@ Route::group(['prefix' => 'admin'], function(){
     Route::group(['middleware' => 'admin.auth'], function(){
         Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
         Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
+
+        //Category Routes
+        // Route::controller(DashboardController::class)->group(function() {
+        //     Route::get('/dashboard', 'index')->name('dashboard.index');
+        // });
 
         //Category Routes
         Route::controller(CategoryController::class)->group(function() {
