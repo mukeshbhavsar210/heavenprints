@@ -170,9 +170,9 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
 
         //Category Routes
-        Route::controller(DashboardController::class)->group(function() {
-            Route::get('/dashboard', 'index')->name('dashboard.index');
-        });
+        // Route::controller(DashboardController::class)->group(function() {
+        //     Route::get('/dashboard', 'index')->name('dashboard.index');
+        // });
 
         //Category Routes
         Route::controller(CategoryController::class)->group(function() {
