@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\OTPController;
 use App\Http\Controllers\admin\PageController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductImageController;
@@ -123,6 +124,15 @@ Route::post('/clear-prices', function () {
 })->name('clear.prices');
 
 Route::post('/calculate-price', [PriceController::class, 'calculatePrice'])->name('calculate.price');
+
+//OTP login
+Route::controller(OTPController::class)->group(function() {
+    Route::get('/otp-login', 'showLogin')->name('otp.login');
+    Route::post('/send-otp', 'sendOTP')->name('otp.send');
+    Route::post('/verify-otp', 'verifyOTP')->name('otp.verify');
+});
+
+Route::get('/dashboard', function () { return view('dashboard'); })->middleware('auth');
 
 //User realted
 Route::group(['prefix' => 'account'], function(){

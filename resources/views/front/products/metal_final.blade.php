@@ -8,7 +8,7 @@
 
             <div class="row">
                 <div class="col-md-5 col-12">
-                    <div class="slider-for">
+                    <div class="slider-for heightFix">
                         @if ($product->product_images)
                             @foreach ($product->product_images as $key => $productImage)
                                 @for ($i = 1; $i <= 5; $i++) 
@@ -46,7 +46,6 @@
 
                 <div class="col-md-7 col-12">
                     <h1>{{ $product->name }}</h1>
-                    <p>{{ $product->metal_type }}</p>
 
                     <div class="d-flex mt-3 mb-3">
                         <div class="text-primary mr-2">
@@ -76,7 +75,7 @@
                                     <div class="size-picker">
                                         @foreach($shapes as $index => $value)
                                             <div class="size-picker__item" >
-                                                <input type="radio" name="shape" value="{{ $value }}" class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
+                                                <input {{ $loop->first ? 'checked' : '' }} type="radio" name="shape" value="{{ $value }}" class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
                                                 <label class="size-picker__color" for="metalShape_{{ $loop->index + 1 }}" >{{ $value }}</label>
                                             </div>
                                         @endforeach
@@ -94,7 +93,7 @@
                                     <div class="size-picker">
                                         @foreach($sizes as $index => $value)
                                             <div class="size-picker__item" >
-                                                <input type="radio" name="size" value="{{ $value }}" class="size-picker__input" id="metalSize_{{ $loop->index + 1 }}">
+                                                <input {{ $loop->first ? 'checked' : '' }} type="radio" name="size" value="{{ $value }}" class="size-picker__input" id="metalSize_{{ $loop->index + 1 }}">
                                                 <label class="size-picker__color" for="metalSize_{{ $loop->index + 1 }}" >{{ $value }}</label>
                                             </div>
                                         @endforeach
@@ -104,7 +103,7 @@
                                         <div class="col-md-2 col-12">
                                             <p class="mt-2"><b>Custom:</b></p>
                                         </div>
-                                        <div class="col-md-5 col-12">
+                                        <div class="col-md-3 col-12">
                                             <div class="twoDropdowns">
                                                 <div class="itemDD">                                                   
                                                     <select id="custom_size_1" class="form-control" name="custom_size_1">
@@ -112,6 +111,9 @@
                                                             <option value="{{ $value }}"  >{{ $value }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                                <div class="itemDD"> 
+                                                    <p class="mt-1">X</p>
                                                 </div>
                                                 <div class="itemDD">
                                                     <select id="custom_size_2" class="form-control" name="custom_size_2" >
@@ -126,7 +128,7 @@
                                     
                                     <button type="submit" class="btn btn-primary mt-3" id="saveOptions">Create Now</button>
                                     
-                                    <p class="mt-5">No Risk, Lowest Prices Guaranteed <br />
+                                    <p class="mt-2">No Risk, Lowest Prices Guaranteed <br />
                                     Exclusive Bulk Order Deal!</p>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@
         <div class="container">
             <ol class="breadcrumb primary-color">
                 <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                <li class="breadcrumb-item active">Metal Prints</li>
+                <li class="breadcrumb-item active">Frames</li>
             </ol>
 
             @php
@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="row mb-3">
-                        <div class="col-md-10 col-8"><h3>Metal Prints Products</h3></div>
+                        <div class="col-md-10 col-8"><h3>Frames Products</h3></div>
                     </div>
                     <div class="row">  
                         @if ($products->isNotEmpty())
@@ -54,9 +54,7 @@
                                                 </a>
                                             @endif
 
-                                            @if($product->metal_type)
-                                                <p class="selectedCategory">{{ $product->metal_type }}</p>
-                                            @endif 
+                                           
                                         </div>
                                     </div>
 
