@@ -1,0 +1,39 @@
+@extends('front.layouts.app')
+
+@section('content')
+<section class="section-5">
+    <div class="container">
+        <div class="light-font">
+            <ol class="breadcrumb primary-color mb-0">
+                <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
+                <li class="breadcrumb-item">Forgot Password</li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="section-10">
+    <div class="container">
+        <div class="login-form">
+            <form action="{{ route('password.email') }}" method="POST">
+                <h4 class="modal-title">Reset your password</h4>
+                @csrf
+                <div class="form-group mt-2 mb-2">
+                    <label>Enter Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+
+                @if(session('status'))
+                    <p class="mb-0">{{ session('status') }}</p>
+                @endif
+
+                @if($errors->any())
+                    <p class="mb-0">{{ $errors->first() }}</p>
+                @endif
+
+                <button type="submit" class="btn btn-primary mt-3">Send Password Reset Link</button>
+            </form>
+            </div>
+        </div>
+    </section>
+@endsection
