@@ -110,14 +110,14 @@
 													<ul class="dropdown-menu dropdown-menu-dark">
 														@foreach ($category->sub_category as $subCategory)
 															<li>
-																@if($category->name == 'Customize')
+																@if($category->name == 'NEON')
 																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug_category,$subCategory->slug_sub_category])}}">
 																		<div class="nav_thumb"> 
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
 																			<p class="nav_name">{{ $subCategory->name }}</p>
 																		</div>																	
 																	</a>
-																@elseif($category->name == 'Prints')
+																@elseif($category->name == 'Frames')
 																	<a class="dropdown-item nav-link" href="{{ route('metal.products',[$category->slug_category,$subCategory->slug_sub_category])}}">
 																		<div class="nav_thumb"> 
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
@@ -505,6 +505,16 @@
 </script>
 
 @yield('customJs')
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z1DFCKLSH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z1DFCKLSH7');
+</script>
 
 </body>
 </html>

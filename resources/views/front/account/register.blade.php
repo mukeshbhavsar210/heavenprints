@@ -15,28 +15,40 @@
 <section class="section-10">
     <div class="container">
         <div class="login-form">
-            <form action="" method="post" name="registrationForm" id="registrationForm">            
+            {{-- <form action="" method="post" name="registrationForm" id="registrationForm"> --}}
+
+            <form action="process-register" method="post" >            
+                @csrf
                 <h4 class="modal-title">Register Now</h4>
 
                 <div class="row">
                     <div class="col-md-6 col-6">
                         <div class="form-group">
                             <label class="first_name">First Name</label>
-                            <input type="text" id="first_name" class="form-control" placeholder="First Name" id="first_name" name="first_name">
+                            <input type="text" id="first_name" value="{{ old('first_name') }}" class="form-control" placeholder="First Name" id="first_name" name="first_name">
+                            @error('first_name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <p></p>
                         </div>
                     </div>
                     <div class="col-md-6 col-6">
                         <div class="form-group">
                             <label class="last_name">Last Name</label>
-                            <input type="text" id="last_name" class="form-control" placeholder="Last Name" id="last_name" name="last_name">
-                            <p></p>
+                            <input type="text" id="last_name" value="{{ old('last_name') }}" class="form-control" placeholder="Last Name" id="last_name" name="last_name">
+                            @error('last_name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <p></p>                            
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label class="email">Email</label>
                             <input type="text" class="form-control" placeholder="Email" id="email" name="email">
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <p></p>
                         </div>
                     </div>
@@ -44,6 +56,9 @@
                         <div class="form-group">
                             <label class="phone">Phone</label>
                             <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone">
+                            @error('phone')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <p></p>
                         </div>
                     </div>
@@ -51,6 +66,9 @@
                         <div class="form-group">
                             <label class="password">Password</label>
                             <input type="password" id="password" class="form-control" placeholder="Password" id="password" name="password">
+                            @error('password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <p></p>
                         </div>
                     </div>
@@ -58,11 +76,14 @@
                         <div class="form-group">
                             <label class="confirm_password">Confirm Password</label>
                             <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" id="password_confirmation" name="password_confirmation">
+                            @error('confirm_password')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <p></p>
                         </div>
                     </div>
                     <div class="col-md-6 col-6 mt-2">
-                        <a href="#">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}">Forgot Password?</a>
                     </div>
                     <div class="col-md-6 col-6">
                         <div class="pull-right">
@@ -79,7 +100,7 @@
 
 @section('customJs')
 
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     $("#registrationForm").submit(function(event){
         event.preventDefault();
 
@@ -146,6 +167,6 @@
             }
         })
     });
-</script>
+</script> --}}
 
 @endsection

@@ -137,6 +137,12 @@
                                         <label for="size">Metal Products</label>
                                         <div class="size-picker">
                                             <div class="size-picker__item" >
+                                                <input type="radio" name="metal_type" value="synthetic" id="metalProduct_1" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="metalProduct_1">
+                                                    <p>Synthetic</p>
+                                                </label>
+                                            </div>
+                                            <div class="size-picker__item" >
                                                 <input type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
                                                 <label class="size-picker__color paddingControl" for="metalProduct_1">
                                                     <p>Canvas</p>
@@ -169,7 +175,45 @@
                                         </div>
                                         <p class="error"></p>                                           
                                     </div>  
-                                </div>   
+                                </div>  
+                                <div class="col-md-12 col-12" >
+                                    <div class="form-group">
+                                        <label for="colors">Colors</label>
+                                        <div class="size-picker">
+                                            <div class="size-picker__item" >
+                                                <input type="checkbox" name="colors[]" value="Black" id="frame_Checkbox_1" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="frame_Checkbox_1">
+                                                    <p>Black</p>
+                                                </label>
+                                            </div>
+                                            <div class="size-picker__item" >
+                                                <input type="checkbox" name="colors[]" value="White" id="frame_Checkbox_2" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="frame_Checkbox_2">
+                                                    <p>White</p>
+                                                </label>
+                                            </div>  
+                                            <div class="size-picker__item" >
+                                                <input type="checkbox" name="colors[]" value="Golden" id="frame_Checkbox_3" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="frame_Checkbox_3">
+                                                    <p>Golden</p>
+                                                </label>
+                                            </div>  
+                                            <div class="size-picker__item" >
+                                                <input type="checkbox" name="colors[]" value="Brown Golden" id="frame_Checkbox_4" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="frame_Checkbox_4">
+                                                    <p>Brown Golden</p>
+                                                </label>
+                                            </div> 
+                                            <div class="size-picker__item" >
+                                                <input type="checkbox" name="colors[]" value="Brown" id="frame_Checkbox_5" class="size-picker__input">
+                                                <label class="size-picker__color paddingControl" for="frame_Checkbox_5">
+                                                    <p>Brown</p>
+                                                </label>
+                                            </div>                                                                                             
+                                        </div>
+                                        <p class="error"></p>
+                                    </div>
+                                </div>                                 
                             </div>                            
 
                             <div class="row">

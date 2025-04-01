@@ -21,13 +21,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\custom\FrameController;
 use App\Http\Controllers\custom\MetalFrameController;
 use App\Http\Controllers\admin\PriceController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 //Front pages routes
 Route::controller(FrontController::class)->group(function() {
@@ -123,6 +125,56 @@ Route::post('/clear-prices', function () {
 })->name('clear.prices');
 
 Route::post('/calculate-price', [PriceController::class, 'calculatePrice'])->name('calculate.price');
+
+
+Route::get('/email/verify', function () {
+    return view('front.account.verify-email');
+})->name('verification.notice');
+
+// Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
+//     $user = \App\Models\User::find($id);
+
+//     if (!$user) {
+//         return abort(404, 'User not found.');
+//     }
+
+//     $user->markEmailAsVerified();
+
+//     return redirect('/home')->with('success', 'Email verified successfully.');
+// });
+
+
+Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
+    Log::info('Verification Request:', [
+        'id' => $id,
+        'hash' => $hash,
+        'user_found' => User::find($id) ? true : false
+    ]);
+
+    $user = User::find($id);
+
+    if (!$user) {
+        Log::error('User not found for verification. ID: ' . $id);
+        abort(404, 'User not found.');
+    }
+
+    if (!hash_equals(sha1($user->getEmailForVerification()), $hash)) {
+        Log::error('Invalid hash for user: ' . $id);
+        abort(403, 'Invalid verification link.');
+    }
+
+    $user->markEmailAsVerified();
+
+    Log::info('Email verified successfully for user: ' . $user->id);
+
+    return redirect('/account/login')->with('success', 'Email verified successfully.');
+})->name('verification.verify');
+
+Route::post('/email/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['throttle:6,1'])->name('verification.resend');
+
 
 //User realted
 Route::group(['prefix' => 'account'], function(){
