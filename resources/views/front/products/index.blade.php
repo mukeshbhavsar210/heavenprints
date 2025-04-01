@@ -13,7 +13,7 @@
                 </ol>         
                 <div class="row">
                     <div class="col-md-5 col-12">
-                        <div class="slider-for">
+                        <div class="slider-for heightFix">
                             @if ($product->product_images)
                                 @foreach ($product->product_images as $key => $productImage)
                                     @for ($i = 1; $i <= 5; $i++) 

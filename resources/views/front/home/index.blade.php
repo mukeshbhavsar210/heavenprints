@@ -32,7 +32,7 @@
                             <div class="cat-card">
                                 <div class="left">
                                     @if ($category->image != "")
-                                        <img src="{{ asset('uploads/category/thumb/'.$category->image) }} " alt="" class="img-fluid">
+                                        <img src="{{ asset('uploads/category/'.$category->image) }} " alt="" class="img-fluid">
                                     @endif
                                 </div>
                                 <div class="right">
@@ -65,7 +65,7 @@
     
                                     <a href="{{ route('front.product',$product->slug) }}" class="product-img">
                                         @if (!empty($productImage->image))
-                                            <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                            <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
                                         @else
                                             <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                         @endif
@@ -142,10 +142,6 @@
                                         <i class="fa fa-shopping-cart"></i> Add To Cart
                                     </a>
                                     @endif
-
-                                    @if($product->metal_type)
-                                        <p class="selectedCategory">{{ $product->metal_type }}</p>
-                                    @endif 
                                 </div>
                             </div>
                             <div class="mt-3">
