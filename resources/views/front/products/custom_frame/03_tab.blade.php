@@ -8,14 +8,13 @@
     </div>
 </nav>
 
-{{ session('size') }}
-
 <span id="selectedSize"></span>
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade  {{ session('shape') == 'Rectangle' ? 'active show' : '' }}" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
         <div class="paddWrapper">
             <div class="radio-group row">
+                <p>{{ session('selected_product.shape') }}</p>
                 @if($recommended)
                     @foreach($recommended as $index => $value)
                         <div class="col-md-4 col-6">                              

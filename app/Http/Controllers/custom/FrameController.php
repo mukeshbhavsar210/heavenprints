@@ -26,81 +26,79 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
 class FrameController extends Controller {
+    // public function index(Request $request) {
+    //     $canvas = FrameShape::where('types','canvas')->get();
+    //     $acrylic = FrameShape::where('types','acrylic')->get();
+    //     $metal = FrameShape::where('types','metal')->get();
+    //     $wood = FrameShape::where('types','wood')->get();
+    //     $others = FrameShape::where('types','others')->get();
 
-    public function index(Request $request) {
-        $tab_canvas = FrameShape::where('types','')->get();
-        $frame_accordion = FrameShape::get();
-        $canvas = FrameShape::where('types','canvas')->get();
-        $acrylic = FrameShape::where('types','acrylic')->get();
-        $metal = FrameShape::where('types','metal')->get();
-        $wood = FrameShape::where('types','wood')->get();
-        $others = FrameShape::where('types','others')->get();
-        $recommended = FrameSize::where('types','recommended')->get();
-        $square = FrameSize::where('types','square')->get();
-        $panaromic = FrameSize::where('types','panaromic')->get();
-        $large = FrameSize::where('types','large')->get();
-        $small = FrameSize::where('types','small')->get();
-        $wraps = FrameWrap::where('types','wrap')->get();
-        $borders = FrameWrap::where('types','border')->get();    
-        $wrap_borders = FrameBorder::get();
-        $standards = FrameFrame::where('types','standard')->get();
-        $premium = FrameFrame::where('types','premium')->get();
-        $floating = FrameFrame::where('types','floating')->get();                   
-        $hardware_styles = HardwareStyle::get();
-        $hardware_displays = HardwareDisplay::get();
-        $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
-        $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
-        $laminations = Lamination::all();
-        $frameSizes = FrameSize::all();
-        $modifications = Modification::all();
+    //     $recommended = FrameSize::where('types','recommended')->get();
+    //     $square = FrameSize::where('types','square')->get();
+    //     $panaromic = FrameSize::where('types','panaromic')->get();
+    //     $large = FrameSize::where('types','large')->get();
+    //     $small = FrameSize::where('types','small')->get();
+    //     $wraps = FrameWrap::where('types','wrap')->get();
+    //     $borders = FrameWrap::where('types','border')->get();    
+    //     $wrap_borders = FrameBorder::get();
+    //     $standards = FrameFrame::where('types','standard')->get();
+    //     $premium = FrameFrame::where('types','premium')->get();
+    //     $floating = FrameFrame::where('types','floating')->get();                   
+    //     $hardware_styles = HardwareStyle::get();
+    //     $hardware_displays = HardwareDisplay::get();
+    //     $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
+    //     $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
+    //     $laminations = Lamination::all();
+    //     $frameSizes = FrameSize::all();
+    //     $modifications = Modification::all();
 
-        $data['canvas'] = $canvas;
-        $data['acrylic'] = $acrylic;
-        $data['metal'] = $metal;
-        $data['wood'] = $wood;
-        $data['others'] = $others;
-        $data['frameSizes'] = $frameSizes;
-        $data['wraps'] = $wraps;
-        $data['borders'] = $borders;
-        $data['wrap_borders'] = $wrap_borders;
-        $data['recommended'] = $recommended;
-        $data['square'] = $square;
-        $data['panaromic'] = $panaromic;
-        $data['large'] = $large;
-        $data['small'] = $small;
-        $data['standards'] = $standards;
-        $data['premium'] = $premium;
-        $data['floating'] = $floating;
-        $data['hardware_styles'] = $hardware_styles;
-        $data['hardware_displays'] = $hardware_displays;
-        $data['hardware_basic_finishings'] = $hardware_basic_finishings;
-        $data['hardware_advance_finishings'] = $hardware_advance_finishings;
-        $data['frame_accordion'] = $frame_accordion;
-        $data['tab_canvas'] = $tab_canvas;
-        $data['laminations'] = $laminations;
-        $data['modifications'] = $modifications;
+    //     $data['canvas'] = $canvas;
+    //     $data['acrylic'] = $acrylic;
+    //     $data['metal'] = $metal;
+    //     $data['wood'] = $wood;
+    //     $data['others'] = $others;
+    //     $data['frameSizes'] = $frameSizes;
+    //     $data['wraps'] = $wraps;
+    //     $data['borders'] = $borders;
+    //     $data['wrap_borders'] = $wrap_borders;
+    //     $data['recommended'] = $recommended;
+    //     $data['square'] = $square;
+    //     $data['panaromic'] = $panaromic;
+    //     $data['large'] = $large;
+    //     $data['small'] = $small;
+    //     $data['standards'] = $standards;
+    //     $data['premium'] = $premium;
+    //     $data['floating'] = $floating;
+    //     $data['hardware_styles'] = $hardware_styles;
+    //     $data['hardware_displays'] = $hardware_displays;
+    //     $data['hardware_basic_finishings'] = $hardware_basic_finishings;
+    //     $data['hardware_advance_finishings'] = $hardware_advance_finishings;
+    //     $data['frame_accordion'] = $frame_accordion;
+    //     $data['tab_canvas'] = $tab_canvas;
+    //     $data['laminations'] = $laminations;
+    //     $data['modifications'] = $modifications;
 
-        // Load stored image and options from session
-        $image = Session::get('uploaded_image');
-        $options = Session::get('image_options', [
-            'frame' => 10,
-            'size' => 20,
-            'wrap_wrap' => 30,
-            'wrap_frame' => 40,
-            'price' => 50, // Default price
-        ]);
+    //     // Load stored image and options from session
+    //     $image = Session::get('uploaded_image');
+    //     $options = Session::get('image_options', [
+    //         'frame' => 10,
+    //         'size' => 20,
+    //         'wrap_wrap' => 30,
+    //         'wrap_frame' => 40,
+    //         'price' => 50, // Default price
+    //     ]);
 
-        $data['image'] = $image;
+    //     $data['image'] = $image;
 
-        //Select Metal Frame and store in session       
-        $request->session()->forget('sizePrice'); 
-        $request->session()->forget('framePrice');  
-        session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
+    //     //Select Metal Frame and store in session       
+    //     $request->session()->forget('sizePrice'); 
+    //     $request->session()->forget('framePrice');  
+    //     session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
 
-        $selection = Session::get('selection', []);
+    //     $selection = Session::get('selection', []);
 
-        return view('front.shop.custom_frame.index', $data, $options, $selection );
-    }
+    //     return view('front.shop.custom_frame.index', $data, $options, $selection );
+    // }
 
    
     public function getFrameDetails(Request $request){
@@ -194,5 +192,13 @@ class FrameController extends Controller {
         ]);
 
         return response()->json($selectedPrices);
+    }
+
+    public function checkSessionImage(Request $request) {
+        $imagePath = Session::get('uploaded_image'); // Assuming image is stored in session
+
+        return response()->json([
+            'image' => $imagePath ? asset('storage/' . $imagePath) : null
+        ]);
     }
 }

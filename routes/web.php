@@ -42,13 +42,12 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
-
-    //Searh products
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
 
     //Product details
     Route::get('/product/{slug}', 'product')->name('front.product');
     Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
+    Route::get('/custom_frame/{slug}', 'custom_frame')->name('custom.frame.product');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
@@ -90,15 +89,14 @@ Route::controller(CartController::class)->group(function() {
 
 
 //Metal Frames
-Route::controller(MetalFrameController::class)->group(function() {
-    Route::get('/metal-prints', 'index')->name('metal.front');
-    Route::post('/store-selection', 'metalFrameSelection')->name('frame.selection');
-    Route::post('/add-to-cart-metal-frame', 'addToMetalFrame')->name('cart.metalframe');
-});
+// Route::controller(MetalFrameController::class)->group(function() {
+//     Route::get('/metal-prints', 'index')->name('metal.front');
+//     Route::post('/store-selection', 'metalFrameSelection')->name('frame.selection');
+// });
 
 //Custom Frames
 Route::controller(FrameController::class)->group(function() {
-    Route::get('/uploadchoice', 'index')->name('frame.front');
+    //Route::get('/uploadchoice', 'index')->name('frame.front');
     Route::post('/update-options', 'updateOptions')->name('update.options');
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');

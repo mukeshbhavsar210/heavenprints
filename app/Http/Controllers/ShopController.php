@@ -126,7 +126,6 @@ class ShopController extends Controller {
         return view('front.shop.neon',$data);
     }
 
-
     //METAL PRODUCT
     public function metalProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
         $categorySelected = ' ';
@@ -158,7 +157,6 @@ class ShopController extends Controller {
         return view('front.shop.metal',$data);
     }
 
-   
 
     public function search(Request $request, $searchCategorySlug = null, $searchSubCategorySlug = null) {
         $categorySelected = ' ';
@@ -228,13 +226,52 @@ class ShopController extends Controller {
         $data['dropdown_2'] = $dropdown_2;
 
         //METAL FRAMES
+        // $frame_shapes = [
+        //     [
+        //         'name'  => 'Single Print',
+        //         'slug'  => 'single_print',
+        //         'price' => 1143,
+        //         'image' => 'round_canvas.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Round Canvas',
+        //         'slug'  => 'round-canvas',
+        //         'price' => 7211,
+        //         'image' => 'metal.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Triangle Canvas',
+        //         'slug'  => 'triangle-canvas',
+        //         'price' => 1250,
+        //         'image' => 'metal.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Wood',
+        //         'slug'  => 'wood',
+        //         'price' => 1355,
+        //         'image' => 'metal.jpg',
+        //     ],
+        // ];
+
+        // $canvas = array_filter($frame_shapes, function ($item) {
+        //     return str_contains($item['slug'], 'canvas'); // Filter items with 'canvas' in slug
+        // });
+
+        // $canvas = array_values($canvas);        
+
+        //$canvas = collect($frame_shapes)->where('slug2', 'canvas')->all();
+        
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
+
         $canvas = FrameShape::where('types','canvas')->get();
         $acrylic = FrameShape::where('types','acrylic')->get();
         $metal = FrameShape::where('types','metal')->get();
         $wood = FrameShape::where('types','wood')->get();
         $others = FrameShape::where('types','others')->get();
+
+        $tab_canvas = FrameShape::where('types','')->get();
+        $frame_accordion = FrameShape::get();        
         $recommended = FrameSize::where('types','recommended')->get();
         $square = FrameSize::where('types','square')->get();
         $panaromic = FrameSize::where('types','panaromic')->get();
@@ -303,138 +340,6 @@ class ShopController extends Controller {
         return view('front.products.index',$data);
     }
 
-    public function saveSession(Request $request) {
-        Session::put('selected_size', $request->sizeRadios);
-        Session::put('category_name', $request->category_name);
-        Session::put('shape', $request->shapeRadios);
-        Session::put('custom_size_1', $request->customSizeDropdown1);
-        Session::put('custom_size_2', $request->customSizeDropdown2);
-        Session::put('price', $request->priceInput);
-    
-        return response()->json(['success' => true]);
-    }
-    
-
-    public function showSelection(Request $request, $categorySlug = null, $subCategorySlug = null){
-        $products = Product::where('status',1);
-
-        $tab_canvas = FrameShape::where('types','')->get();
-        $frame_accordion = FrameShape::get();
-        $canvas = FrameShape::where('types','canvas')->get();
-        $acrylic = FrameShape::where('types','acrylic')->get();
-        $metal = FrameShape::where('types','metal')->get();
-        $wood = FrameShape::where('types','wood')->get();
-        $others = FrameShape::where('types','others')->get();
-        $recommended = FrameSize::where('types','recommended')->get();
-        $square = FrameSize::where('types','square')->get();
-        $panaromic = FrameSize::where('types','panaromic')->get();
-        $large = FrameSize::where('types','large')->get();
-        $small = FrameSize::where('types','small')->get();
-        $wraps = FrameWrap::where('types','wrap')->get();
-        $borders = FrameWrap::where('types','border')->get();    
-        $wrap_borders = FrameBorder::get();
-        $standards = FrameFrame::where('types','standard')->get();
-        $premium = FrameFrame::where('types','premium')->get();
-        $floating = FrameFrame::where('types','floating')->get();                   
-        $hardware_styles = HardwareStyle::get();
-        $hardware_displays = HardwareDisplay::get();
-        $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
-        $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
-        $laminations = Lamination::all();
-        $frameSizes = FrameSize::all();
-        $modifications = Modification::all();
-
-        $selection = Session::get('selection', []);
-
-        $data['canvas'] = $canvas;
-        $data['acrylic'] = $acrylic;
-        $data['metal'] = $metal;
-        $data['wood'] = $wood;
-        $data['others'] = $others;
-        $data['frameSizes'] = $frameSizes;
-        $data['wraps'] = $wraps;
-        $data['borders'] = $borders;
-        $data['wrap_borders'] = $wrap_borders;
-        $data['recommended'] = $recommended;
-        $data['square'] = $square;
-        $data['panaromic'] = $panaromic;
-        $data['large'] = $large;
-        $data['small'] = $small;
-        $data['standards'] = $standards;
-        $data['premium'] = $premium;
-        $data['floating'] = $floating;
-        $data['hardware_styles'] = $hardware_styles;
-        $data['hardware_displays'] = $hardware_displays;
-        $data['hardware_basic_finishings'] = $hardware_basic_finishings;
-        $data['hardware_advance_finishings'] = $hardware_advance_finishings;
-        $data['frame_accordion'] = $frame_accordion;
-        $data['tab_canvas'] = $tab_canvas;
-        $data['laminations'] = $laminations;
-        $data['modifications'] = $modifications;
-        $data['selection'] = $selection;
-
-        // Load stored image and options from session
-        $image = Session::get('uploaded_image');
-        $options = Session::get('image_options', [
-            'frame' => 10,
-            'size' => 20,
-            'wrap_wrap' => 30,
-            'wrap_frame' => 40,
-            'price' => 50, // Default price
-        ]);
-
-        $data['image'] = $image;
-
-        $data['products'] = $products;
-
-        //Select Metal Frame and store in session       
-        session()->forget('framePrice');
-        session()->forget('sizePrice');
-        session()->forget('selection');
-        session()->forget('sizePrice,  framePrice, wrapWrapPrice'); 
-
-        return view('front.products.custom_frame.custom', $data);        
-    }
-
-
-    // public function metal_product($slug){
-    //     $products = Product::latest('id')->with('product_images');
-    //     $product = Product::where('slug',$slug)->with('product_images')->first();
-
-    //     $product = Product::where('slug',$slug)
-    //                         ->where('product_type', 'default')
-    //                         ->with('product_images')
-    //                         ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-    //                         ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-    //                         ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-    //                         ->first();
-
-    //     $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
-    //     $sizes = ['8x8', '10x10', '12x12', '16x16', '20x20', '24x24'];
-    //     $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
-    //     $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
-
-    //     if($product == null){
-    //         abort(404);
-    //     }
-
-    //     //Fetch Related products
-    //     $relatedProducts = [];
-    //     if ($product->related_products != '') {
-    //         $productArray = explode(',',$product->related_products);
-    //         $relatedProducts = Product::whereIn('id',$productArray)->where('status',1)->with('product_images')->get();
-    //     }
-
-    //     $data['product'] = $product;
-    //     $data['products'] = $products;
-    //     $data['relatedProducts'] = $relatedProducts;
-    //     $data['shapes'] = $shapes;
-    //     $data['sizes'] = $sizes;
-    //     $data['dropdown_1'] = $dropdown_1;
-    //     $data['dropdown_2'] = $dropdown_2;
-
-    //     return view('front.products.metal',$data);
-    // }
 
     public function metalFrameSelection(Request $request) {
         $request->validate([
@@ -521,45 +426,168 @@ class ShopController extends Controller {
         return response()->json(['message' => 'Metal Frame added to cart!']);
     }
 
+    public function saveSession(Request $request) {
+        Session::put('selected_product', [
+            'id' => $request->product_id,
+            'sizeRadios' => $request->sizeRadios,
+            'size' => $request->size,
+            'category_name' => $request->category_name,
+            'shape' => $request->shapeRadios,
+            'custom_size_1' => $request->customSizeDropdown1,
+            'custom_size_2' => $request->customSizeDropdown2,
+            'price' => $request->priceInput
+        ]);
+    
+        return response()->json(['success' => true]);
+    }
 
-    // public function addToMetalFrame(Request $request){
-    //     $request->validate([
-    //         //'photo' => 'required|string',            
-    //         //'price' => 'required|numeric',
-    //     ]);
 
-    //     $frameName = rand(100000, 999999); // Example: 345678
+    public function custom_frame($slug){
+        $products = Product::latest('id')->with('product_images');
+        $product = Product::where('slug',$slug)->with('product_images')->first();
+        $product = Product::where('slug',$slug)
+                            ->with('product_images')
+                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
+                            ->first();
 
-    //     // Determine size
-    //     $selectedSize = $request->customSize1 ?: ($request->customSize2 ?: $request->metalSize);
+        $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
+        $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
+        $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+        $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
 
-    //     // Save to database
-    //     $product = new Product();
-    //     //$product->name = $frameName;
-    //     // $product->shape = $request->input('metalShape');
-    //     // $product->size = $selectedSize;
-    //     // $product->custom_size1 = $request->input('customSize1');
-    //     // $product->custom_size2 = $request->input('customSize2');
-    //     // $product->price = $request->price;
-    //     $product->save();
+        if($product == null){
+            abort(404);
+        }
 
-    //     // Add to cart
-    //     Cart::add([
-    //         'id'      => $product->id,
-    //         'name'    => $frameName,
-    //         'qty'     => 1,
-    //         'price'   => $request->price,
-    //         'weight'  => 0,
-    //         'options' => [
-    //             'category'     => 'Metal Frame',
-    //             'image'        => $request->image,
-    //             'size'         => $selectedSize, 
-    //             'shape'        => $request->metalShape,
-    //             'custom_size1' => $request->customSize1,
-    //             'custom_size2' => $request->customSize2,
-    //         ]
-    //     ]);
-       
-    //     return response()->json(['message' => 'Metal Frame added to cart successfully!']);
-    // }
+        //Fetch Related products
+        $relatedProducts = [];
+        if ($product->related_products != '') {
+            $productArray = explode(',',$product->related_products);
+            $relatedProducts = Product::whereIn('id',$productArray)->where('status',1)->with('product_images')->get();
+        }
+
+        $data['product'] = $product;
+        $data['products'] = $products;
+        $data['relatedProducts'] = $relatedProducts;
+        $data['shapes'] = $shapes;
+        $data['sizes'] = $sizes;
+        $data['dropdown_1'] = $dropdown_1;
+        $data['dropdown_2'] = $dropdown_2;
+
+        //METAL FRAMES
+        // $frame_shapes = [
+        //     [
+        //         'name'  => 'Single Print',
+        //         'slug'  => 'single_print',
+        //         'price' => 1143,
+        //         'image' => 'round_canvas.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Round Canvas',
+        //         'slug'  => 'round-canvas',
+        //         'price' => 7211,
+        //         'image' => 'metal.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Triangle Canvas',
+        //         'slug'  => 'triangle-canvas',
+        //         'price' => 1250,
+        //         'image' => 'metal.jpg',
+        //     ],
+        //     [
+        //         'name'  => 'Wood',
+        //         'slug'  => 'wood',
+        //         'price' => 1355,
+        //         'image' => 'metal.jpg',
+        //     ],
+        // ];
+
+        // $canvas = array_filter($frame_shapes, function ($item) {
+        //     return str_contains($item['slug'], 'canvas'); // Filter items with 'canvas' in slug
+        // });
+
+        // $canvas = array_values($canvas);        
+
+        //$canvas = collect($frame_shapes)->where('slug2', 'canvas')->all();
+        
+        $tab_canvas = FrameShape::where('types','')->get();
+        $frame_accordion = FrameShape::get();
+
+        $canvas = FrameShape::where('types','canvas')->get();
+        $acrylic = FrameShape::where('types','acrylic')->get();
+        $metal = FrameShape::where('types','metal')->get();
+        $wood = FrameShape::where('types','wood')->get();
+        $others = FrameShape::where('types','others')->get();
+
+        $tab_canvas = FrameShape::where('types','')->get();
+        $frame_accordion = FrameShape::get();        
+        $recommended = FrameSize::where('types','recommended')->get();
+        $square = FrameSize::where('types','square')->get();
+        $panaromic = FrameSize::where('types','panaromic')->get();
+        $large = FrameSize::where('types','large')->get();
+        $small = FrameSize::where('types','small')->get();
+        $wraps = FrameWrap::where('types','wrap')->get();
+        $borders = FrameWrap::where('types','border')->get();    
+        $wrap_borders = FrameBorder::get();
+        $standards = FrameFrame::where('types','standard')->get();
+        $premium = FrameFrame::where('types','premium')->get();
+        $floating = FrameFrame::where('types','floating')->get();                   
+        $hardware_styles = HardwareStyle::get();
+        $hardware_displays = HardwareDisplay::get();
+        $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
+        $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
+        $laminations = Lamination::all();
+        $frameSizes = FrameSize::all();
+        $modifications = Modification::all();
+
+        $selection = Session::get('selection', []);
+
+        $data['canvas'] = $canvas;
+        $data['acrylic'] = $acrylic;
+        $data['metal'] = $metal;
+        $data['wood'] = $wood;
+        $data['others'] = $others;
+        $data['frameSizes'] = $frameSizes;
+        $data['wraps'] = $wraps;
+        $data['borders'] = $borders;
+        $data['wrap_borders'] = $wrap_borders;
+        $data['recommended'] = $recommended;
+        $data['square'] = $square;
+        $data['panaromic'] = $panaromic;
+        $data['large'] = $large;
+        $data['small'] = $small;
+        $data['standards'] = $standards;
+        $data['premium'] = $premium;
+        $data['floating'] = $floating;
+        $data['hardware_styles'] = $hardware_styles;
+        $data['hardware_displays'] = $hardware_displays;
+        $data['hardware_basic_finishings'] = $hardware_basic_finishings;
+        $data['hardware_advance_finishings'] = $hardware_advance_finishings;
+        $data['frame_accordion'] = $frame_accordion;
+        $data['tab_canvas'] = $tab_canvas;
+        $data['laminations'] = $laminations;
+        $data['modifications'] = $modifications;
+        $data['selection'] = $selection;
+
+        // Load stored image and options from session
+        $image = Session::get('uploaded_image');
+        // $options = Session::get('image_options', [
+        //     'frame' => 10,
+        //     'size' => 20,
+        //     'wrap_wrap' => 30,
+        //     'wrap_frame' => 40,
+        //     'price' => 50, 
+        // ]);
+
+        $data['image'] = $image;
+
+        // session()->forget('framePrice');
+        // session()->forget('sizePrice');
+        // session()->forget('selection');
+        // session()->forget('sizePrice,  framePrice, wrapWrapPrice');
+
+        return view('front.products.custom_frame.index',$data);
+    }
 }
