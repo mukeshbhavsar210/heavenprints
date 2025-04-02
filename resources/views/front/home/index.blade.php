@@ -3,20 +3,18 @@
 @section('content')
 
     @if (getBanners()->isNotEmpty())
-        <div id="homeBanner" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">                                
-                @foreach (getBanners() as $key => $productImage)
-                    <div class="carousel-item {{ ($key == 0) ? 'active' : ' ' }}">
-                        <img class="w-100 h-100" src="{{ asset('uploads/banners/'.$productImage->image) }}" alt="Image">
+        <div id="homeBanner">
+            @foreach (getBanners() as $key => $value)
+                <div>
+                    <img class="w-100 h-100" src="{{ asset('uploads/banners/'.$value->image) }}" alt="Image">
+                    <div class="container relative">
+                        <div class="banner-details">
+                            <h3>{{ $value->name }}</h3>
+                            <p>{{ $value->description }}</p>
+                        </div>
                     </div>
-                @endforeach
-            </div>
-            <a class="carousel-control-prev" href="#product-carousel" data-bs-slide="prev">
-                <i class="fa fa-2x fa-angle-left text-dark"></i>
-            </a>
-            <a class="carousel-control-next" href="#product-carousel" data-bs-slide="next">
-                <i class="fa fa-2x fa-angle-right text-dark"></i>
-            </a>
+                </div>
+            @endforeach                    
         </div>
     @endif
     
