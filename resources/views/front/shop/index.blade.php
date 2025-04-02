@@ -111,10 +111,6 @@
                                                     <i class="fa fa-shopping-cart"></i> Add To Cart
                                                 </a>
                                             @endif
-
-                                            @if($product->metal_type)
-                                                <p class="selectedCategory">{{ $product->metal_type }}</p>
-                                            @endif 
                                         </div>
                                     </div>
 

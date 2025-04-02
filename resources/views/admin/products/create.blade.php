@@ -49,37 +49,18 @@
                                     <div class="form-group">          
                                         <input type="hidden" name="metal_type" value="t_shirt">
                                         <label for="size">Size</label>
+
                                         <div class="size-picker">
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="sizes[]" value="Small" id="size_1" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="size_1">
-                                                    <p>Small</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="size_2">
-                                                    <p>Medium</p>
-                                                </label>
-                                            </div>  
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="sizes[]" value="Large" id="size_3" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="size_3">
-                                                    <p>Large</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="sizes[]" value="XL" id="size_4" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="size_4">
-                                                    <p>XL</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="size_5">
-                                                    <p>XXL</p>
-                                                </label>
-                                            </div>                                                   
+                                            @if($sizes)
+                                                @foreach ($sizes as $index => $value)
+                                                    <div class="size-picker__item">
+                                                        <input type="checkbox" name="sizes[]" value="{{ $value->name }}" id="sizes_{{ $index }}" class="size-picker__input">
+                                                        <label class="size-picker__color paddingControl" for="sizes_{{ $index }}">
+                                                            <p>{{ $value->name }}</p>
+                                                        </label>                                                                
+                                                    </div>
+                                                @endforeach
+                                            @endif 
                                         </div>
                                         <p class="error"></p>                                           
                                     </div>  
@@ -98,45 +79,7 @@
                                                         </label>                                                                
                                                     </div>
                                                 @endforeach
-                                            @endif
-                                            
-                                            {{-- <div class="size-picker__item" >
-                                                <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_1">
-                                                    <p>Red</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_2">
-                                                    <p>Blue</p>
-                                                </label>
-                                            </div>  
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_3">
-                                                    <p>Black</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_4">
-                                                    <p>Green</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                    <p>Orange</p>
-                                                </label>
-                                            </div>  
-                                            <div class="size-picker__item" >
-                                                <input type="checkbox" name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                    <p>Green</p>
-                                                </label>
-                                            </div>   --}}
-                                                                                            
+                                            @endif                                                                                            
                                         </div>
                                         <p class="error"></p>
                                     </div>

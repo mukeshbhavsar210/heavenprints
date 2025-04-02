@@ -11,37 +11,37 @@
                         <ul class="nav nav-pills framesVerTabs" >
                             <li class="nav-item">
                                 <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
-                                    <span class="icon icon_product"></span>
+                                    <span class="icon icon_product_1"></span>
                                     Products
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ session('category_name') == 'canvas' ? 'active' : '' }}" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
-                                    <span class="icon icon_product"></span>
+                                    <span class="icon icon_product_2"></span>
                                     Upload
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
-                                    <span class="icon icon_size"></span>
+                                    <span class="icon icon_product_3"></span>
                                     Select Size
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
-                                    <span class="icon icon_wrap"></span>
+                                    <span class="icon icon_product_4"></span>
                                     Wrap & Border
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
-                                    <span class="icon icon_hardwae"></span>
+                                    <span class="icon icon_product_5"></span>
                                     Hardware & Finish
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
-                                    <span class="icon icon_options"></span>
+                                    <span class="icon icon_product_6"></span>
                                     Options
                                 </a>
                             </li>
@@ -97,7 +97,7 @@
 
                 @if(session()->has('selected_product'))
                     <strong>ID:</strong> {{ session('selected_product.id') }}
-                    <p>{{ session('selected_product.category_name') }}</p>
+                    <p>Category {{ session('selected_product.category_name') }}</p>
                     <strong>Size:</strong> {{ session('selected_product.sizeRadios') }}
                     <strong>Custom Size 1:</strong> {{ session('selected_product.custom_size_1') }}
                     <strong>Custom Size 2:</strong> {{ session('selected_product.custom_size_2') }}
@@ -105,17 +105,7 @@
                 @else
                     <p>No product selected.</p>
                 @endif
-
-                {{-- <img style="width: 450px" class="img-thumbnail" src="{{ asset('uploads/custom_frames/'.$image->image_name) }}" alt="Image {{ $i }}"> --}}
-
-                @if(session('image_url'))
-                    <img src="{{ session('image_url') }}" alt="Uploaded Image" width="200">
-                @endif
-
-                {{-- @if($image)
-                    <img src="{{ asset('uploads/custom_frames/' . $image->image_name) }}" alt="Uploaded Image">
-                @endif --}}
-              
+                
                 <div class="frame-generate">
                     <div class="renderFrame">                
                         <div class="mainImg">
@@ -137,13 +127,11 @@
                                                     <div class="bottom-left"></div>
                                                     <div class="bottom-right"></div>
                                                     
-
                                                     <div id="image">          
                                                         <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                              
                                                         {{-- <img id="previewImage1" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}"  
                                                         style=" display: {{ session('uploaded_image') ? 'block' : 'none' }};" />--}}
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -324,4 +312,5 @@
         });
         checkSessionImage();
     });
+
 </script>

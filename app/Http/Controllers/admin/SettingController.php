@@ -12,11 +12,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\TempImage;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Setting;
+use App\Models\Size;
 
 class SettingController extends Controller {
      
@@ -24,10 +24,12 @@ class SettingController extends Controller {
         $settings = Setting::first();
         $frameMaterials = FrameMaterial::get();
         $colors = Color::get();
+        $sizes = Size::get();
 
         $data['settings'] = $settings;
         $data['frameMaterials'] = $frameMaterials;
         $data['colors'] = $colors;
+        $data['sizes'] = $sizes;
 
         return view('admin.setting.index', $data);
     }
@@ -269,6 +271,31 @@ class SettingController extends Controller {
         return response()->json([
             'status' => true,
             'message' => 'Color deleted successfully',
+        ]);
+    }
+
+
+    public function sizes(Request $request) {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $frame = new Size;
+        $frame->name = $request->name;
+        $frame->show = $request->show;
+        $frame->save();
+
+        return back()->with('success', 'Size added successfully!');
+    }
+
+    //Delete product
+    public function destroy_sizes($id, Request $request){
+        $size = Size::find($id);       
+        $size->delete();
+        $request->session()->flash('success','Size deleted successfully');
+        return response()->json([
+            'status' => true,
+            'message' => 'Size deleted successfully',
         ]);
     }
 

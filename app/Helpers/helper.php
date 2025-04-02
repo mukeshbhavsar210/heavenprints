@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Mail;
         return SubCategory::orderBy('name','ASC')->orderBy('id','DESC')->where('status',1)->get();
     }
 
-   
     function getProductImage($productId){
         return ProductImage::where('product_id',$productId)->first();
     }
