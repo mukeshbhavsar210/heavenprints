@@ -17,16 +17,17 @@
 <section class="content">
     <div class="container-fluid">
         @include('admin.message')
-
+        
         <form action="" method="post" name="productForm" id="productForm" enctype="multipart/form-data" >   
             @csrf       
+            
             <div class="row">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-9 col-12">
-                                    <label class="name">Name</label>
+                                    <label class="name">Name <span class="required">*</span></label>
                                     <input type="text" id="name" class="form-control" placeholder="Name" id="name" name="name">                                
                                     <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
                                     <p></p>
@@ -35,10 +36,10 @@
                                 <div class="col-md-3 col-12">
                                     <label for="productType">Type <span class="required">*</span></label>
                                     <select id="productType" name="product_type" class="form-control" required>
-                                        <option value="">Select</option>
-                                        <option value="DEFAULT">Default</option>
-                                        <option value="METAL">Metal</option>
-                                        <option value="NEON">Neon</option>
+                                        <option value="" disabled selected>Select Type</option> 
+                                        <option value="Default">Default</option>
+                                        <option value="Frame">Frame</option>                                        
+                                        <option value="Neon">Neon</option>
                                     </select>
                                 </div>
                             </div>
@@ -88,7 +89,18 @@
                                     <div class="form-group">
                                         <label for="colors">Colors</label>
                                         <div class="size-picker">
-                                            <div class="size-picker__item" >
+                                            @if($colors)
+                                                @foreach ($colors as $index => $value)
+                                                    <div class="size-picker__item">
+                                                        <input type="checkbox" name="colors[]" value="{{ $value->name }}" id="colors_{{ $index }}" class="size-picker__input">
+                                                        <label class="size-picker__color paddingControl" for="colors_{{ $index }}">
+                                                            <p>{{ $value->name }}</p>
+                                                        </label>                                                                
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                            
+                                            {{-- <div class="size-picker__item" >
                                                 <input  type="checkbox" name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
                                                 <label class="size-picker__color paddingControl" for="colorCheckbox_1">
                                                     <p>Red</p>
@@ -123,7 +135,7 @@
                                                 <label class="size-picker__color paddingControl" for="colorCheckbox_5">
                                                     <p>Green</p>
                                                 </label>
-                                            </div>  
+                                            </div>   --}}
                                                                                             
                                         </div>
                                         <p class="error"></p>
@@ -131,51 +143,45 @@
                                 </div>  
                             </div>                                
                         
-                            <div class="row metal_details hidden"> 
-                                <div class="col-md-6 col-12">   
-                                    <div class="form-group">                                           
-                                        <label for="size">Metal Products</label>
-                                        <div class="size-picker">
-                                            <div class="size-picker__item" >
-                                                <input type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="metalProduct_1">
-                                                    <p>Canvas</p>
-                                                </label>
+                            <div class="frame_details hidden"> 
+                                <div class="row">
+                                    <div class="col-md-12 col-12">  
+                                        <div class="form-group">                                           
+                                                <label for="size">Select material</label>
+                                                <div class="size-picker">
+                                                    @if($frameMaterials)
+                                                        @foreach ($frameMaterials as $index => $value)
+                                                            <div class="size-picker__item">
+                                                                <input type="radio" name="metal_type" value="{{ $value->name }}" id="metalProduct_{{ $index }}" class="size-picker__input">
+                                                                <label class="size-picker__color paddingControl" for="metalProduct_{{ $index }}">
+                                                                    <p>{{ $value->name }}</p>
+                                                                </label>                                                                
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                                <p class="error"></p>                                           
                                             </div>
-                                            <div class="size-picker__item" >
-                                                <input type="radio" name="metal_type" value="acrylic" id="metalProduct_2" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="metalProduct_2">
-                                                    <p>Acrylic</p>
-                                                </label>
-                                            </div>  
-                                            <div class="size-picker__item" >
-                                                <input type="radio" name="metal_type" value="metal" id="metalProduct_3" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="metalProduct_3">
-                                                    <p>Metal</p>
-                                                </label>
+                                        </div> 
+                                        <div class="col-md-12 col-12 mb-3"> 
+                                            <div class="row">
+                                                <div class="col-md-3 col-6">                                            
+                                                    <label class="height">Height <span class="required">*</span></label>
+                                                    <input type="text" id="height" class="form-control" placeholder="Height" id="height" name="height">                                
+                                                </div> 
+                                                <div class="col-md-3 col-6">
+                                                    <label class="width">Width <span class="required">*</span></label>
+                                                    <input type="text" id="width" class="form-control" placeholder="Width" id="width" name="width">                                
+                                                </div> 
                                             </div>
-                                            <div class="size-picker__item" >
-                                                <input type="radio" name="metal_type" value="wood" id="metalProduct_4" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="metalProduct_4">
-                                                    <p>Wood</p>
-                                                </label>
-                                            </div>
-                                            <div class="size-picker__item" >
-                                                <input type="radio" name="metal_type" value="others" id="metalProduct_5" class="size-picker__input">
-                                                <label class="size-picker__color paddingControl" for="metalProduct_5">
-                                                    <p>Others</p>
-                                                </label>
-                                            </div>                                                   
-                                        </div>
-                                        <p class="error"></p>                                           
-                                    </div>  
-                                </div>   
-                            </div>                            
-
-                            <div class="row">
+                                        </div> 
+                                    </div>
+                                </div>    
+                                                
+                            <div class="row mt-3">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="description">Description</label>
+                                        <label for="description">Description <span class="required">*</span></label>
                                         <textarea name="description" id="description" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
                                     </div>
                                 </div>
@@ -240,7 +246,7 @@
                         </div>
                     </div>
 
-                    <div class="card mb-3 default_details">
+                    <div class="card mb-3">
                         <div class="card-body">
                             <h2 class="h4 mb-1">Related products</h2>
                             <select multiple class="related-product" name="related_products[]" id="related_products">
@@ -421,6 +427,9 @@
                 }
             },
             error: function(JQXHR, exception) {
+                $("button[type='submit']").prop('disabled', false);
+
+                alert("Something went wrong while submitting the form. Please try again later.");
                 console.log("Something went wrong");
             }
         });
@@ -482,15 +491,15 @@
     $('#productType').on('change', function () {
         var selectedValue = $(this).val();
         // Hide all divs first
-        $('.default_details, .metal_details, .tshirt_details, #mugDiv').hide();
+        $('.default_details, .frame_details, .neon_details').hide();
         
         // Show the selected div
-        if (selectedValue == 'DEFAULT') {
+        if (selectedValue == 'Default') {
             $('.default_details').show();
-        } else if (selectedValue == 'METAL') {
-            $('.metal_details').show();
-        } else if (selectedValue == 'tshirt') {
-            $('.tshirt_details').show();
+        } else if (selectedValue == 'Frame') {
+            $('.frame_details').show();
+        } else if (selectedValue == 'Neon') {
+            $('.neon_details').show();
         }
     });       
 

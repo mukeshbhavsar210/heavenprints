@@ -17,7 +17,7 @@
 
         <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
             @if ($image)
-                <img  id="previewImage2" src="{{ session('uploaded_image') ? asset('storage/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />
+                <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />
                 <button class="btn btn-danger" id="deleteImage"><i class="fa fa-times"></i></button>            
             @endif
         </div> 
