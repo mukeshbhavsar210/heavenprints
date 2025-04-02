@@ -125,7 +125,7 @@ header .navbar .nav-link:hover .nav_name { color:var(--secondary); }
 
 header { background-color: var(--white); position: fixed; top:0; left:0; width: 100%; z-index: 99;}
 .navbar .btn { padding:13px; font-size: 15px; height: 51px;}
-main { margin-top: 139px;}
+main { margin-top: 151px;}
 main section { padding-top: 25px;}
 .logoWrapper { padding:10px 0;}
 .logoWrapper .btnLink { margin-right: 10px; margin-top: 8px; border:1px #ccc solid; padding:7px 12px 4px 12px; border-radius: 5px; height: 37px;}
@@ -140,6 +140,10 @@ main section { padding-top: 25px;}
 .back-to-top:hover .icon { background-position:-153px -79px; }
 
 #homeBanner { height: 380px; margin-bottom: 30px;}
+#homeBanner .banner-details { position: absolute; color: var(--white); bottom: 30px; left:0; background-color: rgba(0,0,0,0.5);  padding:20px 20px 10px 20px; border-radius: 6px;;}
+#homeBanner .banner-details h3 { margin-bottom: 5px;}
+
+.slick-next { border:1px red solid; z-index: 999;}
 
 .heightFix { height:400px;;}
 
@@ -198,8 +202,8 @@ main section { padding-top: 25px;}
 .productThumb img { border-radius: 6px;}
 
 .image-upload-wrapper { padding:20px; text-align: center; }
-.image-upload-wrapper .text { margin-top: 50px;}
-.image-upload-wrapper .preview { border:1px var(--dark-grey) solid; border-radius: 5px; width: 200px; margin:0 auto; padding:7px; position: relative; }
+.image-upload-wrapper .text { margin-top: 20px; margin-bottom: 40px;}
+.image-upload-wrapper .preview { border:1px var(--dark-grey) solid; border-radius: 5px; width: 300px; margin:0 auto; padding:7px; position: relative; }
 .image-upload-wrapper .preview img { border-radius: 5px; position: relative; width: 100%; }
 .image-upload-wrapper .preview .btn { position: absolute; right:7px; top:7px;}
 
@@ -210,7 +214,11 @@ main section { padding-top: 25px;}
 .nav-tabs .nav-link.active { background-color: var(--primary); color: var(--white); border-right: 1px var(--primary solid);}
 .nav-tabs .nav-item.show .nav-link { background-color: var(--green); color: var(--white);}
 .nav-tabs .nav-link:hover,.nav-tabs .nav-link:focus { isolation:isolate; color: var(--white); background-color: var(--primary); }
-.wrap-container .title-wrap { font-size: 11px; border-radius: 3px; margin-bottom: 10px; background-color:var(--primary); color: var(--white); padding:7px 10px;}
+.wrap-container .title-wrap { font-size: 11px; border-radius: 3px; margin-bottom: 10px; background-color:var(--dark-grey); color: var(--white); padding:7px 10px;}
+
+.productThumb { position: relative;}
+.productThumb:hover .hoverDelete { display: block;  }
+.hoverDelete { display: none; position: absolute; top:0; right:11px; padding:41px 20px; text-align: center; background-color: rgba(0,0,0,0.5); height: 100%; width:120px; border-radius: 5px;}
 
 .wrap-container { color: var(--dark-grey);}
 .wrap-container .container { padding:0 10px;}
@@ -317,10 +325,10 @@ main section { padding-top: 25px;}
 
 .custom-radio { display: inline-block; border: 2px solid #ccc; border-radius: 4px; position: relative; width: 100%; cursor: pointer; padding:8px 5px; text-align: center; margin-bottom: 10px; transition: all 0.3s; color:var(--dark-grey) }
 .custom-radio p { margin: 0;}
-.custom-radio .icon { width: 35px; margin-bottom: 5px;}
+.custom-radio .icon { width: 35px; margin-bottom: 5px; background: none;}
 .custom-radio input { display: none; /* Hide default radio button */}
 .custom-radio:hover { border-color: var(--dark-grey);}
-.custom-radio.active { border-color: var(--green); color: var(--black); background-color: #e5e5e5;}
+.custom-radio.active { border-color: var(--green); color: var(--black); }
 .custom-radio.active::after { content:"✔"; position: absolute; top:0px; right:0px; background-color: var(--green); color: var(--white); height: 20px; width: 20px; border-radius: 0 2px 0 0; padding:2px 5px; display: block; font-size: 10px;}
 .product, .size, .hardware_style { height: 125px; }
 
@@ -392,8 +400,8 @@ main section { padding-top: 25px;}
 
 .drop-zone { width: 100%; height: 125px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; color: var(--primary); font-size: 15px; }
 
-.demo-image-default { text-align: center; height: 450px; width: 100%;;}
-.demo-image-default .upload-control { margin: 10% auto; width: 100%; text-align: center; border: 2px dashed var(--dark-grey); border-radius: 8px; padding:20px;   }
+.demo-image-default { text-align: center; width: 100%;; border: 2px dashed var(--primary); border-radius: 8px; padding:20px;    }
+.demo-image-default .upload-control { margin: 10% auto; width: 100%; text-align: center;}
 .demo-image-default  .upload_logo span { background-position: -3px -122px; width: 45px; height: 45px; display: block; margin: 20px auto 5px auto;}
 .framesRadio .row { width: 100%; margin-left: -10px; margin-right: -10px; }
 .framesRadio .row>* { padding:0 5px; }

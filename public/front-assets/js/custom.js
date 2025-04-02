@@ -107,20 +107,16 @@ $(document).ready(function(){
   });
   //back to top end
 
-
-
     var lazyLoadInstance = new LazyLoad({elements_selector:"img.lazy, video.lazy, div.lazy, section.lazy, header.lazy, footer.lazy,iframe.lazy"});
     let bannerHeight = $(window).height();
     
     $('#homeBanner').slick({
         dots: true,
         infinite: true,
-        speed: 500,
+        autoplay: true, // Enables auto-play
+        autoplaySpeed: 3000, // 2 seconds per slide
         fade: true,
         arrows: true,
-        prevArrow:'<i class="icon-left-arrow right-arrow arrow"></i>',
-        nextArrow:'<i class="icon-right-arrow left-arrow arrow"></i>',
-        cssEase: 'linear'
     });
 
     $('.slider-for').slick({

@@ -360,20 +360,20 @@
 
 	//Add to cart for METAL FRAME
 	function addToCart_Metal(id){
-		let size =  $('input[name="size"]:checked').val() + ' - ₹ ' + $('#sizePrice').text();
-		let frame = $('input[name="frame"]:checked').val() + ' - ₹ ' + $('#framePrice').text() ;
+		let size =  $('input[name="size"]:checked').val() + '_₹' + $('#sizePrice').text();
+		let frame = $('input[name="frame"]:checked').val() + '_₹' + $('#framePrice').text() ;
 		let uploadedImageName = "{{ session('uploaded_image') }}";
 		let image = uploadedImageName || 'No image found';
-		let wrap_wrap = $('input[name="wrap_wrap"]:checked').val() + ' - ₹ ' + $('#wrapWrapPrice').text();
+		let wrap_wrap = $('input[name="wrap_wrap"]:checked').val() + '_₹' + $('#wrapWrapPrice').text();
     	let major = $('#major').val();        
-        let border = $('input[name="wrap_border"]:checked').val() + ' - ₹ ' + $('#wrapBorderPrice').text();
-        let wrap_frame = $('input[name="wrap_frame"]:checked').val() + ' - ₹ ' + $('#wrapFramePrice').text();
-        let hardware_style = $('input[name="hardware_style"]:checked').val() + ' - ₹ ' + $('#hardwareStylePrice').text();
-        let hardware_display = $('input[name="hardware_display"]:checked').val() + ' - ₹ ' + $('#hardwareDisplayPrice').text();
-        let lamination = $('input[name="lamination"]:checked').val() + ' - ₹ ' + $('#laminationPrice').text();
-        let proof = $('input[name="proof"]:checked').val() + ' - ₹ ' + $('#proofPrice').text();
-        let retouching = $('input[name="retouching"]:checked').val() + ' - ₹ ' + $('#retouchingPrice').text();
-        let hardware_finishing = $('input[name="hardware_finishing"]:checked').val() + ' - ₹ ' + $('#retouchingPrice').text();
+        let border = $('input[name="wrap_border"]:checked').val() + '_₹' + $('#wrapBorderPrice').text();
+        let wrap_frame = $('input[name="wrap_frame"]:checked').val() + '_₹' + $('#wrapFramePrice').text();
+        let hardware_style = $('input[name="hardware_style"]:checked').val() + '_₹' + $('#hardwareStylePrice').text();
+        let hardware_display = $('input[name="hardware_display"]:checked').val() + '_₹' + $('#hardwareDisplayPrice').text();
+        let lamination = $('input[name="lamination"]:checked').val() + '_₹' + $('#laminationPrice').text();
+        let proof = $('input[name="proof"]:checked').val() + '_₹' + $('#proofPrice').text();
+        let retouching = $('input[name="retouching"]:checked').val() + '_₹' + $('#retouchingPrice').text();
+        let hardware_finishing = $('input[name="hardware_finishing"]:checked').val() + '_₹' + $('#retouchingPrice').text();
         let price = $('#grandTotal').text();
 		
         $.ajax({
@@ -444,7 +444,5 @@
 </script>
 
 @yield('customJs')
-
-
 </body>
 </html>

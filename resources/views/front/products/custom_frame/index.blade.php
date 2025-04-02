@@ -95,6 +95,50 @@
                     </div>
                 </div>
 
+                <span id="framePrice">₹0</span>
+                <span id="sizePrice">₹0 </span>
+                <span id="wrapWrapPrice">₹0</span>
+                <span id="wrapFramePrice">₹0</span>
+                <span id="hardwareStylePrice">₹0</span>
+                <span id="hardwareDisplayPrice">₹0</span>
+                <span id="hardwareFinishingPrice">₹0</span>
+                <span id="laminationPrice">₹0</span>
+                <span id="retouchingPrice">₹0</span>
+                <span id="proofPrice">₹0</span>
+
+                {{-- <div class="mt-5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Frame</th>
+                                <th>Size</th>
+                                <th>Wrap</th>
+                                <th>Frame</th>
+                                <th>Style</th>
+                                <th>Display</th>
+                                <th>Finishing</th>
+                                <th>Lamination</th>
+                                <th>Retouching</th>
+                                <th>Proof</th>                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span id="framePrice">₹0</span></td>
+                                <td><span id="sizePrice">₹0 </span></td>
+                                <td><span id="wrapWrapPrice">₹0</span></td>
+                                <td><span id="wrapFramePrice">₹0</span></td>
+                                <td><span id="hardwareStylePrice">₹0</span></td>
+                                <td><span id="hardwareDisplayPrice">₹0</span></td>
+                                <td><span id="hardwareFinishingPrice">₹0</span></td>
+                                <td><span id="laminationPrice">₹0</span></td>
+                                <td><span id="retouchingPrice">₹0</span></td>
+                                <td><span id="proofPrice">₹0</span></td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                </div> 
+
                 @if(session()->has('selected_product'))
                     <strong>ID:</strong> {{ session('selected_product.id') }}
                     <p>Category {{ session('selected_product.category_name') }}</p>
@@ -104,7 +148,7 @@
                     <strong>Price:</strong> {{ session('selected_product.price') }}                    
                 @else
                     <p>No product selected.</p>
-                @endif
+                @endif--}}
                 
                 <div class="frame-generate">
                     <div class="renderFrame">                
