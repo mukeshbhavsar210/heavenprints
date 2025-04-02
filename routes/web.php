@@ -164,11 +164,6 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
 
         //Category Routes
-        // Route::controller(DashboardController::class)->group(function() {
-        //     Route::get('/dashboard', 'index')->name('dashboard.index');
-        // });
-
-        //Category Routes
         Route::controller(CategoryController::class)->group(function() {
             Route::get('/categories', 'index')->name('categories.index');
             Route::get('/categories/create', 'create')->name('categories.create');
@@ -275,10 +270,17 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/settings/update', 'update')->name('settings.update');
             Route::post('/settings/socials', 'socials')->name('settings.socials');
 
+            //Frame Materials
             Route::post('/settings/frame_materials', 'frame_material')->name('settings.material');
             Route::delete('/settings/frame_materials/{id}', 'destroy_material')->name('settings.material.delete');
+            
+            //Colors
             Route::post('/settings/colors', 'colors')->name('settings.colors');
             Route::delete('/settings/colors/{id}', 'destroy_colors')->name('settings.colors.delete');
+
+            //Sizes
+            Route::post('/settings/sizes', 'sizes')->name('settings.sizes');
+            Route::delete('/settings/sizes/{id}', 'destroy_sizes')->name('settings.sizes.delete');
 
             Route::get('/banners', 'banner_index')->name('banners.index');
             Route::get('/banners/create', 'create')->name('banners.create');

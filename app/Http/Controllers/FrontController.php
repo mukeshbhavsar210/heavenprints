@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
-class FrontController extends Controller
-{
+class FrontController extends Controller {
     public function index(){
         $products = Product::where('is_featured','Yes')->orderBy('id','DESC')->take(4)->where('status',1)->where('product_type','default')->get();
         $latestProducts = Product::orderBy('id','DESC')->where('status',1)->take(4)->where('product_type','default')->get();
+        $categories = Category::withCount('products') 
+                    ->limit(4)
+                    ->get();
+
         $data['latestProducts'] = $latestProducts;
         $data['featuredProducts'] = $products;        
+        $data['categories'] = $categories;  
+
         return view("front.home.index",$data);
     }
 

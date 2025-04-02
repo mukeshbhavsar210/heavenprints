@@ -11,6 +11,7 @@ use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Models\FrameMaterial;
+use App\Models\Size;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
@@ -42,11 +43,13 @@ class ProductController extends Controller {
         $brands = Brand::orderBy('name','ASC')->get();
         $frameMaterials = FrameMaterial::get();
         $colors = Color::get();
+        $sizes = Size::get();
 
         $data['categories'] = $categories;
         $data['brands'] = $brands;
         $data['frameMaterials'] = $frameMaterials;
         $data['colors'] = $colors;
+        $data['sizes'] = $sizes;
 
         return view('admin.products.create', $data);
     }
@@ -154,6 +157,7 @@ class ProductController extends Controller {
         $product = Product::find($id);
         $frameMaterials = FrameMaterial::get();
         $colors = Color::get();
+        $sizes = Size::get();
 
         if (empty($product)) {
             return redirect()->route('products.index')->with('error','Product not found');
@@ -181,7 +185,7 @@ class ProductController extends Controller {
         $data['relatedProducts'] = $relatedProducts;    
         $data['frameMaterials'] = $frameMaterials;    
         $data['colors'] = $colors;    
-        
+        $data['sizes'] = $sizes;            
 
         return view('admin.products.edit',$data);
     }

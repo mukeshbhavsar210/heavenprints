@@ -1,11 +1,15 @@
     <div class="image-upload-wrapper">
-        <p>File types accepted: PNG, JPG and BMP (Up to 25MB)</p>
+        <p class="text">File types accepted: PNG and JPG (Up to 15MB)</p>
+
         <div style="{{ !$image ? 'display:block;' : 'display:none;' }}" >
             <div class="demo-image-default">
                 <div class="upload-control">
                     <input type="file" id="image" accept="image/*">
-                    <i class="fa fa-upload" aria-hidden="true"></i> Upload an Image
-                    <p>Maximum upload size: 25MB per file</p>
+                    <div class="upload_logo">
+                        <span class="icon"></span>
+                        Upload an Image
+                        <p>Maximum upload size: 15MB per file</p>
+                    </div>
                     <div id="progress-container" class="mb-3" style="display:none; width: 100%; background: #ccc;">
                         <div id="progress-bar" style="width: 0%; height: 5px; border-radius:100px; background: green;"></div>
                     </div>

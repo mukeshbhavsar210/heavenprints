@@ -12,6 +12,8 @@
     <div class="tab-pane fade {{ session('category_name') == 'canvas' ? 'active show' : '' }}" id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
         <div class="paddWrapper">
             <div class="radio-group row">
+                {{ session('selected_product.category_name') }}
+                
                 @if($canvas)
                     @foreach($canvas as $value)
                         <div class="col-md-3 col-6"> 
