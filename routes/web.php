@@ -5,7 +5,6 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
-use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\OTPController;
@@ -18,14 +17,11 @@ use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\PriceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
-
-use App\Http\Controllers\custom\FrameController;
-use App\Http\Controllers\custom\MetalFrameController;
-use App\Http\Controllers\admin\PriceController;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -58,6 +54,13 @@ Route::controller(ShopController::class)->group(function() {
     //Storing in session and calculations
     Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
     Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
+
+    //Metal Frame
+    Route::post('/update-options', 'updateOptions')->name('update.options');
+    Route::post('/delete-image', 'delete')->name('delete.image');
+    Route::get('/check-image', 'checkImage')->name('check.image');
+    Route::post('/upload-image', 'upload')->name('image.upload');
+    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
 });
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
@@ -85,23 +88,6 @@ Route::controller(CartController::class)->group(function() {
     Route::post('checkout/razorpay', 'razorpayPayment')->name('checkout.razorpay');
     Route::get('/order-success','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
-});
-
-
-//Metal Frames
-// Route::controller(MetalFrameController::class)->group(function() {
-//     Route::get('/metal-prints', 'index')->name('metal.front');
-//     Route::post('/store-selection', 'metalFrameSelection')->name('frame.selection');
-// });
-
-//Custom Frames
-Route::controller(FrameController::class)->group(function() {
-    //Route::get('/uploadchoice', 'index')->name('frame.front');
-    Route::post('/update-options', 'updateOptions')->name('update.options');
-    Route::post('/delete-image', 'delete')->name('delete.image');
-    Route::get('/check-image', 'checkImage')->name('check.image');
-    Route::post('/upload-image', 'upload')->name('image.upload');
-    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
 });
 
 //Metal Frame Rates calculations saved in session storage
@@ -221,7 +207,6 @@ Route::group(['prefix' => 'admin'], function(){
             Route::put('/products/{id}', 'update')->name('products.update');
             Route::delete('/products/{id}', 'destroy')->name('products.delete');
             Route::get('/get-products', 'getProducts')->name('products.getProducts');
-
             Route::post('/products/image/delete', 'deleteImage')->name('products.image.delete');
         });
 
@@ -289,6 +274,12 @@ Route::group(['prefix' => 'admin'], function(){
             Route::get('/settings', 'index')->name('settings.index'); 
             Route::post('/settings/update', 'update')->name('settings.update');
             Route::post('/settings/socials', 'socials')->name('settings.socials');
+
+            Route::post('/settings/frame_materials', 'frame_material')->name('settings.material');
+            Route::delete('/settings/frame_materials/{id}', 'destroy_material')->name('settings.material.delete');
+            Route::post('/settings/colors', 'colors')->name('settings.colors');
+            Route::delete('/settings/colors/{id}', 'destroy_colors')->name('settings.colors.delete');
+
             Route::get('/banners', 'banner_index')->name('banners.index');
             Route::get('/banners/create', 'create')->name('banners.create');
             Route::post('/banners', 'store')->name('banners.store');

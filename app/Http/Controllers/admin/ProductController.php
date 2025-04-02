@@ -5,10 +5,12 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Models\FrameMaterial;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
@@ -18,12 +20,15 @@ class ProductController extends Controller {
 
     public function index(Request $request){
         $products = Product::latest('id')->with('product_images');
+        
 
         if ($request->get('keyword') != ""){
             $products = $products->where('name', 'like', '%'.$request->keyword.'%');
         }
 
         $products = $products->paginate();
+
+        
 
         $data['products'] = $products;
         return view ('admin.products.list',$data);
@@ -35,8 +40,13 @@ class ProductController extends Controller {
         $data = [];
         $categories = Category::orderBy('name','ASC')->get();
         $brands = Brand::orderBy('name','ASC')->get();
+        $frameMaterials = FrameMaterial::get();
+        $colors = Color::get();
+
         $data['categories'] = $categories;
         $data['brands'] = $brands;
+        $data['frameMaterials'] = $frameMaterials;
+        $data['colors'] = $colors;
 
         return view('admin.products.create', $data);
     }
@@ -54,19 +64,14 @@ class ProductController extends Controller {
             //'is_featured' => 'required|in:Yes,No',        
         ]);
 
-        // Loop through 1 to 5 and set validation rules dynamically
-        // for ($i = 1; $i <= 5; $i++) {
-        //     $rules["image{$i}"] = 'required|image|mimes:jpg,png,jpeg,gif|max:2048';
-        // }
-
-        //$validatedData = $request->validate($rules);
-
         if($validator->passes()) {
             $product = new Product;
             $product->name = $request->name;   
             $product->slug = $request->slug;
             $product->product_type = $request->product_type;         
             $product->metal_type = $request->metal_type;
+            $product->height = $request->height;
+            $product->width = $request->width;
             $product->description = $request->description;
             $product->price = $request->price;
             $product->compare_price = $request->compare_price;
@@ -147,6 +152,8 @@ class ProductController extends Controller {
     //Edit Product
     public function edit($id, Request $request){
         $product = Product::find($id);
+        $frameMaterials = FrameMaterial::get();
+        $colors = Color::get();
 
         if (empty($product)) {
             return redirect()->route('products.index')->with('error','Product not found');
@@ -171,7 +178,10 @@ class ProductController extends Controller {
         $data['product'] = $product;
         $data['subCategories'] = $subCategories;
         $data['productImages'] = $productImages;
-        $data['relatedProducts'] = $relatedProducts;        
+        $data['relatedProducts'] = $relatedProducts;    
+        $data['frameMaterials'] = $frameMaterials;    
+        $data['colors'] = $colors;    
+        
 
         return view('admin.products.edit',$data);
     }
@@ -193,6 +203,8 @@ class ProductController extends Controller {
             $product->name = $request->name;
             $product->slug = $request->slug;
             $product->product_type = $request->product_type;
+            $product->height = $request->height;
+            $product->width = $request->width;
             $product->metal_type = $request->metal_type;
             $product->description = $request->description;
             $product->price = $request->price;
@@ -210,13 +222,13 @@ class ProductController extends Controller {
             $product->short_description = $request->short_description;
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
 
-            if ($request->has('size')) {
+            if ($request->has('sizes')) {
                 $product->sizes = json_encode($request->size);
             } else {
                 $product->sizes = null;
             }
 
-            if ($request->has('color')) {
+            if ($request->has('colors')) {
                 $product->colors = json_encode($request->color);
             } else {
                 $product->colors = null;

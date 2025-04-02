@@ -36,7 +36,7 @@
                                         <select id="productType" name="product_type" class="form-control" >
                                             <option value="" disabled selected>Select Type</option> 
                                             <option {{ ($product->product_type == 'Default' ? 'selected' : '')}} value="Default">Default</option>
-                                            <option {{ ($product->product_type == 'Metal' ? 'selected' : '')}} value="Metal">Metal</option>
+                                            <option {{ ($product->product_type == 'Frame' ? 'selected' : '')}} value="Frame">Frame</option>
                                             <option {{ ($product->product_type == 'Neon' ? 'selected' : '')}} value="Neon">Neon</option>                                                                                  
                                         </select>
                                     </div>
@@ -44,7 +44,6 @@
                                
                                 <div class="row default_details hidden">  
                                     <div class="col-md-12 col-12" >
-                                        <input type="hidden" name="metal_type" value="t_shirt">
                                         <div class="form-group">                                           
                                             <label for="size">Size</label>
 
@@ -96,7 +95,18 @@
                                             @endphp
 
                                             <div class="size-picker">
-                                                <div class="size-picker__item" >
+                                                @if($colors)
+                                                    @foreach ($colors as $index => $value)
+                                                        <div class="size-picker__item">
+                                                            <input type="checkbox" {{ in_array("Red", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="{{ $value->name }}" id="colors_{{ $index }}" class="size-picker__input">
+                                                            <label class="size-picker__color paddingControl" for="colors_{{ $index }}">
+                                                                <p>{{ $value->name }}</p>
+                                                            </label>                                                                
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+
+                                                {{-- <div class="size-picker__item" >
                                                     <input type="checkbox" {{ in_array("Red", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_1">
                                                         <p>Red</p>
@@ -125,56 +135,48 @@
                                                     <label class="size-picker__color paddingControl" for="colorCheckbox_5">
                                                         <p>Orange</p>
                                                     </label>
-                                                </div>                                                   
+                                                </div>                                                    --}}
                                             </div>
                                             <p class="error"></p>
                                         </div>
                                     </div>  
-                                </div>                                
-                            
-                                <div class="metal_details hidden {{ $product->product_type == 'Metal' ? 'force_active' : '' }}"> 
+                                </div>  
+                                
+                                <div class="frame_details hidden {{ $product->product_type == 'Frame' ? 'force_active' : '' }}"> 
                                     <div class="row"> 
-                                        <div class="col-md-12 col-12">   
+                                        <div class="col-md-12 col-12">     
                                             <div class="form-group">                                           
-                                                <label for="size">Metal Products</label>
+                                                <label for="size">Frame material</label>
                                                 <div class="size-picker">
-                                                    <div class="size-picker__item" >
-                                                        <input {{ ($product->metal_type == "canvas" ? 'checked' : '' )}} type="radio" name="metal_type" value="canvas" id="metalProduct_1" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_1">
-                                                            <p>Canvas</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input {{ ($product->metal_type == "acrylic" ? 'checked' : '' )}} type="radio" name="metal_type" value="acrylic" id="metalProduct_2" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_2">
-                                                            <p>Acrylic</p>
-                                                        </label>
-                                                    </div>  
-                                                    <div class="size-picker__item" >
-                                                        <input {{ ($product->metal_type == "metal" ? 'checked' : '' )}} type="radio" name="metal_type" value="metal" id="metalProduct_3" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_3">
-                                                            <p>Metal</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input {{ ($product->metal_type == "wood" ? 'checked' : '' )}} type="radio" name="metal_type" value="wood" id="metalProduct_4" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_4">
-                                                            <p>Wood</p>
-                                                        </label>
-                                                    </div>
-                                                    <div class="size-picker__item" >
-                                                        <input {{ ($product->metal_type == "others" ? 'checked' : '' )}} type="radio" name="metal_type" value="others" id="metalProduct_5" class="size-picker__input">
-                                                        <label class="size-picker__color paddingControl" for="metalProduct_5">
-                                                            <p>Others</p>
-                                                        </label>
-                                                    </div>                                                   
+                                                    @if($frameMaterials)
+                                                        @foreach ($frameMaterials as $index => $value)
+                                                            <div class="size-picker__item">
+                                                                <input type="radio" name="metal_type" value="{{ $value->name }}" id="metalProduct_{{ $index }}" class="size-picker__input">
+                                                                <label class="size-picker__color paddingControl" for="metalProduct_{{ $index }}">
+                                                                    <p>{{ $value->name }}</p>
+                                                                </label>                                                                
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
                                                 </div>
                                                 <p class="error"></p>                                           
                                             </div>  
                                         </div>   
+                                        <div class="col-md-12 col-12 mb-3"> 
+                                            <div class="row">
+                                                <div class="col-md-3 col-6">
+                                                    <label class="height">Height <span class="required">*</span></label>
+                                                    <input type="text" id="height" class="form-control" placeholder="Height" id="height" name="height">                                
+                                                </div> 
+                                                <div class="col-md-3 col-6">
+                                                    <label class="width">Width <span class="required">*</span></label>
+                                                    <input type="text" id="width" class="form-control" placeholder="Width" id="width" name="width">                                
+                                                </div> 
+                                            </div>
+                                        </div> 
                                     </div>
                                 </div>
-
+                              
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
@@ -639,13 +641,13 @@ $("#edit_productForm").submit(function(event){
     $('#productType').on('change', function () {
     var selectedValue = $(this).val();
     // Hide all divs first
-    $('.default_details, .metal_details, .tshirt_details').hide();
+    $('.default_details, .frame_details, .tshirt_details').hide();
     
     // Show the selected div
     if (selectedValue == 'Default') {
         $('.default_details').show();
-    } else if (selectedValue == 'Metal') {
-        $('.metal_details').show();
+    } else if (selectedValue == 'Frame') {
+        $('.frame_details').show();
     } else if (selectedValue == 'Neon') {
         $('.tshirt_details').show();
     }

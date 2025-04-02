@@ -23,6 +23,12 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Social Media</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">Frame Material/Colors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-5" role="tab">Size</a>
+            </li>
         </ul>
       
         @include('admin.message')
@@ -105,9 +111,8 @@
                         @php
                             $banners = \App\Models\Banner::get();
                         @endphp
-                        
-                        @if ($banners->isNotEmpty())
-                            <div class="row mt-3">
+                        <div class="row mt-3">
+                            @if ($banners->isNotEmpty())                            
                                 @foreach ($banners as $value)                               
                                     <div class="col-md-6 col-12">
                                         <div class="card">
@@ -130,7 +135,7 @@
                                                         <a href="#" onclick="deleteBanner({{ $value->id }})"  class="text-danger">
                                                             <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                 <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                                              </svg>
+                                                            </svg>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -153,10 +158,12 @@
                                 <p>No Banner created yet</p>
                             </div>
                         @endif
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
-            <div class="tab-pane " id="tabs-2" role="tabpanel">
+
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
                         <form action="{{ route('settings.update') }}" method="post" enctype="multipart/form-data" >
@@ -227,16 +234,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>     
+                        </form>   
                     </div>
-                </div>           
+                </div>
             </div>
+
             <div class="tab-pane" id="tabs-3" role="tabpanel">
-                <form action="{{ route('settings.socials') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('POST')                        
-                    <div class="card">
-                        <div class="card-body"> 
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('settings.socials') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST') 
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <div class="mb-3">
@@ -263,14 +271,224 @@
                                     </div>
                                 </div>
                             </div>
-                                <button type="submit" class="btn btn-primary mb-4">Save Social Media</button>
-                                </div>
-                            </div>
-                        </div>                       
-                    </form>
-                </div>                    
+                            <button type="submit" class="btn btn-primary mb-4">Save Social Media</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="tab-pane" id="tabs-4" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="row">
+                                    <div class="col-md-9 col-9">
+                                        <h4>Frame Materials</h4>
+                                    </div>
+                                    <div class="col-md-3 col-9">
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addFrameMaterial">Add Material</button>
+        
+                                        <div class="modal fade drawer right-align" id="addFrameMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Add Frame Material</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">    
+                                                        <form action="{{ route('settings.material') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('POST')                                       
+                                                            <div class="row">
+                                                                <div class="col-md-9 col-10">
+                                                                    <div class="mb-3">
+                                                                        <label for="name">Name</label>
+                                                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-2">
+                                                                    <label for="show">Show</label>
+                                                                    <select name="show" id="show" class="form-control">
+                                                                        <option value="Yes">Yes</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Create</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <table class="table table-hover text-nowrap mt-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Frame Material</th>
+                                            <th>Show</th>
+                                            <th width="100">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @if($frameMaterials)
+                                                @foreach ($frameMaterials as $value)
+                                                <tr>
+                                                    <td>{{ $value->name }}</td>
+                                                    <td>
+                                                        @if ($value->show == 'Yes')
+                                                            <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        @else
+                                                            <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        @endif 
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" onclick="deleteFrameMaterial( {{ $value->id }} )" class="text-danger w-4 h-4">
+                                                            <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tr>                                    
+                                            @else
+                                                <tr>
+                                                    <td>Records not found</td>
+                                                </tr>
+                                            @endif
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-6 col-12">
+                                <div class="row">
+                                    <div class="col-md-9 col-9">
+                                        <h4>Colors</h4>
+                                    </div>
+                                    <div class="col-md-3 col-9">
+                                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addColors">Add Colors</button>
+        
+                                        <div class="modal fade drawer right-align" id="addColors" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Add Colors</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">    
+                                                        <form action="{{ route('settings.colors') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('POST')                                       
+                                                            <div class="row">
+                                                                <div class="col-md-7 col-10">
+                                                                    <div class="mb-3">
+                                                                        <label for="name">Name</label>
+                                                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-2 col-10">
+                                                                    <div class="mb-3">
+                                                                        <label for="color_code">Color</label>
+                                                                        <input type="color" name="color_code" id="color_code" class="form-control" placeholder="color_code">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3 col-2">
+                                                                    <label for="show">Show</label>
+                                                                    <select name="show" id="show" class="form-control">
+                                                                        <option value="Yes">Yes</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Create Color</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <table class="table table-hover text-nowrap mt-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Color</th>
+                                            <th>Show</th>
+                                            <th width="100">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @if($colors)
+                                                @foreach ($colors as $value)
+                                                <tr>
+                                                    <td>{{ $value->name }}</td>
+                                                    <td>
+                                                        <p style="height:20px; width:20px; border-radius:100px; background-color: {{ $value->color_code }};">
+                                                    </td>
+                                                    <td>
+                                                        @if ($value->show == 'Yes')
+                                                            <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        @else
+                                                            <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        @endif 
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" onclick="deleteColor( {{ $value->id }} )" class="text-danger w-4 h-4">
+                                                            <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                                <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                            </svg>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tr>                                    
+                                            @else
+                                                <tr>
+                                                    <td>Records not found</td>
+                                                </tr>
+                                            @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane" id="tabs-5" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        5
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tabs-6" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
+                        6
+                    </div>
+                </div>
+            </div>
+            </div> 
         </div>
     </div>
 @endsection
@@ -380,5 +598,49 @@
         $('#fileInput').val('');
         $('#uploadButton').hide();
     }
+
+    function deleteFrameMaterial(id){
+        var url = '{{ route("settings.material.delete","ID") }}'
+        var newUrl = url.replace("ID",id)
+
+        if(confirm("Are you sure you want to delete?")){
+            $.ajax({
+                url: newUrl,
+                type: 'delete',
+                data: {},
+                dataType: 'json',
+                success: function(response){
+                    if(response["status"]){
+                        window.location.href="{{ route('settings.index') }}"
+                    } else {
+                        window.location.href="{{ route('settings.index') }}"
+                    }
+                }
+            });
+        }
+    }
+
+    function deleteColor(id){
+        var url = '{{ route("settings.colors.delete","ID") }}'
+        var newUrl = url.replace("ID",id)
+
+        if(confirm("Are you sure you want to delete?")){
+            $.ajax({
+                url: newUrl,
+                type: 'delete',
+                data: {},
+                dataType: 'json',
+                success: function(response){
+                    if(response["status"]){
+                        window.location.href="{{ route('settings.index') }}"
+                    } else {
+                        window.location.href="{{ route('settings.index') }}"
+                    }
+                }
+            });
+        }
+    }
+
+    
 </script>
 @endsection

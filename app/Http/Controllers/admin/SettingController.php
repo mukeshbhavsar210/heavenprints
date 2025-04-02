@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Color;
+use App\Models\FrameMaterial;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +22,13 @@ class SettingController extends Controller {
      
      public function index(){
         $settings = Setting::first();
+        $frameMaterials = FrameMaterial::get();
+        $colors = Color::get();
+
         $data['settings'] = $settings;
+        $data['frameMaterials'] = $frameMaterials;
+        $data['colors'] = $colors;
+
         return view('admin.setting.index', $data);
     }
 
@@ -89,6 +97,9 @@ class SettingController extends Controller {
 
         return back()->with('success', 'Social media updated successfully!');
     }
+
+
+    
 
    
     public function showChangePasswordForm(){
@@ -207,6 +218,57 @@ class SettingController extends Controller {
         return response()->json([
             'status' => true,
             'message' => 'Banner deleted successfully'
+        ]);
+    }
+
+
+    public function frame_material(Request $request) {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $frame = new FrameMaterial;
+        $frame->name = $request->name;
+        $frame->show = $request->show;
+        $frame->save();
+
+        return back()->with('success', 'Frame Material successfully!');
+    }
+
+    //Delete 
+    public function destroy_material($id, Request $request){
+        $frame_material = FrameMaterial::find($id);       
+        $frame_material->delete();
+        $request->session()->flash('success','Frame Material deleted successfully');
+        return response()->json([
+            'status' => true,
+            'message' => 'Frame Material deleted successfully',
+        ]);
+    }
+
+
+    public function colors(Request $request) {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $frame = new Color;
+        $frame->name = $request->name;
+        $frame->color_code = $request->color_code;
+        $frame->show = $request->show;
+        $frame->save();
+
+        return back()->with('success', 'Color added successfully!');
+    }
+
+    //Delete product
+    public function destroy_colors($id, Request $request){
+        $color = Color::find($id);       
+        $color->delete();
+        $request->session()->flash('success','Color deleted successfully');
+        return response()->json([
+            'status' => true,
+            'message' => 'Color deleted successfully',
         ]);
     }
 

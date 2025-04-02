@@ -105,6 +105,16 @@
                 @else
                     <p>No product selected.</p>
                 @endif
+
+                {{-- <img style="width: 450px" class="img-thumbnail" src="{{ asset('uploads/custom_frames/'.$image->image_name) }}" alt="Image {{ $i }}"> --}}
+
+                @if(session('image_url'))
+                    <img src="{{ session('image_url') }}" alt="Uploaded Image" width="200">
+                @endif
+
+                {{-- @if($image)
+                    <img src="{{ asset('uploads/custom_frames/' . $image->image_name) }}" alt="Uploaded Image">
+                @endif --}}
               
                 <div class="frame-generate">
                     <div class="renderFrame">                
@@ -126,10 +136,12 @@
                                                     <div class="top-right"></div>
                                                     <div class="bottom-left"></div>
                                                     <div class="bottom-right"></div>
-    
-                                                    <div id="image">
-                                                        <img id="previewImage1" src="{{ session('uploaded_image') ? asset('storage/' . session('uploaded_image')) : '' }}" 
-                                                        style=" display: {{ session('uploaded_image') ? 'block' : 'none' }};" />
+                                                    
+
+                                                    <div id="image">          
+                                                        <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                              
+                                                        {{-- <img id="previewImage1" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}"  
+                                                        style=" display: {{ session('uploaded_image') ? 'block' : 'none' }};" />--}}
                                                     </div>
                                                     
                                                 </div>

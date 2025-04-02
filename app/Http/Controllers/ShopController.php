@@ -590,4 +590,154 @@ class ShopController extends Controller {
 
         return view('front.products.custom_frame.index',$data);
     }
+
+
+    //Frame Customise
+    public function getFrameDetails(Request $request){
+        // Get frame details from database based on selected radio button
+        $standards = FrameFrame::where('id', $request->frame_id)->first();
+
+        return response()->json([
+            'name'  => $standards->name ?? 'Unknown',
+            'price' => $standards->price ?? 0
+        ]);
+    }
+
+    public function upload(Request $request) {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+    
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
+    
+            // Define path
+            $uploadPath = public_path('uploads/custom_frames/');
+    
+            // Ensure the directory exists
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+    
+            // Define full image path
+            $fullPath = $uploadPath . $imageName;
+    
+            // Initialize ImageManager
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file);
+    
+            // Save the image as JPG with 80% quality
+            $image->toJpeg(100)->save($fullPath);
+    
+            // Save resized version (500x500)
+            $resizedPath = $uploadPath . $imageName;
+            $image->cover(500, 500)->save($resizedPath);
+    
+            // ✅ Step 3: Store new image in session
+            Session::put('uploaded_image', $imageName);
+    
+            // Generate URL to return in response
+            $imageUrl = asset('uploads/custom_frames/' . $imageName);
+    
+            return response()->json([
+                'success' => true,
+                'image_url' => $imageUrl
+            ]);
+        }
+    
+        return response()->json(['success' => false]);
+    }
+
+
+    public function checkImage() {
+        // Get the stored image path from the session
+        $imagePath = Session::get('uploaded_image');
+
+        return response()->json([
+            'success' => true,
+            'image' => $imagePath ? asset('storage/' . $imagePath) : null,
+        ]);
+    }
+
+    public function delete() {
+        if (Session::has('uploaded_image')) {
+            $oldImage = Session::get('uploaded_image');
+            $oldImagePath = public_path('uploads/custom_frames/' . $oldImage);
+
+            // Check if the file exists before deleting
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath); // Delete the file
+            }
+
+            // Clear session value
+            Session::forget('uploaded_image');
+        }
+
+        return response()->json(['success' => 'Image deleted']);
+    }
+
+    //Calculations
+    public function updateOptions(Request $request) {
+        $frames = FrameShape::pluck('price', 'slug')->toArray();
+        $sizes = FrameSize::pluck('price', 'slug')->toArray();
+        $wrap_wraps = FrameWrap::pluck('price', 'slug')->toArray();
+        $wrap_frames = FrameFrame::pluck('price', 'slug')->toArray();
+        $hardware_styles = HardwareStyle::pluck('price', 'slug')->toArray();
+        $hardware_finishings = HardwareFinishing::pluck('price', 'slug')->toArray();
+
+        $prices = [
+            'frame' => $frames,
+            'size' => $sizes,
+            'wrap_wrap' => $wrap_wraps,
+            'wrap_frame' => $wrap_frames,
+            'hardware_style' => $hardware_styles,
+            'hardware_display' => ['open_back' => 0, 'dust_cover' => 49],
+            'hardware_finishing' => $hardware_finishings,            
+            'lamiation' => ['no' => 0, 'standard' => 149, 'premium' => 249],
+            'retouching' => ['fixed' => 299],
+            'proof' => ['proof' => 49],
+        ];
+
+        // Get individual prices for each selected option
+        $selectedPrices = [
+            'frame_price' => $prices['frame'][$request->frame] ?? 0,
+            'size_price' => $prices['size'][$request->size] ?? 0,
+            'wrap_wrap_price' => $prices['wrap_wrap'][$request->wrap_wrap] ?? 0,
+            'wrap_frame_price' => $prices['wrap_frame'][$request->wrap_frame] ?? 0,
+            'hardware_style_price' => $prices['hardware_style'][$request->hardware_style] ?? 0,
+            'hardware_display_price' => $prices['hardware_display'][$request->hardware_display] ?? 0,
+            'hardware_finishing_price' => $prices['hardware_finishing'][$request->hardware_finishing] ?? 0,
+            'lamination_price' => $prices['lamination'][$request->lamination] ?? 0,
+            'retouching_price' => $prices['retouching'][$request->retouching] ?? 0,
+            'proof_price' => $prices['proof'][$request->proof] ?? 0,
+            
+        ];
+   
+        // Store updated options in session
+        Session::put('image_options', [
+            'frame' => $request->frame,
+            'size' => $request->size,
+            'wrap_wrap' => $request->wrap_wrap,
+            'wrap_frame' => $request->wrap_frame,
+            'hardware_style' => $request->hardware_style,
+            'hardware_display' => $request->hardware_display,
+            'hardware_finishing' => $request->hardware_finishing,
+            'lamination' => $request->lamination,
+            'retouching' => $request->retouching,
+            'proof' => $request->proof,
+            'prices' => $selectedPrices, // Storing individual prices
+        ]);
+
+        return response()->json($selectedPrices);
+    }
+
+    public function checkSessionImage(Request $request) {
+        $imagePath = Session::get('uploaded_image'); // Assuming image is stored in session
+
+        return response()->json([
+            'image' => $imagePath ? asset('storage/' . $imagePath) : null
+        ]);
+    }
 }

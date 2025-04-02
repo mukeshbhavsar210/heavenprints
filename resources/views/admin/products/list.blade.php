@@ -78,18 +78,35 @@
                                 <td>
                                     <h5 class="mb-0">{{ Str::limit($product->name, 30, '...') }}</h5>
                                     <span style="font-size:14px;">
-                                        @if (!empty($product->sizes))
+                                        @if(!empty($product->sizes))
+                                            @php
+                                                $decodedSizes = json_decode($product->sizes, true); // Decode as an array
+                                            @endphp
+
+                                            @if(is_array($decodedSizes))
+                                                , <b>Size:</b> {{ implode(', ', $decodedSizes) }}
+                                            @else
+                                                , <b>Size:</b> {{ $product->sizes }} <!-- Fallback in case it's not JSON -->
+                                            @endif
+                                        @endif
+
+                                        {{-- @if (!empty($product->sizes))
                                             <b>Size:</b>
                                             @foreach(json_decode($product->sizes) as $size)
                                                 {{ $size }},
                                             @endforeach
-                                        @endif
+                                        @endif --}}
 
                                         @if(!empty($product->colors))
-                                            , Color:
-                                            @foreach(json_decode($product->colors) as $color)
-                                                {{ $color }}
-                                            @endforeach
+                                            @php
+                                                $decodedColors = json_decode($product->colors, true); // Decode as an array
+                                            @endphp
+
+                                            @if(is_array($decodedColors))
+                                                , <b>Color:</b> {{ implode(', ', $decodedColors) }}
+                                            @else
+                                                , <b>Color:</b> {{ $product->colors }} <!-- Fallback in case it's not JSON -->
+                                            @endif
                                         @endif
                                     </span>
                                 </td>
