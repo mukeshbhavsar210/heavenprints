@@ -56,24 +56,24 @@
                     @php
                         $productImage = $product->product_images->first();
                     @endphp
-                    <div class="col-md-3 col-6">                           
-                        <div class="product-image position-relative">
 
+                    <div class="col-md-2 col-6">                           
+                        <div class="product-image position-relative">
                             <a href="{{ route('front.product',$product->slug) }}" class="product-img">
-                                @if (!empty($productImage->image))
-                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
+                                @if (!empty($productImage->image1))
+                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                 @else
                                     <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                 @endif
                             </a>
 
-                            <div class="product-action">
+                            <div class="product-action-home">
                                 <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
 
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                            <i class="fa fa-shopping-cart"></i> Add To Cart
+                                            <i class="fa fa-shopping-cart"></i> Add
                                         </a>
                                     @else
                                         <a class="btn btn-primary" href="javascript:void(0);">
@@ -82,15 +82,15 @@
                                     @endif
                                 @else
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                    <i class="fa fa-shopping-cart"></i> Add
                                 </a>
                                 @endif
                             </div>
                         </div>
                         <div class="mt-2">
                             <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
-                            <div class="price mt-2">
-                                <span class="h5"><strong>₹ {{ $product->price }}</strong></span>
+                            <div class="price mt-1">
+                                <span><strong>₹ {{ $product->price }}</strong></span>
                                 @if ($product->compare_price > 0)
                                     <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
                                 @endif
@@ -103,29 +103,27 @@
     @endif
 
     @if ($latestProducts->isNotEmpty())       
-        <div class="section-title mt-3"><h2>Latest Products</h2></div>
+        <div class="section-title mt-5"><h2>Latest Products</h2></div>
             <div class="row">
                 @foreach ($latestProducts as $product)
                     @php
                         $productImage = $product->product_images->first();
                     @endphp
-                        <div class="col-md-3 col-6">
+                        <div class="col-md-2 col-6">
                             <div class="product-image position-relative">
                                 <a href="" class="product-img">
-                                    @if (!empty($productImage->image))
-                                        <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                    @if (!empty($productImage->image1))
+                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                     @else
                                         <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                     @endif
                                 </a>
-                                <div class="product-action">
-                                    
+                                <div class="product-action-home">
                                     <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-
                                     @if ($product->track_qty == 'Yes')
                                         @if ($product->qty > 0)
                                             <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
+                                                <i class="fa fa-shopping-cart"></i> Add
                                             </a>
                                         @else
                                             <a class="btn btn-dark" href="javascript:void(0);">
@@ -134,19 +132,19 @@
                                         @endif
                                     @else
                                     <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                        <i class="fa fa-shopping-cart"></i> Add To Cart
+                                        <i class="fa fa-shopping-cart"></i> Add
                                     </a>
                                     @endif
                                 </div>
                             </div>
                             <div class="mt-2">
                                 <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
-                                <div class="price mt-2">
-                                    <p class="h5"><strong>₹ {{ $product->price }}</strong>
+                                <div class="price mt-1">
+                                    <span><strong>₹ {{ $product->price }}</strong>
                                         @if ($product->compare_price > 0)
                                             <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
                                         @endif
-                                    </p>
+                                    </span>
                                 </div>
                             </div>
                         </div>

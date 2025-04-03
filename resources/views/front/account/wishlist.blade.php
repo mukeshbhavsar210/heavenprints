@@ -27,7 +27,7 @@
                                     <div class="card-body">
                                         <a href="{{ route('front.product',$wishlist->product->slug) }}">
                                             @if (!empty($productImage))
-                                                <img src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                                <img src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
                                             @else
                                                 <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                             @endif

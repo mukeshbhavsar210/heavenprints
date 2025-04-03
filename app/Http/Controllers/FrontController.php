@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class FrontController extends Controller {
     public function index(){
         $products = Product::where('is_featured','Yes')->orderBy('id','DESC')->take(4)->where('status',1)->where('product_type','default')->get();
-        $latestProducts = Product::orderBy('id','DESC')->where('status',1)->take(4)->where('product_type','default')->get();
+        $latestProducts = Product::orderBy('id','DESC')->with('product_images')->where('status',1)->take(4)->where('product_type','default')->get();
         $categories = Category::withCount('products') 
                     ->limit(4)
                     ->get();

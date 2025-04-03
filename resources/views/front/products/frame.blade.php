@@ -144,7 +144,7 @@
 <script>
     $(document).ready(function () {
         $("#saveOptions").click(function (e) {
-            e.preventDefault(); // Prevent default action (optional)
+            e.preventDefault(); 
 
             let sizeRadios = document.querySelector('input[name="size"]:checked')?.value || "";
             let category_name = document.getElementById("category_name").value;
@@ -154,11 +154,11 @@
             let priceInput = document.getElementById("price").value;
             
             $.ajax({
-                url: "{{ route('save.session') }}", // Define a route to store session data
+                url: "{{ route('save.session') }}",
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    product_id: "{{ $product->id }}", // Example data to store
+                    product_id: "{{ $product->id }}", 
                     sizeRadios: sizeRadios,
                     category_name: category_name,
                     shapeRadios: shapeRadios,
@@ -168,7 +168,7 @@
                 },
                 success: function (response) {
                     console.log("Session data saved:", response);
-                    window.location.href = "{{ route('custom.frame.product', $product->slug) }}"; // Redirect after saving
+                    window.location.href = "{{ route('custom.frame.product', $product->slug) }}";
                 },
                 error: function (xhr) {
                     console.error("Error saving session data:", xhr);
@@ -218,9 +218,9 @@
                 body: JSON.stringify({ grandTotal_first: totalPrice })
             })
             .then(response => response.json())
-            // .then(data => {
-            //     console.log("Stored in session:", data.grandTotal_first);
-            // })
+            .then(data => {
+                console.log("Stored in session:", data.grandTotal_first);
+            })
             .catch(error => console.error("Error storing grandTotal_first:", error));
         }
     
@@ -229,7 +229,6 @@
         customSizeDropdown1.addEventListener('change', updateTotal);
         customSizeDropdown2.addEventListener('change', updateTotal);
     
-        // Initial call to update total when page loads
         updateTotal();
     });
 </script>
