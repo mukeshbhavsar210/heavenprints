@@ -45,13 +45,13 @@
                                         <div class="col-sm-6"><b>#007612</b></div>
                                     </div>
 
-                                    @foreach($order->payments as $payment)
+                                    {{-- @foreach($order->payments as $payment)
                                     @endforeach
 
                                     <div class="row">
                                         <div class="col-sm-6 text-right"><span>Payment ID:</span></div>
                                         <div class="col-sm-6"><b>{{ $payment->razorpay_payment_id }} </b></div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-sm-6 text-right"><span>Order ID:</span></div>
@@ -60,7 +60,8 @@
 
                                     <div class="row">
                                         <div class="col-sm-6 text-right"><span>Total:</span></div>
-                                        <div class="col-sm-6"><b>₹ {{ number_format($order->grandtotal,2) }} - {{ $payment->status }}</b></div>
+                                        <div class="col-sm-6"><b>₹ {{ number_format($order->grandtotal,2) }} </b></div>
+                                        {{-- <div class="col-sm-6"><b>₹ {{ number_format($order->grandtotal,2) }} - {{ $payment->status }}</b></div> --}}
                                     </div>
 
                                     <div class="row">
@@ -215,9 +216,9 @@
                                                 @else
                                                     <td style="width: 100px">
                                                         @if($item->product->images->isNotEmpty()) 
-                                                            <img src="{{ asset('uploads/product/small/' . $item->product->images->first()->image) }}" alt="Product Image" class="img-thumbnail" style="width: 80px;">
+                                                            <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image) }}" alt="Product Image" class="img-thumbnail" style="width: 80px;">
                                                         @else
-                                                            <img src="{{ asset('uploads/product/small/default.jpg') }}" alt="Default Image" style="width: 80px;">
+                                                            <img src="{{ asset('uploads/products/small/default.jpg') }}" alt="Default Image" style="width: 80px;">
                                                         @endif
                                                     </td>
                                                     <td>

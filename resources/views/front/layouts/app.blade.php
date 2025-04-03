@@ -358,51 +358,6 @@
         })
     }
 
-	//Add to cart for METAL FRAME
-	function addToCart_Metal(id){
-		let size =  $('input[name="size"]:checked').val() + '_₹' + $('#sizePrice').text();
-		let frame = $('input[name="frame"]:checked').val() + '_₹' + $('#framePrice').text() ;
-		let uploadedImageName = "{{ session('uploaded_image') }}";
-		let image = uploadedImageName || 'No image found';
-		let wrap_wrap = $('input[name="wrap_wrap"]:checked').val() + '_₹' + $('#wrapWrapPrice').text();
-    	let major = $('#major').val();        
-        let border = $('input[name="wrap_border"]:checked').val() + '_₹' + $('#wrapBorderPrice').text();
-        let wrap_frame = $('input[name="wrap_frame"]:checked').val() + '_₹' + $('#wrapFramePrice').text();
-        let hardware_style = $('input[name="hardware_style"]:checked').val() + '_₹' + $('#hardwareStylePrice').text();
-        let hardware_display = $('input[name="hardware_display"]:checked').val() + '_₹' + $('#hardwareDisplayPrice').text();
-        let lamination = $('input[name="lamination"]:checked').val() + '_₹' + $('#laminationPrice').text();
-        let proof = $('input[name="proof"]:checked').val() + '_₹' + $('#proofPrice').text();
-        let retouching = $('input[name="retouching"]:checked').val() + '_₹' + $('#retouchingPrice').text();
-        let hardware_finishing = $('input[name="hardware_finishing"]:checked').val() + '_₹' + $('#retouchingPrice').text();
-        let price = $('#grandTotal').text();
-		
-        $.ajax({
-            url: '{{ route("front.addToCart_metal") }}',
-            type: 'post',
-            data: {
-				_token: '{{ csrf_token() }}', // Include CSRF token
-				id: id,
-				size: size, 
-				frame: frame, 
-				image: image, 
-				wrap_wrap: wrap_wrap,
-				major: major, 
-                border: border, 
-				wrap_frame: wrap_frame, hardware_style: hardware_style,
-                hardware_display: hardware_display, lamination: lamination, proof: proof, 
-                retouching: retouching, hardware_finishing: hardware_finishing, price: price,
-			},
-            dataType: 'json',
-            success: function(response){
-                if(response.status == true){
-                    window.location.href= "{{ route('front.cart') }}";
-                } else {
-                    alert(response.message);
-                }
-            }
-        })
-    }
-
     function addToWishlist(id){
         $.ajax({
             url: '{{ route("front.addToWishlist",) }}',

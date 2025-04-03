@@ -26,7 +26,7 @@ class ProductImageController extends Controller {
         $productImage->save();
 
         //Large Image
-        $destPath = public_path().'/uploads/product/large/'.$imageName;
+        $destPath = public_path().'/uploads/products/large/'.$imageName;
         $manager = new ImageManager(new Driver());
         $image = $manager->read($sourcePath);
         // $image->resize(1000, null, function ($constraint) {
@@ -36,7 +36,7 @@ class ProductImageController extends Controller {
         $image->save($destPath);
 
         //Generate Thumnail
-        $destPath = public_path().'/uploads/product/small/'.$imageName;
+        $destPath = public_path().'/uploads/products/small/'.$imageName;
         $manager = new ImageManager(new Driver());
         $image = $manager->read($sourcePath);
         $image->cover(300,300);
@@ -45,7 +45,7 @@ class ProductImageController extends Controller {
         return response()->json([
             'status' => true,
             'image_id' => $productImage->id,
-            'ImagePath' => asset('uploads/product/small/'.$productImage->image),
+            'ImagePath' => asset('uploads/products/small/'.$productImage->image),
             'message' => 'Image saved successfully'
         ]);
     }
@@ -61,8 +61,8 @@ class ProductImageController extends Controller {
         }
 
         //Delete images from folder
-        File::delete(public_path('uploads/product/large/'.$productImage->image));
-        File::delete(public_path('uploads/product/small/'.$productImage->image));
+        File::delete(public_path('uploads/products/large/'.$productImage->image));
+        File::delete(public_path('uploads/products/small/'.$productImage->image));
 
         //Delete images from database
         $productImage->delete();

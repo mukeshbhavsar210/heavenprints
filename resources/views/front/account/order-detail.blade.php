@@ -99,7 +99,7 @@
                                             @endphp
 
                                             @if (!empty($productImage->image))
-                                                <img class="img-fluid" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                                <img class="img-fluid" src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
                                             @else
                                                 <img class="img-fluid" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                             @endif

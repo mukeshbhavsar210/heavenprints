@@ -29,8 +29,6 @@ class ProductController extends Controller {
 
         $products = $products->paginate();
 
-        
-
         $data['products'] = $products;
         return view ('admin.products.list',$data);
     }
@@ -343,8 +341,8 @@ class ProductController extends Controller {
 
         if (!empty($productImages)) {
             foreach ($productImages as $productImage) {
-                File::delete(public_path('uploads/product/large/'.$productImage->image));
-                File::delete(public_path('uploads/product/small/'.$productImage->image));
+                File::delete(public_path('uploads/products/large/'.$productImage->image));
+                File::delete(public_path('uploads/products/small/'.$productImage->image));
             }
 
             ProductImage::where('product_id',$id)->delete();

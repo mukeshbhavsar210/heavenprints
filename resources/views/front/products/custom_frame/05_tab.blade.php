@@ -8,9 +8,10 @@
                         <label class="custom-radio hardware_style {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
                             <input {{ $loop->first ? 'checked' : '' }} type="radio" name="hardware_style" value="{{ $value->slug }}" class="frame-option"
                                 {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                            <img class="icon" src="{{ asset('uploads/icons/'.$value->image) }}" alt="" />
+                                <img src="{{ asset('uploads/icons/hardware/option/'.$value->image) }}" alt="" />
+                            <p>{{ $value->name }}</p>
                             <p>₹ {{ $value->price }}</p>
-                        </label>                            
+                        </label> 
                     </div>
                 @endforeach
             @endif
@@ -48,7 +49,7 @@
                         <label class="custom-radio hardware_style {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
                             <input {{ $loop->first ? 'checked' : '' }} type="radio" name="hardware_finishing" value="{{ $value->slug }}" class="frame-option"
                                 {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                                <img class="icon" src="{{ asset('uploads/icons/'.$value->image) }}" alt="" />
+                                <img src="{{ asset('uploads/icons/hardware/basic/'.$value->image) }}" alt="" />
                                 <p class="radio-label">{{ $value->name }}</p>
                                 <p>₹ {{ $value->price }}</p>
                         </label>                            

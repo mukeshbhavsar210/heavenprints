@@ -5,17 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\SVG;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use App\Models\ProductImage;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Storage;
-
-use App\Models\Frame;
 use App\Models\FrameBorder;
 use App\Models\FrameFrame;
-use App\Models\FrameMetal;
 use Illuminate\Support\Facades\Session;
 use App\Models\FrameShape;
 use App\Models\FrameSize;

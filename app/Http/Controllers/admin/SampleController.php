@@ -50,7 +50,7 @@ class SampleController extends Controller
                 $file = $request->file('image');
                 $extenstion = $file->getClientOriginalExtension();
                 $fileName = $product->slug.'_'.time().'.'.$extenstion;
-                $path = public_path().'/uploads/product/large/'.$fileName;
+                $path = public_path().'/uploads/products/large/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
                 $image->toJpeg(80)->save($path);

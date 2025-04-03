@@ -102,17 +102,17 @@
                             @endif
                             
                             @if (!empty($relatedProducts))
-                                <section class="pt-5 section-8">                                    
+                                <section class="section-8">                                    
                                     <div class="section-title">
                                         <h2>Related Products</h2>
                                     </div>
                                     
-                                    <div id="related-products" class="carousel">                                
+                                    <div class="row">
                                         @foreach ($relatedProducts as $relProduct)                                
                                         @php
                                             $productImage = $relProduct->product_images->first();
                                         @endphp
-                                            <div class=" product-card">
+                                            <div class="product-card col-md-4 col-6">
                                                 <div class="product-image position-relative">
                                                     <a href="" class="product-img">
                                                         @if (!empty($productImage->image))
@@ -135,16 +135,16 @@
                                                                                         
                                                     @if ($relProduct->track_qty == 'Yes')
                                                         @if ($relProduct->qty > 0)
-                                                            <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
+                                                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
                                                                 Add To Cart
                                                             </a>
                                                         @else
-                                                            <a class="btn btn-dark" href="javascript:void(0);">
+                                                            <a class="btn btn-danger" href="javascript:void(0);">
                                                                 Out of Stock
                                                             </a>
                                                         @endif
                                                     @else
-                                                        <a class="btn btn-dark" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
+                                                        <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
                                                             Add To Cart
                                                         </a>
                                                     @endif

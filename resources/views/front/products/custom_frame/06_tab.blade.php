@@ -50,7 +50,7 @@
         <input type="checkbox" value="I want Proof" id="proof" name="proof">
         <label for="proof">Email with link to the design proof will be emailed within 24 hours and has to be approved online.
                 Customers should approve their proof(s) as quickly as possible in order to avoid delays in production and shipping times.</label>
-        <p>Proof Request Price: ₹49.00</p>
-        <p>Note: All prints manufactured by CanvasChamp are Hand made and might have a +- 1 Inch variation from the size ordered.</p>
+        <p style="font-size: 12px; margin-top:10px;">Proof Request Price: ₹49.00<br />
+        Note: All prints manufactured by CanvasChamp are Hand made and might have a +- 1 Inch variation from the size ordered.</p>
     </div>
 </div>
