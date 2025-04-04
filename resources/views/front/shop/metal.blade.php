@@ -71,7 +71,7 @@
                                             </h5>
                                         </div>
                                         
-                                        <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
+                                        <a href="{{ route('front.frame.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
                                     </div>
                                 </div>
                             @endforeach

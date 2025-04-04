@@ -28,7 +28,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
 </head>
 <body data-instant-intensity="mousedown">
-	<header >
+	<header>
 		<div class="customFrameWrapper">
 			<div class="container-fluid">
 				<div class="row">
@@ -97,9 +97,10 @@
 					<div class="col-md-3 col-7">
                         <div class="row">
                             <div class="col-md-7 col-6">
-                                {{-- ₹<span id="selectedPrice">{{ isset($selection['price']) ? $selection['price'] : '0' }}</span> --}}
-                                
-                                <div class="priceHover">
+                                <div class="priceHover">    
+                                    <span id="finalPriceInput">{{ session('selected_product.price') }}</span>
+
+                                    <h3><span id="finalPrice">{{ session('selected_product.price') }}</span></h3>
                                     <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align: right">
                                         ₹<span id="grandTotal">{{ session('selected_product.price') }}</span>
                                     </h4>
@@ -114,13 +115,10 @@
                                                         ₹<span id="sizePrice">0</span> 
                                                     </p>
                                                 </div>
-                                                <div class="text">
-                                                    <p>{{ session('selected_product.category_name') }} </p>
-                                                    <p class="red">                                                        
-                                                        ₹<span id="framePrice">0</span>
-                                                    </p>
-                                                </div>
-                                            {{-- <span id="wrapWrapPrice">₹0</span>
+                                                <a class="icon-edit" href="{{ url()->previous() }}"></a>
+                                            {{-- 
+                                            ₹<span id="framePrice">0</span>
+                                            <span id="wrapWrapPrice">₹0</span>
                                             <span id="wrapFramePrice">₹0</span>
                                             <span id="hardwareStylePrice">₹0</span>
                                             <span id="hardwareDisplayPrice">₹0</span>
@@ -146,7 +144,7 @@
 				</div>
 			</div>
 		</div>
-</header>
+    </header>
 
 <div class="customizeFrames">
     <div class="row">                   
@@ -225,43 +223,6 @@
         </div>
 
         <div class="col-md-7"> 
-            
-
-            {{-- <div class="mt-5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Frame</th>
-                            <th>Size</th>
-                            <th>Wrap</th>
-                            <th>Frame</th>
-                            <th>Style</th>
-                            <th>Display</th>
-                            <th>Finishing</th>
-                            <th>Lamination</th>
-                            <th>Retouching</th>
-                            <th>Proof</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span id="framePrice">₹0</span></td>
-                            <td><span id="sizePrice">₹0 </span></td>
-                            <td><span id="wrapWrapPrice">₹0</span></td>
-                            <td><span id="wrapFramePrice">₹0</span></td>
-                            <td><span id="hardwareStylePrice">₹0</span></td>
-                            <td><span id="hardwareDisplayPrice">₹0</span></td>
-                            <td><span id="hardwareFinishingPrice">₹0</span></td>
-                            <td><span id="laminationPrice">₹0</span></td>
-                            <td><span id="retouchingPrice">₹0</span></td>
-                            <td><span id="proofPrice">₹0</span></td>
-                        </tr>
-                    </tbody>
-                </table>  
-            </div> 
-
-           --}}
-            
             <div class="frame-generate">
                 <div class="renderFrame">                
                     <div class="mainImg">
@@ -276,7 +237,7 @@
                             <div class="preview-img">
                                 <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
                                     <div id="frameDetails">
-                                        <div class="wrapBorder {{ session('frame_class', 'default-class') }}">
+                                        <div class="wrapBorder {{ session('selected_product.category_name') }}">
                                             <div class="border">
                                                 <div class="top-left"></div>
                                                 <div class="top-right"></div>
@@ -284,9 +245,7 @@
                                                 <div class="bottom-right"></div>
                                                 
                                                 <div id="image">          
-                                                    <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                              
-                                                    {{-- <img id="previewImage1" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}"  
-                                                    style=" display: {{ session('uploaded_image') ? 'block' : 'none' }};" />--}}
+                                                    <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -318,7 +277,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-	
+	   
 
 	//Add to cart for METAL FRAME
 	function addToCart_Metal(id){
@@ -352,7 +311,8 @@
                 border: border, 
 				wrap_frame: wrap_frame, hardware_style: hardware_style,
                 hardware_display: hardware_display, lamination: lamination, proof: proof, 
-                retouching: retouching, hardware_finishing: hardware_finishing, price: price,
+                retouching: retouching, hardware_finishing: hardware_finishing, 
+                price: price,
 			},
             dataType: 'json',
             success: function(response){
@@ -379,181 +339,263 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-            $(".frame-option").change(function () {
-                let parentLabel = $(this).closest("label");
-                let frameName = $(this).val().toLowerCase();
-                $(".wrapBorder").removeClass().addClass("wrapBorder " + frameName);
-                $.ajax({
-                    url: "/store-frame",
-                    method: "POST",
-                    data: {
-                        frame_class: frameName,
-                        _token: $('meta[name="csrf-token"]').attr("content")
-                    },
-                    success: function (response) {
-                        console.log("Frame stored in session:", response);
-                    }
-                });
-            });        
-    
-         // Update Options in Real Time
-         $("input[type='radio']").change(function () {
-            let formData = {
-                _token: '{{ csrf_token() }}',
-                frame: $("input[name='frame']:checked").val(),
-                size: $("input[name='size']:checked").val(),
-                wrap_wrap: $("input[name='wrap_wrap']:checked").val(),
-                wrap_frame: $("input[name='wrap_frame']:checked").val(),
-                hardware_style: $("input[name='hardware_style']:checked").val(),
-                hardware_display: $("input[name='hardware_display']:checked").val(),
-                hardware_finishing: $("input[name='hardware_finishing']:checked").val(),
-                lamination: $("input[name='lamination']:checked").val(),
-                retouching: $("input[name='retouching']:checked").val(),            
-                proof: $("input[name='proof']:checked").val(),  
-            };
-    
-            $.post("{{ route('update.options') }}", formData, function (response) {
-                $("#framePrice").text(response.frame_price);
-                $("#sizePrice").text(response.size_price);
-                $("#wrapWrapPrice").text(response.wrap_wrap_price);
-                $("#wrapFramePrice").text(response.wrap_frame_price);            
-                $("#hardwareStylePrice").text(response.hardware_style_price);
-                $("#hardwareDisplayPrice").text(response.hardware_display_price);
-                $("#hardwareFinishingPrice").text(response.hardware_finishing_price);
-                $("#laminationPrice").text(response.lamination_price);
-                $("#retouchingPrice").text(response.retouching_price);
-                $("#proofPrice").text(response.proof_price);
+        $(".frame-option").change(function () {
+            let parentLabel = $(this).closest("label");
+            let frameName = $(this).val().toLowerCase();
+            $(".wrapBorder").removeClass().addClass("wrapBorder " + frameName);
+            $.ajax({
+                url: "/store-frame",
+                method: "POST",
+                data: {
+                    frame_class: frameName,
+                    _token: $('meta[name="csrf-token"]').attr("content")
+                },
+                success: function (response) {
+                    console.log("Frame stored in session:", response);
+                }
+            });
+        });        
+
+        // Update Options in Real Time
+        // $("input[type='radio']").change(function () {
+        //     let formData = {
+        //         _token: '{{ csrf_token() }}',
+        //         frame: $("input[name='frame']:checked").val(),
+        //         size: $("input[name='size']:checked").val(),
+        //         wrap_wrap: $("input[name='wrap_wrap']:checked").val(),
+        //         wrap_frame: $("input[name='wrap_frame']:checked").val(),
+        //         hardware_style: $("input[name='hardware_style']:checked").val(),
+        //         hardware_display: $("input[name='hardware_display']:checked").val(),
+        //         hardware_finishing: $("input[name='hardware_finishing']:checked").val(),
+        //         lamination: $("input[name='lamination']:checked").val(),
+        //         retouching: $("input[name='retouching']:checked").val(),            
+        //         proof: $("input[name='proof']:checked").val(),  
+        //     };
+
+        //     $.post("{{ route('update.options') }}", formData, function (response) {
+        //         $("#framePrice").text(response.frame_price);
+        //         $("#sizePrice").text(response.size_price);
+        //         $("#wrapWrapPrice").text(response.wrap_wrap_price);
+        //         $("#wrapFramePrice").text(response.wrap_frame_price);            
+        //         $("#hardwareStylePrice").text(response.hardware_style_price);
+        //         $("#hardwareDisplayPrice").text(response.hardware_display_price);
+        //         $("#hardwareFinishingPrice").text(response.hardware_finishing_price);
+        //         $("#laminationPrice").text(response.lamination_price);
+        //         $("#retouchingPrice").text(response.retouching_price);
+        //         $("#proofPrice").text(response.proof_price);
                 
-                // Calculate Grand Total
-                let grandTotal =    parseInt(response.frame_price) + 
-                                    parseInt(response.size_price) + 
-                                    parseInt(response.wrap_wrap_price) +
-                                    parseInt(response.wrap_frame_price) +
-                                    parseInt(response.hardware_style_price) +
-                                    parseInt(response.hardware_display_price) +
-                                    parseInt(response.hardware_finishing_price) +
-                                    parseInt(response.lamination_price) +
-                                    parseInt(response.retouching_price) +
-                                    parseInt(response.proof_price);
-    
-                // Update Grand Total
-                $("#grandTotal").text(grandTotal);
-            });
+        //         // Calculate Grand Total
+        //         let grandTotal =    parseInt(response.frame_price) + 
+        //                             parseInt(response.size_price) + 
+        //                             parseInt(response.wrap_wrap_price) +
+        //                             parseInt(response.wrap_frame_price) +
+        //                             parseInt(response.hardware_style_price) +
+        //                             parseInt(response.hardware_display_price) +
+        //                             parseInt(response.hardware_finishing_price) +
+        //                             parseInt(response.lamination_price) +
+        //                             parseInt(response.retouching_price) +
+        //                             parseInt(response.proof_price);
+
+        //         // Update Grand Total
+        //         $("#grandTotal").text(grandTotal);
+        //     });
+        // });
+
+
+    $("input[type='radio']").change(function () {
+        let formData = {
+            _token: '{{ csrf_token() }}',
+            final_price: $("#finalPriceInput").val(),  // Send updated price
+            frame: $("input[name='frame']:checked").val(),
+            size: $("input[name='size']:checked").val(),
+            wrap_wrap: $("input[name='wrap_wrap']:checked").val(),
+            wrap_frame: $("input[name='wrap_frame']:checked").val(),
+            hardware_style: $("input[name='hardware_style']:checked").val(),
+            hardware_display: $("input[name='hardware_display']:checked").val(),
+            hardware_finishing: $("input[name='hardware_finishing']:checked").val(),
+            lamination: $("input[name='lamination']:checked").val(),
+            retouching: $("input[name='retouching']:checked").val(),            
+            proof: $("input[name='proof']:checked").val(),  
+        };
+
+        $.post("{{ route('update.options') }}", formData, function (response) {
+            $("#framePrice").text(response.frame_price);
+            $("#sizePrice").text(response.size_price);
+            $("#wrapWrapPrice").text(response.wrap_wrap_price);
+            $("#wrapFramePrice").text(response.wrap_frame_price);            
+            $("#hardwareStylePrice").text(response.hardware_style_price);
+            $("#hardwareDisplayPrice").text(response.hardware_display_price);
+            $("#hardwareFinishingPrice").text(response.hardware_finishing_price);
+            $("#laminationPrice").text(response.lamination_price);
+            $("#retouchingPrice").text(response.retouching_price);
+            $("#proofPrice").text(response.proof_price);
+
+            // Add first level updated price (base + shape + size + custom sizes)
+            let grandTotal = parseFloat($("#finalPriceInput").val()) + 
+                            parseInt(response.frame_price) + 
+                            parseInt(response.wrap_wrap_price) +
+                            parseInt(response.wrap_frame_price) +
+                            parseInt(response.hardware_style_price) +
+                            parseInt(response.hardware_display_price) +
+                            parseInt(response.hardware_finishing_price) +
+                            parseInt(response.lamination_price) +
+                            parseInt(response.retouching_price) +
+                            parseInt(response.proof_price);
+
+            // Update Grand Total
+            $("#grandTotal").text(grandTotal.toFixed(2));
         });
+    });
     
-        function checkSessionImage() {
-            $.ajax({
-                url: "{{ route('check.image') }}",
-                type: "GET",
-                success: function (response) {
-                    if (response.image) {
-                        $("#previewImage1").attr("src", response.image).show();
-                        $("#imagePreview").show();
-                        $("#deleteImage").show();
-                        $("#uploadContainer").hide(); // Hide upload button if image exists
-                    } else {
-                        $("#previewImage1").hide();
-                        $("#imagePreview").hide();
-                        $("#deleteImage").hide();
-                        $("#uploadContainer").show(); // Show upload button if no image
-                    }
-                }
-            });
-        }
-    
-        let xhr;
-        $('#uploadBtn').on('click', function () {
-            let file = $('#image')[0].files[0];
-            if (!file) {
-                alert("Please select an image!");
-                return;
-            }
-    
-            let formData = new FormData();
-            formData.append('image', file);
-    
-            $('#progress-container').show();
-            $('#progress-bar').css('width', '0%');
-            $('#abortBtn').show();
-    
-            xhr = $.ajax({
-                url: "{{ route('image.upload') }}",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                },
-                xhr: function () {
-                    let xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function (event) {
-                        if (event.lengthComputable) {
-                            let percent = Math.round((event.loaded / event.total) * 100);
-                            $('#progress-bar').css('width', percent + '%');
-                        }
-                    });
-                    return xhr;
-                },
-                success: function (response) {
-                    if (response.success) {
-                        setTimeout(function() {
-                            location.reload();
-                        }, 100);
-                    }
-                    $('#abortBtn').hide();
-                },
-                error: function () {
-                    alert("Upload failed!");
-                    $('#abortBtn').hide();
-                }
-            });
-        });
-    
-        $('#abortBtn').on('click', function () {
-            if (xhr) {
-                xhr.abort();
-                alert("Upload Aborted!");
-                $('#progress-container').hide();
-                $('#abortBtn').hide();
-            }
-        }); 
-    
-        // Delete Image
-        $("#deleteImage").click(function () {
-            $.ajax({
-                url: "{{ route('delete.image') }}",
-                type: "POST",
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                success: function () {
+    function checkSessionImage() {
+        $.ajax({
+            url: "{{ route('check.image') }}",
+            type: "GET",
+            success: function (response) {
+                if (response.image) {
+                    $("#previewImage1").attr("src", response.image).show();
+                    $("#imagePreview").show();
+                    $("#deleteImage").show();
+                    $("#uploadContainer").hide(); // Hide upload button if image exists
+                } else {
                     $("#previewImage1").hide();
                     $("#imagePreview").hide();
                     $("#deleteImage").hide();
-                    location.reload();
-                },
-                error: function () {
-                    alert("Image deletion failed!");
+                    $("#uploadContainer").show(); // Show upload button if no image
                 }
-            });
+            }
         });
-        checkSessionImage();
-    });
-
-
-    $(".toggle-btn").click(function() {
-        var id = $(this).data("id"); 
-        var moreContent = $(".more-content-" + id);
-        var button = $(".toggle-btn-" + id);
-
-        if (moreContent.is(":visible")) {
-            moreContent.hide();
-            button.text("Show More");
-        } else {
-            moreContent.show();
-            button.text("Show Less");
+    }
+    
+    let xhr;
+    $('#uploadBtn').on('click', function () {
+        let file = $('#image')[0].files[0];
+        if (!file) {
+            alert("Please select an image!");
+            return;
         }
+
+        let formData = new FormData();
+        formData.append('image', file);
+
+        $('#progress-container').show();
+        $('#progress-bar').css('width', '0%');
+        $('#abortBtn').show();
+
+        xhr = $.ajax({
+            url: "{{ route('image.upload') }}",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            xhr: function () {
+                let xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function (event) {
+                    if (event.lengthComputable) {
+                        let percent = Math.round((event.loaded / event.total) * 100);
+                        $('#progress-bar').css('width', percent + '%');
+                    }
+                });
+                return xhr;
+            },
+            success: function (response) {
+                if (response.success) {
+                    setTimeout(function() {
+                        location.reload();
+                    }, 100);
+                }
+                $('#abortBtn').hide();
+            },
+            error: function () {
+                alert("Upload failed!");
+                $('#abortBtn').hide();
+            }
+        });
     });
+    
+    $('#abortBtn').on('click', function () {
+        if (xhr) {
+            xhr.abort();
+            alert("Upload Aborted!");
+            $('#progress-container').hide();
+            $('#abortBtn').hide();
+        }
+    }); 
+    
+    // Delete Image
+    $("#deleteImage").click(function () {
+        $.ajax({
+            url: "{{ route('delete.image') }}",
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            success: function () {
+                $("#previewImage1").hide();
+                $("#imagePreview").hide();
+                $("#deleteImage").hide();
+                location.reload();
+            },
+            error: function () {
+                alert("Image deletion failed!");
+            }
+        });
+    });
+    checkSessionImage();
+});
+
+$(".toggle-btn").click(function() {
+    var id = $(this).data("id"); 
+    var moreContent = $(".more-content-" + id);
+    var button = $(".toggle-btn-" + id);
+
+    if (moreContent.is(":visible")) {
+        moreContent.hide();
+        button.text("Show More");
+    } else {
+        moreContent.show();
+        button.text("Show Less");
+    }
+});
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        function updateCartPrice() {
+            let rowId = document.getElementById('rowId').value; // Get row ID
+            let qty = document.getElementById('qty').value; // Get quantity
+            let newPrice = document.getElementById('finalPrice').innerText.trim(); // Get updated price
+
+            fetch('/update-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    rowId: rowId,
+                    qty: qty,
+                    new_price: newPrice
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    alert('Cart updated successfully!');
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error updating cart:', error));
+        }
+
+        // Call updateCartPrice when final price updates
+        document.getElementById('customSizeSelect').addEventListener('change', updateCartPrice);
+    });
+
+
 </script>
+
 
 </body>
 </html>

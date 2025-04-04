@@ -120,7 +120,7 @@ header .navbar .nav-link:hover .nav_name { color:var(--secondary); }
 .navbar-toggler .navbar-toggler-icon { color:var(--primary) }
 .navbar-toggler:focus{box-shadow:none}ul{margin:0px;padding:0px}ul li{list-style:none}
 
-.slider-nav { margin-top: 15px;}
+.slider-nav { margin-top: 15px; height: 100px;}
 .slider-nav .img-thumbnail { margin: 0 7px;}
 
 header { background-color: var(--white); width: 100%; z-index: 99;}
@@ -134,12 +134,15 @@ main section { padding-top: 25px;}
 .priceHover::after { content: ""; width: 25px; height: 25px; position: absolute; right:0px; top:3px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -193px -90px;  }
 .priceHover:hover>.breakups { display: block; }
 
-.breakups { display: none; z-index: 999; width: 250px; right:0; top:30px; box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2); border-radius: 4px; position: absolute; padding:10px 15px; background-color: var(--white); color: var(--black); }
-.breakups .breakup-details { display: flex; }
-.breakups .breakup-details .icon-tick {  margin-top: 3px;; height: 35px; width: 35px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -192px -43px;  ;}
-.breakups .breakup-details .text { margin-left: 15px;}
+.breakups { display: none; z-index: 999; width: 210px; left:0; top:30px; box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2); border-radius: 4px; position: absolute; padding:10px 15px; background-color: var(--white); color: var(--black); }
+.breakups .breakup-details { display: flex;}
+.breakups .breakup-details .icon-tick { margin-top: 7px; height: 26px; width: 26px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -192px -43px;}
+.breakups .breakup-details .icon-edit { position: absolute; right:15px; margin-top:5px; height: 20px; width: 20px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -221px -43px;}
+.breakups .breakup-details .text { margin-left: 10px;}
 .breakups .breakup-details .text p { margin: 0;}
 .breakups .breakup-details .text .red { color: var(--dark-grey);}
+
+.nameTotal { background-color: var(--white); padding: 15px 25px; border-bottom: 1px #ccc solid;;}
 
 
 
@@ -349,7 +352,8 @@ main section { padding-top: 25px;}
 .custom-radio:hover { border-color: var(--dark-grey);}
 .custom-radio.active { border-color: var(--green); color: var(--black); }
 .custom-radio.active::after { content:"✔"; position: absolute; top:0px; right:0px; background-color: var(--green); color: var(--white); height: 20px; width: 20px; border-radius: 0 2px 0 0; padding:2px 5px; display: block; font-size: 10px;}
-.product, .size { height: 125px; }
+.product { height: 125px; }
+.size { height: 135px; }
 .hardware_style { height: 145px; }
 .hardware_style img { margin-bottom: 8px;}
 

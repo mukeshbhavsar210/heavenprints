@@ -34,6 +34,8 @@ Route::controller(FrontController::class)->group(function() {
     Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');
 });
 
+
+
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
@@ -41,9 +43,13 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
 
     //Product details
-    Route::get('/product/{slug}', 'product')->name('front.product');
-    Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
+    Route::get('/product/{slug}', 'product')->name('front.product');    
     Route::get('/custom_frame/{slug}', 'custom_frame')->name('custom.frame.product');
+
+    //Frame
+    Route::get('/frame_product/{slug}', 'product_frame')->name('front.frame.product');    
+    Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
+    Route::get('/custom_print/{id}', 'show');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
@@ -73,7 +79,7 @@ Route::controller(CartController::class)->group(function() {
     Route::post('/add-to-cart-metal','addToCart_metal')->name('front.addToCart_metal');
     Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
 
-    Route::post('/update-cart','updateCart')->name('front.updateCart');
+    //Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout','checkout')->name('front.checkout');
     Route::post('/process-checkout','processCheckout')->name('front.processCheckout');
@@ -81,6 +87,9 @@ Route::controller(CartController::class)->group(function() {
     Route::post('/get-order-summary','getOrderSummary')->name('front.getOrderSummary');
     Route::post('/apply-discount','applyDiscount')->name('front.applyDiscount');
     Route::post('/remove-discount','removeCoupon')->name('front.removeCoupon');
+
+    //Update price for Cart
+    Route::post('/update-cart-new', 'updateCart_new');
 
     //Payment routes
     Route::post('payment', 'payment')->name('razor_payment');
