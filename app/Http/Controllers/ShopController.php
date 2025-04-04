@@ -241,21 +241,8 @@ class ShopController extends Controller {
 
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
-
-        $canvas = FrameShape::where('types','canvas')->get();
-        $acrylic = FrameShape::where('types','acrylic')->get();
-        $metal = FrameShape::where('types','metal')->get();
-        $wood = FrameShape::where('types','wood')->get();
-        $others = FrameShape::where('types','others')->get();
-
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();        
-        
-        
-        
-        
-        
-        $wraps = FrameWrap::where('types','wrap')->get();
         $borders = FrameWrap::where('types','border')->get();    
         $wrap_borders = FrameBorder::get();
         $standards = FrameFrame::where('types','standard')->get();
@@ -277,6 +264,13 @@ class ShopController extends Controller {
         $large_data = FrameSize::where('types','large')->get();
         $small_data = FrameSize::where('types','small')->get();
 
+        //Shape
+        $canvas_data = FrameShape::where('types','canvas')->get();
+        $acrylic_data = FrameShape::where('types','acrylic')->get();
+        $metal_data = FrameShape::where('types','metal')->get();
+        $wood_data = FrameShape::where('types','wood')->get();
+        $others_data = FrameShape::where('types','others')->get();
+
         $shapePrices = [
             'Square' => 400.00,
             'Rectangle' => 800.00,
@@ -285,22 +279,26 @@ class ShopController extends Controller {
             'Small' => 200.00
         ];
 
+        //Size
         $data['recommended_data'] = $recommended_data;
         $data['square_data'] = $square_data;
         $data['panaromic_data'] = $panaromic_data;
         $data['large_data'] = $large_data;
         $data['small_data'] = $small_data;
+
+        //Canvas
+        $data['canvas_data'] = $canvas_data;
+        $data['acrylic_data'] = $acrylic_data;
+        $data['metal_data'] = $metal_data;
+        $data['wood_data'] = $wood_data;
+        $data['others_data'] = $others_data;
+
+        //Wrap
+        $wraps_data = FrameWrap::where('types','wrap')->get();
+
         $data['shapePrices'] = $shapePrices;
-
-        
-
-        $data['canvas'] = $canvas;
-        $data['acrylic'] = $acrylic;
-        $data['metal'] = $metal;
-        $data['wood'] = $wood;
-        $data['others'] = $others;
         $data['frameSizes'] = $frameSizes;
-        $data['wraps'] = $wraps;
+        $data['wraps_data'] = $wraps_data;
         $data['borders'] = $borders;
         $data['wrap_borders'] = $wrap_borders;
         $data['standards'] = $standards;
@@ -775,4 +773,115 @@ class ShopController extends Controller {
             'image' => $imagePath ? asset('storage/' . $imagePath) : null
         ]);
     }
+
+
+    public function show($id) {
+        $products = Product::findOrFail($id);
+        // $product = Product::where('slug',$slug)->with('product_images')->first();
+        // $product = Product::where('slug',$slug)
+        //                     ->with('product_images')
+        //                     ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        //                     ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+        //                     ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
+        //                     ->first();
+
+
+        $tab_canvas = FrameShape::where('types','')->get();
+        $frame_accordion = FrameShape::get();
+        $tab_canvas = FrameShape::where('types','')->get();
+        $frame_accordion = FrameShape::get();        
+        $borders = FrameWrap::where('types','border')->get();    
+        $wrap_borders = FrameBorder::get();
+        $standards = FrameFrame::where('types','standard')->get();
+        $premium = FrameFrame::where('types','premium')->get();
+        $floating = FrameFrame::where('types','floating')->get();                   
+        $hardware_styles = HardwareStyle::get();
+        $hardware_displays = HardwareDisplay::get();
+        $hardware_basic_finishings = HardwareFinishing::where('types','basic')->get();
+        $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
+        $laminations = Lamination::all();
+        $frameSizes = FrameSize::all();
+        $modifications = Modification::all();
+
+        $selection = Session::get('selection', []);
+
+        $recommended_data = FrameSize::where('types','recommended')->get();
+        $square_data = FrameSize::where('types','square')->get();
+        $panaromic_data = FrameSize::where('types','panaromic')->get();
+        $large_data = FrameSize::where('types','large')->get();
+        $small_data = FrameSize::where('types','small')->get();
+
+        //Shape
+        $canvas_data = FrameShape::where('types','canvas')->get();
+        $acrylic_data = FrameShape::where('types','acrylic')->get();
+        $metal_data = FrameShape::where('types','metal')->get();
+        $wood_data = FrameShape::where('types','wood')->get();
+        $others_data = FrameShape::where('types','others')->get();
+
+        $shapePrices = [
+            'Square' => 400.00,
+            'Rectangle' => 800.00,
+            'Panoramic' => 1600.00,
+            'Large' => 2000.00,
+            'Small' => 200.00
+        ];
+
+        //Size
+        $data['recommended_data'] = $recommended_data;
+        $data['square_data'] = $square_data;
+        $data['panaromic_data'] = $panaromic_data;
+        $data['large_data'] = $large_data;
+        $data['small_data'] = $small_data;
+
+        //Canvas
+        $data['canvas_data'] = $canvas_data;
+        $data['acrylic_data'] = $acrylic_data;
+        $data['metal_data'] = $metal_data;
+        $data['wood_data'] = $wood_data;
+        $data['others_data'] = $others_data;
+
+        $data['products'] = $products;
+
+        //Wrap
+        $wraps_data = FrameWrap::where('types','wrap')->get();
+
+        $data['shapePrices'] = $shapePrices;
+        $data['frameSizes'] = $frameSizes;
+        $data['wraps_data'] = $wraps_data;
+        $data['borders'] = $borders;
+        $data['wrap_borders'] = $wrap_borders;
+        $data['standards'] = $standards;
+        $data['premium'] = $premium;
+        $data['floating'] = $floating;
+        $data['hardware_styles'] = $hardware_styles;
+        $data['hardware_displays'] = $hardware_displays;
+        $data['hardware_basic_finishings'] = $hardware_basic_finishings;
+        $data['hardware_advance_finishings'] = $hardware_advance_finishings;
+        $data['frame_accordion'] = $frame_accordion;
+        $data['tab_canvas'] = $tab_canvas;
+        $data['laminations'] = $laminations;
+        $data['modifications'] = $modifications;
+        $data['selection'] = $selection;
+
+        // Load stored image and options from session
+        $image = Session::get('uploaded_image');
+        $options = Session::get('image_options', [
+            'frame' => 10,
+            'size' => 20,
+            'wrap_wrap' => 30,
+            'wrap_frame' => 40,
+            'price' => 50, 
+        ]);
+
+        $data['image'] = $image;
+
+        session()->forget('framePrice');
+        session()->forget('sizePrice');
+        session()->forget('selection');
+        session()->forget('sizePrice,  framePrice, wrapWrapPrice');
+
+        return view('front.products.custom_frame.test' ,$data);
+    }
+
+    
 }

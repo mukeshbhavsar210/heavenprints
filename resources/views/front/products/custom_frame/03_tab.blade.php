@@ -1,6 +1,6 @@
 <nav>
     <div class="nav nav-tabs size-tab" id="nav-tab" role="tablist">
-        <button class="nav-link {{ session('selected_product.shape') == 'Rectangle' ? 'active' : '' }}" id="tabSize-first" data-bs-toggle="tab" data-bs-target="#size-first" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Recomended</button>
+        <button class="nav-link active" id="tabSize-first" data-bs-toggle="tab" data-bs-target="#size-first" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Recomended</button>
         <button class="nav-link {{ session('selected_product.shape') == 'Square' ? 'active' : '' }}" id="tabSize-second" data-bs-toggle="tab" data-bs-target="#size-second" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Square</button>
         <button class="nav-link {{ session('selected_product.shape') == 'Panoramic' ? 'active' : '' }}" id="tabSize-third" data-bs-toggle="tab" data-bs-target="#size-third" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Panoromic</button>
         <button class="nav-link {{ session('selected_product.shape') == 'Large' ? 'active' : '' }}" id="tabSize-fourth" data-bs-toggle="tab" data-bs-target="#size-fourth" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Large</button>
@@ -11,7 +11,7 @@
 {{-- <span id="selectedSize"></span> --}}
 
 <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade {{ session('selected_product.shape') == 'Rectangle' ? 'active show' : '' }}" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
+    <div class="tab-pane fade active show" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($recommended_data)
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade {{ session('selected_product.shape') == 'Square' ? 'active show' : '' }}" id="size-second" role="tabpanel" aria-labelledby="tabSize-second">
+    <div class="tab-pane fade" id="size-second" role="tabpanel" aria-labelledby="tabSize-second">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($square_data)
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade {{ session('selected_product.shape') == 'Square' ? 'active show' : '' }}" id="size-third" role="tabpanel" aria-labelledby="tabSize-third">
+    <div class="tab-pane fade" id="size-third" role="tabpanel" aria-labelledby="tabSize-third">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($panaromic_data)
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade {{ session('selected_product.shape') == 'Square' ? 'active show' : '' }}" id="size-fourth" role="tabpanel" aria-labelledby="tabSize-fourth">
+    <div class="tab-pane fade" id="size-fourth" role="tabpanel" aria-labelledby="tabSize-fourth">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($large_data)
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade {{ session('selected_product.shape') == 'Small' ? 'active show' : '' }}" id="size-fifth" role="tabpanel" aria-labelledby="tabSize-ffth">
+    <div class="tab-pane fade" id="size-fifth" role="tabpanel" aria-labelledby="tabSize-ffth">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($small_data)

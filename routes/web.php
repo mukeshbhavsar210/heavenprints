@@ -34,6 +34,8 @@ Route::controller(FrontController::class)->group(function() {
     Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');
 });
 
+
+
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
@@ -47,6 +49,7 @@ Route::controller(ShopController::class)->group(function() {
     //Frame
     Route::get('/frame_product/{slug}', 'product_frame')->name('front.frame.product');    
     Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
+    Route::get('/custom_print/{id}', 'show');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
