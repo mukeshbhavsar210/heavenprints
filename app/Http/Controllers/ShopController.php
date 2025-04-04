@@ -193,12 +193,7 @@ class ShopController extends Controller {
                             ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
                             ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
                             ->first();
-
-        $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
-        $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
-        $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
-        $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
-
+        
         if($product == null){
             abort(404);
         }
@@ -212,48 +207,38 @@ class ShopController extends Controller {
 
         $data['product'] = $product;
         $data['products'] = $products;
-        $data['relatedProducts'] = $relatedProducts;
+        $data['relatedProducts'] = $relatedProducts;               
+
+        return view('front.products.index',$data);
+    }
+
+    public function product_frame($slug){
+        $products = Product::latest('id')->with('product_images');
+        $product = Product::where('slug',$slug)->with('product_images')->first();
+        $product = Product::where('slug',$slug)
+                            ->with('product_images')
+                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
+                            ->first();
+
+        $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
+        $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
+        $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+        $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+
+        if($product == null){
+            abort(404);
+        }
+
+      
+        $data['product'] = $product;
+        $data['products'] = $products;
         $data['shapes'] = $shapes;
         $data['sizes'] = $sizes;
         $data['dropdown_1'] = $dropdown_1;
         $data['dropdown_2'] = $dropdown_2;
 
-        //METAL FRAMES
-        // $frame_shapes = [
-        //     [
-        //         'name'  => 'Single Print',
-        //         'slug'  => 'single_print',
-        //         'price' => 1143,
-        //         'image' => 'round_canvas.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Round Canvas',
-        //         'slug'  => 'round-canvas',
-        //         'price' => 7211,
-        //         'image' => 'metal.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Triangle Canvas',
-        //         'slug'  => 'triangle-canvas',
-        //         'price' => 1250,
-        //         'image' => 'metal.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Wood',
-        //         'slug'  => 'wood',
-        //         'price' => 1355,
-        //         'image' => 'metal.jpg',
-        //     ],
-        // ];
-
-        // $canvas = array_filter($frame_shapes, function ($item) {
-        //     return str_contains($item['slug'], 'canvas'); // Filter items with 'canvas' in slug
-        // });
-
-        // $canvas = array_values($canvas);        
-
-        //$canvas = collect($frame_shapes)->where('slug2', 'canvas')->all();
-        
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
 
@@ -265,11 +250,11 @@ class ShopController extends Controller {
 
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();        
-        $recommended = FrameSize::where('types','recommended')->get();
-        $square = FrameSize::where('types','square')->get();
-        $panaromic = FrameSize::where('types','panaromic')->get();
-        $large = FrameSize::where('types','large')->get();
-        $small = FrameSize::where('types','small')->get();
+        
+        
+        
+        
+        
         $wraps = FrameWrap::where('types','wrap')->get();
         $borders = FrameWrap::where('types','border')->get();    
         $wrap_borders = FrameBorder::get();
@@ -286,6 +271,29 @@ class ShopController extends Controller {
 
         $selection = Session::get('selection', []);
 
+        $recommended_data = FrameSize::where('types','recommended')->get();
+        $square_data = FrameSize::where('types','square')->get();
+        $panaromic_data = FrameSize::where('types','panaromic')->get();
+        $large_data = FrameSize::where('types','large')->get();
+        $small_data = FrameSize::where('types','small')->get();
+
+        $shapePrices = [
+            'Square' => 400.00,
+            'Rectangle' => 800.00,
+            'Panoramic' => 1600.00,
+            'Large' => 2000.00,
+            'Small' => 200.00
+        ];
+
+        $data['recommended_data'] = $recommended_data;
+        $data['square_data'] = $square_data;
+        $data['panaromic_data'] = $panaromic_data;
+        $data['large_data'] = $large_data;
+        $data['small_data'] = $small_data;
+        $data['shapePrices'] = $shapePrices;
+
+        
+
         $data['canvas'] = $canvas;
         $data['acrylic'] = $acrylic;
         $data['metal'] = $metal;
@@ -295,11 +303,6 @@ class ShopController extends Controller {
         $data['wraps'] = $wraps;
         $data['borders'] = $borders;
         $data['wrap_borders'] = $wrap_borders;
-        $data['recommended'] = $recommended;
-        $data['square'] = $square;
-        $data['panaromic'] = $panaromic;
-        $data['large'] = $large;
-        $data['small'] = $small;
         $data['standards'] = $standards;
         $data['premium'] = $premium;
         $data['floating'] = $floating;
@@ -445,10 +448,10 @@ class ShopController extends Controller {
                             ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
                             ->first();
 
-        $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
-        $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
-        $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
-        $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+        // $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
+        // $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
+        // $dropdown_1 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
+        // $dropdown_2 = ['8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'];
 
         if($product == null){
             abort(404);
@@ -464,47 +467,11 @@ class ShopController extends Controller {
         $data['product'] = $product;
         $data['products'] = $products;
         $data['relatedProducts'] = $relatedProducts;
-        $data['shapes'] = $shapes;
-        $data['sizes'] = $sizes;
-        $data['dropdown_1'] = $dropdown_1;
-        $data['dropdown_2'] = $dropdown_2;
-
-        //METAL FRAMES
-        // $frame_shapes = [
-        //     [
-        //         'name'  => 'Single Print',
-        //         'slug'  => 'single_print',
-        //         'price' => 1143,
-        //         'image' => 'round_canvas.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Round Canvas',
-        //         'slug'  => 'round-canvas',
-        //         'price' => 7211,
-        //         'image' => 'metal.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Triangle Canvas',
-        //         'slug'  => 'triangle-canvas',
-        //         'price' => 1250,
-        //         'image' => 'metal.jpg',
-        //     ],
-        //     [
-        //         'name'  => 'Wood',
-        //         'slug'  => 'wood',
-        //         'price' => 1355,
-        //         'image' => 'metal.jpg',
-        //     ],
-        // ];
-
-        // $canvas = array_filter($frame_shapes, function ($item) {
-        //     return str_contains($item['slug'], 'canvas'); // Filter items with 'canvas' in slug
-        // });
-
-        // $canvas = array_values($canvas);        
-
-        //$canvas = collect($frame_shapes)->where('slug2', 'canvas')->all();
-        
+        // $data['shapes'] = $shapes;
+        // $data['sizes'] = $sizes;
+        // $data['dropdown_1'] = $dropdown_1;
+        // $data['dropdown_2'] = $dropdown_2;
+       
         $tab_canvas = FrameShape::where('types','')->get();
         $frame_accordion = FrameShape::get();
 
@@ -533,9 +500,36 @@ class ShopController extends Controller {
         $hardware_advance_finishings = HardwareFinishing::where('types','advance')->get();
         $laminations = Lamination::all();
         $frameSizes = FrameSize::all();
-        $modifications = Modification::all();
+        $modifications = Modification::all();    
 
         $selection = Session::get('selection', []);
+
+
+        $shapeFinal = [
+            [ 
+                'name' => '8" x 8"', 
+                'slug' => '8x8', 
+                'price' => 100.10, 
+            ],
+            [ 
+                'name' => '10" x 10"', 
+                'slug' => '10x10', 
+                'type' => 'Square', 
+                'height' => 10, 
+                'width' => 10, 
+                'price' => 200.20, 
+                'image' => '10x10.jpg' 
+            ],
+            [ 
+                'name' => '12" x 12"', 
+                'slug' => '12x12', 
+                'type' => 'Square', 
+                'height' => 12, 
+                'width' => 12, 
+                'price' => 300.30, 
+                'image' => '12x12.jpg' 
+            ]
+        ];
 
         $data['canvas'] = $canvas;
         $data['acrylic'] = $acrylic;
@@ -546,6 +540,7 @@ class ShopController extends Controller {
         $data['wraps'] = $wraps;
         $data['borders'] = $borders;
         $data['wrap_borders'] = $wrap_borders;
+
         $data['recommended'] = $recommended;
         $data['square'] = $square;
         $data['panaromic'] = $panaromic;
@@ -563,6 +558,11 @@ class ShopController extends Controller {
         $data['laminations'] = $laminations;
         $data['modifications'] = $modifications;
         $data['selection'] = $selection;
+        $data['shapeFinal'] = $shapeFinal;
+
+        
+
+        
 
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
@@ -581,7 +581,7 @@ class ShopController extends Controller {
         // session()->forget('selection');
         // session()->forget('sizePrice,  framePrice, wrapWrapPrice');
 
-        return view('front.products.custom_frame.index',$data);
+        return view('front.products.frame',$data);
     }
 
 
@@ -672,59 +672,101 @@ class ShopController extends Controller {
     }
 
     //Calculations
-    public function updateOptions(Request $request) {
-        $frames = FrameShape::pluck('price', 'slug')->toArray();
-        $sizes = FrameSize::pluck('price', 'slug')->toArray();
-        $wrap_wraps = FrameWrap::pluck('price', 'slug')->toArray();
-        $wrap_frames = FrameFrame::pluck('price', 'slug')->toArray();
-        $hardware_styles = HardwareStyle::pluck('price', 'slug')->toArray();
-        $hardware_finishings = HardwareFinishing::pluck('price', 'slug')->toArray();
+    // public function updateOptions(Request $request) {
+    //     $frames = FrameShape::pluck('price', 'slug')->toArray();
+    //     $sizes = FrameSize::pluck('price', 'slug')->toArray();
+    //     $wrap_wraps = FrameWrap::pluck('price', 'slug')->toArray();
+    //     $wrap_frames = FrameFrame::pluck('price', 'slug')->toArray();
+    //     $hardware_styles = HardwareStyle::pluck('price', 'slug')->toArray();
+    //     $hardware_finishings = HardwareFinishing::pluck('price', 'slug')->toArray();
 
-        $prices = [
-            'frame' => $frames,
-            'size' => $sizes,
-            'wrap_wrap' => $wrap_wraps,
-            'wrap_frame' => $wrap_frames,
-            'hardware_style' => $hardware_styles,
-            'hardware_display' => ['open_back' => 0, 'dust_cover' => 49],
-            'hardware_finishing' => $hardware_finishings,            
-            'lamiation' => ['no' => 0, 'standard' => 149, 'premium' => 249],
-            'retouching' => ['fixed' => 299],
-            'proof' => ['proof' => 49],
-        ];
+    //     $prices = [
+    //         'frame' => $frames,
+    //         'size' => $sizes,
+    //         'wrap_wrap' => $wrap_wraps,
+    //         'wrap_frame' => $wrap_frames,
+    //         'hardware_style' => $hardware_styles,
+    //         'hardware_display' => ['open_back' => 0, 'dust_cover' => 49],
+    //         'hardware_finishing' => $hardware_finishings,            
+    //         'lamiation' => ['no' => 0, 'standard' => 149, 'premium' => 249],
+    //         'retouching' => ['fixed' => 299],
+    //         'proof' => ['proof' => 49],
+    //     ];
 
-        // Get individual prices for each selected option
-        $selectedPrices = [
-            'frame_price' => $prices['frame'][$request->frame] ?? 0,
-            'size_price' => $prices['size'][$request->size] ?? 0,
-            'wrap_wrap_price' => $prices['wrap_wrap'][$request->wrap_wrap] ?? 0,
-            'wrap_frame_price' => $prices['wrap_frame'][$request->wrap_frame] ?? 0,
-            'hardware_style_price' => $prices['hardware_style'][$request->hardware_style] ?? 0,
-            'hardware_display_price' => $prices['hardware_display'][$request->hardware_display] ?? 0,
-            'hardware_finishing_price' => $prices['hardware_finishing'][$request->hardware_finishing] ?? 0,
-            'lamination_price' => $prices['lamination'][$request->lamination] ?? 0,
-            'retouching_price' => $prices['retouching'][$request->retouching] ?? 0,
-            'proof_price' => $prices['proof'][$request->proof] ?? 0,
+    //     // Get individual prices for each selected option
+    //     $selectedPrices = [
+    //         'frame_price' => $prices['frame'][$request->frame] ?? 0,
+    //         'size_price' => $prices['size'][$request->size] ?? 0,
+    //         'wrap_wrap_price' => $prices['wrap_wrap'][$request->wrap_wrap] ?? 0,
+    //         'wrap_frame_price' => $prices['wrap_frame'][$request->wrap_frame] ?? 0,
+    //         'hardware_style_price' => $prices['hardware_style'][$request->hardware_style] ?? 0,
+    //         'hardware_display_price' => $prices['hardware_display'][$request->hardware_display] ?? 0,
+    //         'hardware_finishing_price' => $prices['hardware_finishing'][$request->hardware_finishing] ?? 0,
+    //         'lamination_price' => $prices['lamination'][$request->lamination] ?? 0,
+    //         'retouching_price' => $prices['retouching'][$request->retouching] ?? 0,
+    //         'proof_price' => $prices['proof'][$request->proof] ?? 0,
             
-        ];
+    //     ];
    
-        // Store updated options in session
-        Session::put('image_options', [
-            'frame' => $request->frame,
-            'size' => $request->size,
-            'wrap_wrap' => $request->wrap_wrap,
-            'wrap_frame' => $request->wrap_frame,
-            'hardware_style' => $request->hardware_style,
-            'hardware_display' => $request->hardware_display,
-            'hardware_finishing' => $request->hardware_finishing,
-            'lamination' => $request->lamination,
-            'retouching' => $request->retouching,
-            'proof' => $request->proof,
-            'prices' => $selectedPrices, // Storing individual prices
-        ]);
+    //     // Store updated options in session
+    //     Session::put('image_options', [
+    //         'frame' => $request->frame,
+    //         'size' => $request->size,
+    //         'wrap_wrap' => $request->wrap_wrap,
+    //         'wrap_frame' => $request->wrap_frame,
+    //         'hardware_style' => $request->hardware_style,
+    //         'hardware_display' => $request->hardware_display,
+    //         'hardware_finishing' => $request->hardware_finishing,
+    //         'lamination' => $request->lamination,
+    //         'retouching' => $request->retouching,
+    //         'proof' => $request->proof,
+    //         'prices' => $selectedPrices, // Storing individual prices
+    //     ]);
 
-        return response()->json($selectedPrices);
+    //     return response()->json($selectedPrices);
+    // }
+
+    public function updateOptions(Request $request) {
+        $frame_price = $this->getPrice('frame', $request->frame);
+        $size_price = $this->getPrice('size', $request->size);
+        $wrap_wrap_price = $this->getPrice('wrap_wrap', $request->wrap_wrap);
+        $wrap_frame_price = $this->getPrice('wrap_frame', $request->wrap_frame);
+        $hardware_style_price = $this->getPrice('hardware_style', $request->hardware_style);
+        $hardware_display_price = $this->getPrice('hardware_display', $request->hardware_display);
+        $hardware_finishing_price = $this->getPrice('hardware_finishing', $request->hardware_finishing);
+        $lamination_price = $this->getPrice('lamination', $request->lamination);
+        $retouching_price = $this->getPrice('retouching', $request->retouching);
+        $proof_price = $this->getPrice('proof', $request->proof);
+    
+        // Retrieve first-level calculated price from request
+        $updated_base_price = floatval($request->final_price);
+    
+        // Calculate total
+        $grand_total = $updated_base_price + 
+                       $frame_price + $size_price + 
+                       $wrap_wrap_price + $wrap_frame_price +
+                       $hardware_style_price + $hardware_display_price +
+                       $hardware_finishing_price + $lamination_price +
+                       $retouching_price + $proof_price;
+    
+        // Store in session
+        session()->put('cart_price', $grand_total);
+    
+        return response()->json([
+            'frame_price' => $frame_price,
+            'size_price' => $size_price,
+            'wrap_wrap_price' => $wrap_wrap_price,
+            'wrap_frame_price' => $wrap_frame_price,
+            'hardware_style_price' => $hardware_style_price,
+            'hardware_display_price' => $hardware_display_price,
+            'hardware_finishing_price' => $hardware_finishing_price,
+            'lamination_price' => $lamination_price,
+            'retouching_price' => $retouching_price,
+            'proof_price' => $proof_price,
+            'grand_total' => $grand_total
+        ]);
     }
+    
 
     public function checkSessionImage(Request $request) {
         $imagePath = Session::get('uploaded_image'); // Assuming image is stored in session

@@ -16,11 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
-use App\Models\ProductImage;
-use Illuminate\Contracts\Session\Session;
 use Razorpay\Api\Api;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+
 
 class CartController extends Controller {
     public function addToCart(Request $request){
@@ -99,10 +96,40 @@ class CartController extends Controller {
         return view('front.cart.index',$data);
     }
 
+
+    public function updatePrice(Request $request, $productId) {
+        $product = Product::find($productId);
+        
+        // Base price
+        $price = $product->base_price;
+
+        // Adding extra costs based on user selections
+        if ($request->has('frame')) {
+            $price += $request->frame_price; // Frame cost
+        }
+        if ($request->has('lamination')) {
+            $price += $request->lamination_price; // Lamination cost
+        }
+        if ($request->has('border')) {
+            $price += $request->border_price; // Border cost
+        }
+
+        // Applying discounts if applicable
+        if ($request->has('discount')) {
+            $price -= $request->discount; // Subtract discount
+        }
+
+        // Save the final price
+        $product->final_price = $price;
+        $product->save();
+
+        return response()->json(['success' => true, 'final_price' => $price]);
+    }
+
     public function addToCart_metal(Request $request){
         $product = Product::with('product_images')->find($request->id);
-        $size = $request->size ?? 'Default Size';
-        $color = $request->color ?? 'Default Red';
+        // $size = $request->size ?? 'Default Size';
+        // $color = $request->color ?? 'Default Red';
 
         if ($product == null) {
             return response()->json([
@@ -112,7 +139,6 @@ class CartController extends Controller {
         }
 
         if (Cart::count() > 0) {
-
             $cartContent = Cart::content();
             $productAlreadyExist = false;
 
@@ -268,35 +294,87 @@ class CartController extends Controller {
     }
 
 
-    public function updateCart(Request $request){
+    public function updateCart_2(Request $request){
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as &$item) {
+            if ($item['id'] == $request->product_id) {
+                $item['final_price'] = (float) $request->new_price; 
+            }
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json(['success' => true, 'cart' => $cart]);
+    }
+
+
+    // public function updateCart(Request $request){
+    //     $rowId = $request->rowId;
+    //     $qty = $request->qty;
+
+    //     $itemInfo = Cart::get($rowId);
+    //     $product = Product::find($itemInfo->id);
+
+    //     //check qty available in stock
+    //     if($product->track_qty == "Yes"){
+    //         if($qty <= $product->qty ){
+    //             Cart::update($rowId, $qty);
+    //             $message = 'Cart updated successfully';
+    //             $state = true;
+    //             session()->flash('success',$message);
+    //         } else {
+    //             $message = 'Requested qty('.$qty.') not available in stock.';
+    //             $state = false;
+    //             session()->flash('error',$message);
+    //         }
+    //     } else {
+    //         Cart::update($rowId, $qty);
+    //         $message = 'Cart updated successfully';
+    //         $state = true;
+    //         session()->flash('success',$message);
+    //     }
+
+    //     return response()->json([
+    //         "status"=> $state,
+    //         "message"=> $message
+    //     ]);
+    // }
+
+
+    public function updateCart(Request $request) {
         $rowId = $request->rowId;
         $qty = $request->qty;
+        $newPrice = $request->new_price;
 
         $itemInfo = Cart::get($rowId);
         $product = Product::find($itemInfo->id);
 
-        //check qty available in stock
-        if($product->track_qty == "Yes"){
-            if($qty <= $product->qty ){
-                Cart::update($rowId, $qty);
+        if ($product->track_qty == "Yes") {
+            if ($qty <= $product->qty) {
+                // Update Quantity & Price
+                Cart::update($rowId, ['qty' => $qty, 'price' => $newPrice]);
+
                 $message = 'Cart updated successfully';
                 $state = true;
-                session()->flash('success',$message);
+                session()->flash('success', $message);
             } else {
-                $message = 'Requested qty('.$qty.') not available in stock.';
+                $message = 'Requested qty ('.$qty.') not available in stock.';
                 $state = false;
-                session()->flash('error',$message);
+                session()->flash('error', $message);
             }
         } else {
-            Cart::update($rowId, $qty);
+            // Update Quantity & Price
+            Cart::update($rowId, ['qty' => $qty, 'price' => $newPrice]);
+
             $message = 'Cart updated successfully';
             $state = true;
-            session()->flash('success',$message);
+            session()->flash('success', $message);
         }
 
         return response()->json([
-            "status"=> $state,
-            "message"=> $message
+            "status" => $state,
+            "message" => $message
         ]);
     }
 

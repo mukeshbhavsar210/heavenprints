@@ -12,6 +12,19 @@
     <div class="tab-pane fade {{ session('selected_product.category_name') == 'canvas' ? 'active show' : '' }}" id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
         <div class="paddWrapper">
             <div class="radio-group row">
+                @if($recommended_data)
+                    @foreach($recommended_data as $size)
+                        <div class="col-md-4 col-6">     
+                            <label class="custom-radio size" >
+                                <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
+                                <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
+                                <p class="radio-label">{{ $size['name'] }}</p>
+                                <p>₹{{ number_format($size['price'], 2) }}</p>
+                        </div>
+                    @endforeach
+                @endif
+
+                
                 @if($canvas)
                     @foreach($canvas as $value)
                         <div class="col-md-3 col-6"> 
