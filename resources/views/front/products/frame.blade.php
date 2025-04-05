@@ -60,41 +60,9 @@
                 <small class="pt-1">(99 Reviews)</small>
             </div>
 
-            <div class="priceHover mb-3">                    
-                <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                    ₹<span id="finalPrice">{{ $product->price }}</span>            
-                </h4>
-
-                <div class="breakups" aria-labelledby="dropdownMenuButton">
-                    @if(session()->has('selected_product'))
-                        <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>Size:</p>
-                                <p class="red">
-                                    {{ session('selected_product.sizeRadios') }} 
-                                    ₹<span id="sizePrice">0</span> 
-                                </p>
-                            </div>
-                            <a class="icon-edit" href="{{ url()->previous() }}"></a>
-                        {{-- 
-                        ₹<span id="framePrice">0</span>
-                        <span id="wrapWrapPrice">₹0</span>
-                        <span id="wrapFramePrice">₹0</span>
-                        <span id="hardwareStylePrice">₹0</span>
-                        <span id="hardwareDisplayPrice">₹0</span>
-                        <span id="hardwareFinishingPrice">₹0</span>
-                        <span id="laminationPrice">₹0</span>
-                        <span id="retouchingPrice">₹0</span>
-                        <span id="proofPrice">₹0</span> 
-                        <strong>Custom Size 1:</strong> {{ session('selected_product.custom_size_1') }}
-                        <strong>Custom Size 2:</strong> {{ session('selected_product.custom_size_2') }}--}}
-                        </div>
-                    @else
-                        <p>No product selected.</p>
-                    @endif
-                </div>
-            </div>
+            <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                ₹<span id="finalPrice">{{ $product->price }}</span>            
+            </h4>
 
             {{-- <h3>₹<span id="finalPrice">{{ $product->price }}</span></h3> --}}
 
@@ -112,18 +80,11 @@
                         <div class="col-md-3 col-12">
                             <p class="mt-3"><b>Metal Shapes:</b></p>
                         </div>
-                        <div class="col-md-9 col-12">
-                            {{-- @foreach ($shapePrices as $shape => $price)
-                                <label>
-                                    <input type="radio" name="shape" value="{{ $shape }}" data-price="{{ $price }}">
-                                    {{ $shape }} - ${{ number_format($price, 2) }}
-                                </label><br>
-                            @endforeach --}}
-                        
+                        <div class="col-md-9 col-12">                        
                             <div class="size-picker">
                                 @foreach($shapes as $index => $value)
                                     <div class="size-picker__item" >
-                                        <input type="radio" name="shape" value="{{ $value }}" class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
+                                        <input type="radio" name="shape" value="{{ $value }}"  class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
                                         <label class="size-picker__color" for="metalShape_{{ $loop->index + 1 }}" >{{ $value }}</label>
                                     </div>
                                 @endforeach
@@ -151,7 +112,7 @@
                                 <div class="col-md-2 col-12">
                                     <p class="mt-2"><b>Custom:</b></p>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-3 col-4">
                                     <div class="twoDropdowns">
                                         <div class="itemDD">                                                   
                                             <select id="customSizeSelect_01" class="form-control" name="custom_size_1">
@@ -178,7 +139,7 @@
                             <input type="hidden" id="finalPriceInput" name="total" value="{{ $product->price }}">
                             <span style="display: none" id="finalPrice2" >{{ $product->price }}</span>                                                            
                             <input type="hidden" name="name" value="{{ $product->metal_type }}"> 
-                            <button type="submit" class="btn btn-primary mb-4">Create Frame</button>
+                            <button type="submit" class="btn btn-primary mt-3 mb-3">Create Frame</button>
                         </form>
 
                         <p class="mt-2">No Risk, Lowest Prices Guaranteed <br />
@@ -252,6 +213,8 @@
         document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
     });   
+
+    
        
 	window.addEventListener("scroll", function() {
 		let header = document.getElementById("mainWrapper");
@@ -262,5 +225,4 @@
 		}
 	});
 </script>
-
 @endsection

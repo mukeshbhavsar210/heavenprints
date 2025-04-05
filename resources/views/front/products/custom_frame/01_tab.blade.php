@@ -25,38 +25,37 @@
     </div>
 </nav>
 
-<div class="groupDetails">                                           
-    <div class="size-picker">
-        @foreach($shapes as $index => $value)
-            <div class="size-picker__item" >
-                <input type="radio" name="shape" value="{{ $value }}" class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
-                <label class="size-picker__color" for="metalShape_{{ $loop->index + 1 }}" >{{ $value }}</label>
-            </div>
-        @endforeach
-    </div>                        
-</div>
+@foreach ($shapeData2 as $key => $shape)
+    <input type="radio" name="shape" value="{{ $key }}"> {{ $shape['name'] }}
+@endforeach
 
 <div class="tab-content" id="nav-tabContent">
     @foreach ($firstTotals as $value)
         <div class="tab-pane fade {{ $value->name == 'Canvas' ? 'active show' : '' }}" id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
             <div class="paddWrapper">
                 <div class="radio-group row">
-                    @if($canvas_data)
+                    {{-- @foreach ($materialData as $key => $price)
+                        <div class="col-md-3 col-6">                                 
+                            <label class="custom-radio product" >
+                                <input type="radio" name="material" value="{{ $key }}"> {{ $key }} (₹{{ $price }})
+                            </label>
+                        </div>
+                    @endforeach --}}
+
+                    {{-- @if($canvas_data)
                         @foreach($canvas_data as $value)
-                            <div class="col-md-3 col-6">     
-                            
-                                    <label class="custom-radio product" >
-                                        <input type="radio" name="material" value="{{ $value['name'] }}" class="frame-option" id="material_{{ $loop->index + 1 }}">
-                                        <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
-                                        <img class="icon" src="{{ asset('uploads/icons/products/canvas/'.$value->image) }}" alt="" />
-                                        <p class="radio-label">{{ $value['name'] }} - {{ $value['type'] }}</p>
-                                        <p>Start at</p>
-                                        <p>₹{{ number_format($value['price'], 2) }}</p>
-                                    </label>
-                            
+                            <div class="col-md-3 col-6">                                 
+                                <label class="custom-radio product" >
+                                    <input type="radio" name="material" value="{{ $value['name'] }}" class="frame-option" id="material_{{ $loop->index + 1 }}">
+                                    <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
+                                    <img class="icon" src="{{ asset('uploads/icons/products/canvas/'.$value->image) }}" alt="" />
+                                    <p class="radio-label">{{ $value['name'] }} - {{ $value['type'] }}</p>
+                                    <p>Start at</p>
+                                    <p>₹{{ number_format($value['price'], 2) }}</p>
+                                </label>
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
@@ -64,7 +63,7 @@
         <div class="tab-pane fade {{ $value->name == 'Acrylic' ? 'active show' : '' }}" id="nav_2" role="tabpanel" aria-labelledby="nav-acrylic">
             <div class="paddWrapper">
                 <div class="radio-group row">
-                    @if($acrylic_data)
+                    {{-- @if($acrylic_data)
                         @foreach($acrylic_data as $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio product" >
@@ -77,7 +76,7 @@
                                 </label>
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
@@ -85,7 +84,7 @@
         <div class="tab-pane fade {{ $value->name == 'Metal' ? 'active show' : '' }}" id="nav_3" role="tabpanel" aria-labelledby="nav-metal">
             <div class="paddWrapper">
                 <div class="radio-group row">
-                    @if($metal_data)
+                    {{-- @if($metal_data)
                         @foreach($metal_data as $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio product" >
@@ -98,7 +97,7 @@
                                 </label>
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
@@ -106,7 +105,7 @@
         <div class="tab-pane fade {{ $value->name == 'Wood' ? 'active show' : '' }}" id="nav_4" role="tabpanel" aria-labelledby="nav-wood">
             <div class="paddWrapper">
                 <div class="radio-group row">
-                    @if($wood_data)
+                    {{-- @if($wood_data)
                         @foreach($wood_data as $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio product" >
@@ -119,7 +118,7 @@
                                 </label>
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>
@@ -127,7 +126,7 @@
         <div class="tab-pane fade {{ $value->name == 'Others' ? 'active show' : '' }}" id="nav_5" role="tabpanel" aria-labelledby="nav-others">
             <div class="paddWrapper">
                 <div class="radio-group row">
-                    @if($others_data)
+                    {{-- @if($others_data)
                         @foreach($others_data as $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio product" >
@@ -140,7 +139,7 @@
                                 </label>
                             </div>
                         @endforeach
-                    @endif
+                    @endif --}}
                 </div>
             </div>
         </div>

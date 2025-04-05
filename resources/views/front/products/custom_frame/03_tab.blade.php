@@ -13,13 +13,14 @@
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($recommended_data)
-                    @foreach($recommended_data as $size)
+                    @foreach ($recommended_data as $key => $value)
                         <div class="col-md-4 col-6">     
                             <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
-                                <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
-                                <p class="radio-label">{{ $size['name'] }}</p>
-                                <p>₹{{ number_format($size['price'], 2) }}</p>
+                                <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
+                                <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
+                                <p class="radio-label">{{ $value['height'] }} x {{ $value['width'] }} </p>                            
+                                <p>₹{{ number_format($value['price'], 2) }}</p>
+                            </label>
                         </div>
                     @endforeach
                 @endif
@@ -31,13 +32,14 @@
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($square_data)
-                    @foreach($square_data as $size)
+                    @foreach ($square_data as $key => $value)
                         <div class="col-md-4 col-6">     
                             <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
-                                <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
-                                <p class="radio-label">{{ $size['name'] }}</p>
-                                <p>₹{{ number_format($size['price'], 2) }}</p>
+                                <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
+                                <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
+                                <p class="radio-label">{{ $value['name'] }}</p>
+                                <p>₹{{ number_format($value['price'], 2) }}</p>
+                            </label>
                         </div>
                     @endforeach
                 @endif
@@ -49,6 +51,21 @@
         <div class="paddWrapper">
             <div class="radio-group row">
                 @if($panaromic_data)
+                @foreach ($panaromic_data as $key => $value)
+                    <div class="col-md-4 col-6">     
+                        <label class="custom-radio size" >
+                            <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
+                            <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
+                            <p class="radio-label">{{ $value['name'] }}</p>
+                            <p>₹{{ number_format($value['price'], 2) }}</p>
+                        </label>
+                    </div>
+                @endforeach
+            @endif
+
+                
+
+                {{-- @if($panaromic_data)
                     @foreach($panaromic_data as $size)
                         <div class="col-md-4 col-6">     
                             <label class="custom-radio size" >
@@ -58,7 +75,7 @@
                                 <p>₹{{ number_format($size['price'], 2) }}</p>
                         </div>
                     @endforeach
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

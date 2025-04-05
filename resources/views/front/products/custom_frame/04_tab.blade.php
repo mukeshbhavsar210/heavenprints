@@ -1,53 +1,17 @@
 <div class="wrap-container">
     <h5 class="title-wrap">Wrap</h5>
     <div class="radio-group row">
-            @php
-                $colors = [
-                    ['name' => 'Black', 'code' => '#000000'],
-                    ['name' => 'White', 'code' => '#FFFFFF'],
-                    ['name' => 'Blue', 'code' => '#0000FF'],
-                    ['name' => 'Red', 'code' => '#FF0000'],
-                    ['name' => 'Green', 'code' => '#008000']
-                ];
-            @endphp
-        
-            @foreach ($colors as $value)
-                <div class="col-md-3 col-6">     
-                    <label class="">
-                        <input type="radio" name="color" value="{{ $value['name'] }}" />
-                        <span>{{ $value['name'] }}</span>
-                        <p class="radio-label">{{ $value['name'] }}</p>
-                    </label>
-                </div>
-            @endforeach
-        
-
-        @if($wraps_data)
-            @foreach($wraps_data as $value)
+        @if($wrapData)
+            @foreach ($wrapData as $key => $value)
                 <div class="col-md-3 col-6">     
                     <label class="custom-radio-wrap wrap_01" >
-                        <input type="radio" name="wrap" value="{{ $value['name'] }}" class="frame-option" id="material_{{ $loop->index + 1 }}">
-                        <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
-                        <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value->image) }}" alt="" /></div>
-                        {{-- <img src="{{ asset('storage/' . $size['image']) }}" alt="{{ $size['name'] }}" width="50"> --}}
+                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" id="material_{{ $loop->index + 1 }}"> 
+                        <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" width="50"></div>
                         <p class="radio-label">{{ $value['name'] }} - ₹{{ number_format($value['price'], 2) }}</p>
                     </label>
                 </div>
             @endforeach
         @endif
-
-        {{-- @if($wraps_data)
-            @foreach($wraps_data as $value)
-                <div class="col-md-3 col-6"> 
-                    <label class="custom-radio-wrap wrap_01 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >
-                        <input {{ $loop->first ? 'checked' : '' }} type="radio" name="wrap_wrap" value="{{ $value->slug }}" class="frame-option"
-                            {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                            <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value->image) }}" alt="" /></div>
-                            <p class="radio-label">{{ $value->name }}<br />₹ {{ $value->price }}</p>
-                    </label>                    
-                </div>
-            @endforeach
-        @endif --}}
     </div>    
 </div>
 
