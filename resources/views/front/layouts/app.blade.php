@@ -32,15 +32,19 @@
 		<div class="logoWrapper">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-8 col-5 d-flex">
+					<div class="col-md-3 col-5 d-flex">
 						<a href="{{ route('front.home') }}" class="text-decoration-none" title="{{ $settings->name }}">
-							<img style="width: 130px;" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
+							<img src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
 						</a>
 					</div>
 
-					<div class="col-md-4 col-7">
+					<div class="col-md-9 col-7">
 						<div class="pull-right rightLogin">
 							<div class="d-flex">
+								{{-- <h4 type="button" class="mt-2" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+									₹<span id="finalPrice" >{{ $product->price }}</span>            
+								</h4> --}}
+
 								<button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 									<?xml version="1.0" encoding="utf-8"?>
 									<svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

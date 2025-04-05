@@ -57,7 +57,7 @@
                         $productImage = $product->product_images->first();
                     @endphp
 
-                    <div class="col-md-2 col-6">                           
+                    <div class="col-md-3 col-6">                           
                         <div class="product-image position-relative">
                             <a href="{{ route('front.product',$product->slug) }}" class="product-img">
                                 @if (!empty($productImage->image1))
@@ -73,7 +73,7 @@
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                            <i class="fa fa-shopping-cart"></i> Add
+                                            <i class="fa fa-shopping-cart"></i> Add to Cart
                                         </a>
                                     @else
                                         <a class="btn btn-primary" href="javascript:void(0);">
@@ -82,7 +82,7 @@
                                     @endif
                                 @else
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                    <i class="fa fa-shopping-cart"></i> Add
+                                    <i class="fa fa-shopping-cart"></i> Add to Cart
                                 </a>
                                 @endif
                             </div>
@@ -109,7 +109,7 @@
                     @php
                         $productImage = $product->product_images->first();
                     @endphp
-                        <div class="col-md-2 col-6">
+                        <div class="col-md-3 col-6">
                             <div class="product-image position-relative">
                                 <a href="" class="product-img">
                                     @if (!empty($productImage->image1))
@@ -123,7 +123,7 @@
                                     @if ($product->track_qty == 'Yes')
                                         @if ($product->qty > 0)
                                             <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
                                             </a>
                                         @else
                                             <a class="btn btn-dark" href="javascript:void(0);">
@@ -132,7 +132,7 @@
                                         @endif
                                     @else
                                     <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                        <i class="fa fa-shopping-cart"></i> Add
+                                        <i class="fa fa-shopping-cart"></i> Add to Cart
                                     </a>
                                     @endif
                                 </div>
@@ -153,8 +153,8 @@
                         <div>
                             <div class="product-image position-relative">
                                 <a href="" class="product-img">
-                                    @if (!empty($productImage->image))
-                                        <img class="card-img-top" src="{{ asset('uploads/product/small/'.$productImage->image) }}" >
+                                    @if (!empty($productImage->image1))
+                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                     @else
                                         <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                     @endif
@@ -176,10 +176,6 @@
                                         <i class="fa fa-shopping-cart"></i> Add To Cart
                                     </a>
                                     @endif
-
-                                    @if($product->metal_type)
-                                        <p class="selectedCategory">{{ $product->metal_type }}</p>
-                                    @endif 
                                 </div>
                             </div>
                             <div class="mt-3">
