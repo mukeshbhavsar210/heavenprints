@@ -93,12 +93,13 @@
                     <div class="row">
                         <div class="col-md-8 col-6">
                             <h3>{{ $product->name }}</h3>
+                            <h4 id="grandTotal">₹ {{ $product->price }}</h4>
                         </div>
                         <div class="col-md-4 col-6">
                             <div class="d-flex">
                                 <div class="priceHover mt-2">                    
                                     <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                        ₹<span id="finalPrice">
+                                        ₹<span id="finalPrice_not">
                                             @foreach ($firstTotals as $value)
                                                 {{ $value->total }}
                                             @endforeach
@@ -138,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="frame-generate">
                     <div class="renderFrame">                
                         <div class="mainImg">
@@ -196,7 +198,13 @@
 
         const materialData = @json($materialData);
         const wrapData = @json($wrapData);
-        
+        const borderData = @json($borderData);
+        const standardFrame = @json($standardFrame);
+        const premiumFrame = @json($premiumFrame);
+        const floatFrame = @json($floatFrame);
+        const hardwareStyleData = @json($hardwareStyleData);
+        const displayOption = @json($displayOption);
+
         let basePrice = parseFloat(document.getElementById('finalPrice').innerText) || 0;
         let finalPrice = basePrice;
 
@@ -207,29 +215,59 @@
             document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
                 let selectedValue = input.value;
 
-                if (size_1[selectedValue]) {
-                    totalPrice += size_1[selectedValue].price || 0;
-                }
-                if (size_2[selectedValue]) {
-                    totalPrice += size_2[selectedValue].price || 0;
-                }
-                if (size_3[selectedValue]) {
-                    totalPrice += size_3[selectedValue].price || 0;
-                }
-                if (size_4[selectedValue]) {
-                    totalPrice += size_4[selectedValue].price || 0;
-                }
-                if (size_5[selectedValue]) {
-                    totalPrice += size_5[selectedValue].price || 0;
-                }
-                if (materialData[selectedValue]) {
-                    totalPrice += materialData[selectedValue] || 0;
-                }
-                if (wrapData[selectedValue]) {
-                    totalPrice += wrapData[selectedValue].price || 0;
-                }
+                if (size_1[selectedValue]?.price) totalPrice += size_1[selectedValue].price;
+                if (size_2[selectedValue]?.price) totalPrice += size_2[selectedValue].price;
+                if (size_3[selectedValue]?.price) totalPrice += size_3[selectedValue].price;
+                if (size_4[selectedValue]?.price) totalPrice += size_4[selectedValue].price;
+                if (size_5[selectedValue]?.price) totalPrice += size_5[selectedValue].price;
+                if (materialData[selectedValue]?.price) totalPrice += materialData[selectedValue].price;
+                if (wrapData[selectedValue]?.price) totalPrice += wrapData[selectedValue].price;
+                if (borderData[selectedValue]?.price) totalPrice += borderData[selectedValue].price;
+                if (standardFrame[selectedValue]?.price) totalPrice += standardFrame[selectedValue].price;
+                if (premiumFrame[selectedValue]?.price) totalPrice += premiumFrame[selectedValue].price;
+                if (floatFrame[selectedValue]?.price) totalPrice += floatFrame[selectedValue].price;
+                if (hardwareStyleData[selectedValue]?.price) totalPrice += hardwareStyleData[selectedValue].price;
+                if (displayOption[selectedValue]?.price) totalPrice += displayOption[selectedValue].price;
+
+
+                // if (size_1[selectedValue]) {
+                //     totalPrice += size_1[selectedValue].price || 0;
+                // }
+                // if (size_2[selectedValue]) {
+                //     totalPrice += size_2[selectedValue].price || 0;
+                // }
+                // if (size_3[selectedValue]) {
+                //     totalPrice += size_3[selectedValue].price || 0;
+                // }
+                // if (size_4[selectedValue]) {
+                //     totalPrice += size_4[selectedValue].price || 0;
+                // }
+                // if (size_5[selectedValue]) {
+                //     totalPrice += size_5[selectedValue].price || 0;
+                // }
+                // if (materialData[selectedValue]) {
+                //     totalPrice += materialData[selectedValue] || 0;
+                // }
                 // if (wrapData[selectedValue]) {
-                //     totalPrice += wrapData[selectedValue] || 0;
+                //     totalPrice += wrapData[selectedValue].price || 0;
+                // }
+                // if (borderData[selectedValue]) {
+                //     totalPrice += borderData[selectedValue].price || 0;
+                // }
+                // if (standardFrame[selectedValue]) {
+                //     totalPrice += standardFrame[selectedValue].price || 0;
+                // }
+                // if (premiumFrame[selectedValue]) {
+                //     totalPrice += premiumFrame[selectedValue].price || 0;
+                // }
+                // if (floatFrame[selectedValue]) {
+                //     totalPrice += floatFrame[selectedValue].price || 0;
+                // }
+                // if (hardwareStyleData[selectedValue]) {
+                //     totalPrice += hardwareStyleData[selectedValue].price || 0;
+                // }
+                // if (displayOption[selectedValue]) {
+                //     totalPrice += displayOption[selectedValue].price || 0;
                 // }
             });
 
@@ -245,6 +283,23 @@
         // Initialize price on page load
         updatePrice();
     });
+
+
+
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    //         let name = radio.name;
+    //         let savedValue = localStorage.getItem(name);
+
+    //         if (savedValue && radio.value === savedValue) {
+    //             radio.checked = true;
+    //         }
+
+    //         radio.addEventListener("change", function () {
+    //             localStorage.setItem(name, this.value);
+    //         });
+    //     });
+    // });
 
 
     //Add to cart for METAL FRAME

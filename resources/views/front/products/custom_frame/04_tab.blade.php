@@ -5,7 +5,7 @@
             @foreach ($wrapData as $key => $value)
                 <div class="col-md-3 col-6">     
                     <label class="custom-radio-wrap wrap_01" >
-                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" id="material_{{ $loop->index + 1 }}"> 
+                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" > 
                         <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" width="50"></div>
                         <p class="radio-label">{{ $value['name'] }} - ₹{{ number_format($value['price'], 2) }}</p>
                     </label>
@@ -18,15 +18,14 @@
 <div class="wrap-container">
     <h5 class="title-wrap">Border</h5>
     <div class="radio-group row">
-        @if($wrap_borders)
-            @foreach($wrap_borders as $value)
-                <div class="col-md-3 col-6"> 
-                    <label class="custom-radio-wrap wrap_02 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                        <input {{ $loop->first ? 'checked' : '' }} type="radio" name="wrap_border" value="{{ $value->slug }}" class="frame-option"
-                            {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                            <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value->image) }}" alt="" /></div>
-                            <p class="radio-label">{{ $value->name }} <br />Free</p>
-                    </label>                    
+        @if($borderData)
+            @foreach ($borderData as $key => $value)
+                <div class="col-md-3 col-6">     
+                    <label class="custom-radio-wrap wrap_01" >
+                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" > 
+                        <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" width="50"></div>
+                        <p class="radio-label">{{ $value['name'] }} <br /> Free</p>
+                    </label>
                 </div>
             @endforeach
         @endif
@@ -42,15 +41,14 @@
             <div id="frame_one" class="accordion-collapse collapse" data-bs-parent="#accordionFrames">
                 <div class="accordion-body">
                     <div class="radio-group row">
-                        @if($standards)
-                            @foreach($standards as $value)
-                                <div class="col-md-3 col-6"> 
-                                    <label class="custom-radio wrap_03 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                                        <input type="radio" name="wrap_frame" value="{{ $value->slug }}" class="frame-option"
-                                            {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                                            <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/standard/'.$value->image) }}" alt="" />
-                                            <p class="radio-label">{{ $value->name }}</p>
-                                            <p>₹ {{ $value->price }}</p>
+                        @if($standardFrame)
+                            @foreach ($standardFrame as $key => $value)
+                                <div class="col-md-3 col-6">     
+                                    <label class="custom-radio wrap_03" >
+                                        <input type="radio" name="wrap_frame" value="{{ $key }}" class="frame-option" > 
+                                        <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/standard/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                        <p class="radio-label">{{ $value['name'] }}</p>
+                                        <p class="radio-label">₹ {{ $value['price'] }}</p>
                                     </label>
                                 </div>
                             @endforeach
@@ -64,15 +62,14 @@
             <div id="frame_two" class="accordion-collapse collapse" data-bs-parent="#accordionFrames">
                 <div class="accordion-body">
                     <div class="radio-group row">
-                        @if($premium)
-                            @foreach($premium as $value)
-                                <div class="col-md-3 col-6"> 
-                                    <label class="custom-radio wrap_03 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                                        <input type="radio" name="wrap_frame" value="{{ $value->slug }}" class="frame-option"
-                                            {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                                            <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/premium/'.$value->image) }}" alt="" />
-                                            <p class="radio-label">{{ $value->name }}</p>
-                                            <p>₹ {{ $value->price }}</p>
+                        @if($premiumFrame)
+                            @foreach ($premiumFrame as $key => $value)
+                                <div class="col-md-3 col-6">     
+                                    <label class="custom-radio wrap_03" >
+                                        <input type="radio" name="wrap_frame" value="{{ $key }}" class="frame-option" > 
+                                        <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/premium/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                        <p class="radio-label">{{ $value['name'] }}</p>
+                                        <p>₹ {{ $value['price'] }}</p>
                                     </label>
                                 </div>
                             @endforeach

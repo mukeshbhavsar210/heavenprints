@@ -25,9 +25,25 @@
     </div>
 </nav>
 
-@foreach ($shapeData2 as $key => $shape)
-    <input type="radio" name="shape" value="{{ $key }}"> {{ $shape['name'] }}
-@endforeach
+
+<div class="size-picker">
+    @foreach($shapes as $index => $value)
+        <div class="size-picker__item" >
+            <input type="radio" name="shape" value="{{ $value }}"  class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
+            <label class="size-picker__color" for="metalShape_{{ $loop->index + 1 }}" >{{ $value }}</label>
+        </div>
+    @endforeach
+</div>
+
+
+<div class="size-picker">
+    @foreach($sizes as $index => $value)
+        <div class="size-picker__item" >
+            <input type="radio" name="size" value="{{ $value }}" class="size-picker__input" id="metalSize_{{ $loop->index + 1 }}">
+            <label class="size-picker__color" for="metalSize_{{ $loop->index + 1 }}" >{{ $value }}</label>
+        </div>
+    @endforeach
+</div> 
 
 <div class="tab-content" id="nav-tabContent">
     @foreach ($firstTotals as $value)

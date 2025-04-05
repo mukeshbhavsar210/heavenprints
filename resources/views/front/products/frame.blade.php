@@ -60,9 +60,7 @@
                 <small class="pt-1">(99 Reviews)</small>
             </div>
 
-            <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                ₹<span id="finalPrice">{{ $product->price }}</span>            
-            </h4>
+            <h4 id="finalPrice">₹{{ $product->price }}</h4>
 
             {{-- <h3>₹<span id="finalPrice">{{ $product->price }}</span></h3> --}}
 
@@ -214,8 +212,7 @@
         document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
     });   
 
-    
-       
+
 	window.addEventListener("scroll", function() {
 		let header = document.getElementById("mainWrapper");
 		if (window.scrollY > 100) {
