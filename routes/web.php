@@ -34,8 +34,6 @@ Route::controller(FrontController::class)->group(function() {
     Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');
 });
 
-
-
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
@@ -47,9 +45,16 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/custom_frame/{slug}', 'custom_frame')->name('custom.frame.product');
 
     //Frame
-    Route::get('/frame_product/{slug}', 'product_frame')->name('front.frame.product');    
-    Route::get('/product/details/{slug}', 'metal_product')->name('metal.details');
-    Route::get('/custom_print/{id}', 'show');
+    Route::get('/frames/{slug}', 'first_level')->name('front.frame.product');    
+    Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');    
+
+    //Store first level calculation
+    Route::post('frames/product/total', 'store')->name('frame.total');
+    Route::get('frames/summary/{slug}', 'summary')->name('frame.summary');
+
+    //Route::get('/custom_frame/{slug}', 'custom_frame')->name('metal.details');
+    //Route::get('/custom_frame', 'custom_frame')->name('custom.frame');
+   
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
@@ -68,6 +73,8 @@ Route::controller(ShopController::class)->group(function() {
     Route::post('/upload-image', 'upload')->name('image.upload');
     Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
 });
+
+
 
 Route::get('/select', function() { return view('select'); })->name('select.page');
 
@@ -117,6 +124,8 @@ Route::post('/clear-prices', function () {
 })->name('clear.prices');
 
 Route::post('/calculate-price', [PriceController::class, 'calculatePrice'])->name('calculate.price');
+
+
 
 //OTP login
 Route::controller(OTPController::class)->group(function() {
@@ -300,6 +309,9 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/setting_store', 'store_setting')->name('setting.store');
             Route::get('/change-password', 'showChangePasswordForm')->name('admin.showChangePasswordForm');
             Route::post('/process-change-password', 'processChangePassword')->name('admin.processChangePassword');
+
+
+            
         });
 
         //Setting Route

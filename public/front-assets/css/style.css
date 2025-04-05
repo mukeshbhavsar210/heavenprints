@@ -126,7 +126,7 @@ header .navbar .nav-link:hover .nav_name { color:var(--secondary); }
 header { background-color: var(--white); width: 100%; z-index: 99;}
 #mainWrapper { position: fixed; top:0; left: 0;}
 .navbar .btn { padding:13px; font-size: 15px; height: 51px;}
-main { margin-top: 134px;}
+main { margin-top: 120px;}
 main section { padding-top: 25px;}
 
 
@@ -135,7 +135,7 @@ main section { padding-top: 25px;}
 .priceHover:hover>.breakups { display: block; }
 
 .breakups { display: none; z-index: 999; width: 210px; left:0; top:30px; box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2); border-radius: 4px; position: absolute; padding:10px 15px; background-color: var(--white); color: var(--black); }
-.breakups .breakup-details { display: flex;}
+.breakups .breakup-details { display: flex; margin-bottom: 13px;}
 .breakups .breakup-details .icon-tick { margin-top: 7px; height: 26px; width: 26px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -192px -43px;}
 .breakups .breakup-details .icon-edit { position: absolute; right:15px; margin-top:5px; height: 20px; width: 20px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -221px -43px;}
 .breakups .breakup-details .text { margin-left: 10px;}
@@ -152,7 +152,7 @@ main section { padding-top: 25px;}
 .logoWrapper { padding:10px 0;}
 .logoWrapper .btnLink { margin-right: 10px; margin-top: 8px; border:1px #ccc solid; padding:7px 12px 4px 12px; border-radius: 5px; height: 37px;}
 .logoWrapper .btnLink:hover { background-color: var(--primary); color: var(--white); border-color: var(--primary);}
-.logoWrapper .rightLogin { margin-top:14px;}
+.logoWrapper .rightLogin { }
 
 .navbarHeader { border-bottom:1px #ccc solid; padding: 12px 0 8px 0;}
 .page-header { box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2); background-color: var(--white); border-top:1px #ccc solid; border-bottom:1px #ccc solid; }
@@ -230,7 +230,7 @@ main section { padding-top: 25px;}
 .image-upload-wrapper .preview .btn { position: absolute; right:7px; top:7px;}
 
 .nav-tabs .nav-link { border:none; font-size: 12px; border-right: 1px #ccc solid;;}
-.product-tab .nav-link  { padding: 9px 26px 12px 26px; background-color: var(--white);}
+.product-tab .nav-link  { padding: 9px 26px 12px 25px; background-color: var(--white);}
 .size-tab .nav-link  { padding: 9px 19px 12px 19px; }
 .nav-tabs .nav-link:last-child { border-right: none;}
 .nav-tabs .nav-link.active { background-color: var(--primary); color: var(--white); border-right: 1px var(--primary solid);}
@@ -356,6 +356,8 @@ main section { padding-top: 25px;}
 .size { height: 135px; }
 .hardware_style { height: 145px; }
 .hardware_style img { margin-bottom: 8px;}
+
+.price { font-size: 20px;}
 
 .custom-radio-wrap { margin-bottom: 10px;}
 .custom-radio-wrap .wrapMain { display: inline-block; border: 2px solid #ccc; border-radius: 4px; position: relative; width: 100%; cursor: pointer; text-align: center; margin-bottom: 10px; transition: all 0.3s; color:var(--dark-grey) }
@@ -594,7 +596,7 @@ main section { padding-top: 25px;}
 
 .position-relative:hover .product-action-home { display: block;}
 .product-action-home { position: absolute; top:0; left: 0; display: none; text-align: center; background-color: rgba(0,0,0,0.3); height: 100%; width: 100%; border-radius: 10px; }
-.product-action-home .btn { top:65px; position: relative; }
+.product-action-home .btn { top:113px; position: relative; }
 .product-action-home .whishlist { top:15px; right:15px; position: absolute; background-color: var(--secondary); border-radius: 4px; padding:5px 5px 3px 5px;}
 .product-action-home .whishlist .far { font-size: 18px; color: var(--white);}
 .product-action-home .selectedCategory { background-color: var(--white); text-align: center; border-radius: 3px; color: var(--black); padding: 3px 8px; font-size: 13px; display: inline-block; position: absolute; left:15px; top:15px;}

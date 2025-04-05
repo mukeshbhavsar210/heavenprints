@@ -1,5 +1,206 @@
+@extends('front.layouts.app')
 
+@section('content')
 
+<div class="customizeFrames" >
+    <div class="row">                   
+        <div class="col-md-5">
+            <div class="controls">
+                <div class="leftControl">
+                    <ul class="nav nav-pills framesVerTabs">
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
+                                <span class="icon icon_product_1"></span>
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link upload" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
+                                <span class="icon icon_product_2"></span>
+                                Upload
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
+                                <span class="icon icon_product_3"></span>
+                                Select Size
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
+                                <span class="icon icon_product_4"></span>
+                                Wrap & Border
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
+                                <span class="icon icon_product_5"></span>
+                                Hardware & Finish
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                <span class="icon icon_product_6"></span>
+                                Options
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="rightControl">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
+                            @include('front.products.custom_frame.01_tab')
+                        </div>
+                        <div class="tab-pane fade upload_right" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
+                            @include('front.products.custom_frame.02_tab')
+                        </div>
+                        <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
+                            @include('front.products.custom_frame.03_tab') 
+                        </div>
+                        <div class="tab-pane fade" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.04_tab')
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.05_tab')
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.06_tab')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7"> 
+            <div class="nameTotal">
+                <div class="row">
+                    <div class="col-md-8 col-6">
+                        <h3>{{ $product->name }}</h3>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="d-flex">
+                            <div class="priceHover mt-2">                    
+                                <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    ₹<span id="finalPrice2" >{{ $product->price }}</span>            
+                                </h4>
+                
+                                <div class="breakups" aria-labelledby="dropdownMenuButton">
+                                
+                                        <div class="breakup-details">
+                                            <div class="icon-tick"></div>
+                                            <div class="text">
+                                                <p>Size:</p>
+                                                <p class="red">
+                                                    {{ session('selected_product.sizeRadios') }} 
+                                                    ₹<span id="sizePrice">0</span> 
+                                                </p>
+                                            </div>
+                                            <a class="icon-edit" id="resetButton"></a>
+                                        {{-- 
+                                        ₹<span id="framePrice">0</span>
+                                        <span id="wrapWrapPrice">₹0</span>
+                                        <span id="wrapFramePrice">₹0</span>
+                                        <span id="hardwareStylePrice">₹0</span>
+                                        <span id="hardwareDisplayPrice">₹0</span>
+                                        <span id="hardwareFinishingPrice">₹0</span>
+                                        <span id="laminationPrice">₹0</span>
+                                        <span id="retouchingPrice">₹0</span>
+                                        <span id="proofPrice">₹0</span> 
+                                        <strong>Custom Size 1:</strong> {{ session('selected_product.custom_size_1') }}
+                                        <strong>Custom Size 2:</strong> {{ session('selected_product.custom_size_2') }}--}}
+                                        </div>
+                                
+                                </div>
+                            </div>
+
+                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart_Metal({{ $product->id }})">Add To Cart</a>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+                        
+            <div class="frame-generate">
+                <div class="renderFrame">                
+                    <div class="mainImg">
+                        <div class="leftControl"></div>
+                        <div class="create-your-prints">
+                            <div class="h-scale" style="margin-left: 20px; width: 380px;">
+                                <span id="scalewidth">10 inch</span>
+                            </div>
+                            <div class="v-scale" style="margin-top: 20px; height: 380px;">
+                                <span id="scalewidth">10 inch</span>
+                            </div>
+                            <div class="preview-img">
+                                <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
+                                    <div id="frameDetails">
+                                        <div class="wrapBorder {{ session('selected_product.category_name') }}">
+                                            <div class="border">
+                                                <div class="top-left"></div>
+                                                <div class="top-right"></div>
+                                                <div class="bottom-left"></div>
+                                                <div class="bottom-right"></div>
+                                                
+                                                <div id="image">          
+                                                    <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rightControl"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                {{-- <div class="col-md-7"> 
+                    <div class="frame-generate">
+                        <div class="renderFrame">                
+                            <div class="mainImg">
+                                <div class="leftControl"></div>
+                                <div class="create-your-prints">
+                                    <div class="h-scale" style="margin-left: 20px; width: 380px;">
+                                        <span id="scalewidth">10 inch</span>
+                                    </div>
+                                    <div class="v-scale" style="margin-top: 20px; height: 380px;">
+                                        <span id="scalewidth">10 inch</span>
+                                    </div>
+                                    <div class="preview-img">
+                                        <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
+                                            <div id="frameDetails">
+                                                <div class="wrapBorder {{ session('selected_product.category_name') }}">
+                                                    <div class="border">
+                                                        <div class="top-left"></div>
+                                                        <div class="top-right"></div>
+                                                        <div class="bottom-left"></div>
+                                                        <div class="bottom-right"></div>
+                                                        
+                                                        <div id="image">          
+                                                            <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="rightControl"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+            </div> 
+        </div>
+    </div>  
+</div>
 
     <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
@@ -15,7 +216,6 @@
         }
     });
 	
-
     document.addEventListener("DOMContentLoaded", function () {
             let showBtn = document.getElementById("showIframeBtn");
             let hideBtn = document.getElementById("hideIframeBtn");

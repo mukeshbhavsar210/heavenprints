@@ -9,6 +9,11 @@ class Product extends Model
 {
     use HasFactory;
 
+
+    public function frames() {
+        return $this->hasMany(CustomTotal::class);
+    }
+
     public function product_images(){
         return $this->hasMany(ProductImage::class);
     }

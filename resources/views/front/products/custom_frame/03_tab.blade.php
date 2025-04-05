@@ -1,14 +1,12 @@
 <nav>
     <div class="nav nav-tabs size-tab" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="tabSize-first" data-bs-toggle="tab" data-bs-target="#size-first" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Recomended</button>
-        <button class="nav-link {{ session('selected_product.shape') == 'Square' ? 'active' : '' }}" id="tabSize-second" data-bs-toggle="tab" data-bs-target="#size-second" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Square</button>
-        <button class="nav-link {{ session('selected_product.shape') == 'Panoramic' ? 'active' : '' }}" id="tabSize-third" data-bs-toggle="tab" data-bs-target="#size-third" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Panoromic</button>
-        <button class="nav-link {{ session('selected_product.shape') == 'Large' ? 'active' : '' }}" id="tabSize-fourth" data-bs-toggle="tab" data-bs-target="#size-fourth" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Large</button>
-        <button class="nav-link {{ session('selected_product.shape') == 'Small' ? 'active' : '' }}" id="tabSize-ffth" data-bs-toggle="tab" data-bs-target="#size-fifth" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Small</button>
+        <button class="nav-link {{ $value->shape == 'Rectangle' ? 'active' : '' }}" id="tabSize-first" data-bs-toggle="tab" data-bs-target="#size-first" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Recomended</button>
+        <button class="nav-link {{ $value->shape == 'Square' ? 'active' : '' }}" id="tabSize-second" data-bs-toggle="tab" data-bs-target="#size-second" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Square</button>
+        <button class="nav-link {{ $value->shape == 'Panoramic' ? 'active' : '' }}" id="tabSize-third" data-bs-toggle="tab" data-bs-target="#size-third" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Panoromic</button>
+        <button class="nav-link {{ $value->shape == 'Large' ? 'active' : '' }}" id="tabSize-fourth" data-bs-toggle="tab" data-bs-target="#size-fourth" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Large</button>
+        <button class="nav-link {{ $value->shape == 'Small' ? 'active' : '' }}" id="tabSize-ffth" data-bs-toggle="tab" data-bs-target="#size-fifth" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Small</button>
     </div>
 </nav>
-
-{{-- <span id="selectedSize"></span> --}}
 
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade active show" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">

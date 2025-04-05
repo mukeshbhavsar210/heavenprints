@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Color;
+
 use App\Models\FrameMaterial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -77,6 +78,10 @@ class SettingController extends Controller {
             return redirect()->route('settings.index')->withInput()->withErrors($validator);
         }              
     }
+
+
+
+    
 
 
     // Update Settings

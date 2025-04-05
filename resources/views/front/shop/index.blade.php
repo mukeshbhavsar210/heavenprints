@@ -15,7 +15,19 @@
             <div class="row">
                 <div class="col-md-3 sidebar">
                     <div class="sub-title mt-3"><h2>Categories</h3></div>                    
-                    <div class="accordion accordion-flush" id="accordionExample">                    
+                    <div class="accordion accordion-flush" id="accordionExample">   
+                        {{-- @if ($categories->isNotEmpty())
+                            @foreach ($categories->filter(function ($category) {
+                                return in_array($category->slug, ['Shop',]);
+                            }) as $key => $category)
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne-{{ $key }}" aria-expanded="false" aria-controls="collapseOne-{{ $key }}">
+                                        {{ $category->name }}
+                                    </button>
+                                </h2>
+                            @endforeach
+                        @endif --}}
+
                         @if ($categories->isNotEmpty())
                             @foreach ($categories as $key => $category)
                                 <div class="accordion-item">
