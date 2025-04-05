@@ -12,18 +12,16 @@
     <div class="tab-pane fade active show" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
         <div class="paddWrapper">
             <div class="radio-group row">
-                @if($recommended_data)
-                    @foreach ($recommended_data as $key => $value)
-                        <div class="col-md-4 col-6">     
-                            <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
-                                <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
-                                <p class="radio-label">{{ $value['height'] }} x {{ $value['width'] }} </p>                            
-                                <p>₹{{ number_format($value['price'], 2) }}</p>
-                            </label>
-                        </div>
-                    @endforeach
-                @endif
+                @foreach ($sizeData as $key => $value)
+                    <div class="col-md-4 col-6">
+                        <label class="custom-radio size" >
+                            <input type="radio" name="size" value="{{ $key }}" data-price="{{ $value['price'] }}" class="frame-option" >
+                            <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
+                            <p>{{ $value['name'] }}</p>
+                            <p>₹{{ $value['price'] }}</p>
+                        </label>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

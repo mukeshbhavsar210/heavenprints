@@ -599,7 +599,7 @@ class ShopController extends Controller {
 
         $borderData = [
             'first' => ['name' => 'Mirror Image Free', 'price' => 0.00, 'image' => 'mirror-image.jpg'],
-            'second' => ['name' => 'Border Color Free', 'price' => 0.00, 'image' => 'border-color.jpg'],
+            'second' => ['name' => 'Border Color Free', 'price' => 10.00, 'image' => 'border-color.jpg'],
         ];
 
         $standardFrame = [
@@ -637,20 +637,20 @@ class ShopController extends Controller {
             'Small' => [ 'name' => 'Small Shape', 'price' =>  10.00, 'height' => 8, 'width' => 10, 'image' => 'small.jpg' ] 
         ];
 
+    
         $sizeData = [
-            '8x8' => ['name' => '8" x 8"', 'price' => 1.00, 'height' => 8, 'width' => 8],
-            '10x10' => ['name' => '10" x 10"', 'price' => 2.00, 'height' => 10, 'width' => 10],
-            '12x12' => ['name' => '12" x 12"', 'price' => 3.00, 'height' => 12, 'width' => 12],
-            '16x16' => ['name' => '16" x 16"', 'price' => 4.00, 'height' => 16, 'width' => 16],
-            '20x20' => ['name' => '20" x 20"', 'price' => 5.00, 'height' => 20, 'width' => 20],
+            '1' => ['name' => '8" x 8"', 'price' => 143.00, 'height' => 45, 'width' => 45],
+            '2' => ['name' => '10" x 10"', 'price' => 212.00, 'height' => 47, 'width' => 47],
+            '3' => ['name' => '16" x 16"', 'price' => 489.00, 'height' => 49, 'width' => 49],
+            '4' => ['name' => '24" x 24"', 'price' => 1066.00, 'height' => 53, 'width' => 53],
+            '5' => ['name' => '30" x 30"', 'price' => 1646.00, 'height' => 56, 'width' => 56],
+            '5' => ['name' => '45" x 45"', 'price' => 3640.00, 'height' => 58, 'width' => 58],
         ];
 
         $colorFinishingBasic = [
-            '8x8' => ['name' => 'Original Free', 'price' => 1.00, 'height' => 8, 'width' => 8],
-            '10x10' => ['name' => '10" x 10"', 'price' => 2.00, 'height' => 10, 'width' => 10],
-            '12x12' => ['name' => '12" x 12"', 'price' => 3.00, 'height' => 12, 'width' => 12],
-            '16x16' => ['name' => '16" x 16"', 'price' => 4.00, 'height' => 16, 'width' => 16],
-            '20x20' => ['name' => '20" x 20"', 'price' => 5.00, 'height' => 20, 'width' => 20],
+            '1' => ['name' => 'Original Free', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '2' => ['name' => 'Sephia Free"', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '3' => ['name' => 'Grey Scale', 'price' => 0.00, 'image' => 'grayscale.jpg']
         ];
 
         $data['recommended_data'] = $recommended_data;
@@ -702,7 +702,7 @@ class ShopController extends Controller {
 
         $data['image'] = $image;
 
-        return view('front.products.custom_frame.test', $data);
+        return view('front.products.custom_frame.index', $data);
     }
 
    
