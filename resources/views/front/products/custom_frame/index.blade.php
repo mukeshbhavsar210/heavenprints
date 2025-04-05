@@ -9,174 +9,188 @@
         </div>
     </nav>
 
-        <div class="row">                                           
-            <div class="col-md-5">
-                <div class="controls">                                         
-                    <div class="leftControl">
-                        <aside>  
-                            <ul class="nav nav-pills framesVerTabs" >
-                                <li class="nav-item">                               
-                                    <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
-                                        <span class="icon icon_product_1"></span>
-                                        Products
+    <div class="row">                                           
+        <div class="col-md-5">
+            <div class="controls">                                         
+                <div class="leftControl">
+                    <aside>  
+                        <ul class="nav nav-pills framesVerTabs" >
+                            <li class="nav-item">                               
+                                <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
+                                    <span class="icon icon_product_1"></span>
+                                    Products
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                @foreach ($firstTotals as $value)                                    
+                                    <a class="nav-link {{ $value->name == $value->name ? 'active' : '' }}" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
+                                        <span class="icon icon_product_2"></span>
+                                        Upload
                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    @foreach ($firstTotals as $value)                                    
-                                        <a class="nav-link {{ $value->name == $value->name ? 'active' : '' }}" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
-                                            <span class="icon icon_product_2"></span>
-                                            Upload
-                                        </a>
-                                    @endforeach                                
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
-                                        <span class="icon icon_product_3"></span>
-                                        Select Size
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
-                                        <span class="icon icon_product_4"></span>
-                                        Wrap & Border
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
-                                        <span class="icon icon_product_5"></span>
-                                        Hardware & Finish
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
-                                        <span class="icon icon_product_6"></span>
-                                        Options
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-                    </div>
-                    
-                    <div class="rightControl">
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
-                                @include('front.products.custom_frame.01_tab')
-                            </div>
-                            <div class="tab-pane fade {{ $value->name == $value->name ? 'show active' : '' }}" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
-                                @include('front.products.custom_frame.02_tab')
-                            </div>
-                            <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
-                                @include('front.products.custom_frame.03_tab') 
-                            </div>
-                            <div class="tab-pane fade" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
-                                <div class="paddWrapper">
-                                    @include('front.products.custom_frame.04_tab')
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
-                                <div class="paddWrapper">
-                                    @include('front.products.custom_frame.05_tab')
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
-                                <div class="paddWrapper">
-                                    @include('front.products.custom_frame.06_tab')
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>           
-            </div>
+                                @endforeach                                
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
+                                    <span class="icon icon_product_3"></span>
+                                    Select Size
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
+                                    <span class="icon icon_product_4"></span>
+                                    Wrap & Border
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
+                                    <span class="icon icon_product_5"></span>
+                                    Hardware & Finish
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                    <span class="icon icon_product_6"></span>
+                                    Options
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                </div>
                 
-            <div class="col-md-7"> 
-                <div class="nameTotal">
-                    <div class="row">
-                        <div class="col-md-8 col-6">
-                            <h3>{{ $product->name }}</h3>
+                <div class="rightControl">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
+                            @include('front.products.custom_frame.01_tab')
                         </div>
-                        <div class="col-md-4 col-6">
-                            <div class="d-flex">
-                                <div class="priceHover mt-2">                    
-                                    <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                        ₹<span id="finalPrice">
-                                            @foreach ($firstTotals as $value)
-                                                {{ $value->total }}
-                                            @endforeach
-                                        </h4>
-                    
-                                    <div class="breakups" aria-labelledby="dropdownMenuButton">
-                                        @foreach ($firstTotals as $value)
-                                            <div class="breakup-details">
-                                                <div class="icon-tick"></div>
-                                                <div class="text">
-                                                    <p>Size:</p>
-                                                    <p class="red">
-                                                        {{ $value->size }}
-                                                        ₹<span id="sizePrice">0</span> 
-                                                    </p>
-                                                </div>
-                                                <a class="icon-edit" id="resetButton"></a>
-                                            </div>
-
-                                            <div class="breakup-details">
-                                                <div class="icon-tick"></div>
-                                                <div class="text">
-                                                    <p>Shape:</p>
-                                                    <p class="red">
-                                                        {{ $value->shape }}
-                                                        ₹<span id="sizePrice">0</span> 
-                                                    </p>
-                                                </div>
-                                                <a class="icon-edit" id="resetButton"></a>
-                                            </div>                                                
-                                        @endforeach                                        
-                                    </div>
-                                </div>
-    
-                                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart_Metal({{ $product->id }})">Add To Cart</a>
-                            </div>  
+                        <div class="tab-pane fade {{ $value->name == $value->name ? 'show active' : '' }}" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
+                            @include('front.products.custom_frame.02_tab')
+                        </div>
+                        <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
+                            @include('front.products.custom_frame.03_tab') 
+                        </div>
+                        <div class="tab-pane fade" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.04_tab')
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.05_tab')
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
+                            <div class="paddWrapper">
+                                @include('front.products.custom_frame.06_tab')
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="frame-generate">
-                    <div class="renderFrame">                
-                        <div class="mainImg">
-                            <div class="leftControl"></div>
-                            <div class="create-your-prints">
-                                <div class="h-scale" style="margin-left: 20px; width: 380px;">
-                                    <span id="scalewidth">10 inch</span>
+            </div>           
+        </div>
+            
+        <div class="col-md-7">         
+            <div class="nameTotal">
+                <div class="row">
+                    <div class="col-md-8 col-6">
+                        <h3>{{ $product->name }}</h3>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <div class="d-flex">
+                            {{-- <h2 id="finalPrice">₹{{ $product->price }}</h2> --}}
+                            <div class="priceHover mt-2">                    
+                                <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    ₹<span id="finalPrice">
+                                        @foreach ($firstTotals as $value)
+                                            {{ $value->total }}
+                                        @endforeach
+                                    </h4>
+                
+                                <div class="breakups" aria-labelledby="dropdownMenuButton">
+
+                                    <div class="breakup-details" id="shapeDetails"></div>
+                                    <div id="sizeDetails"></div>   
+                                    <div id="materialDetails"></div>  
+                                    <div id="borderDetails"></div>    
+                                    <div id="standardFrameDetails"></div>
+                                    <div id="premiumFrameDetails"></div>
+                                    <div id="hardwareStyleDetails"></div>
+                                    <div id="displayOptionDetails"></div>
+                                    <div id="colorFinishingBasicDetails"></div>
+
+
+                                    @foreach ($firstTotals as $value)
+                                        <div class="breakup-details">
+                                            <div class="icon-tick"></div>
+                                            <div class="text">
+                                                <p>Size:</p>
+                                                <p class="red">
+                                                    {{ $value->size }}
+                                                    ₹<span id="sizePrice">0</span> 
+                                                </p>
+                                            </div>
+                                            <a class="icon-edit" id="resetButton"></a>
+                                        </div>
+
+                                        <div class="breakup-details">
+                                            <div class="icon-tick"></div>
+                                            <div class="text">
+                                                <p>Shape:</p>
+                                                <p class="red">
+                                                    {{ $value->shape }}
+                                                    ₹<span id="sizePrice">0</span> 
+                                                </p>
+                                            </div>
+                                            <a class="icon-edit" id="resetButton"></a>
+                                        </div>                                                
+                                    @endforeach                                        
                                 </div>
-                                <div class="v-scale" style="margin-top: 20px; height: 380px;">
-                                    <span id="scalewidth">10 inch</span>
-                                </div>
-                                <div class="preview-img">
-                                    <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
-                                        <div id="frameDetails">
-                                            <div class="wrapBorder {{ session('selected_product.category_name') }}">
-                                                <div class="border">
-                                                    <div class="top-left"></div>
-                                                    <div class="top-right"></div>
-                                                    <div class="bottom-left"></div>
-                                                    <div class="bottom-right"></div>
-                                                    
-                                                    <div id="image">          
-                                                        <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
-                                                    </div>
+                            </div>
+
+                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart_Metal({{ $product->id }})">Add To Cart</a>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="frame-generate">
+                <div class="renderFrame">                
+                    <div class="mainImg">
+                        <div class="leftControl"></div>
+                        <div class="create-your-prints">
+                            <div class="h-scale" style="margin-left: 20px; width: 380px;">
+                                <span id="scalewidth">10 inch</span>
+                            </div>
+                            <div class="v-scale" style="margin-top: 20px; height: 380px;">
+                                <span id="scalewidth">10 inch</span>
+                            </div>
+                            <div class="preview-img">
+                                <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
+                                    <div id="frameDetails">
+                                        <div class="wrapBorder {{ session('selected_product.category_name') }}">
+                                            <div class="border">
+                                                <div class="top-left"></div>
+                                                <div class="top-right"></div>
+                                                <div class="bottom-left"></div>
+                                                <div class="bottom-right"></div>
+                                                
+                                                <div id="image">          
+                                                    <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="rightControl"></div>
-                            </div>
+                        </div>
+                        <div class="rightControl"></div>
                         </div>
                     </div>
-                    </div>
-                </div> 
-            </div>
-        </div>    
-    </div> 
+                </div>
+                </div>
+            </div> 
+        </div>
+    </div>    
+</div> 
 
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script>
@@ -186,69 +200,176 @@
         }
     });  
 
-    //Main Calculations
+    //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
+        const shapeData = @json($shapeData);
+        const sizeData = @json($sizeData);
+        const materialData = @json($materialData);
+        const hardwareStyleData = @json($hardwareStyleData);
+        const borderData = @json($borderData);
+        const standardFrame = @json($standardFrame);
+        const premiumFrame = @json($premiumFrame);        
+        const displayOption = @json($displayOption);
+        const colorFinishingBasic = @json($colorFinishingBasic);
+        
         const size_1 = @json($recommended_data);
         const size_2 = @json($square_data);
         const size_3 = @json($panaromic_data);
         const size_4 = @json($large_data);
         const size_5 = @json($small_data);
-
-        const materialData = @json($materialData);
         const wrapData = @json($wrapData);
+        const floatFrame = @json($floatFrame);
+        
         
         let basePrice = parseFloat(document.getElementById('finalPrice').innerText) || 0;
         let finalPrice = basePrice;
 
         function updatePrice() {
-            let totalPrice = basePrice; // Start with base price
+            finalPrice = basePrice; // Reset price before recalculating
+            
+            // Update selected shape
+            const selectedShape = document.querySelector('input[name="shape"]:checked');
+            if (selectedShape) {
+                let shape = shapeData[selectedShape.value];
+                if (shape) {
+                    finalPrice += shape.price || 0;
+                    document.getElementById('shapeDetails').innerHTML = `
+                        <h6>${shape.name}</h6>
+                        <p>₹${shape.price.toFixed(2)}</p>
+                    `;
+                }
+            }
 
-            // Loop through all radio groups and add selected value
-            document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
-                let selectedValue = input.value;
+            // Update selected shape
+            const selectedMaterial = document.querySelector('input[name="material"]:checked');
+            if (selectedMaterial) {
+                let material = materialData[selectedMaterial.value];
+                if (material) {
+                    finalPrice += material.price || 0;
+                    document.getElementById('materialDetails').innerHTML = `
+                        <h6>${material.name}</h6>
+                        <p>₹${material.price.toFixed(2)}</p>
+                        
+                    `;
+                }
+            }
 
-                if (size_1[selectedValue]) {
-                    totalPrice += size_1[selectedValue].price || 0;
+            // Update selected size
+            const selectedSize = document.querySelector('input[name="size"]:checked');
+            if (selectedSize) {
+                let size = sizeData[selectedSize.value];
+                if (size) {
+                    finalPrice += size.price || 0;
+                    document.getElementById('sizeDetails').innerHTML = `
+                        <div class="breakup-details">
+                            <div class="icon-tick"></div>
+                            <div class="text">
+                                <p>${size.name}</p>
+                                <p class="red">₹${size.price.toFixed(2)}</p>
+                            </div>
+                            <a class="icon-edit" id="resetButton"></a>
+                        </div>
+                    `;
                 }
-                if (size_2[selectedValue]) {
-                    totalPrice += size_2[selectedValue].price || 0;
-                }
-                if (size_3[selectedValue]) {
-                    totalPrice += size_3[selectedValue].price || 0;
-                }
-                if (size_4[selectedValue]) {
-                    totalPrice += size_4[selectedValue].price || 0;
-                }
-                if (size_5[selectedValue]) {
-                    totalPrice += size_5[selectedValue].price || 0;
-                }
-                if (materialData[selectedValue]) {
-                    totalPrice += materialData[selectedValue] || 0;
-                }
-                if (wrapData[selectedValue]) {
-                    totalPrice += wrapData[selectedValue].price || 0;
-                }
-                // if (wrapData[selectedValue]) {
-                //     totalPrice += wrapData[selectedValue] || 0;
-                // }
-            });
+            }
 
-            // Update the final price in HTML
-            document.getElementById('finalPrice').innerText = totalPrice.toFixed(2);
+            const selectedBorder = document.querySelector('input[name="border"]:checked');
+            if (selectedBorder) {
+                let border = borderData[selectedBorder.value];
+                if (border) {
+                    finalPrice += border.price || 0;
+                    document.getElementById('borderDetails').innerHTML = `
+                        <h6>${border.name}</h6>
+                        <p>₹${border.price.toFixed(2)}</p>                        
+                    `;
+                }
+            }
+
+            //Standard Frames
+            const selectedFrame = document.querySelector('input[name="standard_frame"]:checked');
+            if (selectedFrame) {
+                let frame = standardFrame[selectedFrame.value];
+                if (frame) {
+                    finalPrice += frame.price || 0;
+                    document.getElementById('standardFrameDetails').innerHTML = `
+                        <h6>${frame.name}</h6>
+                        <p>₹${frame.price.toFixed(2)}</p>
+                        <img src="uploads/icons/hardware/option/${frame.image}" alt="${frame.name}" width="100">
+                    `;
+                }
+            }
+
+            //Premium Frames
+            const selectedPremiumFrame = document.querySelector('input[name="premium_frame"]:checked');
+            if (selectedPremiumFrame) {
+                let frame = premiumFrame[selectedPremiumFrame.value];
+                if (frame) {
+                    finalPrice += frame.price || 0;
+                    document.getElementById('premiumFrameDetails').innerHTML = `
+                        <h6>${frame.name}</h6>
+                        <p>₹${frame.price.toFixed(2)}</p>                        
+                    `;
+                }
+            }
+
+            //Hardware Style
+            const selectedHardware = document.querySelector('input[name="hardware_style"]:checked');
+            if (selectedHardware) {
+                let hardware = hardwareStyleData[selectedHardware.value];
+                if (hardware) {
+                    finalPrice += hardware.price || 0;
+                    document.getElementById('hardwareStyleDetails').innerHTML = `
+                        <h6>${hardware.name}</h6>
+                        <p>₹${hardware.price.toFixed(2)}</p>                        
+                    `;
+                }
+            }
+
+            //Display Option
+            const selectedDisplay = document.querySelector('input[name="display_option"]:checked');
+            if (selectedDisplay) {
+                let display = displayOption[selectedDisplay.value];
+                if (display) {
+                    finalPrice += display.price || 0;
+                    document.getElementById('displayOptionDetails').innerHTML = `
+                        <h6>${display.name}</h6>
+                        <p>₹${display.price.toFixed(2)}</p>
+                    `;
+                }
+            }
+
+            //Color finishing
+            const selectedColorFinishing = document.querySelector('input[name="color_finishing_basic"]:checked');
+            if (selectedColorFinishing) {
+                let finishing = colorFinishingBasic[selectedColorFinishing.value];
+                if (finishing) {
+                    finalPrice += finishing.price || 0;
+                    document.getElementById('colorFinishingBasicDetails').innerHTML = `
+                        <h6>${finishing.name}</h6>
+                        <p>Price: ₹${finishing.price.toFixed(2)}</p>
+                        <img src="/images/${finishing.image}" alt="${finishing.name}" width="100">
+                    `;
+                }
+            }
+
+            // Update final price display
+            document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
+            document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         }
 
-        // Add event listener to all radio buttons
+        // Attach event listeners to all radio buttons
         document.querySelectorAll('input[type="radio"]').forEach(input => {
             input.addEventListener('change', updatePrice);
         });
 
-        // Initialize price on page load
-        updatePrice();
-    });
+        // Set initial values on page load
+        document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
+        document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
+});
 
 
-    //Add to cart for METAL FRAME
-	function addToCart_Metal(id){
+//Add to cart for METAL FRAME
+function addToCart_Metal(id){
 		let size =  $('input[name="size"]:checked').val() + '_₹' + $('#sizePrice').text();
 		let frame = $('input[name="frame"]:checked').val() + '_₹' + $('#framePrice').text() ;
 		let uploadedImageName = "{{ session('uploaded_image') }}";
@@ -460,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function toggleMenu(e) {
         e.classList.toggle("active");
         document.querySelector("aside").classList.toggle("active");
-    }
-
-    </script>
+    }   
+</script>
 @endsection

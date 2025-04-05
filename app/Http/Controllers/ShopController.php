@@ -531,14 +531,10 @@ class ShopController extends Controller {
         $laminations = Lamination::all();
         $frameSizes = FrameSize::all();
         $modifications = Modification::all();
+        $wraps_data = FrameWrap::where('types','wrap')->get();
 
         $selection = Session::get('selection', []);
-
-       
-
-        //Wrap
-        $wraps_data = FrameWrap::where('types','wrap')->get();
-        
+                
         $recommended_data = [
             'first' => ['name' => 'Square Shape', 'price' => 379.00, 'width' => 47, 'height' => 29, ],
             'second' => ['name' => 'Rectangle Shape', 'price' => 1377.00, 'width' => 49, 'height' => 31, ],
@@ -582,46 +578,100 @@ class ShopController extends Controller {
         ];
 
         $shapeData2 = [
-            'Canvas' => ['name' => 'Square Shape', 'price' => 100.00, 'image' => 'square.jpg', 'type' => 'Geometric'],
-            'Acrylic' => ['name' => 'Rectangle Shape', 'price' => 200.00, 'image' => 'rectangle.jpg', 'type' => 'Geometric'],
-            'Metal' => ['name' => 'Panoramic Shape', 'price' => 300.00, 'image' => 'panoramic.jpg', 'type' => 'Wide View'],
-            'Wood' => ['name' => 'Large Shape', 'price' => 400.00, 'image' => 'large.jpg', 'type' => 'Oversized'],
-            'Small' => ['name' => 'Small Shape', 'price' => 500.00, 'image' => 'small.jpg', 'type' => 'Compact']
+            'Canvas' => ['name' => 'Square Shape', 'price' => 100.00, 'image' => 'square.jpg'],
+            'Acrylic' => ['name' => 'Rectangle Shape', 'price' => 200.00, 'image' => 'rectangle.jpg'],
+            'Metal' => ['name' => 'Panoramic Shape', 'price' => 300.00, 'image' => 'panoramic.jpg'],
+            'Wood' => ['name' => 'Large Shape', 'price' => 400.00, 'image' => 'large.jpg'],
+            'Small' => ['name' => 'Small Shape', 'price' => 500.00, 'image' => 'small.jpg']
         ];
         
         $materialData = [            
-            'Canvas' => ['name' => 'Single Print', 'price' => 100.00, 'image' => 'square.jpg', 'type' => 'Geometric'],
-            'Acrylic' => ['name' => 'Single Print', 'price' => 100.00, 'image' => 'square.jpg', 'type' => 'Geometric'],
-            // 'Single Print' => 143.00, 'image' => 'square.jpg',
-            // 'Acrylic' => 70.00,
-            // 'Metal' => 90.00,
-            // 'Wood' => 110.00,
-            // 'Others' => 130.00
+            'Canvas' => ['name' => 'Single Print', 'price' => 101.00, 'image' => 'square.jpg'],
+            'Acrylic' => ['name' => 'Double Print', 'price' => 201.00, 'image' => 'square.jpg'],
         ];
 
         $wrapData = [
-            'Canvas' => ['name' => 'Canvas Lite (0.50")', 'price' => 143.00, 'image' => 'size05.jpg', 'type' => 'Geometric'],
-            'Acrylic' => ['name' => 'Thin Gallery Wrap (0.75)', 'price' => 185.00, 'image' => 'size75.jpg', 'type' => 'Geometric'],
-            'Metal' => ['name' => 'Thick Gallery Wrap (1.5")', 'price' => 223.08, 'image' => 'size15.jpg', 'type' => 'Wide View'],
-            'Wood' => ['name' => 'Hanging Canvas', 'price' => 121.55, 'image' => 'hanging-canvas.jpg', 'type' => 'Oversized'],            
+            'Canvas' => ['name' => 'Canvas Lite (0.50")', 'price' => 143.00, 'image' => 'size05.jpg',],
+            'Acrylic' => ['name' => 'Thin Gallery Wrap (0.75)', 'price' => 185.00, 'image' => 'size75.jpg',],
+            'Metal' => ['name' => 'Thick Gallery Wrap (1.5")', 'price' => 223.08, 'image' => 'size15.jpg',],
+            'Wood' => ['name' => 'Hanging Canvas', 'price' => 121.55, 'image' => 'hanging-canvas.jpg',],
         ];
-        
+
+        $borderData = [
+            'first' => ['name' => 'Mirror Image Free', 'price' => 0.00, 'image' => 'mirror-image.jpg'],
+            'second' => ['name' => 'Border Color Free', 'price' => 10.00, 'image' => 'border-color.jpg'],
+        ];
+
+        $standardFrame = [
+            'first' => ['name' => 'Golden', 'price' => 798.00, 'image' => 'golden.png'],
+            'second' => ['name' => 'Silver', 'price' => 298.00, 'image' => 'golden.png'],
+        ];
+
+        $premiumFrame = [
+            'first' => ['name' => 'Cherry Style', 'price' => 998.00, 'image' => 'cherry-style.png'],            
+        ];
+
+        $floatFrame = [
+            'first' => ['name' => 'Black floating Frame', 'price' => 1798.00, 'image' => 'black-floating-frame.png'],
+        ];
+
+        $hardwareStyleData = [
+            'first' => ['name' => 'Hooks for Hanging Free', 'price' => 0.00, 'image' => 'hooks-for-hanging.jpg'],
+            'second' => ['name' => 'Ready to Hang Free', 'price' => 0.00, 'image' => 'hooks-for-hanging.jpg'],
+            'third' => ['name' => 'No Hooks Free', 'price' => 0.00, 'image' => 'no-hooks.jpg'],
+            'fourth' => ['name' => 'Sawtooth Hanger', 'price' => 25.00, 'image' => 'sawtooth-hanger.jpg'],
+            'first' => ['name' => 'Easel Back', 'price' => 49.00, 'image' => 'easel-back.jpg'],
+            'first' => ['name' => 'Nail Free Hook', 'price' => 49.00, 'image' => 'nail-free-hook.jpg'],
+        ];
+
+        $displayOption = [
+            'first' => ['name' => 'Open Back', 'price' => 0.00,],
+            'second' => ['name' => 'Dust Cover', 'price' => 49.00,],
+        ];
+
+        $shapeData = [
+            'Square' => [ 'name' => 'Square Shape', 'price' =>  2.00, 'height' => 12, 'width' => 12, 'image' => 'square.jpg' ], 
+            'Rectangle' => [ 'name' => 'Rectangle Shape', 'price' =>  4.00, 'height' => 12, 'width' => 18, 'image' => 'rectangle.jpg' ], 
+            'Panoramic' => [ 'name' => 'Panoramic Shape', 'price' =>  6.00, 'height' => 10, 'width' => 30, 'image' => 'panoramic.jpg' ], 
+            'Large' => [ 'name' => 'Large Shape', 'price' =>  8.00, 'height' => 24, 'width' => 36, 'image' => 'large.jpg' ], 
+            'Small' => [ 'name' => 'Small Shape', 'price' =>  10.00, 'height' => 8, 'width' => 10, 'image' => 'small.jpg' ] 
+        ];
+
+    
+        $sizeData = [
+            '1' => ['name' => '8" x 8"', 'price' => 143.00, 'height' => 45, 'width' => 45],
+            '2' => ['name' => '10" x 10"', 'price' => 212.00, 'height' => 47, 'width' => 47],
+            '3' => ['name' => '16" x 16"', 'price' => 489.00, 'height' => 49, 'width' => 49],
+            '4' => ['name' => '24" x 24"', 'price' => 1066.00, 'height' => 53, 'width' => 53],
+            '5' => ['name' => '30" x 30"', 'price' => 1646.00, 'height' => 56, 'width' => 56],
+            '5' => ['name' => '45" x 45"', 'price' => 3640.00, 'height' => 58, 'width' => 58],
+        ];
+
+        $colorFinishingBasic = [
+            '1' => ['name' => 'Original Free', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '2' => ['name' => 'Sephia Free"', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '3' => ['name' => 'Grey Scale', 'price' => 0.00, 'image' => 'grayscale.jpg']
+        ];
+
         $data['recommended_data'] = $recommended_data;
         $data['square_data'] = $square_data;
         $data['panaromic_data'] = $panaromic_data;
         $data['large_data'] = $large_data;
         $data['small_data'] = $small_data;
-
+        $data['sizeData'] = $sizeData;
+        $data['shapeData'] = $shapeData;
+        $data['colorFinishingBasic'] = $colorFinishingBasic;
         $data['shapeData2'] = $shapeData2;
         $data['materialData'] = $materialData;
         $data['wrapData'] = $wrapData;
-
-        //Size
+        $data['borderData'] = $borderData;
+        $data['standardFrame'] = $standardFrame;
+        $data['premiumFrame'] = $premiumFrame;
+        $data['floatFrame'] = $floatFrame;
+        $data['hardwareStyleData'] = $hardwareStyleData;
+        $data['displayOption'] = $displayOption;
         
-        
 
-        //Canvas
-       
         $data['frameSizes'] = $frameSizes;
         $data['wraps_data'] = $wraps_data;
         $data['borders'] = $borders;
