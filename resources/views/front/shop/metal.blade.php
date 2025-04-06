@@ -57,7 +57,9 @@
                                         <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                     @endif
                                 </div>
-                            </div>                      
+                            </div>   
+                            
+                            <a href="{{ route('front.frame.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
                         </div>
                     @endforeach
                 </div>
@@ -74,6 +76,4 @@
 @endsection
 
 @section('customJs')
-
-   
 @endsection

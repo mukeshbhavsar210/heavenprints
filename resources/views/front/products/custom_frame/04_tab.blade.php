@@ -1,8 +1,6 @@
 <div class="wrap-container">
     <h5 class="title-wrap">Wrap</h5>
     <div class="radio-group row">
-        
-       
         @if($wrapData)
             @foreach ($wrapData as $key => $value)
                 <div class="col-md-3 col-6">     

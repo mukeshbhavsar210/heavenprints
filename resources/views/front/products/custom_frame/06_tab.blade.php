@@ -2,21 +2,14 @@
     <h5 class="title-wrap">Lamination Options</h5>
     <div class="container">
         <div class="row" >
-            @if($laminations)
-                @foreach($laminations as $value)
-                    <div class="col-md-{{ $value->class }}"> 
-                        <label class="custom-radio-small lamination {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                            <input {{ $loop->first ? 'checked' : '' }} type="radio" name="lamination" value="{{ $value->slug }}" class="frame-option"
-                                {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                            <p>{{ $value->name }} 
-                                @if($value->price > 0)
-                                    (₹ {{ $value->price }})    
-                                @endif 
-                            </p>
-                        </label>                            
-                    </div>
-                @endforeach
-            @endif
+            @foreach ($laminationOption as $key => $value)
+                <div class="col-md-{{ $value['class'] }}">                     
+                    <label class="custom-radio-small lamination" >
+                        <input type="radio" name="lamination_option" value="{{ $key }}" class="frame-option"> 
+                        <p class="radio-label">{{ $value['name'] }} (₹ {{ $value['price'] }})</p>
+                    </label>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
@@ -25,15 +18,14 @@
     <h5 class="title-wrap">Minor Photo Retouching</h5>
     <div class="container">
         <div class="row">
-            @if($modifications)
-                @foreach($modifications as $value)
-                    <div class="col-md-6 customCheckbox"> 
-                        <input id="retouching_{{ $loop->index }}" type="checkbox" name="retouching" value="299" class="frame-option"
-                            {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                        <label for="retouching_{{ $loop->index }}" class="lamination {{ session('frame_class') == $value->slug ? 'active' : '' }}" >{{ $value->name }}</label>
-                    </div>
-                @endforeach
-            @endif
+            @foreach ($retouchingOption as $key => $value)
+                <div class="col-md-6 customCheckbox">                  
+                    <input id="retouching_02_{{ $loop->index }}" type="checkbox" name="retouching_option" value="{{ $key }}" class="frame-option"> 
+                    <label for="retouching_02_{{ $loop->index }}" class="lamination" >
+                        {{ $value['name'] }}
+                    </label>
+                </div>
+            @endforeach
             <p class="mt-2">Extra Minor Retouch Price: ₹ 299.00</p>
         </div>
     </div>        
@@ -46,11 +38,15 @@
 
 <div class="wrap-container mt-3">
     <h5 class="title-wrap">Proof Request</h5>
-    <div class="customCheckbox">
-        <input type="checkbox" value="I want Proof" id="proof" name="proof">
-        <label for="proof">Email with link to the design proof will be emailed within 24 hours and has to be approved online.
-                Customers should approve their proof(s) as quickly as possible in order to avoid delays in production and shipping times.</label>
-        <p style="font-size: 12px; margin-top:10px;">Proof Request Price: ₹49.00<br />
+    @foreach ($proofOption as $key => $value)
+        <div class="customCheckbox">                  
+            <input id="proof_{{ $loop->index }}" type="checkbox" name="proof" value="{{ $key }}" class="frame-option"> 
+            <label for="proof_{{ $loop->index }}" class="lamination" >
+                {{ $value['name'] }}
+            </label>
+        </div>
+    @endforeach
+
+    <p style="font-size: 12px; margin-top:10px;">Proof Request Price: ₹49.00<br />
         Note: All prints manufactured by CanvasChamp are Hand made and might have a +- 1 Inch variation from the size ordered.</p>
-    </div>
 </div>

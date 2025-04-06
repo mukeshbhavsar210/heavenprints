@@ -109,14 +109,21 @@
 
                                     <div class="breakup-details" id="shapeDetails"></div>
                                     <div id="sizeDetails"></div>   
-                                    <div id="materialDetails"></div>  
+                                    <div id="materialDetails_01"></div>
+                                    <div id="materialDetails_02"></div>
+                                    <div id="materialDetails_03"></div>
+                                    <div id="materialDetails_04"></div>
+                                    <div id="materialDetails_05"></div>
                                     <div id="borderDetails"></div>    
                                     <div id="standardFrameDetails"></div>
                                     <div id="premiumFrameDetails"></div>
                                     <div id="hardwareStyleDetails"></div>
                                     <div id="displayOptionDetails"></div>
+                                    <div id="displayLaminationDetails"></div>
+                                    <div id="displayRetouchingDetails"></div>
+                                    <div id="displayProductDetails"></div>
+                                    <div id="displayProofDetails"></div>
                                     <div id="colorFinishingBasicDetails"></div>
-
 
                                     @foreach ($firstTotals as $value)
                                         <div class="breakup-details">
@@ -204,22 +211,30 @@
     document.addEventListener('DOMContentLoaded', function () {
         const shapeData = @json($shapeData);
         const sizeData = @json($sizeData);
-        const materialData = @json($materialData);
+        const canvas_material_data = @json($canvas_material_data);
+        const acrylic_material_data = @json($acrylic_material_data);
+        const metal_material_data = @json($metal_material_data);
+        const wood_material_data = @json($wood_material_data);
+        const other_material_data = @json($other_material_data);
         const hardwareStyleData = @json($hardwareStyleData);
         const borderData = @json($borderData);
         const standardFrame = @json($standardFrame);
         const premiumFrame = @json($premiumFrame);        
         const displayOption = @json($displayOption);
+        const retouchingOption = @json($retouchingOption);
+        const proofOption = @json($proofOption);
+        const laminationOption = @json($laminationOption);
         const colorFinishingBasic = @json($colorFinishingBasic);
+        const productSelection = @json($productSelection);
         
-        const size_1 = @json($recommended_data);
-        const size_2 = @json($square_data);
-        const size_3 = @json($panaromic_data);
-        const size_4 = @json($large_data);
-        const size_5 = @json($small_data);
-        const wrapData = @json($wrapData);
-        const floatFrame = @json($floatFrame);
-        
+        // const size_1 = @json($recommended_data);
+        // const size_2 = @json($square_data);
+        // const size_3 = @json($panaromic_data);
+        // const size_4 = @json($large_data);
+        // const size_5 = @json($small_data);
+        // const wrapData = @json($wrapData);
+        // const floatFrame = @json($floatFrame);
+
         
         let basePrice = parseFloat(document.getElementById('finalPrice').innerText) || 0;
         let finalPrice = basePrice;
@@ -240,15 +255,71 @@
                 }
             }
 
-            // Update selected shape
-            const selectedMaterial = document.querySelector('input[name="material"]:checked');
-            if (selectedMaterial) {
-                let material = materialData[selectedMaterial.value];
-                if (material) {
-                    finalPrice += material.price || 0;
-                    document.getElementById('materialDetails').innerHTML = `
-                        <h6>${material.name}</h6>
-                        <p>₹${material.price.toFixed(2)}</p>
+            // Update selected Canvas material
+            const selectedMaterial_01 = document.querySelector('input[name="canvas_material"]:checked');
+            if (selectedMaterial_01) {
+                let material_01 = canvas_material_data[selectedMaterial_01.value];
+                if (material_01) {
+                    finalPrice += material_01.price || 0;
+                    document.getElementById('materialDetails_01').innerHTML = `
+                        <h6>${material_01.name}</h6>
+                        <p>₹${material_01.price.toFixed(2)}</p>
+                        
+                    `;
+                }
+            }
+
+            // Update selected Canvas material
+            const selectedMaterial_02 = document.querySelector('input[name="acrylic_material"]:checked');
+            if (selectedMaterial_02) {
+                let material_02 = acrylic_material_data[selectedMaterial_02.value];
+                if (material_02) {
+                    finalPrice += material_02.price || 0;
+                    document.getElementById('materialDetails_02').innerHTML = `
+                        <h6>${material_02.name}</h6>
+                        <p>₹${material_02.price.toFixed(2)}</p>
+                        
+                    `;
+                }
+            }
+
+            // Update selected Metal material
+            const selectedMaterial_03 = document.querySelector('input[name="metal_material"]:checked');
+            if (selectedMaterial_03) {
+                let material_03 = metal_material_data[selectedMaterial_03.value];
+                if (material_03) {
+                    finalPrice += material_03.price || 0;
+                    document.getElementById('materialDetails_03').innerHTML = `
+                        <h6>${material_03.name}</h6>
+                        <p>₹${material_03.price.toFixed(2)}</p>
+                        
+                    `;
+                }
+            }
+
+            // Update selected Wood material
+            const selectedMaterial_04 = document.querySelector('input[name="wood_material"]:checked');
+            if (selectedMaterial_04) {
+                let material_04 = wood_material_data[selectedMaterial_04.value];
+                if (material_04) {
+                    finalPrice += material_04.price || 0;
+                    document.getElementById('materialDetails_03').innerHTML = `
+                        <h6>${material_04.name}</h6>
+                        <p>₹${material_04.price.toFixed(2)}</p>
+                        
+                    `;
+                }
+            }
+
+            // Update selected Wood material
+            const selectedMaterial_05 = document.querySelector('input[name="other_material"]:checked');
+            if (selectedMaterial_05) {
+                let material_05 = other_material_data[selectedMaterial_05.value];
+                if (material_05) {
+                    finalPrice += material_05.price || 0;
+                    document.getElementById('materialDetails_03').innerHTML = `
+                        <h6>${material_05.name}</h6>
+                        <p>₹${material_05.price.toFixed(2)}</p>
                         
                     `;
                 }
@@ -338,6 +409,58 @@
                 }
             }
 
+            //Lamination Option
+            const selectedLamination = document.querySelector('input[name="lamination_option"]:checked');
+            if (selectedLamination) {
+                let lamination = displayOption[selectedLamination.value];
+                if (lamination) {
+                    finalPrice += lamination.price || 0;
+                    document.getElementById('displayLaminationDetails').innerHTML = `
+                        <h6>${lamination.name}</h6>
+                        <p>₹${lamination.price.toFixed(2)}</p>
+                    `;
+                }
+            }
+
+            //Retouching Option
+            const selectedRetouching = document.querySelector('input[name="retouching_option"]:checked');
+            if (selectedRetouching) {
+                let retouching = retouchingOption[selectedRetouching.value];
+                if (retouching) {
+                    finalPrice += retouching.price || 0;
+                    document.getElementById('displayRetouchingDetails').innerHTML = `
+                        <h6>${retouching.name}</h6>
+                        <p>₹${retouching.price.toFixed(2)}</p>
+                    `;
+                }
+            }
+
+            //Product selection
+            const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
+            if (selectedProduct) {
+                let product = productSelection[selectedProduct.value];
+                if (product) {
+                    finalPrice += product.price || 0;
+                    document.getElementById('displayProductDetails').innerHTML = `
+                        <h6>${product.name}</h6>
+                        <p>₹${product.price.toFixed(2)}</p>
+                    `;
+                }
+            }
+
+            //Proof Option
+            const selectedProof = document.querySelector('input[name="proof"]:checked');
+            if (selectedProof) {
+                let proof = proofOption[selectedProof.value];
+                if (proof) {
+                    finalPrice += proof.price || 0;
+                    document.getElementById('displayProofDetails').innerHTML = `
+                        <h6>${proof.name}</h6>
+                        <p>₹${proof.price.toFixed(2)}</p>
+                    `;
+                }
+            }
+
             //Color finishing
             const selectedColorFinishing = document.querySelector('input[name="color_finishing_basic"]:checked');
             if (selectedColorFinishing) {
@@ -362,10 +485,16 @@
             input.addEventListener('change', updatePrice);
         });
 
+        document.querySelectorAll('input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', updatePrice);
+        });
+
         // Set initial values on page load
         document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
 });
+
+
 
 
 //Add to cart for METAL FRAME

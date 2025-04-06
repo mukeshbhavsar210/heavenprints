@@ -36,7 +36,7 @@ Route::controller(FrontController::class)->group(function() {
 
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
-    Route::get('/metal/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
+    Route::get('/customize/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
 
@@ -49,12 +49,8 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');    
 
     //Store first level calculation
-    Route::post('frames/product/total', 'store')->name('frame.total');
-    Route::get('frames/summary/{slug}', 'summary')->name('frame.summary');
-
-    //Route::get('/custom_frame/{slug}', 'custom_frame')->name('metal.details');
-    //Route::get('/custom_frame', 'custom_frame')->name('custom.frame');
-   
+    Route::post('customise/product/total', 'store')->name('frame.total');
+    Route::get('customise/{slug}', 'summary')->name('frame.summary');
 
     //Neon
     Route::post('/save-svg', 'saveSVG')->name('save.svg');
