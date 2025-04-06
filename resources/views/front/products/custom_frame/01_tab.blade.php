@@ -25,21 +25,6 @@
     </div>
 </nav>
 
-    <div class="radio-group row">
-        @if($productSelection)
-            @foreach ($productSelection as $key => $value)
-                <div class="col-md-3 col-6">     
-                    <label class="custom-radio-wrap wrap_01" >
-                        <input type="radio" name="product_selection" value="{{ $key }}" class="frame-option" > 
-                        <div class="wrapMain"><img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
-                        <p class="radio-label">{{ $value['name'] }}</p>
-                    </label>
-                </div>
-            @endforeach
-        @endif
-    </div>
-
-
     {{-- <h5 class="mt-1">Shape</h5>
     <div class="size-picker">
         @foreach($shapes as $index => $value)

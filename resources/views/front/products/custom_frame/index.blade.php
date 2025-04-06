@@ -444,6 +444,7 @@
                     document.getElementById('displayProductDetails').innerHTML = `
                         <h6>${product.name}</h6>
                         <p>₹${product.price.toFixed(2)}</p>
+                        <img src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}" alt="${product.name}" width="100">
                     `;
                 }
             }

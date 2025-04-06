@@ -771,12 +771,18 @@ class ShopController extends Controller {
         ];
 
         $productSelection = [
-            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
-            '2' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'tshirt.jpg'],
-            '3' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'keychain.jpg'],
-            '4' => ['name' => 'Sawtooth Hanger', 'price' => 40.00, 'image' => 'sawtooth-hanger.jpg'],
-            '5' => ['name' => 'Easel Back', 'price' => 50.00, 'image' => 'easel-back.jpg'],
-            '6' => ['name' => 'Nail Free Hook', 'price' => 60.00, 'image' => 'nail-free-hook.jpg'],
+            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'mug.jpg'],
+            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'magic_mug.jpg'],
+            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'patch_mug.jpg'],
+            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'keychain.jpg'],
+            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'mousepad.jpg'],
+            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'deskpad.jpg'],
+            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'moon_lamp.jpg'],
+            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'calander.jpg'],
+            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'white_pillow.jpg'],
+            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'square_pillow.jpg'],
+            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'heart_pillow.jpg'],
+            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'tshirt.jpg'],            
         ];
 
         $data['canvas_material_data'] = $canvas_material_data;

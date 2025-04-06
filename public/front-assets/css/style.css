@@ -233,7 +233,7 @@ aside a {
 .priceHover::after { content: ""; width: 25px; height: 25px; position: absolute; right:0px; top:3px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -193px -90px;  }
 .priceHover:hover>.breakups { display: block; }
 
-.breakups { display: none; z-index: 999; height: 150px; overflow-y: auto; width: 210px; right:0; top:30px; box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2); border-radius: 4px; position: absolute; padding:10px 15px; background-color: var(--white); color: var(--black); }
+.breakups { z-index: 999; display: none; height: 200px; overflow-y: auto; width: 210px; right:0; top:30px; box-shadow: 0 5px 6px rgba(0, 0, 0, 0.2); border-radius: 4px; position: absolute; padding:10px 15px; background-color: var(--white); color: var(--black); }
 .breakups .breakup-details { display: flex; border-bottom: 1px #666 dotted; padding: 10px 0;}
 .breakups .breakup-details .icon-tick { margin-top: 7px; height: 26px; width: 26px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -192px -43px;}
 .breakups .breakup-details .icon-edit { position: absolute; right:15px; margin-top:5px; height: 20px; width: 20px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -221px -43px;}
@@ -320,11 +320,13 @@ aside a {
 
 .productThumb img { border-radius: 6px;}
 
-.image-upload-wrapper { padding:20px; text-align: center; }
+.image-upload-wrapper { padding:15px;}
 .image-upload-wrapper .text { margin-top: 20px; margin-bottom: 40px;}
 .image-upload-wrapper .preview { border:1px var(--dark-grey) solid; border-radius: 5px; width: 300px; margin:0 auto; padding:7px; position: relative; }
 .image-upload-wrapper .preview img { border-radius: 5px; position: relative; width: 100%; }
 .image-upload-wrapper .preview .btn { position: absolute; right:7px; top:7px;}
+
+.image-upload-wrapper .accordion-button { padding: 10px 15px;}
 
 .nav-tabs .nav-link { border:none; font-size: 12px; border-right: 1px #ccc solid;;}
 .product-tab .nav-link  { padding: 9px 26px 12px 25px; background-color: var(--white);}
@@ -526,7 +528,7 @@ aside a {
 
 .drop-zone { width: 100%; height: 125px; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer; color: var(--primary); font-size: 15px; }
 
-.demo-image-default { text-align: center; width: 100%;; border: 2px dashed var(--primary); border-radius: 8px; padding:20px;    }
+.demo-image-default { text-align: center; border: 2px dashed var(--primary); border-radius: 8px; padding:20px; margin: 30px;    }
 .demo-image-default .upload-control { margin: 10% auto; width: 100%; text-align: center;}
 .demo-image-default  .upload_logo span { background-position: -3px -122px; width: 45px; height: 45px; display: block; margin: 20px auto 5px auto;}
 .framesRadio .row { width: 100%; margin-left: -10px; margin-right: -10px; }
@@ -612,6 +614,10 @@ aside a {
 #faq .accordion-button { padding:20px 0 !important; background: none; }
 #faq .accordion-button:not(.collapsed) { color: var(--primary);}
 #faq .accordion-body { padding: 0;}
+
+#custom_upload .accordion-button { padding:10px 0 !important; background: none; }
+#custom_upload .accordion-button:not(.collapsed) { color: var(--primary);}
+#custom_upload .accordion-body { padding: 0;}
 
 .stickySVG { position: -webkit-sticky; position: sticky; top: 143px; z-index: +1; }
 .whatsappBtn { width: 45px; height: 45px; border-radius: 50%; background: #49c759; cursor: pointer; -webkit-box-shadow: 0 4px 20px rgb(152 152 152 / 20%); box-shadow: 0 4px 20px rgb(152 152 152 / 20%); display: flex; align-items: center; justify-content: center; position: fixed; right:20px; bottom:75px; }
