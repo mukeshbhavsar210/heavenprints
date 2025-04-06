@@ -8,12 +8,12 @@
     </div>
 </nav>
 
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content mt-2" id="nav-tabContent">
     <div class="tab-pane fade active show" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
         <div class="paddWrapper">
             <div class="radio-group row">
                 @foreach ($sizeData as $key => $value)
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-3 col-4">
                         <label class="custom-radio size" >
                             <input type="radio" name="size" value="{{ $key }}" data-price="{{ $value['price'] }}" class="frame-option" >
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -31,7 +31,7 @@
             <div class="radio-group row">
                 @if($square_data)
                     @foreach ($square_data as $key => $value)
-                        <div class="col-md-4 col-6">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
                                 <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -50,7 +50,7 @@
             <div class="radio-group row">
                 @if($panaromic_data)
                 @foreach ($panaromic_data as $key => $value)
-                    <div class="col-md-4 col-6">     
+                    <div class="col-md-3 col-4">     
                         <label class="custom-radio size" >
                             <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -83,7 +83,7 @@
             <div class="radio-group row">
                 @if($large_data)
                     @foreach($large_data as $size)
-                        <div class="col-md-4 col-6">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
@@ -101,7 +101,7 @@
             <div class="radio-group row">
                 @if($small_data)
                     @foreach($small_data as $size)
-                        <div class="col-md-4 col-6">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>

@@ -25,38 +25,15 @@
     </div>
 </nav>
 
-    <div class="radio-group row">
-        @if($productSelection)
-            @foreach ($productSelection as $key => $value)
-                <div class="col-md-3 col-6">     
-                    <label class="custom-radio-wrap wrap_01" >
-                        <input type="radio" name="product_selection" value="{{ $key }}" class="frame-option" > 
-                        <div class="wrapMain"><img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
-                        <p class="radio-label">{{ $value['name'] }}</p>
-                    </label>
-                </div>
-            @endforeach
-        @endif
-    </div>
+    
 
-
-    {{-- <h5 class="mt-1">Shape</h5>
-    <div class="size-picker">
-        @foreach($shapes as $index => $value)
-            <div class="size-picker__item" >
-                <input type="radio" name="shape" value="{{ $value }}"  class="size-picker__input" id="shape_{{ $loop->index + 1 }}">
-                <label class="size-picker__color" for="shape_{{ $loop->index + 1 }}" >{{ $value }}</label>
-            </div>
-        @endforeach
-    </div>  --}}
-
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content mt-2" id="nav-tabContent">
     @foreach ($firstTotals as $value)
         <div class="tab-pane fade {{ $value->name == 'Canvas' ? 'active show' : '' }}" id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
             <div class="paddWrapper">
                 <div class="radio-group row">
                         @foreach ($canvas_material_data as $key => $size)
-                            <div class="col-md-3 col-6">                                 
+                            <div class="col-md-3 col-4">                                 
                                 <label class="custom-radio product" >
                                     <input type="radio" name="canvas_material" value="{{ $key }}" class="frame-option" data-price="{{ $size['price'] }}" >
                                     <img class="icon" src="{{ asset('uploads/icons/products/canvas/'.$size['image']) }}" alt="" />
@@ -74,7 +51,7 @@
             <div class="paddWrapper">
                 <div class="radio-group row">
                     @foreach ($acrylic_material_data as $key => $size)
-                        <div class="col-md-3 col-6">                                 
+                        <div class="col-md-3 col-4">                                 
                             <label class="custom-radio product" >
                                 <input type="radio" name="acrylic_material" value="{{ $key }}" class="frame-option" data-price="{{ $size['price'] }}" >
                                 <img class="icon" src="{{ asset('uploads/icons/products/acrylic/'.$size['image']) }}" alt="" />
@@ -92,7 +69,7 @@
             <div class="paddWrapper">
                 <div class="radio-group row">
                     @foreach ($metal_material_data as $key => $size)
-                        <div class="col-md-3 col-6">                                 
+                        <div class="col-md-3 col-4">                                 
                             <label class="custom-radio product" >
                                 <input type="radio" name="metal_material" value="{{ $key }}" class="frame-option" data-price="{{ $size['price'] }}" >
                                 <img class="icon" src="{{ asset('uploads/icons/products/metal/'.$size['image']) }}" alt="" />
@@ -110,7 +87,7 @@
             <div class="paddWrapper">
                 <div class="radio-group row">
                     @foreach ($wood_material_data as $key => $size)
-                        <div class="col-md-3 col-6">                                 
+                        <div class="col-md-3 col-4">                                 
                             <label class="custom-radio product" >
                                 <input type="radio" name="wood_material" value="{{ $key }}" class="frame-option" data-price="{{ $size['price'] }}" >
                                 <img class="icon" src="{{ asset('uploads/icons/products/wood/'.$size['image']) }}" alt="" />
@@ -128,7 +105,7 @@
             <div class="paddWrapper">
                 <div class="radio-group row">
                     @foreach ($other_material_data as $key => $size)
-                        <div class="col-md-3 col-6">                                 
+                        <div class="col-md-3 col-4">                                 
                             <label class="custom-radio product" >
                                 <input type="radio" name="other_material" value="{{ $key }}" class="frame-option" data-price="{{ $size['price'] }}" >                                
                                 <img class="icon" src="{{ asset('uploads/icons/products/other/'.$size['image']) }}" alt="" />
