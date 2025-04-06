@@ -1,5 +1,9 @@
 @extends('front.layouts.app')
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 @section('content')
     {{-- If Print Main Category selected it will only show --}}
     @if($product->product_type == 'Frame')
@@ -14,6 +18,7 @@
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <div class="slider-for heightFix">
+                            <div class="image-container">
                             @if ($product->product_images)
                                 @foreach ($product->product_images as $key => $productImage)
                                     @for ($i = 1; $i <= 5; $i++) 
@@ -29,6 +34,8 @@
                                     @endfor
                                 @endforeach
                             @endif
+                            <div class="zoom-box"></div>
+                            </div>
                         </div>
                         <div class="slider-nav">
                             @if ($product->product_images)
@@ -47,6 +54,8 @@
                                 @endforeach
                             @endif
                         </div>
+
+                        <div class="expanded-view"></div>
                     </div>
 
                     <div class="col-md-7 col-12">
@@ -107,12 +116,12 @@
                                         <h2>Related Products</h2>
                                     </div>
                                     
-                                    <div class="row">
+                                    <div class="relatedProducts">
                                         @foreach ($relatedProducts as $relProduct)                                
                                         @php
                                             $productImage = $relProduct->product_images->first();
                                         @endphp
-                                            <div class="product-card col-md-4 col-6">
+                                            <div>
                                                 <div class="product-image position-relative">
                                                     <a href="" class="product-img">
                                                         @if (!empty($productImage->image))
@@ -121,18 +130,8 @@
                                                             <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                                         @endif
                                                     </a>
+                                                <div class="product-action-home">
                                                     <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-                                                </div>
-
-                                                <div class="card-body text-center">
-                                                    <a class="h6 link" href="">{{ $relProduct->name }}</a>
-                                                    <div class="price mt-2 mb-3">
-                                                        <span class="h5"><strong>₹{{ $relProduct->price }}</strong></span>
-                                                        @if ($relProduct->compare_price > 0)
-                                                            <span class="h6 text-underline"><del>₹{{ $relProduct->compare_price }}</del></span>
-                                                        @endif
-                                                    </div>
-                                                                                        
                                                     @if ($relProduct->track_qty == 'Yes')
                                                         @if ($relProduct->qty > 0)
                                                             <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $relProduct->id }})">
@@ -148,6 +147,16 @@
                                                             Add To Cart
                                                         </a>
                                                     @endif
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <a class="h5" href="">{{ Str::limit($relProduct->name, 16, '...') }}</a>
+                                                <div class="price mt-1">
+                                                        <span class="h5"><strong>₹{{ $relProduct->price }}</strong></span>
+                                                        @if ($relProduct->compare_price > 0)
+                                                            <span class="h6 text-underline"><del>₹{{ $relProduct->compare_price }}</del></span>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -168,4 +177,49 @@
     window.onload = function() {
         sessionStorage.removeItem('shape');
     };
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const imgContainer = document.querySelector(".image-container");
+    const zoomBox = document.querySelector(".zoom-box");
+    const expanded = document.querySelector(".expanded-view");
+    const img = imgContainer.querySelector("img");
+
+    // Hide zoom box and expanded view at first
+    zoomBox.style.display = "none";
+    expanded.style.display = "none";
+
+    // Show zoom box on hover
+    imgContainer.addEventListener("mouseenter", () => {
+        zoomBox.style.display = "block";
+        expanded.style.display = "block"; // Show expanded view
+    });
+
+    imgContainer.addEventListener("mousemove", (e) => {
+        // Get mouse position
+        const x = e.offsetX;
+        const y = e.offsetY + window.scrollY; // Add scroll
+
+        // Move zoom box
+        zoomBox.style.transform = `translate(${x}px, ${y}px)`;
+
+        // Update expanded view
+        updateZoomView(x, y);
+    });
+
+    imgContainer.addEventListener("mouseleave", () => {
+        zoomBox.style.display = "none"; 
+        expanded.style.display = "none"; // Hide expanded view on mouse out
+    });
+
+    function updateZoomView(zoomX, zoomY) {
+        const zoomScale = 2; // Adjust zoom level as needed
+        const imgW = img.width * zoomScale;
+        const imgH = img.height * zoomScale;
+
+        expanded.style.backgroundSize = `${imgW}px ${imgH}px`;
+        expanded.style.backgroundPosition = `-${zoomX * zoomScale}px -${zoomY * zoomScale}px`;
+        expanded.style.backgroundImage = `url(${img.src})`;
+    }
+});
+
 </script>

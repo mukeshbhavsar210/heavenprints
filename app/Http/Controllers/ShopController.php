@@ -454,32 +454,71 @@ class ShopController extends Controller {
     }
 
 
+
     public function store(Request $request) {
         $request->validate([
-            //'name' => 'required|string',
-            // 'size' => 'required|string',
-            // 'shape' => 'required|string',
-            // 'total' => 'required|numeric',
-            // 'product_id' => 'required|exists:products,id'
+            'product_id' => 'required|exists:products,id',
+            'name' => 'nullable|string',
+            'size' => 'nullable|string',
+            'shape' => 'nullable|string',
+            'total' => 'nullable|numeric',
+            'custom_size_1' => 'nullable|string',
+            'custom_size_2' => 'nullable|string',
         ]);
     
-        $frame = CustomTotal::firstOrNew(['product_id' => $request->product_id]);
-        $frame->name = $request->name;        
-        $frame->size = $request->size;
-        $frame->shape = $request->shape;
-        $frame->total = $request->total;
-        $frame->custom_size_1 = $request->custom_size_1;
-        $frame->custom_size_2 = $request->custom_size_2;
-        $frame->save();
-
-        $product = $frame->product; 
-
-        if (!$product) {
+        // Remove the old entry if exists
+        CustomTotal::where('product_id', $request->product_id)->delete();
+    
+        // Create new entry
+        $frame = CustomTotal::create([
+            'product_id' => $request->product_id,
+            'name' => $request->name,
+            'size' => $request->size,
+            'shape' => $request->shape,
+            'total' => $request->total,
+            'custom_size_1' => $request->custom_size_1,
+            'custom_size_2' => $request->custom_size_2
+        ]);
+    
+        // Ensure product exists
+        if (!$frame->product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
-
-        return redirect()->route('frame.summary', ['slug' => $product->slug]);
+    
+        return redirect()->route('frame.summary', ['slug' => $frame->product->slug]);
     }
+    
+    
+
+
+    // public function store(Request $request) {
+    //     $request->validate([
+    //         //'name' => 'required|string',
+    //         // 'size' => 'required|string',
+    //         // 'shape' => 'required|string',
+    //         // 'total' => 'required|numeric',
+    //         // 'product_id' => 'required|exists:products,id'
+    //     ]);
+
+    //     //$frame = CustomTotal::first() ?? new CustomTotal();
+    //     //$frame = CustomTotal::updateOrCreate();
+    //     $frame = CustomTotal::firstOrNew(['product_id' => $request->product_id]);
+    //     $frame->name = $request->name;        
+    //     $frame->size = $request->size;
+    //     $frame->shape = $request->shape;
+    //     $frame->total = $request->total;
+    //     $frame->custom_size_1 = $request->custom_size_1;
+    //     $frame->custom_size_2 = $request->custom_size_2;
+    //     $frame->save();
+
+    //     $product = $frame->product; 
+
+    //     if (!$product) {
+    //         return redirect()->back()->with('error', 'Product not found.');
+    //     }
+
+    //     return redirect()->route('frame.summary', ['slug' => $product->slug]);
+    // }
 
 
 

@@ -2,6 +2,10 @@
 
 @section('content')
 
+@php
+    use Illuminate\Support\Str;
+@endphp
+
     @if (getBanners()->isNotEmpty())
         <div id="homeBanner">
             @foreach (getBanners() as $key => $value)
@@ -48,32 +52,29 @@
         </div>    
     </section>
 
-    @if ($featuredProducts->isNotEmpty())
-        <section class="section-4 mt-2">           
-            <div class="section-title"><h2>Featured Products</h2></div>
-            <div class="row pb-3">
+
+    @if ($featuredProducts->isNotEmpty())  
+        <div class="section-title mt-5"><h2>Featured Products</h2></div> 
+            <div class="featuredProducts">
                 @foreach ($featuredProducts as $product)
                     @php
                         $productImage = $product->product_images->first();
-                    @endphp
-
-                    <div class="col-md-3 col-6">                           
-                        <div class="product-image position-relative">
+                    @endphp                
+                    <div>
+                        <div class="product-image position-relative">     
                             <a href="{{ route('front.product',$product->slug) }}" class="product-img">
                                 @if (!empty($productImage->image1))
                                     <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                 @else
                                     <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                 @endif
-                            </a>
-
+                            </a>                        
                             <div class="product-action-home">
                                 <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                                            <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>
                                     @else
                                         <a class="btn btn-primary" href="javascript:void(0);">
@@ -82,115 +83,75 @@
                                     @endif
                                 @else
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                    <i class="fa fa-shopping-cart"></i> Add to Cart
+                                    <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
-                                @endif
+                                @endif                        
                             </div>
                         </div>
-                        <div class="mt-2">
-                            <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
-                            <div class="price mt-1">
-                                <span><strong>₹ {{ $product->price }}</strong></span>
+
+                        <div class="price mt-2">
+                            <a class="product-title" href="{{ route('front.product',$product->slug) }}">{{ Str::limit($product->name, 16, '...') }}</a>
+                            <div class="product-price">
+                                <span>₹{{ $formattedPrice = number_format($product->price, 2, '.', ''); }}</span>
                                 @if ($product->compare_price > 0)
-                                    <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
+                                <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                 @endif
                             </div>
-                        </div>                           
+                        </div>                      
                     </div>
                 @endforeach
             </div>
-        </section>
-    @endif
+        @endif  
 
-    @if ($latestProducts->isNotEmpty())       
-        <div class="section-title mt-5"><h2>Latest Products</h2></div>
-            <div class="row">
+
+    @if ($latestProducts->isNotEmpty())  
+        <div class="section-title mt-5"><h2>Latest Products</h2></div> 
+            <div class="latestProducts">
                 @foreach ($latestProducts as $product)
                     @php
                         $productImage = $product->product_images->first();
-                    @endphp
-                        <div class="col-md-3 col-6">
-                            <div class="product-image position-relative">
-                                <a href="" class="product-img">
-                                    @if (!empty($productImage->image1))
-                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
+                    @endphp                
+                    <div>
+                        <div class="product-image position-relative">     
+                            <a href="{{ route('front.product',$product->slug) }}" class="product-img">
+                                @if (!empty($productImage->image1))
+                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
+                                @else
+                                    <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                @endif
+                            </a>                        
+                            <div class="product-action-home">
+                                <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+                                @if ($product->track_qty == 'Yes')
+                                    @if ($product->qty > 0)
+                                        <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
+                                            <i class="fa fa-shopping-cart"></i> Add To Cart
+                                        </a>
                                     @else
-                                        <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                        <a class="btn btn-primary" href="javascript:void(0);">
+                                            <i class="fa fa-shopping-cart"></i> Out of Stock
+                                        </a>
                                     @endif
+                                @else
+                                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
+                                    <i class="fa fa-shopping-cart"></i> Add To Cart
                                 </a>
-                                <div class="product-action-home">
-                                    <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-                                    @if ($product->track_qty == 'Yes')
-                                        @if ($product->qty > 0)
-                                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add to Cart
-                                            </a>
-                                        @else
-                                            <a class="btn btn-dark" href="javascript:void(0);">
-                                                <i class="fa fa-shopping-cart"></i> Out of Stock
-                                            </a>
-                                        @endif
-                                    @else
-                                    <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                        <i class="fa fa-shopping-cart"></i> Add to Cart
-                                    </a>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
-                                <div class="price mt-1">
-                                    <span><strong>₹ {{ $product->price }}</strong>
-                                        @if ($product->compare_price > 0)
-                                            <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
-                                        @endif
-                                    </span>
-                                </div>
+                                @endif                        
                             </div>
                         </div>
 
-                    {{-- <div class="autoplay">
-                        <div>
-                            <div class="product-image position-relative">
-                                <a href="" class="product-img">
-                                    @if (!empty($productImage->image1))
-                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
-                                    @else
-                                        <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                    @endif
-                                </a>
-                                <div class="product-action">
-                                    <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-                                    @if ($product->track_qty == 'Yes')
-                                        @if ($product->qty > 0)
-                                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                                            </a>
-                                        @else
-                                            <a class="btn btn-dark" href="javascript:void(0);">
-                                                <i class="fa fa-shopping-cart"></i> Out of Stock
-                                            </a>
-                                        @endif
-                                    @else
-                                    <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                        <i class="fa fa-shopping-cart"></i> Add To Cart
-                                    </a>
-                                    @endif
-                                </div>
+                        <div class="price mt-2">
+                            <a class="product-title" href="{{ route('front.product',$product->slug) }}">{{ Str::limit($product->name, 16, '...') }}</a>
+                            <div class="product-price">
+                                <span>₹{{ $formattedPrice = number_format($product->price, 2, '.', ''); }}</span>
+                                @if ($product->compare_price > 0)
+                                    <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
+                                @endif
                             </div>
-                            <div class="mt-3">
-                                <a class="h5" href="{{ route('front.product',$product->slug) }}">{{ $product->name }}</a>
-                                <div class="price mt-2">
-                                    <p class="h5"><strong>₹ {{ $product->price }}</strong>
-                                        @if ($product->compare_price > 0)
-                                            <span class="h6 text-underline"><del>₹ {{ $product->compare_price }}</del></span>
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                        </div>                      
+                    </div>
                 @endforeach
-        @endif
+            </div>
+        @endif   
     </div>    
 @endsection

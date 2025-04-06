@@ -123,17 +123,17 @@ class ProductController extends Controller {
                     $image = $manager->read($file);
                     
                     // Save original (optional)
-                    $image->toJpeg(70)->save($smallPath);
+                    //$image->toJpeg(70)->save($smallPath);
             
                     // Save resized versions
-                    $image->cover(250, 250)->save($smallPath);  // 200x200 Thumbnail
-                    $image->cover(800, 600)->save($largePath); // 1000x300 Wide Banner
+                    $image->cover(1000, 1000)->save($smallPath);
+                    $image->cover(2000, 2000)->save($largePath);
             
                     // Assign Image to Corresponding Column in DB
                     $productImage->{'image' . $i} = $fileName;
                 }
             }
-            $productImage->save(); // ✅ Save ProductImage after all processing
+            $productImage->save(); 
 
             session()->flash('success','Product added successfully');
 
@@ -277,9 +277,9 @@ class ProductController extends Controller {
                     $largePath = public_path('/uploads/products/large/' . $fileName);
 
                     $image = $manager->read($file);
-                    $image->toJpeg(70)->save($smallPath);
-                    $image->cover(250, 250)->save($smallPath);
-                    $image->cover(800, 600)->save($largePath);
+                    //$image->toJpeg(70)->save($smallPath);
+                    $image->cover(1000, 1000)->save($smallPath);
+                    $image->cover(2000, 2000)->save($largePath);
 
                     $productImage->$imageField = $fileName;
                 }
