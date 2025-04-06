@@ -454,7 +454,6 @@ class ShopController extends Controller {
     }
 
 
-
     public function store(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -489,44 +488,8 @@ class ShopController extends Controller {
     }
     
     
-
-
-    // public function store(Request $request) {
-    //     $request->validate([
-    //         //'name' => 'required|string',
-    //         // 'size' => 'required|string',
-    //         // 'shape' => 'required|string',
-    //         // 'total' => 'required|numeric',
-    //         // 'product_id' => 'required|exists:products,id'
-    //     ]);
-
-    //     //$frame = CustomTotal::first() ?? new CustomTotal();
-    //     //$frame = CustomTotal::updateOrCreate();
-    //     $frame = CustomTotal::firstOrNew(['product_id' => $request->product_id]);
-    //     $frame->name = $request->name;        
-    //     $frame->size = $request->size;
-    //     $frame->shape = $request->shape;
-    //     $frame->total = $request->total;
-    //     $frame->custom_size_1 = $request->custom_size_1;
-    //     $frame->custom_size_2 = $request->custom_size_2;
-    //     $frame->save();
-
-    //     $product = $frame->product; 
-
-    //     if (!$product) {
-    //         return redirect()->back()->with('error', 'Product not found.');
-    //     }
-
-    //     return redirect()->route('frame.summary', ['slug' => $product->slug]);
-    // }
-
-
-
-
-
     public function summary($slug){
-        $product = Product::where('slug', $slug)->firstOrFail();
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = Product::where('slug', $slug)->firstOrFail();        
         $firstTotals = CustomTotal::get();        
 
         $products = Product::latest('id')->with('product_images');
@@ -771,18 +734,18 @@ class ShopController extends Controller {
         ];
 
         $productSelection = [
-            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'mug.jpg'],
-            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'magic_mug.jpg'],
-            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'patch_mug.jpg'],
-            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'keychain.jpg'],
-            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'mousepad.jpg'],
-            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'deskpad.jpg'],
-            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'moon_lamp.jpg'],
-            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'calander.jpg'],
-            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'white_pillow.jpg'],
-            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'square_pillow.jpg'],
-            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'heart_pillow.jpg'],
-            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'tshirt.jpg'],            
+            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
+            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
+            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
+            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
+            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
+            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
+            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
+            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
+            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
         ];
 
         $data['canvas_material_data'] = $canvas_material_data;

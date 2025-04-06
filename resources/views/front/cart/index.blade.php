@@ -49,25 +49,11 @@
                         <div class="row">
                             <div class="col-md-2 col-4 productThumb">                                
                                 @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
-                                <div class="neon-thumb">
-                                    <svg width="85px" height="85px" xmlns="http://www.w3.org/2000/svg">
-                                        <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
-                                    </svg>
-                                </div>
-
-                                @elseif ($item->options->category == 'Frame')
-                                    @if($item->options->image)
-                                        <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
-                                    @else
-                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                    @endif
-
-                                @elseif ($item->options->category == 'Metal_Frame')
-                                    @if($item->options->image)
-                                        <img src="{{ $item->options->image }}" alt="Customised Frame" style="width: 75px; height:75px; border-radius:3px;">    
-                                    @else
-                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                    @endif
+                                    <div class="neon-thumb">
+                                        <svg width="85px" height="85px" xmlns="http://www.w3.org/2000/svg">
+                                            <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
+                                        </svg>
+                                    </div>
                                 @else                                            
                                     @if (!empty($item->options->productImage->image1))
                                         <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
@@ -137,9 +123,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="more-content col-md-12 mt-3 more-content-{{ $item->id }}" style="display: none;">
+                            <div class="more-content col-md-12 mt-2 more-content-{{ $item->id }}" style="display: none;">
                                 <div class="row">
                                     <div class="col-md-2 col-0"></div>
+                                    <div class="col-md-5 col-12 mt-2">
+                                        @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
+                                            <div class="neon-thumb">
+                                                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                                    <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
+                                                </svg>
+                                            </div>
+                                        @elseif ($item->options->category == 'Frame')
+                                            @if($item->options->image)
+                                                <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
+                                            @else
+                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                            @endif
+                                        @else                                            
+                                            @if (!empty($item->options->productImage->image1))
+                                                <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
+                                            @else
+                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                            @endif
+                                        @endif  
+                                    </div>
                                     <div class="col-md-5 col-12">
                                         @if($item->options->custom_neon )
                                             <div class="row">
@@ -244,33 +251,6 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-md-5 col-12 mt-2">
-                                        @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
-                                            <div class="neon-thumb">
-                                                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                                                    <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
-                                                </svg>
-                                            </div>
-                                        @elseif ($item->options->category == 'Frame')
-                                            @if($item->options->image)
-                                                <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
-                                            @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                            @endif
-                                        @elseif ($item->options->category == 'Metal_Frame')
-                                            @if($item->options->image)
-                                                <img src="{{ $item->options->image }}" alt="Customised Frame" style="width: 75px; height:75px; border-radius:3px;">    
-                                            @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                            @endif                                    
-                                        @else                                            
-                                            @if (!empty($item->options->productImage->image1))
-                                                <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
-                                            @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                            @endif
-                                        @endif  
-                                    </div>                                    
                                 </div>
                             </div>                           
                         </div>

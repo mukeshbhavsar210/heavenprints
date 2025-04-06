@@ -3,7 +3,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Select product
+                    Select Product
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#myAccordion">
@@ -11,11 +11,14 @@
                     <div class="radio-group row">
                         @if($productSelection)
                             @foreach ($productSelection as $key => $value)
-                                <div class="col-md-3 col-6">     
+                                <div class="col-md-3 col-4">     
                                     <label class="custom-radio-wrap wrap_01" >
                                         <input type="radio" name="product_selection" value="{{ $key }}" class="frame-option" > 
-                                        <div class="wrapMain"><img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
-                                        <p class="radio-label">{{ $value['name'] }}</p>
+                                        <div class="productImg">
+                                            <img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                            
+                                        </div>        
+                                        <p>{{ $value['name'] }}</p>                                
                                     </label>
                                 </div>
                             @endforeach
@@ -33,9 +36,6 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
                 <div class="accordion-body">
-                    
-                    <p class="text-center mt-3">File types accepted: PNG and JPG (Up to 15MB)</p>
-
                     <div style="{{ !$image ? 'display:block;' : 'display:none;' }}" >
                         <div class="demo-image-default">
                             <div class="upload-control" class="dropzone " id="imageDropzone">
@@ -53,6 +53,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <p class="text-center mt-2 mb-3">File types accepted: PNG and JPG (Up to 15MB)</p>
 
                     <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
                         @if ($image)
