@@ -3,10 +3,22 @@
 @section('content')
     <section class="section-6 mt-3">
         <div class="container">
-            <ol class="breadcrumb primary-color">
-                <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                <li class="breadcrumb-item active">Shop</li>
-            </ol>
+            <div class="row">
+                <div class="col-md-8 col-10">        
+                    <ol class="breadcrumb primary-color">
+                        <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Shop</li>
+                    </ol>
+                </div>
+                <div class="col-md-4 col-2">
+                    <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#userAccountMobileMenu" aria-controls="userAccountMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.5 11.75C6.08579 11.75 5.75 12.0858 5.75 12.5C5.75 12.9142 6.08579 13.25 6.5 13.25V11.75ZM18.5 13.25C18.9142 13.25 19.25 12.9142 19.25 12.5C19.25 12.0858 18.9142 11.75 18.5 11.75V13.25ZM6.5 15.75C6.08579 15.75 5.75 16.0858 5.75 16.5C5.75 16.9142 6.08579 17.25 6.5 17.25V15.75ZM18.5 17.25C18.9142 17.25 19.25 16.9142 19.25 16.5C19.25 16.0858 18.9142 15.75 18.5 15.75V17.25ZM6.5 7.75C6.08579 7.75 5.75 8.08579 5.75 8.5C5.75 8.91421 6.08579 9.25 6.5 9.25V7.75ZM18.5 9.25C18.9142 9.25 19.25 8.91421 19.25 8.5C19.25 8.08579 18.9142 7.75 18.5 7.75V9.25ZM6.5 13.25H18.5V11.75H6.5V13.25ZM6.5 17.25H18.5V15.75H6.5V17.25ZM6.5 9.25H18.5V7.75H6.5V9.25Z" fill="#000000"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>            
 
             @php
                 use Illuminate\Support\Str;
@@ -14,20 +26,11 @@
 
             <div class="row">
                 <div class="col-md-3 sidebar">
-                    <div class="sub-title mt-3"><h2>Categories</h3></div>                    
-                    <div class="accordion accordion-flush" id="accordionExample">   
-                        {{-- @if ($categories->isNotEmpty())
-                            @foreach ($categories->filter(function ($category) {
-                                return in_array($category->slug, ['Shop',]);
-                            }) as $key => $category)
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne-{{ $key }}" aria-expanded="false" aria-controls="collapseOne-{{ $key }}">
-                                        {{ $category->name }}
-                                    </button>
-                                </h2>
-                            @endforeach
-                        @endif --}}
+                    <nav class="navbar navbar-expand-xl" id="navbar">
+                        <div class="collapse navbar-collapse" id="userAccountMobileMenu">
+                    <div class="sub-title mt-3"><h2>Categories</h3></div>                             
 
+                    <div class="accordion accordion-flush" id="accordionExample">   
                         @if ($categories->isNotEmpty())
                             @foreach ($categories as $key => $category)
                                 <div class="accordion-item">
@@ -45,9 +48,11 @@
                                         <div id="collapseOne-{{ $key }}" class="accordion-collapse collapse {{ ($categorySelected == $category->id) ? 'show' : ' '}}" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
                                             <div class="accordion-body">
                                                 <div class="navbar-nav">
-                                                    @foreach ($category->sub_category as $subCategory)
-                                                        <a href="{{ route("front.shop",[$category->slug,$subCategory->slug]) }}" class="nav-item nav-link {{ ($subCategorySelected == $subCategory->id) ? 'text-primary' : '' }}">{{ $subCategory->name }}</a>
-                                                    @endforeach
+                                                    <ul class="subCategory_listing">
+                                                        @foreach ($category->sub_category as $subCategory)
+                                                            <li><a href="{{ route("front.shop",[$category->slug,$subCategory->slug]) }}" class="nav-item nav-link {{ ($subCategorySelected == $subCategory->id) ? 'text-primary' : '' }}">{{ $subCategory->name }}</a></li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,7 +62,7 @@
                         @endif
                     </div>
                     {{-- Categories filters end  --}}
-                                        
+                                
                     @if ($brands->isNotEmpty())
                         <div class="sub-title mt-5"><h2>Brand</h3></div>  
                         @foreach ($brands as $brand)
@@ -70,16 +75,19 @@
                         @endforeach
                     @endif                           
                     {{-- Brand filters end --}}                    
-                    
+            
                     <div class="sub-title mt-5"><h2>Price</h3></div>                    
                     <input type="text" class="js-range-slider" name="my_range" value="" />
                     {{-- Price filters end --}}
+                    </div>                    
+                    </nav>
                 </div>
 
                 <div class="col-md-9">
                     <div class="row mb-3">
                         <div class="col-md-10 col-8"><h3>Products</h3></div>
                         <div class="col-md-2 col-4">
+                            
                             <select name="sort" id="sort" class="form-control">
                                 <option value="Latest" {{ ($sort == 'latest') ? 'selected' : ' ' }}>Latest</option>
                                 <option value="price_desc" {{ ($sort == 'price_desc') ? 'selected' : ' ' }}>Price High</option>
@@ -94,8 +102,8 @@
                                     $productImage = $product->product_images->first();
                                 @endphp
 
-                                <div class="col-md-4 col-12">
-                                    <div class="product-image position-relative">
+                                <div class="col-md-4 col-6 mb-4">
+                                    <div class="product-image position-relative ">
                                         <a href="{{ route('front.product',$product->slug) }}" class="product-img">
                                             @if (!empty($productImage->image1))
                                                 <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
@@ -126,27 +134,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-3">
-                                        <a href="{{ route('front.product',$product->slug) }}">
-                                            <h5>{{ Str::limit($product->name, 30, '...') }}</h5>
-                                        </a>
-
-                                        <div class="price mt-2 mb-2">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <h5>₹ {{ $product->price }}
-                                                        @if ($product->compare_price > 0)
-                                                            <span class="text-underline"><del>₹ {{ $product->compare_price }}</del></span>
-                                                        @endif
-                                                    </h5>
-                                                </div>
-                                                <div class="col-4">
-                                                                                        
-                                                </div>
-                                            </div>
+                                    <div class="mt-2">
+                                        <a href="{{ route('front.product',$product->slug) }}" class="product-title">{{ Str::limit($product->name, 20, '...') }}</a>
+                                        <div class="product-price mt-1">
+                                            ₹ {{ $formattedPrice = number_format($product->price, 2, '.', ''); }}
+                                            @if ($product->compare_price > 0)
+                                                <span class="text-underline"><del>₹ {{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
+                                            @endif
                                         </div>
                                         
-                                        <div class="row mt-3">
+                                        <div class="row mt-2">
                                             <div class="col-md-6 col-6">
                                                 <div class="form-group">
                                                     <select name="size" id="size" class="form-control">

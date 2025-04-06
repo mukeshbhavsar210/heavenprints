@@ -45,24 +45,10 @@
                         <input type="radio" name="color_finishing_basic" value="{{ $key }}" class="size-picker__input" id="colorFinishingBasic_{{ $loop->index + 1 }}"> 
                         <img src="{{ asset('uploads/icons/hardware/basic/'.$value['image']) }}" alt="" />
                         <p class="radio-label">{{ $value['name'] }}</p>
-                        {{-- <p>₹ {{ $value->price }}</p> --}}
+                        <p class="radio-label">{{ $value['price'] }}</p>
                     </label>
                 </div>
             @endforeach
-
-            @if($hardware_basic_finishings)
-                @foreach($hardware_basic_finishings as $value)
-                    <div class="col-md-3 col-6"> 
-                        <label class="custom-radio hardware_style {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                            <input {{ $loop->first ? 'checked' : '' }} type="radio" name="hardware_finishing" value="{{ $value->slug }}" class="frame-option"
-                                {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
-                                <img src="{{ asset('uploads/icons/hardware/basic/'.$value->image) }}" alt="" />
-                                <p class="radio-label">{{ $value->name }}</p>
-                                <p>₹ {{ $value->price }}</p>
-                        </label>                            
-                    </div>
-                @endforeach
-            @endif
         </div>        
     </div>
 

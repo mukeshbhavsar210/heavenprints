@@ -225,6 +225,9 @@ aside a {
   transform: rotate(-45deg);
 }
 
+.slick-slide {
+  margin: 0 10px; /* Adjust as needed */
+}
 
 .priceHover { position: relative; margin-top: 5px; padding-right: 25px;}
 .priceHover::after { content: ""; width: 25px; height: 25px; position: absolute; right:0px; top:3px; background: url('../images/sprites.svg'); background-repeat: no-repeat; background-position: -193px -90px;  }
@@ -260,8 +263,6 @@ aside a {
 #homeBanner { height: 380px; margin-bottom: 30px;}
 #homeBanner .banner-details { position: absolute; color: var(--white); bottom: 30px; left:0; background-color: rgba(0,0,0,0.5);  padding:20px 20px 10px 20px; border-radius: 6px;;}
 #homeBanner .banner-details h3 { margin-bottom: 5px;}
-
-.slick-next { border:1px red solid; z-index: 999;}
 
 .heightFix { height:400px;;}
 
@@ -601,8 +602,8 @@ aside a {
 .color-picker__color:hover { cursor: pointer; }
 .color-picker__color:after { pointer-events: none; position: absolute; top: -3px; border-radius: 100px; left: -3px; width: calc(100% + 6px); height: calc(100% + 6px); outline: 2px solid var(--primary) !important; content: none;}
 
-#accordionExample .accordion-button { padding:13px 0 !important; background: none; text-transform: uppercase;}
-#accordionExample .accordion-button:not(.collapsed) { background: none; color: var(--black);}
+#accordionExample .accordion-button { padding:8px 0 !important; background: none;}
+#accordionExample .accordion-button:not(.collapsed) { background: none; color: var(--primary);}
 #accordionExample .accordion-body { padding: 0;}
 #accordionExample .accordion-item a { padding:8px 0;}
 
@@ -692,7 +693,7 @@ aside a {
 
 .position-relative:hover .product-action-home { display: block;}
 .product-action-home { position: absolute; top:0; left: 0; display: none; text-align: center; background-color: rgba(0,0,0,0.3); height: 100%; width: 100%; border-radius: 10px; }
-.product-action-home .btn { top:113px; position: relative; }
+.product-action-home .btn { top:75px; position: relative; }
 .product-action-home .whishlist { top:15px; right:15px; position: absolute; background-color: var(--secondary); border-radius: 4px; padding:5px 5px 3px 5px;}
 .product-action-home .whishlist .far { font-size: 18px; color: var(--white);}
 .product-action-home .selectedCategory { background-color: var(--white); text-align: center; border-radius: 3px; color: var(--black); padding: 3px 8px; font-size: 13px; display: inline-block; position: absolute; left:15px; top:15px;}
@@ -767,7 +768,7 @@ aside a {
   aside { left:-100px; position: absolute; width:100px; height: 100%; padding-top: 70px; }
   .socialAccounts { float: left;}
   .sticky-header .logoWrapper, .frame_mobile_menu { display: block !important;}
-  main { margin-top: 94px;}
+  main { margin-top: 58px;}
   main section { margin-top: 0;}
   #homeBanner { height: auto;}
   .breadcrumb { margin-bottom: 10px !important;}
@@ -802,3 +803,71 @@ aside a {
 .socialAccounts li .social_02:hover span { background-position: -40px -81px; }
 .socialAccounts li .social_03:hover span { background-position: -78px -81px; }
 .socialAccounts li .social_04:hover span { background-position: -116px -81px; }
+
+.image-container {
+  position: relative;
+  width: fit-content;
+}
+
+.zoom-box {
+  position: absolute;
+  width: 100px;
+  height: 100px;  
+  top: 0;
+  left: 0;  
+  border: 1px solid #000;
+  background: rgba(255,255,255,0.2);  
+  transition: transform 0.2s;
+}
+
+.expanded-view {
+  position: absolute; 
+  top: 30%;
+  right: 7%; 
+  width: 50%; 
+  height: 70%;
+  overflow: hidden;
+  display: none;
+  border: 1px solid #aaa;
+  background-color: #fff;
+}
+
+.zoom-box {
+  pointer-events: none; 
+}
+
+
+
+.my-slider{
+  padding: 0 70px;
+}
+.slick-initialized .slick-slide{
+  margin: 0 15px 0 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.slick-next, .slick-prev{
+  z-index: 5;
+}
+.slick-next{
+  right: 15px;
+}
+.slick-prev{
+  left: 15px;
+}
+.slick-next:before, .slick-prev:before{
+  color: #000;
+  font-size: 26px;
+}
+
+.featuredProducts .slick-prev, .latestProducts  .slick-prev {  position: absolute; top:-56px; left:84%;}
+.featuredProducts .slick-next, .latestProducts  .slick-next {  position: absolute; top:-56px; left:93%;}
+
+.subCategory_listing { width: 100%;}
+.subCategory_listing li { border-bottom: 1px #666 dotted;}
+
+.product-title { color: var(--black); font-size: 20px;}
+.product-title:hover { color: var(--primary);}
+
+.product-price { color: var(--dark-grey); font-size: 18px;}

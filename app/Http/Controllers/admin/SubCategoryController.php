@@ -57,8 +57,8 @@ class SubCategoryController extends Controller {
                 $path = public_path().'/uploads/sub_category/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
-                $image->toJpeg(80)->save($path);
-                $image->cover(300,300)->save($path);
+                //$image->toJpeg(80)->save($path);
+                $image->cover(600,600)->save($path);
                 $subCategory->image = $fileName;
                 $subCategory->save();
             }
@@ -136,7 +136,7 @@ class SubCategoryController extends Controller {
                 // Process and save the image
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
-                $image->toJpeg(80)->save($uploadPath . $fileName);  // Save original image
+                $image->toJpeg(100)->save($uploadPath . $fileName);  // Save original image
             
                 // Update category image field
                 $subCategory->image = $fileName;
