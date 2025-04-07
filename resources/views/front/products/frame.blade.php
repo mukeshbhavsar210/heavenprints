@@ -72,7 +72,7 @@
 
             <form action="{{ route('frame.total') }}" method="post">                        
                 @csrf
-                <input type="hidden" name="category_name" id="category_name" value="{{ $product->metal_type }}">
+                <input type="hidden" name="name" id="category_name" value="{{ $product->metal_type }}">
                 
                 <div class="groupDetails">
                     <div class="row">
@@ -81,10 +81,10 @@
                         </div>
                         <div class="col-md-9 col-12">                        
                             <div class="size-picker">
-                                @foreach($shapes as $index => $value)
+                                @foreach($shapePrices as $shape => $price)
                                     <div class="size-picker__item" >
-                                        <input type="radio" name="shape" value="{{ $value }}"  class="size-picker__input" id="metalShape_{{ $loop->index + 1 }}">
-                                        <label class="size-picker__color" for="metalShape_{{ $loop->index + 1 }}" >{{ $value }}</label>
+                                        <input type="radio" name="shape" value="{{ $shape }}"  class="size-picker__input" id="shape_{{ $loop->index + 1 }}">
+                                        <label class="size-picker__color" for="shape_{{ $loop->index + 1 }}" >{{ $shape }}</label>
                                     </div>
                                 @endforeach
                             </div> 
@@ -99,10 +99,10 @@
                         </div>
                         <div class="col-md-9 col-12">
                             <div class="size-picker">
-                                @foreach($sizes as $index => $value)
+                                @foreach($sizePrices as $size => $price)
                                     <div class="size-picker__item" >
-                                        <input type="radio" name="size" value="{{ $value }}" class="size-picker__input" id="metalSize_{{ $loop->index + 1 }}">
-                                        <label class="size-picker__color" for="metalSize_{{ $loop->index + 1 }}" >{{ $value }}</label>
+                                        <input type="radio" name="size" value="{{ $size }}" class="size-picker__input" id="size_{{ $loop->index + 1 }}">
+                                        <label class="size-picker__color" for="size_{{ $loop->index + 1 }}" >{{ $size }}</label>
                                     </div>
                                 @endforeach
                             </div>
@@ -115,7 +115,7 @@
                                     <div class="twoDropdowns">
                                         <div class="itemDD">                                                   
                                             <select id="customSizeSelect_01" class="form-control" name="custom_size_1">
-                                                @foreach($dropdown_1 as $index => $value)
+                                                @foreach($customSizePrices1 as $value => $price)
                                                     <option value="{{ $value }}"  >{{ $value }}</option>
                                                 @endforeach
                                             </select>
@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="itemDD">
                                             <select id="customSizeSelect_02" class="form-control" name="custom_size_2" >
-                                                @foreach($dropdown_2 as $index => $value)
+                                                @foreach($customSizePrices2 as $value => $price)
                                                     <option value="{{ $value }}">{{ $value }}</option>
                                                 @endforeach
                                             </select>
@@ -160,10 +160,10 @@
 
     //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
-        const shapePrices = { 'Square': 100.00, 'Rectangle': 200.00, 'Panoramic': 300.00, 'Large': 400.00, 'Small': 500.00 };
-        const sizePrices = { '8" x 8"': 100.00, '10" x 10"': 200.00, '12x12': 300.00, '16x16': 400.00, '20x20': 500.00, '24x24': 600.00 };
-        const customSizePrices1 = { 8: 50.00, 10: 100.00, 12: 200.00, 14: 300.00, 16: 400.00, 18: 500.00, 20: 600.00 };
-        const customSizePrices2 = { 8: 50.00, 10: 100.00, 12: 200.00, 14: 300.00, 16: 400.00, 18: 500.00, 20: 600.00 };
+        const shapePrices = @json($shapePrices);
+        const sizePrices = @json($sizePrices);
+        const customSizePrices1 = @json($customSizePrices1);
+        const customSizePrices2 = @json($customSizePrices2);
 
         //let basePrice = {{ $product->price }};
         let basePrice = parseFloat({{ $product->price }}); 

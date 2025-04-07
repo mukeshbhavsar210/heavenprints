@@ -632,17 +632,7 @@ class CartController extends Controller {
                 'coupon_code' => $promoCode,
                 'status' => 'pending',
                 'country_id' => $country,
-            ]); 
-
-            // Save to database
-            // $product = new Product();
-            // $product->name = $item->name;
-            // $product->slug = $item->name;
-            // $product->product_type = $item->options->category;
-            // $product->font = $item->options->font;
-            // $product->size = $item->options->size;
-            // $product->color = $item->options->color;
-            // $product->save();   
+            ]);        
             
             foreach (Cart::content() as $item) {
                 OrderItem::create([
@@ -650,21 +640,24 @@ class CartController extends Controller {
                     'product_id' => $item->id,
                     'name' => $item->name,
                     'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
+                    
                     'font' => $item->options->font ?? $item->options->neon_font,
                     'size' => $item->options->size ?? $item->options->neon_size,
                     'color' => $item->options->color ?? $item->options->neon_color,
-                    'frame' => $item->options->frame,
-                    'image' => $item->options->thumb,
-                    'border' => $item->options->border,
-                    'major' => $item->options->major,
-                    //'wrap' => $item->options->wrap,
-                    'wrap_wrap' => $item->options->wrap_wrap,
-                    'hardware_style' => $item->options->hardware_style,
-                    'hardware_display' => $item->options->hardware_display,
-                    'lamination' => $item->options->lamination,
-                    'retouching' => $item->options->retouching,
-                    'hardware_finishing'=> $item->options->hardware_finishing,
-                    'proof' => $item->options->proof,
+
+                    'image' => $item->options->image,
+                    'frame' => $item->options->frame_name,
+                    'border' => $item->options->border_name,
+                    'wrap_wrap' => $item->options->wrap_name,
+                    'hardware_style' => $item->options->hardware_name,
+                    'hardware_display' => $item->options->display_name,
+                    'lamination' => $item->options->lamination_name,
+
+                    //'retouching' => $item->options->retouch_names,
+                    //'proof' => $item->options->proof_names,
+                    // 'major' => $item->options->major,
+                    // 'hardware_finishing'=> $item->options->hardware_finishing,
+
                     'qty' => $item->qty,
                     'price' => $item->price,
                     'total' => $item->price * $item->qty,                    

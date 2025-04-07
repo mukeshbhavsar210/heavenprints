@@ -9,7 +9,7 @@ class CustomTotal extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'category_name', 'size', 'shape', 'total', 'product_id' ];
+    protected $fillable = ['name', 'size', 'shape', 'total', 'product_id' ];
 
     public function product() {
         return $this->belongsTo(Product::class);

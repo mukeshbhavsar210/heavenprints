@@ -112,32 +112,6 @@
                                             <div id="productDetails"></div>
                                             <div id="displayProofDetails"></div>
                                             <div id="colorFinishingBasicDetails"></div>
-    
-                                            @foreach ($firstTotals as $value)
-                                                <div class="breakup-details">
-                                                    <div class="icon-tick"></div>
-                                                    <div class="text">
-                                                        <p>Size:</p>
-                                                        <p class="red">
-                                                            {{ $value->size }}
-                                                            ₹<span id="sizePrice">0</span> 
-                                                        </p>
-                                                    </div>
-                                                    <a class="icon-edit" id="resetButton"></a>
-                                                </div>
-    
-                                                <div class="breakup-details">
-                                                    <div class="icon-tick"></div>
-                                                    <div class="text">
-                                                        <p>Shape:</p>
-                                                        <p class="red">
-                                                            {{ $value->shape }}
-                                                            ₹<span id="sizePrice">0</span> 
-                                                        </p>
-                                                    </div>
-                                                    <a class="icon-edit" id="resetButton"></a>
-                                                </div>                                                
-                                            @endforeach                                        
                                         </div>
                                     </div>
     
@@ -259,13 +233,15 @@
                     finalPrice += selectedData.price || 0;
                     document.getElementById('materialDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${selectedData.name}</p>
-                                <p class="red">₹${selectedData.price.toFixed(2)}</p>
-                                <img src="http://127.0.0.1:8000/uploads/icons/products/${selectedData.image}" alt="${selectedData.name}" width="100">
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/products/${selectedData.image}" alt="${selectedData.name}" width="60">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Material</h6>
+                                <p>${selectedData.name}</p>
+                                <p class="price">₹${selectedData.price.toFixed(2)}</p>
+                            </div>
+                            <a href="#" class="icon-tick"><span></span></a>
                         </div>                        
                     `;
                 }
@@ -279,13 +255,15 @@
                     finalPrice += product.price || 0;
                     document.getElementById('productDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${product.name}</p>
-                                <p class="red">₹${product.price.toFixed(2)}</p>
-                                <img src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}" alt="${product.name}" width="100">
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}" alt="${product.name}" >
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Selected Product</h6>
+                                <p>${product.name}</p>
+                                <p class="price">₹${product.price.toFixed(2)}</p>
+                            </div>
+                             <a href="#" class="icon-tick"><span></span></a>                         
                         </div>                                                
                     `;
                 }
@@ -315,13 +293,15 @@
                         finalPrice += selectedSizeData.price || 0;
                         document.getElementById('sizeDetails').innerHTML = `
                             <div class="breakup-details">
-                                <div class="icon-tick"></div>
-                                <div class="text">
-                                    <p>${selectedSizeData.name}</p>
-                                    <p class="red">₹${selectedSizeData.price.toFixed(2)}</p>
-                                    <div class="object" style="background-color: #bbbbbb; margin-top:4px; height:${selectedSizeData.height}px;  width:${selectedSizeData.width}px"></div>                                    
+                                <div class="photo">
+                                    <div class="object" style="background-color: #bbbbbb; margin-top:4px; height:${selectedSizeData.height}px;  width:${selectedSizeData.width}px"></div>
                                 </div>
-                                <a class="icon-edit" id="resetButton"></a>
+                                <div class="text">
+                                    <h6>Size</h6>
+                                    <p>${selectedSizeData.name}</p>
+                                    <p class="price">₹${selectedSizeData.price.toFixed(2)}</p>                                    
+                                </div>
+                                 <a href="#" class="icon-tick"><span></span></a>
                             </div>                        
                         `;
                     }
@@ -336,12 +316,15 @@
                     finalPrice += wrap.price || 0;
                     document.getElementById('wrapDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${wrap.name}</p>
-                                <p class="red">₹${wrap.price.toFixed(2)}</p>
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/wrap_borders/${wrap.image}" alt="${wrap.name}">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Material</h6>
+                                <p>${wrap.name}</p>
+                                <p class="price">₹${wrap.price.toFixed(2)}</p>
+                            </div>
+                            <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -355,12 +338,15 @@
                     finalPrice += border.price || 0;
                     document.getElementById('borderDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${border.name}</p>
-                                <p class="red">₹${border.price.toFixed(2)}</p>
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/wrap_borders/${border.image}" alt="${border.name}">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Material</h6>
+                                <p>${border.name}</p>
+                                <p class="price">₹${border.price.toFixed(2)}</p>
+                            </div>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>                       
                     `;
                 }
@@ -381,16 +367,17 @@
 
                 if (selectedFrameData) {
                     finalPrice += selectedFrameData.price || 0;
-                    document.getElementById('frameBorderDetails').innerHTML = `
+                    document.getElementById('standardFrameDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${selectedFrameData.name}</p>
-                                <p class="red">₹${selectedFrameData.price.toFixed(2)}</p>
-                                <img src="http://127.0.0.1:8000/uploads/icons/frame_border/${selectedFrameData.image}" 
-                                    alt="${selectedFrameData.name}" width="100">
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/wrap_borders/frames/${selectedFrameData.image}" alt="${selectedFrameData.name}">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Material</h6>
+                                <p>${selectedFrameData.name}</p>
+                                <p class="price">₹${selectedFrameData.price.toFixed(2)}</p>
+                            </div>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>                        
                     `;
                 }
@@ -405,12 +392,15 @@
                     finalPrice += hardware.price || 0;
                     document.getElementById('hardwareStyleDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${hardware.name}</p>
-                                <p class="red">₹${hardware.price.toFixed(2)}</p>
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/hardware/option/${hardware.image}" alt="${hardware.name}">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Material</h6>
+                                <p>${hardware.name}</p>
+                                <p class="price">₹${hardware.price.toFixed(2)}</p>
+                            </div>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>                       
                     `;
                 }
@@ -424,12 +414,12 @@
                     finalPrice += display.price || 0;
                     document.getElementById('displayOptionDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
                             <div class="text">
+                                <h6>Display</h6>
                                 <p>${display.name}</p>
-                                <p class="red">₹${display.price.toFixed(2)}</p>
+                                <p class="price">₹${display.price.toFixed(2)}</p>
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -442,13 +432,13 @@
                 if (lamination) {
                     finalPrice += lamination.price || 0;
                     document.getElementById('displayLaminationDetails').innerHTML = `
-                        <div class="breakup-details">
-                            <div class="icon-tick"></div>
+                        <div class="breakup-details">                            
                             <div class="text">
+                                <h6>Lamination</h6>
                                 <p>${lamination.name}</p>
-                                <p class="red">₹${lamination.price.toFixed(2)}</p>
+                                <p class="price">₹${lamination.price.toFixed(2)}</p>
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -462,12 +452,12 @@
                     finalPrice += retouching.price || 0;
                     document.getElementById('displayRetouchingDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
                             <div class="text">
+                                <h6>Lamination</h6>
                                 <p>${retouching.name}</p>
-                                <p class="red">₹${retouching.price.toFixed(2)}</p>
+                                <p class="price">₹${retouching.price.toFixed(2)}</p>
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -483,12 +473,12 @@
                     finalPrice += proof.price || 0;
                     document.getElementById('displayProofDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
                             <div class="text">
-                                <p>${proof.name}</p>
-                                <p class="red">₹${proof.price.toFixed(2)}</p>
+                                <h6>Proof Request</h6>
+                                <p>I want proof</p>
+                                <p class="price">₹${proof.price.toFixed(2)}</p>
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -502,13 +492,15 @@
                     finalPrice += finishing.price || 0;
                     document.getElementById('colorFinishingBasicDetails').innerHTML = `
                         <div class="breakup-details">
-                            <div class="icon-tick"></div>
-                            <div class="text">
-                                <p>${finishing.name}</p>
-                                <p class="red">₹${finishing.price.toFixed(2)}</p>
-                                <img src="/images/${finishing.image}" alt="${finishing.name}" width="100">
+                            <div class="photo">
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/hardware/basic/${finishing.image}" alt="${finishing.name}">
                             </div>
-                            <a class="icon-edit" id="resetButton"></a>
+                            <div class="text">
+                                <h6>Color Finishing</h6>
+                                <p>${finishing.name}</p>
+                                <p class="price">₹${finishing.price.toFixed(2)}</p>
+                            </div>
+                             <a href="#" class="icon-tick"><span></span></a>
                         </div>
                     `;
                 }
@@ -600,49 +592,36 @@ function addToCart_Customize(id){
             data: {
 				_token: '{{ csrf_token() }}', // Include CSRF token
 				id: id,
-
                 image: image,
-
                 product_type: product_type,
                 product_name: product_name,
                 product_price: product_price,    
-                
                 custom_name: custom_name,
                 custom_image: custom_image,
                 custom_price: custom_price,
-
                 size_type: size_type,
                 size_name: size_name,
                 size_price: size_price,                
-
                 wrap_name: wrap_name,
                 wrap_image: wrap_image,
                 wrap_price: wrap_price,
-
                 border_name: border_name,
                 border_image: border_image,
                 border_price: border_price,
-
                 frame_name: frame_name,
                 frame_image: frame_image,
                 frame_price: frame_price,
-
                 hardware_name: hardware_name,
                 hardware_image: hardware_image,
                 hardware_price: hardware_price,
-
                 display_name: display_name,
                 display_price: display_price,
-
                 lamination_name: lamination_name,
                 lamination_price: lamination_price,
-
                 retouch_names: retouch_names,
                 retouch_prices: retouch_prices,
-
                 proof_names: proof_names,
                 proof_prices: proof_prices,
-
                 price: price,
 			},
             dataType: 'json',
