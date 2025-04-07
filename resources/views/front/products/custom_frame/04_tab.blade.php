@@ -5,7 +5,7 @@
             @foreach ($wrapData as $key => $value)
                 <div class="col-md-3 col-4">     
                     <label class="custom-radio-wrap wrap_01" >
-                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" > 
+                        <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" > 
                         <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
                         <p class="radio-label">{{ $value['name'] }} - ₹{{ number_format($value['price'], 2) }}</p>
                     </label>
@@ -21,7 +21,7 @@
         @foreach ($borderData as $key => $value)
             <div class="col-md-3 col-4">     
                 <label class="custom-radio-wrap wrap_01" >
-                    <input type="radio" name="border" value="{{ $key }}" class="frame-option">
+                    <input type="radio" name="border" value="{{ $key }}" class="frame-option" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
                     <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" width="50"></div>
                     <p class="radio-label">{{ $value['name'] }}</p>
                 </label>
@@ -42,8 +42,8 @@
                         @foreach ($standardFrame as $key => $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio wrap_03" >
-                                <input type="radio" name="standard_frame" value="{{ $key }}" class="frame-option">
-                                    <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/standard/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Standart" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
+                                    <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/'.$value['image']) }}" alt="{{ $value['name'] }}" >
                                     <p class="radio-label">{{ $value['name'] }}</p>
                                     <p class="radio-label">{{ $value['price'] }}</p>
                                 </label>
@@ -61,8 +61,8 @@
                         @foreach ($premiumFrame as $key => $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio wrap_03" >
-                                    <input type="radio" name="premium_frame" value="{{ $key }}" class="frame-option">
-                                    <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/premium/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                    <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Premium" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
+                                    <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/'.$value['image']) }}" alt="{{ $value['name'] }}" >
                                     <p class="radio-label">{{ $value['name'] }}</p>
                                     <p>₹ {{ $value['price'] }}</p>
                                 </label>
@@ -81,7 +81,7 @@
                             @foreach($floating as $value)
                                 <div class="col-md-3 col-6"> 
                                     <label class="custom-radio wrap_03 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
-                                        <input type="radio" name="wrap_frame" value="{{ $value->slug }}" class="frame-option"
+                                        <input type="radio" name="frame_border" value="{{ $value->slug }}" class="frame-option"
                                             {{ session('frame_class') == $value->slug ? 'checked' : '' }}> 
                                             <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/floating/'.$value->image) }}" alt="" />
                                             <p class="radio-label">{{ $value->name }}</p>

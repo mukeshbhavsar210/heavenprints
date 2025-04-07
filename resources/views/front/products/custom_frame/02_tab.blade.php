@@ -13,10 +13,9 @@
                             @foreach ($productSelection as $key => $value)
                                 <div class="col-md-3 col-4">     
                                     <label class="custom-radio-wrap wrap_01" >
-                                        <input type="radio" name="product_selection" value="{{ $key }}" class="frame-option" > 
+                                        <input type="radio" name="product_selection" value="{{ $key }}" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
                                         <div class="productImg">
                                             <img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" >
-                                            
                                         </div>        
                                         <p>{{ $value['name'] }}</p>                                
                                     </label>

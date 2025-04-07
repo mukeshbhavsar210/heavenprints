@@ -91,7 +91,7 @@ class CartController extends Controller {
         $cartContent = Cart::content();
         $data['cartContent'] = $cartContent;
 
-        //dd($cartContent);
+       //dd($cartContent);
 
         return view('front.cart.index',$data);
     }
@@ -126,7 +126,7 @@ class CartController extends Controller {
         return response()->json(['success' => true, 'final_price' => $price]);
     }
 
-    public function addToCart_metal(Request $request){
+    public function customize(Request $request){
         $product = Product::with('product_images')->find($request->id);
         // $size = $request->size ?? 'Default Size';
         // $color = $request->color ?? 'Default Red';
@@ -155,22 +155,23 @@ class CartController extends Controller {
                         1, 
                         $product->price,                        
                         [
-                            'category' => 'Frame', 
+                            'category' => 'Customize Product', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-                            'size'              => $request->size,
-                            'frame'             => $request->frame,
                             'image'             => $request->image,
-                            'size'              => $request->size,
-                            'wrap'              => $request->wrap,
-                            'border'            => $request->border,
-                            'major'             => $request->major,
-                            'wrap_wrap'         => $request->wrap_wrap,
-                            'hardware_style'    => $request->hardware_style,
-                            'hardware_display'  => $request->hardware_display,
-                            'lamination'        => $request->lamination,
-                            'retouching'        => $request->retouching,
-                            'hardware_finishing'=> $request->hardware_finishing,
-                            'proof'             => $request->proof
+                            'canvas_material'   => $request->canvas_material,
+                            // 'size'              => $request->size,
+                            // 'frame'             => $request->frame,                            
+                            // 'size'              => $request->size,
+                            // 'wrap'              => $request->wrap,
+                            // 'border'            => $request->border,
+                            // 'major'             => $request->major,
+                            // 'wrap_wrap'         => $request->wrap_wrap,
+                            // 'hardware_style'    => $request->hardware_style,
+                            // 'hardware_display'  => $request->hardware_display,
+                            // 'lamination'        => $request->lamination,
+                            // 'retouching'        => $request->retouching,
+                            // 'hardware_finishing'=> $request->hardware_finishing,
+                            // 'proof'             => $request->proof
                         ]
                 );
                 $status = true;
@@ -182,28 +183,55 @@ class CartController extends Controller {
             }
 
         } else {
+
+            $retouchNames = $request->input('retouch_names'); // Get names array
+            $fixedRetouchPrice = 299;
+            $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
+
+            $proofNames = $request->input('proof'); // Get selected proof name
+            $fixedProofPrice = 49; 
+            $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
+
             Cart::add(
                     $product->id, 
                     $product->name, 
                     1, 
                     $product->price, 
                     [
-                        'category' => 'Frame', 
+                        'category' => 'Customize', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-                            'size'              => $request->size,
-                            'frame'             => $request->frame,
                             'image'             => $request->image,
-                            'size'              => $request->size,                            
-                            'wrap'              => $request->wrap,
-                            'border'            => $request->border,
-                            'major'             => $request->major,
-                            'wrap_wrap'         => $request->wrap_wrap,
-                            'hardware_style'    => $request->hardware_style,
-                            'hardware_display'  => $request->hardware_display,
-                            'lamination'        => $request->lamination,
-                            'retouching'        => $request->retouching,
-                            'hardware_finishing'=> $request->hardware_finishing,
-                            'proof'             => $request->proof                                       
+                            'product_type'       => $request->product_type,
+                            'product_name'       => $request->product_name,
+                            'product_price'      => $request->product_price,
+                            'custom_name'       => $request->custom_name,
+                            'custom_image'       => $request->custom_image,
+                            'custom_price'      => $request->custom_price,
+                            'size_type'       => $request->size_type,
+                            'size_name'       => $request->size_name,
+                            'size_price'      => $request->size_price,
+                            'wrap_name'       => $request->wrap_name,
+                            'wrap_image'       => $request->wrap_image,
+                            'wrap_price'      => $request->wrap_price,
+                            'border_name'       => $request->border_name,
+                            'border_image'       => $request->border_image,
+                            'border_price'      => $request->border_price,
+                            'frame_name'       => $request->frame_name,
+                            'frame_image'       => $request->frame_image,
+                            'frame_price'      => $request->frame_price,
+                            'hardware_name'       => $request->hardware_name,
+                            'hardware_image'       => $request->hardware_image,
+                            'hardware_price'      => $request->hardware_price,
+                            'display_name'       => $request->display_name,
+                            'display_price'      => $request->display_price,
+                            'lamination_name'       => $request->lamination_name,
+                            'lamination_price'      => $request->lamination_price,
+                            'retouch_names'       => $retouchNames,
+                            'retouch_price'      => $retouchPrice,
+
+                            'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
+                            'proof_price'   => $proofPrice,
+
                     ]);
             $status = true;
             $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';

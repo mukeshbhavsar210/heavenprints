@@ -36,7 +36,7 @@
                                         <select id="productType" name="product_type" class="form-control" >
                                             <option value="" disabled selected>Select Type</option> 
                                             <option {{ ($product->product_type == 'Default' ? 'selected' : '')}} value="Default">Default</option>
-                                            <option {{ ($product->product_type == 'Frame' ? 'selected' : '')}} value="Frame">Frame</option>
+                                            <option {{ ($product->product_type == 'Customize' ? 'selected' : '')}} value="Customize">Customize</option>
                                             <option {{ ($product->product_type == 'Neon' ? 'selected' : '')}} value="Neon">Neon</option>                                                                                  
                                         </select>
                                     </div>
@@ -105,44 +105,13 @@
                                                         </div>
                                                     @endforeach
                                                 @endif
-
-                                                {{-- <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Red", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Red" id="colorCheckbox_1" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_1">
-                                                        <p>Red</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Blue", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Blue" id="colorCheckbox_2" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_2">
-                                                        <p>Blue</p>
-                                                    </label>
-                                                </div>  
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Black", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Black" id="colorCheckbox_3" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_3">
-                                                        <p>Black</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Green", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Green" id="colorCheckbox_4" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_4">
-                                                        <p>Green</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Orange", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="Orange" id="colorCheckbox_5" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="colorCheckbox_5">
-                                                        <p>Orange</p>
-                                                    </label>
-                                                </div>                                                    --}}
                                             </div>
                                             <p class="error"></p>
                                         </div>
                                     </div>  
                                 </div>  
                                 
-                                <div class="frame_details hidden {{ $product->product_type == 'Frame' ? 'force_active' : '' }}"> 
+                                <div class="customize_details hidden {{ $product->product_type == 'Customize' ? 'force_active' : '' }}"> 
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">     
                                             <div class="form-group">                                           
@@ -639,21 +608,19 @@ $("#edit_productForm").submit(function(event){
 
     //ToggleeClass for Dropdown top main
     $('#productType').on('change', function () {
-    var selectedValue = $(this).val();
-    // Hide all divs first
-    $('.default_details, .frame_details, .tshirt_details').hide();
-    
-    // Show the selected div
-    if (selectedValue == 'Default') {
-        $('.default_details').show();
-    } else if (selectedValue == 'Frame') {
-        $('.frame_details').show();
-    } else if (selectedValue == 'Neon') {
-        $('.tshirt_details').show();
-    }
-});
-    
-
+        var selectedValue = $(this).val();
+        // Hide all divs first
+        $('.default_details, .customize_details, .neon_details').hide();
+        
+        // Show the selected div
+        if (selectedValue == 'Default') {
+            $('.default_details').show();                    
+        } else if (selectedValue == 'Customize') {
+            $('.customize_details').show();
+        } else if (selectedValue == 'Neon') {
+            $('.neon_details').show();
+        }
+    });    
 
         $('.dropdown-menu').on('click', function(e) {
             if($(this).hasClass('dropdown-menu-form')) {

@@ -38,7 +38,7 @@
                                     <select id="productType" name="product_type" class="form-control" required>
                                         <option value="" disabled selected>Select Type</option> 
                                         <option value="Default">Default</option>
-                                        <option value="Frame">Frame</option>                                        
+                                        <option value="Customize">Customize</option>                                        
                                         <option value="Neon">Neon</option>
                                     </select>
                                 </div>
@@ -86,7 +86,7 @@
                                 </div>  
                             </div>                                
                         
-                            <div class="frame_details hidden"> 
+                            <div class="customize_details hidden"> 
                                 <div class="row">
                                     <div class="col-md-12 col-12">  
                                         <div class="form-group">                                           
@@ -434,13 +434,13 @@
     $('#productType').on('change', function () {
         var selectedValue = $(this).val();
         // Hide all divs first
-        $('.default_details, .frame_details, .neon_details').hide();
+        $('.default_details, .customize_details, .neon_details').hide();
         
         // Show the selected div
         if (selectedValue == 'Default') {
-            $('.default_details').show();
-        } else if (selectedValue == 'Frame') {
-            $('.frame_details').show();
+            $('.default_details').show();                    
+        } else if (selectedValue == 'Customize') {
+            $('.customize_details').show();
         } else if (selectedValue == 'Neon') {
             $('.neon_details').show();
         }

@@ -12,10 +12,10 @@
     <div class="tab-pane fade active show" id="size-first" role="tabpanel" aria-labelledby="tabSize-first">
         <div class="paddWrapper">
             <div class="radio-group row">
-                @foreach ($sizeData as $key => $value)
+                @foreach ($recommended_data as $key => $value)
                     <div class="col-md-3 col-4">
                         <label class="custom-radio size" >
-                            <input type="radio" name="size" value="{{ $key }}" data-price="{{ $value['price'] }}" class="frame-option" >
+                            <input type="radio" name="size" value="{{ $key }}" data-type="Recommended" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
                             <p>{{ $value['name'] }}</p>
                             <p>₹{{ $value['price'] }}</p>
@@ -33,7 +33,7 @@
                     @foreach ($square_data as $key => $value)
                         <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
+                                <input type="radio" name="size" value="{{ $key }}" data-type="Square" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
                                 <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
                                 <p class="radio-label">{{ $value['name'] }}</p>
                                 <p>₹{{ number_format($value['price'], 2) }}</p>
@@ -52,7 +52,7 @@
                 @foreach ($panaromic_data as $key => $value)
                     <div class="col-md-3 col-4">     
                         <label class="custom-radio size" >
-                            <input type="radio" name="size" value="{{ $key }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}"> 
+                            <input type="radio" name="size" value="{{ $key }}" data-type="Panoromic" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
                             <p class="radio-label">{{ $value['name'] }}</p>
                             <p>₹{{ number_format($value['price'], 2) }}</p>
@@ -85,7 +85,7 @@
                     @foreach($large_data as $size)
                         <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
+                                <input type="radio" name="size" value="{{ $size['name'] }}" data-type="Large" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
                                 <p class="radio-label">{{ $size['name'] }}</p>
                                 <p>₹{{ number_format($size['price'], 2) }}</p>
@@ -103,7 +103,7 @@
                     @foreach($small_data as $size)
                         <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
-                                <input type="radio" name="size" value="{{ $size['name'] }}" class="frame-option" id="custom_metalSize_{{ $loop->index + 1 }}">
+                                <input type="radio" name="size" value="{{ $size['name'] }}" data-type="Small" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
                                 <p class="radio-label">{{ $size['name'] }}</p>
                                 <p>₹{{ number_format($size['price'], 2) }}</p>

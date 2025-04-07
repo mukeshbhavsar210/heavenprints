@@ -67,12 +67,13 @@
             {{-- <h3>₹<span id="finalPrice2">{{ $product->price }}</span></h3> --}}
             {{-- <input type="text" id="finalPriceInput" name="final_price" value=""> --}}
             {{-- <input type="text" id="finalPriceInput" name="price" value="{{ $product->price }}"> --}}
-            <input type="hidden" name="category_name" id="category_name" value="{{ $product->metal_type }}">
+            
             <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
             <form action="{{ route('frame.total') }}" method="post">                        
                 @csrf
-
+                <input type="hidden" name="category_name" id="category_name" value="{{ $product->metal_type }}">
+                
                 <div class="groupDetails">
                     <div class="row">
                         <div class="col-md-3 col-12">
