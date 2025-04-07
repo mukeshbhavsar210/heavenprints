@@ -12,7 +12,7 @@
                 use Illuminate\Support\Str;
             @endphp
 
-            <h3 class="mb-4">Frames Products</h3>
+            <h3 class="mb-4">Frame Products</h3>
 
             @if ($products->isNotEmpty())  
                 <div class="customProducts">
@@ -59,7 +59,7 @@
                                 </div>
                             </div>   
                             
-                            <a href="{{ route('front.frame.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
+                            <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-primary mt-1">View Product</a>
                         </div>
                     @endforeach
                 </div>

@@ -36,7 +36,7 @@ Route::controller(FrontController::class)->group(function() {
 
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
-    Route::get('/customize/{categorySlug?}/{subCategorySlug?}','metalProducts')->name('metal.products');
+    Route::get('/customize/{categorySlug?}/{subCategorySlug?}','customizeProducts')->name('customize.products');
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
 
@@ -45,11 +45,11 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/custom_frame/{slug}', 'custom_frame')->name('custom.frame.product');
 
     //Frame
-    Route::get('/frames/{slug}', 'first_level')->name('front.frame.product');    
+    Route::get('/frames/{slug}', 'first_level')->name('customize.product');    
     Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');    
 
     //Store first level calculation
-    Route::post('customise/product/total', 'store')->name('frame.total');
+    Route::post('customise/product/total', 'store_total')->name('frame.total');
     Route::get('customise/{slug}', 'summary')->name('frame.summary');
 
     //Neon
@@ -79,7 +79,7 @@ Route::controller(CartController::class)->group(function() {
     Route::post('/update-cart','updateCart')->name('front.updateCart');
     
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
-    Route::post('/add-to-cart-metal','addToCart_metal')->name('front.addToCart_metal');
+    Route::post('/add-to-cart-customize','customize')->name('addToCart_customize');
     Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
 
     //Route::post('/update-cart','updateCart')->name('front.updateCart');

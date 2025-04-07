@@ -111,12 +111,12 @@
                                                 @if($item->options->size)
                                                     , Size: {{ $item->options->size }}
                                                 @endif                                                 
-                                                @if($item->options->shape) <br />
+                                                {{-- @if($item->options->shape) <br />
                                                     Shape: {{ $item->options->shape }} 
-                                                @endif 
-                                                @if($item->options->custom_size1 || $item->options->custom_size2)
+                                                @endif  --}}
+                                                {{-- @if($item->options->custom_size1 || $item->options->custom_size2)
                                                     , Custom Size: {{ $item->options->custom_size1 }}" x {{ $item->options->custom_size2 }}"
-                                                @endif
+                                                @endif --}}
                                             </p>
                                         </div> 
                                         <button class="toggle-btn toggle-btn-{{ $item->id }} btn btn-outline-dark btn-sm toggle-btn mt-2" data-id="{{ $item->id }}">Show More</button>
@@ -124,132 +124,271 @@
                                 </div>
                             </div>
                             <div class="more-content col-md-12 mt-2 more-content-{{ $item->id }}" style="display: none;">
-                                <div class="row">
-                                    <div class="col-md-2 col-0"></div>
-                                    <div class="col-md-5 col-12 mt-2">
-                                        @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
-                                            <div class="neon-thumb">
-                                                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                                                    <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
-                                                </svg>
+                                <div class="card">
+                                    <div class="card-header"><h6>Details</h6></div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5 col-12 mt-2">
+                                                @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
+                                                    <div class="neon-thumb">
+                                                        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                                            <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
+                                                        </svg>
+                                                    </div>
+                                                @elseif ($item->options->category == 'Customize')
+                                                    <p>Use my uploaded photo for print.</p>
+                                                    @if($item->options->image)
+                                                        <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
+                                                    @else
+                                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                                    @endif
+                                                @else                                            
+                                                    @if (!empty($item->options->productImage->image1))
+                                                        <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
+                                                    @else
+                                                        <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                                    @endif
+                                                @endif  
                                             </div>
-                                        @elseif ($item->options->category == 'Frame')
-                                            @if($item->options->image)
-                                                <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
-                                            @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                            @endif
-                                        @else                                            
-                                            @if (!empty($item->options->productImage->image1))
-                                                <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >
-                                            @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                            @endif
-                                        @endif  
-                                    </div>
-                                    <div class="col-md-5 col-12">
-                                        @if($item->options->custom_neon )
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Text</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->custom_neon }}</div>
+                                            <div class="col-md-7 col-12">
+                                                <div class="card">
+                                                    <div class="card-header">Selected other details</div>
+                                                    <div class="card-body">
+                                                        @if($item->options->category == 'Customize')
+                                                            @if($item->options->product_type)                                                                                                      
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Material Type</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->product_name }} ({{ $item->options->product_type }}) ₹{{ $item->options->product_price }}</div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif  
+                                                            @if($item->options->custom_name )
+                                                                <div class="row mb-2">
+                                                                    <div class="col-md-3 col-3">
+                                                                        <img src="http://127.0.0.1:8000/uploads/icons/selection/{{ $item->options->custom_image }}" style="width: 100px; border-radius:5px;" />
+                                                                        </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->custom_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->custom_price }}</p>
+
+                                                                       
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif  
+
+                                                            @if($item->options->size_name )
+                                                                <div class="row mb-2">
+                                                                    <div class="col-md-3 col-3">
+                                                                    </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Size:</b> {{ $item->options->size_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->size_price }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif                                                             
+
+                                                            @if($item->options->wrap_name )
+                                                                <div class="row mb-2 ">
+                                                                    <div class="col-md-3 col-3">
+                                                                        <img src="http://127.0.0.1:8000/uploads/icons/wrap_borders/{{ $item->options->wrap_image }}" style="width: 100px; border-radius:2px;" />
+                                                                        </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->wrap_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->wrap_price }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif
+
+                                                            @if($item->options->border_name )
+                                                                <div class="row mb-2 ">
+                                                                    <div class="col-md-3 col-3">
+                                                                        <img src="http://127.0.0.1:8000/uploads/icons/wrap_borders/{{ $item->options->border_image }}" style="width: 100px; border-radius:2px;" />
+                                                                        </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->border_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->border_price }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif
+
+                                                            @if($item->options->frame_name )
+                                                                <div class="row mb-2 ">
+                                                                    <div class="col-md-3 col-3">
+                                                                        <img src="http://127.0.0.1:8000/uploads/icons/wrap_borders/frames/{{ $item->options->frame_image }}" style="width: 100px; border-radius:2px;" />
+                                                                        </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->frame_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->frame_price }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif
+
+                                                            @if($item->options->hardware_name )
+                                                                <div class="row mb-2 ">
+                                                                    <div class="col-md-3 col-3">
+                                                                        <img src="http://127.0.0.1:8000/uploads/icons/hardware/option/{{ $item->options->hardware_image }}" style="width: 100px; border-radius:2px;" />
+                                                                        </div>
+                                                                    <div class="col-md-9 col-9"> 
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->hardware_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->hardware_price }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr />
+                                                            @endif
+
+                                                            <div class="row mb-2">
+                                                                @if($item->options['display_name'] )                                                                
+                                                                    <div class="col-md-6 col-12"> 
+                                                                        <p class="mb-0"><b>Display</b></p>
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->display_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->display_price }}</p>
+                                                                    </div>                                                                
+                                                                @endif
+                                                                @if($item->options['lamination_name'] )
+                                                                    <div class="col-md-6 col-12"> 
+                                                                        <p class="mb-0"><b>Lamiation</b></p>
+                                                                        <p class="mb-0"><b>Name:</b> {{ $item->options->lamination_name }}</p>
+                                                                        <p class="mb-0"><b>Price:</b> ₹{{ $item->options->lamination_price }}</p>
+                                                                    </div>
+                                                                @endif                                                                                   
+                                                            </div>
+
+                                                            @if(!empty($item->options['retouch_names']))
+                                                                <div class="retouch-options">
+                                                                    <h6 class="mb-2">Retouching Options:</h6>
+                                                                    <ol>
+                                                                        @foreach($item->options['retouch_names'] as $retouch)
+                                                                            <li>{{ $retouch }}</li>
+                                                                        @endforeach
+                                                                    </ol>
+                                                                    <p><strong>Retouching Price:</strong> ₹{{ $item->options['retouch_price'] }}</p>
+                                                                </div>
+                                                            @endif
+
+                                                            @if(!empty($item->options['proof_names']))
+                                                                <div class="retouch-options">
+                                                                    <h6 class="mb-2">Proof:</h6>
+                                                                    <p><strong>Proof:</strong> {{ $item->options->proof_names ?? 'No Proof Selected' }}</p>
+                                                                    <p><strong>Price:</strong> ₹{{ number_format($item->options->proof_price, 2) }}</p>
+                                                                </div>
+                                                            @endif
+
+                                                        {{-- NEON product started --}}
+                                                        @elseif($item->options->category == 'Neon light')
+                                                            @if($item->options->custom_neon )
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Text</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->custom_neon }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->neon_color)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Color</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->neon_color }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->neon_size)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Size</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->neon_size }}</div>
+                                                                </div>
+                                                            @endif        
+                                                            @if($item->options->neon_font)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Font</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->neon_font }}</div>
+                                                                </div>
+                                                            @endif   
+                                                            @if($item->options->size)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Size</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->size }}</div>
+                                                                </div>
+                                                            @endif 
+                                                            @if($item->options->font)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Font</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->font }}</div>
+                                                                </div>
+                                                            @endif                                                                                
+                                                            @if($item->options->frame)                                                                                                                
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Frame</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->frame }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->wrap)                                                                                                                
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Wrap</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->wrap }}</div>
+                                                                </div>
+                                                            @endif                                                                
+                                                            @if($item->options->border)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Border</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->border }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->wrap_wrap)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Wrap</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->wrap_wrap }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->hardware_style)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Style</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->hardware_style }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->hardware_display)
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Display</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->hardware_display }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->lamination)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Lamination</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->lamination }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->retouching)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Retouching</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->retouching }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->hardware_finishing)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Finishing</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->hardware_finishing }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->proof)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Proof</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->proof }}</div>
+                                                                </div>
+                                                            @endif
+                                                            @if($item->options->major)                                            
+                                                                <div class="row">
+                                                                    <div class="col-md-3 col-3"><b>Major</b></div>
+                                                                    <div class="col-md-9 col-9">: {{ $item->options->major }}</div>
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            <p>Default</p>
+                                                    @endif                                                          
+                                                    </div>
+                                                </div>
                                             </div>
-                                        @endif
-                                        @if($item->options->neon_color)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Color</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->neon_color }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->neon_size)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Size</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->neon_size }}</div>
-                                            </div>
-                                        @endif        
-                                        @if($item->options->neon_font)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Font</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->neon_font }}</div>
-                                            </div>
-                                        @endif   
-                                        @if($item->options->size)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Size</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->size }}</div>
-                                            </div>
-                                        @endif 
-                                        @if($item->options->font)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Font</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->font }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->frame)                                                                                                                
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Frame</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->frame }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->wrap)                                                                                                                
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Wrap</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->wrap }}</div>
-                                            </div>
-                                        @endif                                                                
-                                        @if($item->options->border)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Border</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->border }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->wrap_wrap)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Wrap</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->wrap_wrap }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->hardware_style)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Style</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->hardware_style }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->hardware_display)
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Display</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->hardware_display }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->lamination)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Lamination</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->lamination }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->retouching)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Retouching</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->retouching }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->hardware_finishing)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Finishing</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->hardware_finishing }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->proof)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Proof</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->proof }}</div>
-                                            </div>
-                                        @endif
-                                        @if($item->options->major)                                            
-                                            <div class="row">
-                                                <div class="col-md-3 col-3"><b>Major</b></div>
-                                                <div class="col-md-9 col-9">: {{ $item->options->major }}</div>
-                                            </div>
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>                           

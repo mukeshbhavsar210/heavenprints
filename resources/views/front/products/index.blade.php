@@ -6,8 +6,8 @@
 
 @section('content')
     {{-- If Print Main Category selected it will only show --}}
-    @if($product->product_type == 'Frame')
-        @include('front.products.frame')
+    @if($product->product_type == 'Customize')
+        @include('front.products.frame')    
     @else  
         <section class="section-5">
             <div class="container">           

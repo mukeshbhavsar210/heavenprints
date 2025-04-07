@@ -5,7 +5,7 @@
             @foreach ($laminationOption as $key => $value)
                 <div class="col-md-{{ $value['class'] }}">                     
                     <label class="custom-radio-small lamination" >
-                        <input type="radio" name="lamination_option" value="{{ $key }}" class="frame-option"> 
+                        <input type="radio" name="lamination_option" value="{{ $key }}" class="frame-option" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}">  
                         <p class="radio-label">{{ $value['name'] }} (₹ {{ $value['price'] }})</p>
                     </label>
                 </div>
@@ -20,7 +20,7 @@
         <div class="row">
             @foreach ($retouchingOption as $key => $value)
                 <div class="col-md-6 customCheckbox">                  
-                    <input id="retouching_02_{{ $loop->index }}" type="checkbox" name="retouching_option" value="{{ $key }}" class="frame-option"> 
+                    <input id="retouching_02_{{ $loop->index }}" type="checkbox" name="retouching_option" value="{{ $key }}" class="frame-option" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}"> 
                     <label for="retouching_02_{{ $loop->index }}" class="lamination" >
                         {{ $value['name'] }}
                     </label>
@@ -33,14 +33,14 @@
 
 <div class="wrap-container">
     <h5 class="title-wrap">Major Retouching</h5>
-    <textarea rows="3" cols="3" id="major" name="major"  class="form-control"></textarea>
+    <textarea rows="3" cols="3" id="major" name="major"  class="form-control" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}"></textarea>
 </div>
 
 <div class="wrap-container mt-3">
     <h5 class="title-wrap">Proof Request</h5>
     @foreach ($proofOption as $key => $value)
         <div class="customCheckbox">                  
-            <input id="proof_{{ $loop->index }}" type="checkbox" name="proof" value="{{ $key }}" class="frame-option"> 
+            <input id="proof_{{ $loop->index }}" type="checkbox" name="proof" value="{{ $key }}" class="frame-option" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}"> 
             <label for="proof_{{ $loop->index }}" class="lamination" >
                 {{ $value['name'] }}
             </label>
