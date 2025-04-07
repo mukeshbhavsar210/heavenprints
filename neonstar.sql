@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2025 at 01:38 PM
+-- Generation Time: Apr 07, 2025 at 03:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `neonstar`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banners`
+--
+
+CREATE TABLE `banners` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` longtext NOT NULL,
+  `banner_slug` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `image` longtext DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `showHome` varchar(255) NOT NULL DEFAULT 'Yes',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `banners`
+--
+
+INSERT INTO `banners` (`id`, `name`, `banner_slug`, `description`, `image`, `status`, `showHome`, `created_at`, `updated_at`) VALUES
+(32, 'Tshirt', 'tshirt', 'test', 'tshirt.jpg', 1, 'Yes', '2025-04-02 04:37:15', '2025-04-02 04:37:16'),
+(33, 'test', 'test', 'test', 'test.png', 1, 'Yes', '2025-04-02 06:21:24', '2025-04-02 06:21:25');
 
 -- --------------------------------------------------------
 
@@ -45,9 +71,11 @@ CREATE TABLE `brands` (
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
+  `slug_category` varchar(255) NOT NULL,
+  `image` varchar(100) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `showHome` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `is_protected` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -56,13 +84,36 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `slug`, `status`, `showHome`, `created_at`, `updated_at`) VALUES
-(185, 'Shop Neon', 'shop-neon', 1, 'Yes', '2025-02-20 03:19:14', '2025-02-20 03:19:14'),
-(187, 'Frames', 'frames', 1, 'Yes', '2025-02-24 09:33:10', '2025-03-20 02:02:35'),
-(188, 'Mug', 'mug', 1, 'Yes', '2025-02-24 09:37:31', '2025-03-20 02:02:58'),
-(189, 'Pillow', 'pillow', 1, 'No', '2025-02-24 09:38:50', '2025-03-10 04:36:37'),
-(190, 'Acrylic', 'acrylic', 1, 'No', '2025-02-24 09:39:03', '2025-03-10 04:37:16'),
-(191, 'Key Chain', 'key-chain', 0, 'No', '2025-02-24 09:39:18', '2025-02-24 09:42:06');
+INSERT INTO `categories` (`id`, `name`, `slug_category`, `image`, `status`, `showHome`, `is_protected`, `created_at`, `updated_at`) VALUES
+(296, 'NEON', 'neon', 'customize_1743085591.png', 1, 'Yes', 0, '2025-03-27 08:56:31', '2025-04-01 06:22:57'),
+(297, 'Shop', 'shop', 'neon_1743334717.png', 1, 'Yes', 0, '2025-03-30 06:08:40', '2025-03-31 03:18:42'),
+(298, 'Customize', 'customize', 'customize_1743990247.jpg', 1, 'Yes', 0, '2025-04-06 20:14:09', '2025-04-06 20:14:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `colors`
+--
+
+CREATE TABLE `colors` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `color_code` varchar(255) NOT NULL,
+  `show` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `colors`
+--
+
+INSERT INTO `colors` (`id`, `name`, `color_code`, `show`, `created_at`, `updated_at`) VALUES
+(1, 'Red', 'ff0000', 'Yes', '2025-04-02 00:02:40', '2025-04-02 00:02:40'),
+(3, 'Blue', '#002aff', 'Yes', '2025-04-02 00:09:07', '2025-04-02 00:09:07'),
+(4, 'Black', '#000000', 'Yes', '2025-04-02 00:10:06', '2025-04-02 00:10:06'),
+(5, 'Green', '#00b815', 'Yes', '2025-04-02 00:10:18', '2025-04-02 00:10:18'),
+(6, 'Orange', '#d67d00', 'Yes', '2025-04-02 00:10:31', '2025-04-02 00:10:31');
 
 -- --------------------------------------------------------
 
@@ -83,248 +134,7 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
-(1, 'United States', 'US', NULL, NULL),
-(2, 'Canada', 'CA', NULL, NULL),
-(3, 'Afghanistan', 'AF', NULL, NULL),
-(4, 'Albania', 'AL', NULL, NULL),
-(5, 'Algeria', 'DZ', NULL, NULL),
-(6, 'American Samoa', 'AS', NULL, NULL),
-(7, 'Andorra', 'AD', NULL, NULL),
-(8, 'Angola', 'AO', NULL, NULL),
-(9, 'Anguilla', 'AI', NULL, NULL),
-(10, 'Antarctica', 'AQ', NULL, NULL),
-(11, 'Antigua and/or Barbuda', 'AG', NULL, NULL),
-(12, 'Argentina', 'AR', NULL, NULL),
-(13, 'Armenia', 'AM', NULL, NULL),
-(14, 'Aruba', 'AW', NULL, NULL),
-(15, 'Australia', 'AU', NULL, NULL),
-(16, 'Austria', 'AT', NULL, NULL),
-(17, 'Azerbaijan', 'AZ', NULL, NULL),
-(18, 'Bahamas', 'BS', NULL, NULL),
-(19, 'Bahrain', 'BH', NULL, NULL),
-(20, 'Bangladesh', 'BD', NULL, NULL),
-(21, 'Barbados', 'BB', NULL, NULL),
-(22, 'Belarus', 'BY', NULL, NULL),
-(23, 'Belgium', 'BE', NULL, NULL),
-(24, 'Belize', 'BZ', NULL, NULL),
-(25, 'Benin', 'BJ', NULL, NULL),
-(26, 'Bermuda', 'BM', NULL, NULL),
-(27, 'Bhutan', 'BT', NULL, NULL),
-(28, 'Bolivia', 'BO', NULL, NULL),
-(29, 'Bosnia and Herzegovina', 'BA', NULL, NULL),
-(30, 'Botswana', 'BW', NULL, NULL),
-(31, 'Bouvet Island', 'BV', NULL, NULL),
-(32, 'Brazil', 'BR', NULL, NULL),
-(33, 'British lndian Ocean Territory', 'IO', NULL, NULL),
-(34, 'Brunei Darussalam', 'BN', NULL, NULL),
-(35, 'Bulgaria', 'BG', NULL, NULL),
-(36, 'Burkina Faso', 'BF', NULL, NULL),
-(37, 'Burundi', 'BI', NULL, NULL),
-(38, 'Cambodia', 'KH', NULL, NULL),
-(39, 'Cameroon', 'CM', NULL, NULL),
-(40, 'Cape Verde', 'CV', NULL, NULL),
-(41, 'Cayman Islands', 'KY', NULL, NULL),
-(42, 'Central African Republic', 'CF', NULL, NULL),
-(43, 'Chad', 'TD', NULL, NULL),
-(44, 'Chile', 'CL', NULL, NULL),
-(45, 'China', 'CN', NULL, NULL),
-(46, 'Christmas Island', 'CX', NULL, NULL),
-(47, 'Cocos (Keeling) Islands', 'CC', NULL, NULL),
-(48, 'Colombia', 'CO', NULL, NULL),
-(49, 'Comoros', 'KM', NULL, NULL),
-(50, 'Congo', 'CG', NULL, NULL),
-(51, 'Cook Islands', 'CK', NULL, NULL),
-(52, 'Costa Rica', 'CR', NULL, NULL),
-(53, 'Croatia (Hrvatska)', 'HR', NULL, NULL),
-(54, 'Cuba', 'CU', NULL, NULL),
-(55, 'Cyprus', 'CY', NULL, NULL),
-(56, 'Czech Republic', 'CZ', NULL, NULL),
-(57, 'Democratic Republic of Congo', 'CD', NULL, NULL),
-(58, 'Denmark', 'DK', NULL, NULL),
-(59, 'Djibouti', 'DJ', NULL, NULL),
-(60, 'Dominica', 'DM', NULL, NULL),
-(61, 'Dominican Republic', 'DO', NULL, NULL),
-(62, 'East Timor', 'TP', NULL, NULL),
-(63, 'Ecudaor', 'EC', NULL, NULL),
-(64, 'Egypt', 'EG', NULL, NULL),
-(65, 'El Salvador', 'SV', NULL, NULL),
-(66, 'Equatorial Guinea', 'GQ', NULL, NULL),
-(67, 'Eritrea', 'ER', NULL, NULL),
-(68, 'Estonia', 'EE', NULL, NULL),
-(69, 'Ethiopia', 'ET', NULL, NULL),
-(70, 'Falkland Islands (Malvinas)', 'FK', NULL, NULL),
-(71, 'Faroe Islands', 'FO', NULL, NULL),
-(72, 'Fiji', 'FJ', NULL, NULL),
-(73, 'Finland', 'FI', NULL, NULL),
-(74, 'France', 'FR', NULL, NULL),
-(75, 'France, Metropolitan', 'FX', NULL, NULL),
-(76, 'French Guiana', 'GF', NULL, NULL),
-(77, 'French Polynesia', 'PF', NULL, NULL),
-(78, 'French Southern Territories', 'TF', NULL, NULL),
-(79, 'Gabon', 'GA', NULL, NULL),
-(80, 'Gambia', 'GM', NULL, NULL),
-(81, 'Georgia', 'GE', NULL, NULL),
-(82, 'Germany', 'DE', NULL, NULL),
-(83, 'Ghana', 'GH', NULL, NULL),
-(84, 'Gibraltar', 'GI', NULL, NULL),
-(85, 'Greece', 'GR', NULL, NULL),
-(86, 'Greenland', 'GL', NULL, NULL),
-(87, 'Grenada', 'GD', NULL, NULL),
-(88, 'Guadeloupe', 'GP', NULL, NULL),
-(89, 'Guam', 'GU', NULL, NULL),
-(90, 'Guatemala', 'GT', NULL, NULL),
-(91, 'Guinea', 'GN', NULL, NULL),
-(92, 'Guinea-Bissau', 'GW', NULL, NULL),
-(93, 'Guyana', 'GY', NULL, NULL),
-(94, 'Haiti', 'HT', NULL, NULL),
-(95, 'Heard and Mc Donald Islands', 'HM', NULL, NULL),
-(96, 'Honduras', 'HN', NULL, NULL),
-(97, 'Hong Kong', 'HK', NULL, NULL),
-(98, 'Hungary', 'HU', NULL, NULL),
-(99, 'Iceland', 'IS', NULL, NULL),
-(100, 'India', 'IN', NULL, NULL),
-(101, 'Indonesia', 'ID', NULL, NULL),
-(102, 'Iran (Islamic Republic of)', 'IR', NULL, NULL),
-(103, 'Iraq', 'IQ', NULL, NULL),
-(104, 'Ireland', 'IE', NULL, NULL),
-(105, 'Israel', 'IL', NULL, NULL),
-(106, 'Italy', 'IT', NULL, NULL),
-(107, 'Ivory Coast', 'CI', NULL, NULL),
-(108, 'Jamaica', 'JM', NULL, NULL),
-(109, 'Japan', 'JP', NULL, NULL),
-(110, 'Jordan', 'JO', NULL, NULL),
-(111, 'Kazakhstan', 'KZ', NULL, NULL),
-(112, 'Kenya', 'KE', NULL, NULL),
-(113, 'Kiribati', 'KI', NULL, NULL),
-(114, 'Korea, Democratic People\'s Republic of', 'KP', NULL, NULL),
-(115, 'Korea, Republic of', 'KR', NULL, NULL),
-(116, 'Kuwait', 'KW', NULL, NULL),
-(117, 'Kyrgyzstan', 'KG', NULL, NULL),
-(118, 'Lao People\'s Democratic Republic', 'LA', NULL, NULL),
-(119, 'Latvia', 'LV', NULL, NULL),
-(120, 'Lebanon', 'LB', NULL, NULL),
-(121, 'Lesotho', 'LS', NULL, NULL),
-(122, 'Liberia', 'LR', NULL, NULL),
-(123, 'Libyan Arab Jamahiriya', 'LY', NULL, NULL),
-(124, 'Liechtenstein', 'LI', NULL, NULL),
-(125, 'Lithuania', 'LT', NULL, NULL),
-(126, 'Luxembourg', 'LU', NULL, NULL),
-(127, 'Macau', 'MO', NULL, NULL),
-(128, 'Macedonia', 'MK', NULL, NULL),
-(129, 'Madagascar', 'MG', NULL, NULL),
-(130, 'Malawi', 'MW', NULL, NULL),
-(131, 'Malaysia', 'MY', NULL, NULL),
-(132, 'Maldives', 'MV', NULL, NULL),
-(133, 'Mali', 'ML', NULL, NULL),
-(134, 'Malta', 'MT', NULL, NULL),
-(135, 'Marshall Islands', 'MH', NULL, NULL),
-(136, 'Martinique', 'MQ', NULL, NULL),
-(137, 'Mauritania', 'MR', NULL, NULL),
-(138, 'Mauritius', 'MU', NULL, NULL),
-(139, 'Mayotte', 'TY', NULL, NULL),
-(140, 'Mexico', 'MX', NULL, NULL),
-(141, 'Micronesia, Federated States of', 'FM', NULL, NULL),
-(142, 'Moldova, Republic of', 'MD', NULL, NULL),
-(143, 'Monaco', 'MC', NULL, NULL),
-(144, 'Mongolia', 'MN', NULL, NULL),
-(145, 'Montserrat', 'MS', NULL, NULL),
-(146, 'Morocco', 'MA', NULL, NULL),
-(147, 'Mozambique', 'MZ', NULL, NULL),
-(148, 'Myanmar', 'MM', NULL, NULL),
-(149, 'Namibia', 'NA', NULL, NULL),
-(150, 'Nauru', 'NR', NULL, NULL),
-(151, 'Nepal', 'NP', NULL, NULL),
-(152, 'Netherlands', 'NL', NULL, NULL),
-(153, 'Netherlands Antilles', 'AN', NULL, NULL),
-(154, 'New Caledonia', 'NC', NULL, NULL),
-(155, 'New Zealand', 'NZ', NULL, NULL),
-(156, 'Nicaragua', 'NI', NULL, NULL),
-(157, 'Niger', 'NE', NULL, NULL),
-(158, 'Nigeria', 'NG', NULL, NULL),
-(159, 'Niue', 'NU', NULL, NULL),
-(160, 'Norfork Island', 'NF', NULL, NULL),
-(161, 'Northern Mariana Islands', 'MP', NULL, NULL),
-(162, 'Norway', 'NO', NULL, NULL),
-(163, 'Oman', 'OM', NULL, NULL),
-(164, 'Pakistan', 'PK', NULL, NULL),
-(165, 'Palau', 'PW', NULL, NULL),
-(166, 'Panama', 'PA', NULL, NULL),
-(167, 'Papua New Guinea', 'PG', NULL, NULL),
-(168, 'Paraguay', 'PY', NULL, NULL),
-(169, 'Peru', 'PE', NULL, NULL),
-(170, 'Philippines', 'PH', NULL, NULL),
-(171, 'Pitcairn', 'PN', NULL, NULL),
-(172, 'Poland', 'PL', NULL, NULL),
-(173, 'Portugal', 'PT', NULL, NULL),
-(174, 'Puerto Rico', 'PR', NULL, NULL),
-(175, 'Qatar', 'QA', NULL, NULL),
-(176, 'Republic of South Sudan', 'SS', NULL, NULL),
-(177, 'Reunion', 'RE', NULL, NULL),
-(178, 'Romania', 'RO', NULL, NULL),
-(179, 'Russian Federation', 'RU', NULL, NULL),
-(180, 'Rwanda', 'RW', NULL, NULL),
-(181, 'Saint Kitts and Nevis', 'KN', NULL, NULL),
-(182, 'Saint Lucia', 'LC', NULL, NULL),
-(183, 'Saint Vincent and the Grenadines', 'VC', NULL, NULL),
-(184, 'Samoa', 'WS', NULL, NULL),
-(185, 'San Marino', 'SM', NULL, NULL),
-(186, 'Sao Tome and Principe', 'ST', NULL, NULL),
-(187, 'Saudi Arabia', 'SA', NULL, NULL),
-(188, 'Senegal', 'SN', NULL, NULL),
-(189, 'Serbia', 'RS', NULL, NULL),
-(190, 'Seychelles', 'SC', NULL, NULL),
-(191, 'Sierra Leone', 'SL', NULL, NULL),
-(192, 'Singapore', 'SG', NULL, NULL),
-(193, 'Slovakia', 'SK', NULL, NULL),
-(194, 'Slovenia', 'SI', NULL, NULL),
-(195, 'Solomon Islands', 'SB', NULL, NULL),
-(196, 'Somalia', 'SO', NULL, NULL),
-(197, 'South Africa', 'ZA', NULL, NULL),
-(198, 'South Georgia South Sandwich Islands', 'GS', NULL, NULL),
-(199, 'Spain', 'ES', NULL, NULL),
-(200, 'Sri Lanka', 'LK', NULL, NULL),
-(201, 'St. Helena', 'SH', NULL, NULL),
-(202, 'St. Pierre and Miquelon', 'PM', NULL, NULL),
-(203, 'Sudan', 'SD', NULL, NULL),
-(204, 'Suriname', 'SR', NULL, NULL),
-(205, 'Svalbarn and Jan Mayen Islands', 'SJ', NULL, NULL),
-(206, 'Swaziland', 'SZ', NULL, NULL),
-(207, 'Sweden', 'SE', NULL, NULL),
-(208, 'Switzerland', 'CH', NULL, NULL),
-(209, 'Syrian Arab Republic', 'SY', NULL, NULL),
-(210, 'Taiwan', 'TW', NULL, NULL),
-(211, 'Tajikistan', 'TJ', NULL, NULL),
-(212, 'Tanzania, United Republic of', 'TZ', NULL, NULL),
-(213, 'Thailand', 'TH', NULL, NULL),
-(214, 'Togo', 'TG', NULL, NULL),
-(215, 'Tokelau', 'TK', NULL, NULL),
-(216, 'Tonga', 'TO', NULL, NULL),
-(217, 'Trinidad and Tobago', 'TT', NULL, NULL),
-(218, 'Tunisia', 'TN', NULL, NULL),
-(219, 'Turkey', 'TR', NULL, NULL),
-(220, 'Turkmenistan', 'TM', NULL, NULL),
-(221, 'Turks and Caicos Islands', 'TC', NULL, NULL),
-(222, 'Tuvalu', 'TV', NULL, NULL),
-(223, 'Uganda', 'UG', NULL, NULL),
-(224, 'Ukraine', 'UA', NULL, NULL),
-(225, 'United Arab Emirates', 'AE', NULL, NULL),
-(226, 'United Kingdom', 'GB', NULL, NULL),
-(227, 'United States minor outlying islands', 'UM', NULL, NULL),
-(228, 'Uruguay', 'UY', NULL, NULL),
-(229, 'Uzbekistan', 'UZ', NULL, NULL),
-(230, 'Vanuatu', 'VU', NULL, NULL),
-(231, 'Vatican City State', 'VA', NULL, NULL),
-(232, 'Venezuela', 'VE', NULL, NULL),
-(233, 'Vietnam', 'VN', NULL, NULL),
-(234, 'Virgin Islands (British)', 'VG', NULL, NULL),
-(235, 'Virgin Islands (U.S.)', 'VI', NULL, NULL),
-(236, 'Wallis and Futuna Islands', 'WF', NULL, NULL),
-(237, 'Western Sahara', 'EH', NULL, NULL),
-(238, 'Yemen', 'YE', NULL, NULL),
-(239, 'Yugoslavia', 'YU', NULL, NULL),
-(240, 'Zaire', 'ZR', NULL, NULL),
-(241, 'Zambia', 'ZM', NULL, NULL),
-(242, 'Zimbabwe', 'ZW', NULL, NULL);
+(1, 'Gujarat', 'GJ', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -340,10 +150,9 @@ CREATE TABLE `customer_addresses` (
   `mobile` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `country_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `address` text DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `apartment` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
-  `state` varchar(255) DEFAULT NULL,
   `zip` varchar(255) DEFAULT NULL,
   `notes` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -354,8 +163,35 @@ CREATE TABLE `customer_addresses` (
 -- Dumping data for table `customer_addresses`
 --
 
-INSERT INTO `customer_addresses` (`id`, `user_id`, `first_name`, `last_name`, `mobile`, `email`, `country_id`, `address`, `apartment`, `city`, `state`, `zip`, `notes`, `created_at`, `updated_at`) VALUES
-(7, 30, 'Mukesh', 'Bhavsar', '09978835005', 'mukeshbhavsar210@gmail.com', 100, 'Keerthi Royal Palms,', NULL, 'Banglore', 'Karnataka', '560100', NULL, '2025-03-12 09:07:18', '2025-03-21 08:43:00');
+INSERT INTO `customer_addresses` (`id`, `user_id`, `first_name`, `last_name`, `mobile`, `email`, `country_id`, `address`, `apartment`, `city`, `zip`, `notes`, `created_at`, `updated_at`) VALUES
+(9, 30, 'Dhruv', 'Bhavsar', '09978835005', 'dhruvbhavsar210@gmail.com', 1, 'Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,', NULL, 'Banglore', '560100', 'I want ', '2025-03-26 23:38:23', '2025-04-07 04:47:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_totals`
+--
+
+CREATE TABLE `custom_totals` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` int(100) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `shape` varchar(100) DEFAULT NULL,
+  `size` varchar(100) DEFAULT NULL,
+  `total` varchar(255) NOT NULL,
+  `custom_size_1` varchar(100) DEFAULT NULL,
+  `custom_size_2` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `custom_totals`
+--
+
+INSERT INTO `custom_totals` (`id`, `product_id`, `name`, `shape`, `size`, `total`, `custom_size_1`, `custom_size_2`, `created_at`, `updated_at`) VALUES
+(138, 520, 'Acrylic', 'Square', '10\" x 10\"', '1143.00', NULL, NULL, '2025-04-07 07:08:37', '2025-04-07 07:08:37'),
+(139, 521, 'Canvas', 'Square', '8\" x 8\"', '1134.00', NULL, NULL, '2025-04-07 07:16:15', '2025-04-07 07:16:15');
 
 -- --------------------------------------------------------
 
@@ -449,6 +285,31 @@ INSERT INTO `frame_frames` (`id`, `name`, `slug`, `price`, `image`, `types`, `cr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `frame_materials`
+--
+
+CREATE TABLE `frame_materials` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `show` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `frame_materials`
+--
+
+INSERT INTO `frame_materials` (`id`, `name`, `show`, `created_at`, `updated_at`) VALUES
+(4, 'Canvas', 'Yes', '2025-04-01 23:25:22', '2025-04-01 23:25:22'),
+(5, 'Acrylic', 'Yes', '2025-04-01 23:25:42', '2025-04-01 23:25:42'),
+(6, 'Metal', 'Yes', '2025-04-01 23:26:50', '2025-04-01 23:26:50'),
+(7, 'Wood', 'Yes', '2025-04-01 23:26:56', '2025-04-01 23:26:56'),
+(8, 'Others', 'Yes', '2025-04-01 23:27:01', '2025-04-01 23:27:01');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `frame_metals`
 --
 
@@ -469,7 +330,7 @@ CREATE TABLE `frame_metals` (
 --
 
 INSERT INTO `frame_metals` (`id`, `name`, `shape`, `size`, `custom_size_1`, `custom_size_2`, `price`, `created_at`, `updated_at`) VALUES
-(23, '547863', 'Square', '8', '8', '8', 547863.00, '2025-03-21 05:40:27', '2025-03-21 05:40:27'),
+(23, 'test', 'Square', '8', '8', '8', 547863.00, '2025-03-21 05:40:27', '2025-04-01 23:04:13'),
 (24, '971287', 'Rectangle', '8', '8', '8', 971287.00, '2025-03-21 05:43:56', '2025-03-21 05:43:56'),
 (25, '578359', 'Square', '24', '24', '22', 578359.00, '2025-03-21 05:52:52', '2025-03-21 05:52:52'),
 (26, '468220', 'Rectangle', '8', '8', '8', 468220.00, '2025-03-21 05:56:47', '2025-03-21 05:56:47'),
@@ -507,8 +368,8 @@ CREATE TABLE `frame_shapes` (
 INSERT INTO `frame_shapes` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
 (1, 'Single Print', 'wood', 143, 'icon_single_print.png', 'canvas', NULL, NULL),
 (2, 'Round Canvas', 'metal', 721, 'round_canvas.png', 'canvas', NULL, NULL),
-(3, 'Triangle Canvas', 'triangle_canvas', 1250, 'round_canvas.png', 'canvas', NULL, NULL),
-(4, 'Single Print', 'single_print', 355, 'round_canvas.png', 'acrylic', NULL, NULL);
+(3, 'Triangle Canvas', 'triangle_canvas', 1250, 'round_canvas.png', 'metal', NULL, NULL),
+(4, 'Single Print', 'single_print', 355, 'round_canvas.png', 'wood', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -623,9 +484,9 @@ CREATE TABLE `hardware_finishings` (
 --
 
 INSERT INTO `hardware_finishings` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Original Free', 'original_free', '1000', '0', 'basic', NULL, NULL),
-(2, 'Sephia Free', 'sephia_free', '5000', '', 'basic', NULL, NULL),
-(3, 'Pixel Painting', 'pixel_painting', '1750', '', 'advance', NULL, NULL);
+(1, 'Original Free', 'original_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
+(2, 'Sephia Free', 'sephia_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
+(3, 'Grey Scale', 'grey-scale', '0', 'grayscale.jpg', 'basic', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -648,10 +509,12 @@ CREATE TABLE `hardware_styles` (
 --
 
 INSERT INTO `hardware_styles` (`id`, `name`, `slug`, `price`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Hooks for Hanging Free', 'hooks_for_hanging_free', '0', '', NULL, NULL),
-(2, 'Ready to Hang Free', 'ready_to_hang_free', '0', '', NULL, NULL),
-(3, 'No Hooks Free', 'no_hooks_free', '0', '', NULL, NULL),
-(4, 'Sawtooth Hanger', 'sawtooth_hanger', '25.00', '', NULL, NULL);
+(1, 'Hooks for Hanging Free', 'hooks_for_hanging_free', '0', 'hooks-for-hanging.jpg', NULL, NULL),
+(2, 'Ready to Hang Free', 'ready_to_hang_free', '0', 'ready-to-hang.jpg', NULL, NULL),
+(3, 'No Hooks Free', 'no_hooks_free', '0', 'no-hooks.jpg', NULL, NULL),
+(4, 'Sawtooth Hanger', 'sawtooth_hanger', '25.00', 'sawtooth-hanger.jpg', NULL, NULL),
+(5, 'Easel Back', 'easel-back', '49.00', 'easel-back.jpg', NULL, NULL),
+(6, 'Nail Free Hook', 'nail-free-hook', '49.00', 'nail-free-hook.jpg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -779,7 +642,18 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (60, '2025_03_12_104429_create_payments_table', 51),
 (61, '2025_03_12_114935_create_temp_orders_table', 52),
 (62, '2025_03_21_072404_create_frame_metals_table', 53),
-(63, '2025_03_22_073610_create_settings_table', 54);
+(63, '2025_03_22_073610_create_settings_table', 54),
+(64, '2025_03_23_091739_create_banner_images_table', 55),
+(65, '2025_03_23_112712_create_banners_table', 56),
+(66, '2025_03_24_095711_create_banners_table', 57),
+(67, '2025_03_27_045916_create_countries_table', 58),
+(68, '2025_03_28_084007_create_sample_products_table', 59),
+(69, '2025_03_31_064152_create_password_resets_table', 60),
+(70, '2025_04_01_103631_add_otp_to_users_table', 61),
+(71, '2025_04_02_042506_create_frame_materials_table', 62),
+(72, '2025_04_02_052554_create_colors_table', 63),
+(73, '2025_04_02_074223_create_sizes_table', 64),
+(74, '2025_04_05_050623_create_custom_totals_table', 65);
 
 -- --------------------------------------------------------
 
@@ -865,20 +739,6 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `shipping`, `coupon_code`, `coupon_code_id`, `discount`, `grandtotal`, `status`, `shipped_date`, `country_id`, `created_at`, `updated_at`) VALUES
-(173, 30, 2000.00, 90.00, '', NULL, 0.00, 2090.00, 'pending', NULL, 100, '2025-03-21 08:22:15', '2025-03-21 08:22:15'),
-(174, 30, 2700.00, 90.00, '', NULL, 0.00, 2790.00, 'pending', NULL, 100, '2025-03-21 08:24:30', '2025-03-21 08:24:30'),
-(175, 30, 2500.00, 90.00, '', NULL, 0.00, 2590.00, 'pending', NULL, 100, '2025-03-21 08:29:25', '2025-03-21 08:29:25'),
-(176, 30, 600.00, 90.00, '', NULL, 0.00, 690.00, 'pending', NULL, 100, '2025-03-21 08:33:51', '2025-03-21 08:33:51'),
-(177, 30, 3600.00, 90.00, '', NULL, 0.00, 3690.00, 'pending', NULL, 100, '2025-03-21 08:35:44', '2025-03-21 08:35:44'),
-(178, 30, 1800.00, 90.00, '', NULL, 0.00, 1890.00, 'pending', NULL, 100, '2025-03-21 08:39:23', '2025-03-21 08:39:23'),
-(179, 30, 2100.00, 90.00, '', NULL, 0.00, 2190.00, 'pending', NULL, 100, '2025-03-21 08:41:38', '2025-03-21 08:41:38'),
-(180, 30, 800.00, 90.00, '', NULL, 0.00, 890.00, 'pending', NULL, 100, '2025-03-21 08:43:00', '2025-03-21 08:43:00');
-
 -- --------------------------------------------------------
 
 --
@@ -891,9 +751,6 @@ CREATE TABLE `order_items` (
   `product_id` bigint(20) UNSIGNED DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
-  `shape` varchar(255) DEFAULT NULL,
-  `custom_size1` int(20) DEFAULT NULL,
-  `custom_size2` int(20) DEFAULT NULL,
   `font` varchar(100) DEFAULT NULL,
   `size` varchar(100) DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
@@ -915,16 +772,6 @@ CREATE TABLE `order_items` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `name`, `category`, `shape`, `custom_size1`, `custom_size2`, `font`, `size`, `color`, `frame`, `image`, `border`, `major`, `wrap_wrap`, `hardware_style`, `hardware_display`, `lamination`, `retouching`, `hardware_finishing`, `proof`, `qty`, `price`, `total`, `created_at`, `updated_at`) VALUES
-(68, 177, 315, '888521', 'Metal Frame', NULL, NULL, NULL, NULL, '24', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 3600.00, 3600.00, '2025-03-21 08:35:44', '2025-03-21 08:35:44'),
-(69, 178, 316, '738610', 'Metal Frame', NULL, NULL, NULL, NULL, '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1800.00, 1800.00, '2025-03-21 08:39:23', '2025-03-21 08:39:23'),
-(70, 179, 318, '633541', 'Metal Frame', NULL, NULL, NULL, NULL, '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 2100.00, 2100.00, '2025-03-21 08:41:38', '2025-03-21 08:41:38'),
-(71, 180, 321, '646208', 'Metal Frame', NULL, NULL, NULL, NULL, '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 800.00, 800.00, '2025-03-21 08:43:01', '2025-03-21 08:43:01');
-
 -- --------------------------------------------------------
 
 --
@@ -935,6 +782,7 @@ CREATE TABLE `pages` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
+  `category` varchar(100) DEFAULT NULL,
   `content` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -944,10 +792,35 @@ CREATE TABLE `pages` (
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`id`, `name`, `slug`, `content`, `created_at`, `updated_at`) VALUES
-(2, 'About us', 'about-us', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></p><p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\"><br></span><br></p>', '2023-12-01 03:33:50', '2023-12-01 03:33:50'),
-(3, 'Contact', 'contact-us', '<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content.</p>\r\n                    <address>\r\n                    Mukesh Bhavsar<br>\r\n                    711-2880 Nulla St.<br>\r\n                    Mankato Mississippi 96522<br>\r\n                    <a href=\"tel:+xxxxxxxx\">(XXX) 555-2368</a><br>\r\n                    <a href=\"mailto:jim@rock.com\">jim@rock.com</a>\r\n                    </address>', '2023-12-01 03:44:47', '2024-11-20 23:54:11'),
-(4, 'Terms', 'terms', '<p>terms</p>', '2023-12-27 08:59:35', '2023-12-27 08:59:35');
+INSERT INTO `pages` (`id`, `name`, `slug`, `category`, `content`, `created_at`, `updated_at`) VALUES
+(2, 'About us', 'about-us', 'about_us', '<p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></p><p><strong style=\"margin: 0px; padding: 0px; color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Lorem Ipsum</strong><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span><span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\"><br></span><br></p>', '2023-12-01 03:33:50', '2023-12-01 03:33:50'),
+(3, 'Contact', 'contact-us', 'about_us', '<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content.</p>\r\n                    <address>\r\n                    Mukesh Bhavsar<br>\r\n                    711-2880 Nulla St.<br>\r\n                    Mankato Mississippi 96522<br>\r\n                    <a href=\"tel:+xxxxxxxx\">(XXX) 555-2368</a><br>\r\n                    <a href=\"mailto:jim@rock.com\">jim@rock.com</a>\r\n                    </address>', '2023-12-01 03:44:47', '2024-11-20 23:54:11'),
+(4, 'Terms', 'terms', 'about_us', '<p>terms</p>', '2023-12-27 08:59:35', '2023-12-27 08:59:35'),
+(5, 'Refer and Earn', 'refer-and-earn', 'insrpiration', '<p>test</p>', '2025-03-28 01:56:33', '2025-03-28 01:56:33'),
+(6, 'Pricing and Options', 'pricing-and-options', 'insrpiration', '<p>Test</p>', '2025-03-28 01:56:51', '2025-03-28 01:56:51'),
+(7, 'Special Offers', 'special-offers', 'insrpiration', '<p>test</p>', '2025-03-28 01:57:05', '2025-03-28 01:57:05'),
+(8, 'Photo Pillows', 'photo-pillows', 'products', '<p>test</p>', '2025-03-28 01:58:16', '2025-03-28 01:58:16'),
+(9, 'Photo Calendars', 'photo-calendars', 'products', '<p>test</p>', '2025-03-28 01:58:32', '2025-03-28 01:58:32'),
+(10, 'Photo Mug', 'photo-mug', 'products', '<p>test</p>', '2025-03-28 01:58:42', '2025-03-28 01:58:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('mukeshbhavsar210@gmail.com', '$2y$10$KOCdmg/sqkWheKr..z1EnucsirxTcLRZfcidj9ttSoDZuLWLFyyIm', '2025-03-31 01:17:32');
 
 -- --------------------------------------------------------
 
@@ -971,7 +844,7 @@ CREATE TABLE `payments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` bigint(20) UNSIGNED DEFAULT NULL,
   `product_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `razorpay_payment_id` varchar(255) NOT NULL,
+  `razorpay_payment_id` varchar(255) DEFAULT NULL,
   `razorpay_order_id` varchar(255) DEFAULT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'pending',
   `amount` decimal(10,2) DEFAULT NULL,
@@ -980,20 +853,6 @@ CREATE TABLE `payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`id`, `order_id`, `product_id`, `razorpay_payment_id`, `razorpay_order_id`, `status`, `amount`, `currency`, `payment_data`, `created_at`, `updated_at`) VALUES
-(73, 173, 310, 'pay_Q9SnRDnP1anNgK', 'order_Q9SnN3ozE4gac4', 'Paid', 2000.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9SnRDnP1anNgK\\\",\\\"razorpay_order_id\\\":\\\"order_Q9SnN3ozE4gac4\\\",\\\"razorpay_signature\\\":\\\"3c0d2c057ff4fedb7a8ce36dbc5449a7210432d59566d9464e4bdfc927a84fac\\\",\\\"amount\\\":200000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09916235005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":\\\"Shlok Heights\\\",\\\"city\\\":\\\"Ahmedabad\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Gujarat\\\",\\\"zip\\\":\\\"382424\\\"}\"', '2025-03-21 08:22:15', '2025-03-21 08:22:15'),
-(74, 174, 311, 'pay_Q9SpoLK4HAYxXj', 'order_Q9Spjn7lsTpefP', 'Paid', 2700.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9SpoLK4HAYxXj\\\",\\\"razorpay_order_id\\\":\\\"order_Q9Spjn7lsTpefP\\\",\\\"razorpay_signature\\\":\\\"ee2a85a42491720503f1ee575448b3fa3a4b29f042d9c536620ed14bcbb43816\\\",\\\"amount\\\":270000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09916235005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":\\\"Shlok Heights\\\",\\\"city\\\":\\\"Ahmedabad\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Gujarat\\\",\\\"zip\\\":\\\"382424\\\"}\"', '2025-03-21 08:24:30', '2025-03-21 08:24:30'),
-(75, 175, 312, 'pay_Q9Sv0Lm0ZnqsJs', 'order_Q9SupSAL94oENa', 'Paid', 2500.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9Sv0Lm0ZnqsJs\\\",\\\"razorpay_order_id\\\":\\\"order_Q9SupSAL94oENa\\\",\\\"razorpay_signature\\\":\\\"9498be8c292d99cc14542080a4f00f8c742b04df63101850c501540eabd776cf\\\",\\\"amount\\\":250000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09916235005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":\\\"Shlok Heights\\\",\\\"city\\\":\\\"Ahmedabad\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Gujarat\\\",\\\"zip\\\":\\\"382424\\\"}\"', '2025-03-21 08:29:25', '2025-03-21 08:29:25'),
-(76, 176, 314, 'pay_Q9Szgv1Ox3oUX7', 'order_Q9Szd3e0LeLysV', 'Paid', 600.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9Szgv1Ox3oUX7\\\",\\\"razorpay_order_id\\\":\\\"order_Q9Szd3e0LeLysV\\\",\\\"razorpay_signature\\\":\\\"007aefc0fd0368541e32147c02f975afb744b09b9116918209ab8a1046624158\\\",\\\"amount\\\":60000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09916235005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":\\\"Shlok Heights\\\",\\\"city\\\":\\\"Ahmedabad\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Gujarat\\\",\\\"zip\\\":\\\"382424\\\"}\"', '2025-03-21 08:33:51', '2025-03-21 08:33:51'),
-(77, 177, 315, 'pay_Q9T1gsRZJhggKD', 'order_Q9T1cyXJAW6CN6', 'Paid', 3600.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9T1gsRZJhggKD\\\",\\\"razorpay_order_id\\\":\\\"order_Q9T1cyXJAW6CN6\\\",\\\"razorpay_signature\\\":\\\"5f20c930ef366d6ec05eaa8e9f89a1785a1ecf3b7d75556f6be7ee31e10c1628\\\",\\\"amount\\\":360000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09916235005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Ahmedabad\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Gujarat\\\",\\\"zip\\\":\\\"382424\\\"}\"', '2025-03-21 08:35:44', '2025-03-21 08:35:44'),
-(78, 178, 316, 'pay_Q9T5XOh6gJI4YI', 'order_Q9T5TSm6jIrOXg', 'Paid', 1800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9T5XOh6gJI4YI\\\",\\\"razorpay_order_id\\\":\\\"order_Q9T5TSm6jIrOXg\\\",\\\"razorpay_signature\\\":\\\"ec826ee236bb0ecbe86e6fd0b5b48ae48199b7925b9fb66c7ecd304a2e56135a\\\",\\\"amount\\\":180000,\\\"first_name\\\":\\\"Mukesh\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"mukeshbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Karnataka\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-03-21 08:39:23', '2025-03-21 08:39:23'),
-(79, 179, 318, 'pay_Q9T7oQUXisW8fW', 'order_Q9T7jdJcKlyCKY', 'Paid', 2100.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9T7oQUXisW8fW\\\",\\\"razorpay_order_id\\\":\\\"order_Q9T7jdJcKlyCKY\\\",\\\"razorpay_signature\\\":\\\"a3a84c103c01e556d01a85c9c02e5010006cf5cc1879fe11dacbfd61806be425\\\",\\\"amount\\\":210000,\\\"first_name\\\":\\\"Mukesh\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"mukeshbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":\\\"Shlok Heights\\\",\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Karnataka\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-03-21 08:41:39', '2025-03-21 08:41:39'),
-(80, 180, 321, 'pay_Q9T9MlGhBfr70o', 'order_Q9T9IcfjHcrC4g', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_Q9T9MlGhBfr70o\\\",\\\"razorpay_order_id\\\":\\\"order_Q9T9IcfjHcrC4g\\\",\\\"razorpay_signature\\\":\\\"2017d156c501fa3eb6f6e57eb8bb076a6051f5e67fcb65cb704af2c0486e21f0\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Mukesh\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"mukeshbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"100\\\",\\\"state\\\":\\\"Karnataka\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-03-21 08:43:01', '2025-03-21 08:43:01');
 
 -- --------------------------------------------------------
 
@@ -1046,13 +905,15 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `image` longtext DEFAULT NULL,
-  `product_type` varchar(20) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT 'default',
+  `product_type` enum('Default','Customize','Neon') DEFAULT 'Default',
+  `metal_type` varchar(255) DEFAULT NULL,
   `size` varchar(255) DEFAULT NULL,
   `sizes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
   `colors` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `height` varchar(20) DEFAULT NULL,
+  `width` varchar(20) DEFAULT NULL,
   `font` varchar(100) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `short_description` text DEFAULT NULL,
@@ -1067,7 +928,7 @@ CREATE TABLE `products` (
   `sku` varchar(255) DEFAULT NULL,
   `barcode` varchar(255) DEFAULT NULL,
   `track_qty` enum('Yes','No') NOT NULL DEFAULT 'Yes',
-  `qty` int(11) DEFAULT NULL,
+  `qty` int(11) DEFAULT 5,
   `status` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1077,55 +938,13 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `slug`, `image`, `product_type`, `size`, `sizes`, `color`, `colors`, `font`, `description`, `short_description`, `shipping_returns`, `related_products`, `price`, `compare_price`, `category_id`, `sub_category_id`, `brand_id`, `is_featured`, `sku`, `barcode`, `track_qty`, `qty`, `status`, `created_at`, `updated_at`) VALUES
-(259, 'Mukesh', NULL, NULL, 'Neon', NULL, 'Medium', NULL, '#ffffff', 'Passionate', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-18 23:59:09', '2025-03-18 23:59:09'),
-(260, '769294', NULL, NULL, NULL, NULL, 'recommended_03 - ₹ 3038', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-18 23:59:57', '2025-03-18 23:59:57'),
-(264, 'Shirt', 'shirt', '', 'default', NULL, '[\"Small\",\"Medium\",\"Large\"]', NULL, '[\"Red\",\"Blue\",\"Black\"]', NULL, '<p>awesome</p>', NULL, NULL, '', 700.00, 800.00, 185, 27, NULL, 'No', '15784877', '858585', 'Yes', 91, 1, '2025-03-19 00:46:20', '2025-03-19 02:04:13'),
-(273, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#ef7b1b', NULL, 'Delight', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-19 05:51:30', '2025-03-19 05:51:30'),
-(274, '536651', NULL, NULL, NULL, 'panoromic_01 - ₹ 396', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-19 05:51:53', '2025-03-19 05:51:53'),
-(277, 'Mukesh', NULL, NULL, 'Neon', 'Large', NULL, '#ffed00', NULL, 'Robo', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-19 06:37:55', '2025-03-19 06:37:55'),
-(278, '631993', NULL, NULL, NULL, 'recommended_02 - ₹ 1377', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-19 06:38:50', '2025-03-19 06:41:09'),
-(280, 'Personalized Wooden Photo Frames', 'personalized-wooden-photo-frames', 'personalized-wooden-photo-frames_1742447107.jpg', 'default', NULL, '', NULL, '', NULL, '<p><b>Personalized Wooden Photo Frames - Crafted with Love</b></p><p>Have a look at our stunning MDF personalized wooden photo frames - the perfect way to showcase your cherished memories in style! Crafted from high-quality medium density fibreboard wood, these wooden photo frames are not only durable but also incredibly stylish, with a smooth finish that adds a touch of elegance to any room. But what really sets our frames apart is the ability to customize them with your own unique message or design. Even if you want to add your favorite quote, a special date, or any graphic, our expert craftsmen can bring your vision to life. No matter whether you\'re looking to commemorate a special event, give a heartfelt gift, or simply add a touch of personality to your home decor, these are the perfect option.</p><p><br></p><p><b>Features of personalized wooden photo frame</b></p><p>● Personalize your photo frame with your own unique message or design.<br><span style=\"font-size: 1rem;\">● Crafted from high-quality Medium Density Fibreboard wood for durability and style.<br></span><span style=\"font-size: 1rem;\">● Add a touch of elegance to any room with the smooth finish. ps</span></p><div><br></div>', NULL, NULL, '', 800.00, 900.00, 187, 35, NULL, 'No', 'woodenframe_001', 'woodenframe_001', 'Yes', 50, 1, '2025-03-19 23:35:10', '2025-03-19 23:35:10'),
-(281, 'Print Metal', 'print-metal', '', 'default', NULL, '[\"Small\",\"Medium\"]', NULL, '[\"Red\"]', NULL, '<p>test</p>', 'test', 'test', '', 800.00, 900.00, 185, 27, NULL, 'No', 'metalframe_001', 'metalframe_001', 'Yes', 8, 1, '2025-03-19 23:38:19', '2025-03-21 07:19:12'),
-(288, '903008', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 04:59:50', '2025-03-21 04:59:50'),
-(289, '719898', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 04:59:52', '2025-03-21 04:59:52'),
-(290, '958413', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:01:03', '2025-03-21 05:01:03'),
-(291, '924024', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:01:22', '2025-03-21 05:01:22'),
-(292, '255508', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:01:54', '2025-03-21 05:01:54'),
-(293, '719509', NULL, NULL, NULL, 'recommended_02 - ₹ 1377', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:32:22', '2025-03-21 05:32:22'),
-(294, '581738', NULL, NULL, NULL, 'recommended_02 - ₹ 1377', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:32:26', '2025-03-21 05:32:26'),
-(295, '543879', NULL, NULL, NULL, 'panoromic_01 - ₹ 396', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 05:33:03', '2025-03-21 05:33:03'),
-(296, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#62bed3', NULL, 'Robo', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 06:48:13', '2025-03-21 06:48:13'),
-(297, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#62bed3', NULL, 'Robo', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 06:48:16', '2025-03-21 06:48:16'),
-(298, 'Mukesh Bhavsar', NULL, NULL, 'Neon', 'Medium', NULL, '#ffffff', NULL, 'Robo', NULL, NULL, NULL, NULL, 42000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 06:58:26', '2025-03-21 06:58:26'),
-(299, 'Mukesh Bhavsar', NULL, NULL, 'Neon', 'Medium', NULL, '#ffffff', NULL, 'Robo', NULL, NULL, NULL, NULL, 42000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 06:58:28', '2025-03-21 06:58:28'),
-(300, 'Mukesh', NULL, NULL, 'Neon', 'Regular', NULL, '#0000ff', NULL, 'Passionate', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 06:59:56', '2025-03-21 06:59:56'),
-(301, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#834e98', NULL, 'Romantic', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 07:00:21', '2025-03-21 07:00:21'),
-(302, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#62bed3', NULL, 'Passionate', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 07:01:18', '2025-03-21 07:01:18'),
-(303, 'Mukesh', NULL, NULL, 'Neon', 'Regular', NULL, '#ef7b1b', NULL, 'Romantic', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 07:19:29', '2025-03-21 07:19:29'),
-(304, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#ffffff', NULL, 'Passionate', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 07:53:20', '2025-03-21 07:53:20'),
-(305, '943469', NULL, NULL, NULL, 'panoromic_01 - ₹ 396', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 07:53:43', '2025-03-21 07:54:45'),
-(306, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#ef7b1b', NULL, 'Robo', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 08:03:14', '2025-03-21 08:03:14'),
-(307, '33', NULL, NULL, 'Neon', 'Large', NULL, '#ffffff', NULL, 'DOPE', NULL, NULL, NULL, NULL, 6000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 08:03:33', '2025-03-21 08:03:33'),
-(308, '281321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:17:12', '2025-03-21 08:17:35'),
-(309, '667946', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:18:37', '2025-03-21 08:18:59'),
-(310, '634162', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:21:53', '2025-03-21 08:22:15'),
-(311, '358761', NULL, NULL, NULL, '23', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2700.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:24:05', '2025-03-21 08:24:30'),
-(312, '724853', NULL, NULL, NULL, '21', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2500.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:28:57', '2025-03-21 08:29:25'),
-(313, '969143', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:32:42', '2025-03-21 08:32:42'),
-(314, '576473', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:33:28', '2025-03-21 08:33:51'),
-(315, '888521', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:35:23', '2025-03-21 08:35:44'),
-(316, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:39:01', '2025-03-21 08:39:23'),
-(317, 'Mukesh Bhavsar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:39:23', '2025-03-21 08:39:23'),
-(318, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:40:58', '2025-03-21 08:41:38'),
-(319, 'Mukesh Bhavsar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:41:38', '2025-03-21 08:41:38'),
-(320, 'Mukesh Bhavsar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:41:38', '2025-03-21 08:41:38'),
-(321, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', -1, 1, '2025-03-21 08:42:39', '2025-03-21 08:43:00'),
-(322, 'Mukesh Bhavsar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:43:00', '2025-03-21 08:43:00'),
-(323, 'Mukesh Bhavsar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 08:43:01', '2025-03-21 08:43:01'),
-(324, 'Mukesh', NULL, NULL, 'Neon', 'Medium', NULL, '#ffffff', NULL, 'Passionate', NULL, NULL, NULL, NULL, 18000.00, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'No', 1, 0, '2025-03-21 22:46:41', '2025-03-21 22:46:41'),
-(325, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 22:46:46', '2025-03-21 22:46:46'),
-(326, '852491', NULL, NULL, NULL, 'panoromic_01 - ₹ 396', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No', NULL, NULL, 'Yes', NULL, 1, '2025-03-21 22:47:01', '2025-03-21 22:47:01');
+INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `metal_type`, `size`, `sizes`, `color`, `colors`, `height`, `width`, `font`, `description`, `short_description`, `shipping_returns`, `related_products`, `price`, `compare_price`, `category_id`, `sub_category_id`, `brand_id`, `is_featured`, `sku`, `barcode`, `track_qty`, `qty`, `status`, `created_at`, `updated_at`) VALUES
+(395, 'Customize Neon', 'customize-neon', 'Neon', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Test2</p>', 'test', 'test', '373', 600.00, NULL, 296, 57, NULL, 'No', 'woodframe_001', NULL, 'Yes', 90, 1, '2025-03-26 09:55:53', '2025-04-07 04:53:41'),
+(504, 'Common', 'common', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 297, 60, NULL, 'No', 'metalframe_001', NULL, 'Yes', 100, 1, '2025-03-31 05:51:08', '2025-03-31 05:55:57'),
+(505, 'Tshirt', 'tshirt', 'Default', 't_shirt', NULL, '\"[\\\"Small\\\",\\\"Medium\\\"]\"', NULL, '\"[\\\"Red\\\",\\\"Blue\\\"]\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', 'metalframe_0012', NULL, 'Yes', 50, 1, '2025-03-31 05:54:23', '2025-03-31 05:54:23'),
+(519, 'test', 'test', 'Default', 't_shirt', NULL, NULL, NULL, '\"[\\\"Red\\\",\\\"Blue\\\",\\\"Black\\\"]\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', NULL, NULL, 'Yes', 99, 1, '2025-04-02 00:25:08', '2025-04-06 20:11:56'),
+(520, 'Mouse Pad', 'mouse-pad', 'Customize', 'Acrylic', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 93, 1, '2025-04-06 20:35:09', '2025-04-07 07:08:27'),
+(521, 'Key Chain', 'key-chain', 'Customize', 'Canvas', NULL, '\"null\"', NULL, '\"null\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 96, 1, '2025-04-06 20:44:43', '2025-04-07 04:48:54');
 
 -- --------------------------------------------------------
 
@@ -1136,7 +955,11 @@ INSERT INTO `products` (`id`, `name`, `slug`, `image`, `product_type`, `size`, `
 CREATE TABLE `product_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `image` varchar(255) NOT NULL,
+  `image1` varchar(255) DEFAULT NULL,
+  `image2` varchar(255) DEFAULT NULL,
+  `image3` varchar(255) DEFAULT NULL,
+  `image4` varchar(255) DEFAULT NULL,
+  `image5` varchar(255) DEFAULT NULL,
   `sort_order` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1146,31 +969,13 @@ CREATE TABLE `product_images` (
 -- Dumping data for table `product_images`
 --
 
-INSERT INTO `product_images` (`id`, `product_id`, `image`, `sort_order`, `created_at`, `updated_at`) VALUES
-(50, NULL, 'uploads/1741580071.JPG', NULL, '2025-03-10 00:07:38', '2025-03-10 00:07:38'),
-(204, 259, '642964_Mukesh.svg', NULL, '2025-03-18 23:59:09', '2025-03-18 23:59:09'),
-(205, 260, 'uploads/1742362194.JPG', NULL, '2025-03-18 23:59:57', '2025-03-18 23:59:57'),
-(207, 273, '748957_Mukesh.svg', NULL, '2025-03-19 05:51:30', '2025-03-19 05:51:30'),
-(208, 274, 'uploads/1742362194.JPG', NULL, '2025-03-19 05:51:53', '2025-03-19 05:51:53'),
-(209, 277, '164182_Mukesh.svg', NULL, '2025-03-19 06:37:55', '2025-03-19 06:37:55'),
-(210, 278, 'uploads/1742386100.JPG', NULL, '2025-03-19 06:38:50', '2025-03-19 06:38:50'),
-(211, 293, 'uploads/1742554929.jpg', NULL, '2025-03-21 05:32:22', '2025-03-21 05:32:22'),
-(212, 294, 'uploads/1742554929.jpg', NULL, '2025-03-21 05:32:26', '2025-03-21 05:32:26'),
-(213, 295, 'uploads/1742554929.jpg', NULL, '2025-03-21 05:33:03', '2025-03-21 05:33:03'),
-(214, 296, '578120_Mukesh.svg', NULL, '2025-03-21 06:48:14', '2025-03-21 06:48:14'),
-(215, 297, '578120_Mukesh.svg', NULL, '2025-03-21 06:48:16', '2025-03-21 06:48:16'),
-(216, 298, '248237_Mukesh Bhavsar.svg', NULL, '2025-03-21 06:58:26', '2025-03-21 06:58:26'),
-(217, 299, '248237_Mukesh Bhavsar.svg', NULL, '2025-03-21 06:58:28', '2025-03-21 06:58:28'),
-(218, 300, '896322_Mukesh.svg', NULL, '2025-03-21 06:59:56', '2025-03-21 06:59:56'),
-(219, 301, '507318_Mukesh.svg', NULL, '2025-03-21 07:00:21', '2025-03-21 07:00:21'),
-(220, 302, '458837_Mukesh.svg', NULL, '2025-03-21 07:01:18', '2025-03-21 07:01:18'),
-(221, 303, '284431_Mukesh.svg', NULL, '2025-03-21 07:19:29', '2025-03-21 07:19:29'),
-(222, 304, '809570_Mukesh.svg', NULL, '2025-03-21 07:53:20', '2025-03-21 07:53:20'),
-(223, 305, 'uploads/1742554929.jpg', NULL, '2025-03-21 07:53:43', '2025-03-21 07:53:43'),
-(224, 306, '880577_Mukesh.svg', NULL, '2025-03-21 08:03:14', '2025-03-21 08:03:14'),
-(225, 307, '652739_33.svg', NULL, '2025-03-21 08:03:33', '2025-03-21 08:03:33'),
-(226, 324, '117372_Mukesh.svg', NULL, '2025-03-21 22:46:41', '2025-03-21 22:46:41'),
-(227, 326, 'No image found', NULL, '2025-03-21 22:47:01', '2025-03-21 22:47:01');
+INSERT INTO `product_images` (`id`, `product_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `sort_order`, `created_at`, `updated_at`) VALUES
+(444, 395, 'customize-neon_1_1743248453.JPG', 'customize-neon_2_1743248454.JPG', 'customize-neon_3_1743248456.JPG', 'customize-neon_4_1743248456.JPG', 'customize-neon_5_1743248457.JPG', NULL, '2025-03-29 06:10:59', '2025-03-29 06:10:59'),
+(448, 504, 'common_1_1743420068.jpg', NULL, NULL, NULL, NULL, NULL, '2025-03-31 05:51:09', '2025-03-31 05:51:09'),
+(449, 505, 'tshirt_1_1743420263.jpg', NULL, NULL, NULL, NULL, NULL, '2025-03-31 05:54:24', '2025-03-31 05:54:24'),
+(463, 519, 'test_1_1743573308.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-02 00:25:08', '2025-04-02 00:25:08'),
+(464, 520, 'mouse-pad_1_1743991509.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-06 20:35:09', '2025-04-06 20:35:09'),
+(465, 521, 'key-chain_1_1743992083.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-06 20:44:44', '2025-04-06 20:44:44');
 
 -- --------------------------------------------------------
 
@@ -1237,6 +1042,22 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sample_products`
+--
+
+CREATE TABLE `sample_products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`images`)),
+  `sizes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`sizes`)),
+  `colors` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`colors`)),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -1260,12 +1081,11 @@ CREATE TABLE `settings` (
   `name` varchar(255) DEFAULT NULL,
   `business_line` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `logo` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `whatsapp` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `address` text DEFAULT NULL,
-  `banners` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`banners`)),
   `facebook` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
   `twitter` varchar(255) DEFAULT NULL,
@@ -1278,8 +1098,8 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `name`, `business_line`, `description`, `logo`, `phone`, `whatsapp`, `email`, `address`, `banners`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
-(1, 'Mukesh Bhavsar', 'Deloitte Digital', NULL, 'uploads/logo_1742646385.png', '09978835005', NULL, 'mukeshbhavsar210@gmail.com', 'Keerthi Royal Palms,', '[\"uploads\\/banners\\/banner_1742646407.jpg\"]', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-03-22 07:01:42');
+INSERT INTO `settings` (`id`, `name`, `business_line`, `description`, `image`, `phone`, `whatsapp`, `email`, `address`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
+(1, 'Heaven Prints', 'Customized Neon and Frames', 'Hello', 'Heaven Prints.jpg', '9924489907', '9924489907', 'info@heavenprints.in', 'Shahpur, Ahmedabad', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-04-04 23:10:12');
 
 -- --------------------------------------------------------
 
@@ -1301,7 +1121,33 @@ CREATE TABLE `shipping_charges` (
 
 INSERT INTO `shipping_charges` (`id`, `country_id`, `amount`, `created_at`, `updated_at`) VALUES
 (19, '1', 50.00, '2025-02-20 05:35:38', '2025-02-20 05:35:38'),
-(22, '100', 90.00, '2025-03-09 23:32:04', '2025-03-09 23:32:04');
+(23, '6', 100.00, '2025-03-26 07:47:09', '2025-03-26 07:47:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sizes`
+--
+
+CREATE TABLE `sizes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `show` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sizes`
+--
+
+INSERT INTO `sizes` (`id`, `name`, `show`, `created_at`, `updated_at`) VALUES
+(2, 'Small', 'Yes', '2025-04-02 02:20:14', '2025-04-02 02:20:14'),
+(3, 'Medium', 'Yes', '2025-04-02 02:20:25', '2025-04-02 02:20:25'),
+(4, 'Large', 'Yes', '2025-04-02 02:20:31', '2025-04-02 02:20:31'),
+(5, 'XL', 'Yes', '2025-04-02 02:20:38', '2025-04-02 02:20:38'),
+(6, 'XXL', 'Yes', '2025-04-02 02:20:43', '2025-04-02 02:20:43'),
+(7, 'XXXL', 'Yes', '2025-04-02 02:20:52', '2025-04-02 02:20:52');
 
 -- --------------------------------------------------------
 
@@ -1334,7 +1180,7 @@ INSERT INTO `states` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `sub_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
+  `slug_sub_category` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `showHome` enum('Yes','No') NOT NULL DEFAULT 'No',
@@ -1347,15 +1193,13 @@ CREATE TABLE `sub_categories` (
 -- Dumping data for table `sub_categories`
 --
 
-INSERT INTO `sub_categories` (`id`, `name`, `slug`, `image`, `status`, `showHome`, `category_id`, `created_at`, `updated_at`) VALUES
-(27, 'Best Seller', 'best-seller', 'best-seller_1742617420.jpg', 1, 'Yes', 185, '2025-02-20 03:25:59', '2025-03-21 22:53:41'),
-(28, 'For Business', 'for-business', 'for-business_1742617375.jpg', 1, 'Yes', 185, '2025-02-20 03:32:27', '2025-03-21 22:52:55'),
-(29, 'For Event', 'for-event', 'for-event_1742617358.jpg', 1, 'Yes', 185, '2025-02-20 03:38:31', '2025-03-21 22:52:38'),
-(30, 'Under ₹4000', 'under-rs4000', 'under-rs4000_1742617442.jpg', 1, 'Yes', 185, '2025-02-20 03:39:41', '2025-03-21 22:54:02'),
-(31, 'For Kids', 'for-kids', 'for-kids_1742617435.jpg', 1, 'Yes', 185, '2025-02-20 03:40:02', '2025-03-21 22:53:55'),
-(32, 'Floro Sign', 'floro-sign', '32_Floro Sign.jpg', 1, 'Yes', 185, '2025-02-20 03:40:18', '2025-02-20 03:40:18'),
-(35, 'Wooden Frame', 'wooden-frame', 'wooden-frame_1742450047.jpg', 1, 'Yes', 187, '2025-02-24 09:33:30', '2025-03-20 00:24:07'),
-(42, 'Metal Frame', 'metal-frame', 'metal-frame_1742540859.jpg', 1, 'Yes', 187, '2025-03-21 01:37:42', '2025-03-21 01:37:42');
+INSERT INTO `sub_categories` (`id`, `name`, `slug_sub_category`, `image`, `status`, `showHome`, `category_id`, `created_at`, `updated_at`) VALUES
+(51, 'Metal Prints', 'metal-prints', '_1743252178.JPG', 1, 'Yes', 298, '2025-03-25 04:17:20', '2025-04-06 21:18:30'),
+(53, 'Canvas Print', 'canvas-print', '_1743080632.jpg', 1, 'Yes', 298, '2025-03-26 06:09:30', '2025-04-06 21:18:43'),
+(54, 'Woods', 'woods', '_1743080624.jpg', 1, 'Yes', 298, '2025-03-26 09:54:38', '2025-04-06 21:18:53'),
+(57, 'Customize Neon', 'customize-neon', 'neon_1743085610.jpg', 1, 'Yes', 296, '2025-03-27 08:56:50', '2025-03-27 09:09:30'),
+(60, 'Common', 'common', 'common_1743420036.png', 1, 'Yes', 297, '2025-03-31 05:50:36', '2025-03-31 05:50:36'),
+(61, 'Customize Products', 'customize-products', 'customize-products_1743990448.jpg', 1, 'Yes', 298, '2025-04-06 20:17:30', '2025-04-06 20:17:30');
 
 -- --------------------------------------------------------
 
@@ -1375,102 +1219,15 @@ CREATE TABLE `temp_images` (
 --
 
 INSERT INTO `temp_images` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(201, '1736143887.jpg', '2025-01-06 00:41:27', '2025-01-06 00:41:27'),
-(202, '1736143971.jpg', '2025-01-06 00:42:51', '2025-01-06 00:42:51'),
-(203, '1736144037.jpg', '2025-01-06 00:43:57', '2025-01-06 00:43:57'),
-(204, '1736144107.jpg', '2025-01-06 00:45:07', '2025-01-06 00:45:07'),
-(205, '1736144227.jpg', '2025-01-06 00:47:07', '2025-01-06 00:47:07'),
-(206, '1736144550.jpg', '2025-01-06 00:52:30', '2025-01-06 00:52:30'),
-(207, '1736144578.jpg', '2025-01-06 00:52:58', '2025-01-06 00:52:58'),
-(208, '1736144601.jpg', '2025-01-06 00:53:21', '2025-01-06 00:53:21'),
-(209, '1736144811.jpg', '2025-01-06 00:56:51', '2025-01-06 00:56:51'),
-(210, '1736144899.jpg', '2025-01-06 00:58:19', '2025-01-06 00:58:19'),
-(211, '1736144931.jpg', '2025-01-06 00:58:51', '2025-01-06 00:58:51'),
-(212, '1736145300.jpg', '2025-01-06 01:05:00', '2025-01-06 01:05:00'),
-(213, '1736145344.jpg', '2025-01-06 01:05:44', '2025-01-06 01:05:44'),
-(214, '1736145406.jpg', '2025-01-06 01:06:46', '2025-01-06 01:06:46'),
-(215, '1736145716.jpg', '2025-01-06 01:11:56', '2025-01-06 01:11:56'),
-(216, '1736145787.jpg', '2025-01-06 01:13:07', '2025-01-06 01:13:07'),
-(217, '1736145877.jpg', '2025-01-06 01:14:37', '2025-01-06 01:14:37'),
-(218, '1736146075.jpg', '2025-01-06 01:17:55', '2025-01-06 01:17:55'),
-(219, '1736146213.jpg', '2025-01-06 01:20:13', '2025-01-06 01:20:13'),
-(220, '1736146327.jpg', '2025-01-06 01:22:07', '2025-01-06 01:22:07'),
-(221, '1736146327.jpg', '2025-01-06 01:22:07', '2025-01-06 01:22:07'),
-(222, '1736146327.jpg', '2025-01-06 01:22:07', '2025-01-06 01:22:07'),
-(223, '1736146328.jpg', '2025-01-06 01:22:08', '2025-01-06 01:22:08'),
-(224, '1736320282.jpg', '2025-01-08 01:41:22', '2025-01-08 01:41:22'),
-(225, '1736320340.jpg', '2025-01-08 01:42:20', '2025-01-08 01:42:20'),
-(226, '1737978218.jpg', '2025-01-27 06:13:38', '2025-01-27 06:13:38'),
-(227, '1737978326.jpg', '2025-01-27 06:15:26', '2025-01-27 06:15:26'),
-(228, '1739460833.JPG', '2025-02-13 10:03:53', '2025-02-13 10:03:53'),
-(229, '1739460925.JPG', '2025-02-13 10:05:25', '2025-02-13 10:05:25'),
-(230, '1740041756.jpg', '2025-02-20 03:25:56', '2025-02-20 03:25:56'),
-(231, '1740042139.jpg', '2025-02-20 03:32:19', '2025-02-20 03:32:19'),
-(232, '1740042339.jpg', '2025-02-20 03:35:39', '2025-02-20 03:35:39'),
-(233, '1740042510.jpg', '2025-02-20 03:38:30', '2025-02-20 03:38:30'),
-(234, '1740042552.jpg', '2025-02-20 03:39:12', '2025-02-20 03:39:12'),
-(235, '1740042600.webp', '2025-02-20 03:40:00', '2025-02-20 03:40:00'),
-(236, '1740042617.jpg', '2025-02-20 03:40:17', '2025-02-20 03:40:17'),
-(237, '1740044086.jpg', '2025-02-20 04:04:46', '2025-02-20 04:04:46'),
-(238, '1740060596.jpg', '2025-02-20 08:39:56', '2025-02-20 08:39:56'),
-(239, '1740060619.jpg', '2025-02-20 08:40:19', '2025-02-20 08:40:19'),
-(240, '1740060648.jpg', '2025-02-20 08:40:48', '2025-02-20 08:40:48'),
-(241, '1740406833.jpg', '2025-02-24 08:50:33', '2025-02-24 08:50:33'),
-(242, '1740409407.webp', '2025-02-24 09:33:27', '2025-02-24 09:33:27'),
-(243, '1740409516.jpg', '2025-02-24 09:35:16', '2025-02-24 09:35:16'),
-(244, '1741761702.JPG', '2025-03-12 01:11:42', '2025-03-12 01:11:42'),
-(245, '1741961225.JPG', '2025-03-14 08:37:05', '2025-03-14 08:37:05'),
-(246, '1741962626.JPG', '2025-03-14 09:00:26', '2025-03-14 09:00:26'),
-(247, '1741962731.JPG', '2025-03-14 09:02:11', '2025-03-14 09:02:11'),
-(248, '1741962748.JPG', '2025-03-14 09:02:28', '2025-03-14 09:02:28'),
-(249, '1741962823.JPG', '2025-03-14 09:03:43', '2025-03-14 09:03:43'),
-(250, '1741962877.JPG', '2025-03-14 09:04:37', '2025-03-14 09:04:37'),
-(251, '1741962902.JPG', '2025-03-14 09:05:02', '2025-03-14 09:05:02'),
-(252, '1741962939.JPG', '2025-03-14 09:05:39', '2025-03-14 09:05:39'),
-(253, '1741962986.JPG', '2025-03-14 09:06:26', '2025-03-14 09:06:26'),
-(254, '1741962995.JPG', '2025-03-14 09:06:35', '2025-03-14 09:06:35'),
-(255, '1741963279.JPG', '2025-03-14 09:11:19', '2025-03-14 09:11:19'),
-(256, '1741963400.JPG', '2025-03-14 09:13:20', '2025-03-14 09:13:20'),
-(257, '1741963494.JPG', '2025-03-14 09:14:54', '2025-03-14 09:14:54'),
-(258, '1741963560.JPG', '2025-03-14 09:16:00', '2025-03-14 09:16:00'),
-(259, '1741963710.JPG', '2025-03-14 09:18:30', '2025-03-14 09:18:30'),
-(260, '1741963750.JPG', '2025-03-14 09:19:10', '2025-03-14 09:19:10'),
-(261, '1741963767.JPG', '2025-03-14 09:19:27', '2025-03-14 09:19:27'),
-(262, '1742274939.jpg', '2025-03-17 23:45:39', '2025-03-17 23:45:39'),
-(263, '1742275083.jpg', '2025-03-17 23:48:03', '2025-03-17 23:48:03'),
-(264, '1742275323.jpg', '2025-03-17 23:52:03', '2025-03-17 23:52:03'),
-(265, '1742275328.jpg', '2025-03-17 23:52:08', '2025-03-17 23:52:08'),
-(266, '1742275358.jpg', '2025-03-17 23:52:38', '2025-03-17 23:52:38'),
-(267, '1742275381.jpeg', '2025-03-17 23:53:01', '2025-03-17 23:53:01'),
-(268, '1742276196.jpeg', '2025-03-18 00:06:36', '2025-03-18 00:06:36'),
-(269, '1742276292.jpg', '2025-03-18 00:08:12', '2025-03-18 00:08:12'),
-(270, '1742276303.jpg', '2025-03-18 00:08:23', '2025-03-18 00:08:23'),
-(271, '1742276352.jpeg', '2025-03-18 00:09:12', '2025-03-18 00:09:12'),
-(272, '1742276837.jpg', '2025-03-18 00:17:17', '2025-03-18 00:17:17'),
-(273, '1742276906.jpeg', '2025-03-18 00:18:26', '2025-03-18 00:18:26'),
-(274, '1742277034.jpeg', '2025-03-18 00:20:34', '2025-03-18 00:20:34'),
-(275, '1742277159.jpeg', '2025-03-18 00:22:39', '2025-03-18 00:22:39'),
-(276, '1742277179.jpeg', '2025-03-18 00:22:59', '2025-03-18 00:22:59'),
-(277, '1742277424.jpg', '2025-03-18 00:27:04', '2025-03-18 00:27:04'),
-(278, '1742277543.jpg', '2025-03-18 00:29:03', '2025-03-18 00:29:03'),
-(279, '1742277621.jpeg', '2025-03-18 00:30:21', '2025-03-18 00:30:21'),
-(280, '1742277714.jpg', '2025-03-18 00:31:54', '2025-03-18 00:31:54'),
-(281, '1742277914.jpg', '2025-03-18 00:35:14', '2025-03-18 00:35:14'),
-(282, '1742278029.jpg', '2025-03-18 00:37:09', '2025-03-18 00:37:09'),
-(283, '1742278378.jpeg', '2025-03-18 00:42:58', '2025-03-18 00:42:58'),
-(284, '1742278538.jpeg', '2025-03-18 00:45:38', '2025-03-18 00:45:38'),
-(285, '1742278560.jpg', '2025-03-18 00:46:00', '2025-03-18 00:46:00'),
-(286, '1742278660.jpg', '2025-03-18 00:47:40', '2025-03-18 00:47:40'),
-(287, '1742279158.jpeg', '2025-03-18 00:55:58', '2025-03-18 00:55:58'),
-(288, '1742279177.jpeg', '2025-03-18 00:56:17', '2025-03-18 00:56:17'),
-(289, '1742280199.jpg', '2025-03-18 01:13:19', '2025-03-18 01:13:19'),
-(290, '1742280428.jpg', '2025-03-18 01:17:08', '2025-03-18 01:17:08'),
-(291, '1742280487.jpg', '2025-03-18 01:18:07', '2025-03-18 01:18:07'),
-(292, '1742280530.jpg', '2025-03-18 01:18:50', '2025-03-18 01:18:50'),
-(293, '1742281767.jpg', '2025-03-18 01:39:27', '2025-03-18 01:39:27'),
-(294, '1742282048.JPG', '2025-03-18 01:44:08', '2025-03-18 01:44:08'),
-(295, '1742447420.jpg', '2025-03-19 23:40:20', '2025-03-19 23:40:20'),
-(296, '1742447461.jpg', '2025-03-19 23:41:01', '2025-03-19 23:41:01');
+(573, '1743058156.jpg', '2025-03-27 01:19:16', '2025-03-27 01:19:16'),
+(574, '1743065181.JPG', '2025-03-27 03:16:21', '2025-03-27 03:16:21'),
+(575, '1743065184.JPG', '2025-03-27 03:16:24', '2025-03-27 03:16:24'),
+(576, '1743065186.JPG', '2025-03-27 03:16:26', '2025-03-27 03:16:26'),
+(577, '1743082055.png', '2025-03-27 07:57:35', '2025-03-27 07:57:35'),
+(578, '1743082056.png', '2025-03-27 07:57:36', '2025-03-27 07:57:36'),
+(579, '1743082073.jpg', '2025-03-27 07:57:53', '2025-03-27 07:57:53'),
+(580, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15'),
+(581, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15');
 
 -- --------------------------------------------------------
 
@@ -1480,23 +1237,31 @@ INSERT INTO `temp_images` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `role` int(11) NOT NULL DEFAULT 2,
+  `phone` varchar(20) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `role` int(11) NOT NULL DEFAULT 1,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
+  `is_protected` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `otp` varchar(255) DEFAULT NULL,
+  `otp_expires_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(7, 'Mukesh Bhavsar', 'mukeshbhavsar210@gmail.com', 2, NULL, '$2y$10$atts/65kfJw0YoA6jw3f2.U0XsNfRera0pwSXdTRmdlQHmvpAIHK2', NULL, '2023-12-19 07:11:37', '2023-12-19 07:11:37'),
-(30, 'Dhruv', 'dhruvbhavsar210@gmail.com', 1, NULL, '$2y$10$dae3P.w7vD12DPUw3G9ydOKQ3PRuuxP3KRGIBnbfXnCNIA5uXtVAu', NULL, '2025-02-17 01:03:07', '2025-02-17 01:04:13');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `status`, `role`, `email_verified_at`, `password`, `remember_token`, `is_protected`, `created_at`, `updated_at`, `otp`, `otp_expires_at`) VALUES
+(7, 'Mukesh', 'Bhavsar', 'mukeshbhavsar210@gmail.com', NULL, 1, 2, NULL, '$2y$10$atts/65kfJw0YoA6jw3f2.U0XsNfRera0pwSXdTRmdlQHmvpAIHK2', NULL, 1, '2023-12-19 07:11:37', '2023-12-19 07:11:37', NULL, NULL),
+(30, 'Dhruv', 'Bhavsar', 'dhruvbhavsar210@gmail.com', NULL, 1, 1, NULL, '$2y$10$CINsltt2MKGU/BTfWGEQgex3wlwhdvt9.uLROJuwhZ48SezK.b1ia', NULL, 0, '2025-02-17 01:03:07', '2025-03-31 02:03:54', NULL, NULL),
+(38, 'Priyanka', 'Bhavsar', 'p.bhavsar2610@gmail.com', '09978835005', 1, 2, NULL, '$2y$10$mdQmbXEsrP39cT0gXXoaEeP7Pr3mX.Ex81j5avMRs4uZrjD3CopQe', NULL, 0, '2025-03-31 04:38:32', '2025-03-31 04:38:32', NULL, NULL),
+(39, 'Jay', 'Shrimali', 'jay@gmail.com', '9978812345', 1, 1, NULL, '$2y$10$OZwZ23bg01WA.1t3ZnSnnOBZa.500oyrNwxv9AiXIkYbfkpvvGsJi', NULL, 0, '2025-04-01 22:30:27', '2025-04-01 22:30:27', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1513,15 +1278,14 @@ CREATE TABLE `wishlists` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `wishlists`
---
-
-INSERT INTO `wishlists` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(40, 30, 264, '2025-03-19 02:26:26', '2025-03-19 02:26:26');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `banners`
+--
+ALTER TABLE `banners`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `brands`
@@ -1533,6 +1297,12 @@ ALTER TABLE `brands`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `colors`
+--
+ALTER TABLE `colors`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1548,6 +1318,12 @@ ALTER TABLE `customer_addresses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_addresses_user_id_foreign` (`user_id`),
   ADD KEY `customer_addresses_country_id_foreign` (`country_id`);
+
+--
+-- Indexes for table `custom_totals`
+--
+ALTER TABLE `custom_totals`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `discount_coupons`
@@ -1572,6 +1348,12 @@ ALTER TABLE `frame_borders`
 -- Indexes for table `frame_frames`
 --
 ALTER TABLE `frame_frames`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `frame_materials`
+--
+ALTER TABLE `frame_materials`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1677,6 +1459,12 @@ ALTER TABLE `pages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
 -- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -1744,6 +1532,12 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `sample_products`
+--
+ALTER TABLE `sample_products`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -1761,6 +1555,12 @@ ALTER TABLE `settings`
 -- Indexes for table `shipping_charges`
 --
 ALTER TABLE `shipping_charges`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sizes`
+--
+ALTER TABLE `sizes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1802,28 +1602,46 @@ ALTER TABLE `wishlists`
 --
 
 --
+-- AUTO_INCREMENT for table `banners`
+--
+ALTER TABLE `banners`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
+
+--
+-- AUTO_INCREMENT for table `colors`
+--
+ALTER TABLE `colors`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer_addresses`
 --
 ALTER TABLE `customer_addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `custom_totals`
+--
+ALTER TABLE `custom_totals`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `discount_coupons`
@@ -1848,6 +1666,12 @@ ALTER TABLE `frame_borders`
 --
 ALTER TABLE `frame_frames`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `frame_materials`
+--
+ALTER TABLE `frame_materials`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `frame_metals`
@@ -1889,7 +1713,7 @@ ALTER TABLE `hardware_finishings`
 -- AUTO_INCREMENT for table `hardware_styles`
 --
 ALTER TABLE `hardware_styles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `image_edits`
@@ -1907,7 +1731,7 @@ ALTER TABLE `laminations`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `modifications`
@@ -1919,25 +1743,25 @@ ALTER TABLE `modifications`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -1955,13 +1779,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=522;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
 
 --
 -- AUTO_INCREMENT for table `product_ratings`
@@ -1976,16 +1800,28 @@ ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `sample_products`
+--
+ALTER TABLE `sample_products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping_charges`
 --
 ALTER TABLE `shipping_charges`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `sizes`
+--
+ALTER TABLE `sizes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `states`
@@ -1997,25 +1833,25 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `temp_images`
 --
 ALTER TABLE `temp_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=582;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables

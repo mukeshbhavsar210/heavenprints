@@ -42,7 +42,7 @@
                         @foreach ($standardFrame as $key => $value)
                             <div class="col-md-3 col-6">     
                                 <label class="custom-radio wrap_03" >
-                                <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Standart" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
+                                <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Standard" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
                                     <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/'.$value['image']) }}" alt="{{ $value['name'] }}" >
                                     <p class="radio-label">{{ $value['name'] }}</p>
                                     <p class="radio-label">{{ $value['price'] }}</p>

@@ -216,22 +216,19 @@
                                                 @else
                                                     <td style="width: 100px">
                                                         @if($item->product->images->isNotEmpty()) 
-                                                            <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image) }}" alt="Product Image" class="img-thumbnail" style="width: 80px;">
+                                                            <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image1) }}" alt="Product Image" class="img-thumbnail" style="width: 80px;">
                                                         @else
                                                             <img src="{{ asset('uploads/products/small/default.jpg') }}" alt="Default Image" style="width: 80px;">
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <h5>{{ $item->name }}</h5>
-                                                        <p style="font-size: 14px; margin:0;">
+                                                        <h5 class="mb-1 mt-3">{{ $item->name }}</h5>
+                                                        <p style="font-size: 13px; margin:0;">
                                                             @if($item->category)
-                                                                <b>Selected:</b> {{ $item->category }}
-                                                            @endif 
-                                                            @if($item->category)
-                                                                <b>Selected:</b> {{ $item->category }}
+                                                                <b>Selected:</b> {{ $item->category }},
                                                             @endif 
                                                             @if($item->size)
-                                                                <b>Size:</b> {{ $item->size }}
+                                                                <b>Size:</b> {{ $item->size }}, 
                                                             @endif 
                                                             @if($item->color)
                                                                 <b>Color:</b> {{ $item->color }}

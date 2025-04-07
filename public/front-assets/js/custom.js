@@ -227,7 +227,7 @@ $(document).ready(function(){
         slidesToShow: 5,
         slidesToScroll: 1,
         arrows: true,
-        dots: true,
+        dots: false,
         speed: 500,
         infinite: true,
         autoplaySpeed: 4000,

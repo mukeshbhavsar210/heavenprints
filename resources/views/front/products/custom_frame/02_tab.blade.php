@@ -1,39 +1,12 @@
-<div class="image-upload-wrapper">
+<div class="image-upload-wrapper mt-3s">
     <div class="accordion" id="myAccordion">
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Select Product
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#myAccordion">
-                <div class="accordion-body">
-                    <div class="radio-group row">
-                        @if($productSelection)
-                            @foreach ($productSelection as $key => $value)
-                                <div class="col-md-3 col-4">     
-                                    <label class="custom-radio-wrap wrap_01" >
-                                        <input type="radio" name="product_selection" value="{{ $key }}" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
-                                        <div class="productImg">
-                                            <img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" >
-                                        </div>        
-                                        <p>{{ $value['name'] }}</p>                                
-                                    </label>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Upload your photo wants to print on product.
                 </button>
             </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#myAccordion">
                 <div class="accordion-body">
                     <div style="{{ !$image ? 'display:block;' : 'display:none;' }}" >
                         <div class="demo-image-default">
@@ -61,6 +34,33 @@
                             <button class="btn btn-danger" id="deleteImage"><i class="fa fa-times"></i></button>            
                         @endif
                     </div> 
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Select Product
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+                <div class="accordion-body">
+                    <div class="radio-group row">
+                        @if($productSelection)
+                            @foreach ($productSelection as $key => $value)
+                                <div class="col-md-3 col-4">     
+                                    <label class="custom-radio-wrap wrap_01" >
+                                        <input type="radio" name="product_selection" value="{{ $key }}" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
+                                        <div class="productImg">
+                                            <img src="{{ asset('uploads/icons/selection/'.$value['image']) }}" alt="{{ $value['name'] }}" >
+                                        </div>        
+                                        <p>{{ $value['name'] }}</p>                                
+                                    </label>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
