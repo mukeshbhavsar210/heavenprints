@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 07, 2025 at 12:56 PM
+-- Generation Time: Apr 08, 2025 at 04:59 AM
 -- Server version: 10.11.10-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -192,8 +192,10 @@ CREATE TABLE `custom_totals` (
 --
 
 INSERT INTO `custom_totals` (`id`, `product_id`, `name`, `shape`, `size`, `total`, `custom_size_1`, `custom_size_2`, `created_at`, `updated_at`) VALUES
-(37, 507, 't_shirt', 'Square', '8\" x 8\"', '5300.00', NULL, NULL, '2025-04-07 11:31:19', '2025-04-07 11:31:19'),
-(38, 525, NULL, 'Square', '8\" x 8\"', '946.00', NULL, NULL, '2025-04-07 12:54:10', '2025-04-07 12:54:10');
+(49, 527, 'Canvas', 'Small', '16x16', '979.00', NULL, NULL, '2025-04-07 13:22:07', '2025-04-07 13:22:07'),
+(50, 526, NULL, 'Rectangle', NULL, '936.00', NULL, NULL, '2025-04-07 13:22:16', '2025-04-07 13:22:16'),
+(52, 524, NULL, 'Rectangle', '10\" x 10\"', '2172.00', NULL, NULL, '2025-04-07 15:24:52', '2025-04-07 15:24:52'),
+(53, 525, NULL, 'Square', '10\" x 10\"', '955.00', NULL, NULL, '2025-04-08 04:56:21', '2025-04-08 04:56:21');
 
 -- --------------------------------------------------------
 
@@ -237,56 +239,6 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `frame_borders`
---
-
-CREATE TABLE `frame_borders` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_borders`
---
-
-INSERT INTO `frame_borders` (`id`, `name`, `slug`, `price`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Mirror Image', 'mirror_image', '0', 'mirror-image.jpg', NULL, NULL),
-(2, 'Border Color', 'border_color', '0', 'border-color.jpg', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_frames`
---
-
-CREATE TABLE `frame_frames` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('standard','premium','floating') NOT NULL DEFAULT 'standard',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_frames`
---
-
-INSERT INTO `frame_frames` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Golden', 'golden', '798', 'golden.png', 'standard', NULL, NULL),
-(2, 'Cherry Style', 'cherry', '998.00', 'cherry-style.png', 'premium', NULL, NULL),
-(3, 'Black Floating Frame', 'black_floating', '1798.00', 'black-floating-frame.png', 'floating', NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `frame_materials`
 --
 
@@ -309,262 +261,6 @@ INSERT INTO `frame_materials` (`id`, `name`, `show`, `created_at`, `updated_at`)
 (7, 'Wood', 'Yes', '2025-04-01 23:26:56', '2025-04-01 23:26:56'),
 (8, 'Others', 'Yes', '2025-04-01 23:27:01', '2025-04-01 23:27:01'),
 (9, 'Synthetic', 'Yes', '2025-04-02 06:08:36', '2025-04-02 06:08:36');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_metals`
---
-
-CREATE TABLE `frame_metals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `shape` varchar(255) NOT NULL,
-  `size` varchar(255) NOT NULL,
-  `custom_size_1` varchar(255) DEFAULT NULL,
-  `custom_size_2` varchar(255) DEFAULT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_metals`
---
-
-INSERT INTO `frame_metals` (`id`, `name`, `shape`, `size`, `custom_size_1`, `custom_size_2`, `price`, `created_at`, `updated_at`) VALUES
-(23, '547863', 'Square', '8', '8', '8', 547863.00, '2025-03-21 05:40:27', '2025-03-21 05:40:27'),
-(24, '971287', 'Rectangle', '8', '8', '8', 971287.00, '2025-03-21 05:43:56', '2025-03-21 05:43:56'),
-(25, '578359', 'Square', '24', '24', '22', 578359.00, '2025-03-21 05:52:52', '2025-03-21 05:52:52'),
-(26, '468220', 'Rectangle', '8', '8', '8', 468220.00, '2025-03-21 05:56:47', '2025-03-21 05:56:47'),
-(27, '230886', 'Square', '8', '8', '8', 230886.00, '2025-03-21 06:58:19', '2025-03-21 06:58:19'),
-(28, '502614', 'Square', '8', '8', '8', 502614.00, '2025-03-21 07:19:35', '2025-03-21 07:19:35'),
-(29, '553866', 'Square', '8', '8', '8', 553866.00, '2025-03-21 07:22:13', '2025-03-21 07:22:13'),
-(30, '590154', 'Square', '8', '8', '8', 590154.00, '2025-03-21 07:23:03', '2025-03-21 07:23:03'),
-(31, '647883', 'Square', '8', '8', '8', 647883.00, '2025-03-21 07:24:12', '2025-03-21 07:24:12'),
-(32, '678475', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:30:55', '2025-03-21 07:30:55'),
-(33, '355340', 'Square', '8', '8', '8', 700.00, '2025-03-21 07:31:24', '2025-03-21 07:31:24'),
-(34, '205907', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:31:46', '2025-03-21 07:31:46'),
-(35, '470811', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:33:20', '2025-03-21 07:33:20');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_shapes`
---
-
-CREATE TABLE `frame_shapes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `types` enum('canvas','acrylic','metal','wood','others') DEFAULT 'canvas',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_shapes`
---
-
-INSERT INTO `frame_shapes` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Single Print', 'wood', 143, 'icon_single_print.png', 'canvas', NULL, NULL),
-(2, 'Round Canvas', 'metal', 721, 'round_canvas.png', 'acrylic', NULL, NULL),
-(3, 'Triangle Canvas', 'triangle_canvas', 1250, 'round_canvas.png', 'metal', NULL, NULL),
-(4, 'Single Print', 'single_print', 355, 'round_canvas.png', 'wood', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_sizes`
---
-
-CREATE TABLE `frame_sizes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `slug` varchar(25) NOT NULL,
-  `price` int(15) NOT NULL,
-  `types` enum('recommended','square','panaromic','large','small') NOT NULL DEFAULT 'recommended',
-  `height` int(10) NOT NULL DEFAULT 20,
-  `width` int(10) NOT NULL DEFAULT 20,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_sizes`
---
-
-INSERT INTO `frame_sizes` (`id`, `name`, `slug`, `price`, `types`, `height`, `width`, `created_at`, `updated_at`) VALUES
-(1, '8\" x 8\"', 'small', 0, 'square', 45, 45, NULL, NULL),
-(2, '10\" x 10\"', 'medium', 30, 'square', 47, 47, NULL, NULL),
-(3, '16\" x 16\"', 'large', 60, 'square', 49, 49, NULL, NULL),
-(4, '24\" x 24\"', 'four', 1066, 'square', 53, 53, NULL, NULL),
-(5, '30\" x 30\"', 'five', 1646, 'square', 56, 56, NULL, NULL),
-(6, '45\" x 45\"', 'six', 3640, 'square', 64, 64, NULL, NULL),
-(7, '11\" x 17\"', 'recommended_01', 379, 'recommended', 32, 50, NULL, NULL),
-(8, '22\" x 34\"', 'recommended_02', 1377, 'recommended', 38, 58, NULL, NULL),
-(9, '33\" x 51\"', 'recommended_03', 3038, 'recommended', 43, 67, NULL, NULL),
-(10, '8\" x 24\"', 'panoromic_01', 396, 'panaromic', 19, 57, NULL, NULL),
-(11, '10\" x 40\"', 'panoromic_02', 764, 'panaromic', 17, 70, NULL, NULL),
-(12, '12\" x 36\"', 'panoromic_03', 817, 'panaromic', 22, 67, NULL, NULL),
-(13, '15\" x 45\"', 'panoromic_04', 1255, 'panaromic', 24, 73, NULL, NULL),
-(14, '16\" x 48\"', 'panoromic_05', 1422, 'panaromic', 25, 76, NULL, NULL),
-(15, '18\" x 54\"', 'panoromic_06', 1787, 'panaromic', 27, 80, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_wraps`
---
-
-CREATE TABLE `frame_wraps` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('wrap','border') NOT NULL DEFAULT 'wrap',
-  `border_color` varchar(255) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_wraps`
---
-
-INSERT INTO `frame_wraps` (`id`, `name`, `slug`, `price`, `image`, `types`, `border_color`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'Canvas Lite (0.50\")', 'canvas_lite', '110', 'size05.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(2, 'Thin Gallery Wrap (0.75\")', 'thin_gallery_wrap', '185.90', 'size75.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(3, 'Thick Gallery Wrap (1.5\")', 'thick_gallery_wrap', '223.08', 'size15.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(4, 'Hanging Canvas', 'hanging_canvas', '121.55', 'hanging-canvas.jpg', 'wrap', NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_displays`
---
-
-CREATE TABLE `hardware_displays` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_displays`
---
-
-INSERT INTO `hardware_displays` (`id`, `name`, `slug`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Open Back', 'open_back', '0', NULL, NULL),
-(2, 'Dust Cover', 'dust_cover', '49.00', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_finishings`
---
-
-CREATE TABLE `hardware_finishings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('basic','advance') NOT NULL DEFAULT 'basic',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_finishings`
---
-
-INSERT INTO `hardware_finishings` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Original Free', 'original_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
-(2, 'Sephia Free', 'sephia_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
-(3, 'Grey Scale', 'grey-scale', '0', 'grayscale.jpg', 'basic', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_styles`
---
-
-CREATE TABLE `hardware_styles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_styles`
---
-
-INSERT INTO `hardware_styles` (`id`, `name`, `slug`, `price`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Hooks for Hanging Free', 'hooks_for_hanging_free', '0', 'hooks-for-hanging.jpg', NULL, NULL),
-(2, 'Ready to Hang Free', 'ready_to_hang_free', '0', 'ready-to-hang.jpg', NULL, NULL),
-(3, 'No Hooks Free', 'no_hooks_free', '0', 'no-hooks.jpg', NULL, NULL),
-(4, 'Sawtooth Hanger', 'sawtooth_hanger', '25.00', 'sawtooth-hanger.jpg', NULL, NULL),
-(5, 'Easel Back', 'easel-back', '49.00', 'easel-back.jpg', NULL, NULL),
-(6, 'Nail Free Hook', 'nail-free-hook', '49.00', 'nail-free-hook.jpg', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `image_edits`
---
-
-CREATE TABLE `image_edits` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `frame` varchar(255) NOT NULL,
-  `size` varchar(255) NOT NULL,
-  `border` varchar(255) NOT NULL,
-  `hardware` varchar(255) NOT NULL,
-  `display_option` varchar(255) NOT NULL,
-  `lamination` varchar(255) NOT NULL,
-  `retouching` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`retouching`)),
-  `notes` text DEFAULT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `laminations`
---
-
-CREATE TABLE `laminations` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(10) NOT NULL,
-  `class` int(10) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `laminations`
---
-
-INSERT INTO `laminations` (`id`, `name`, `slug`, `price`, `class`, `created_at`, `updated_at`) VALUES
-(1, 'No', 'no', 0, 2, NULL, NULL),
-(2, 'Standard', 'standard', 149, 5, NULL, NULL),
-(3, 'Premium', 'premium', 249, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -688,32 +384,6 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (6, 'App\\Models\\User', 4),
 (7, 'App\\Models\\User', 7),
 (9, 'App\\Models\\User', 30);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modifications`
---
-
-CREATE TABLE `modifications` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(15) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `modifications`
---
-
-INSERT INTO `modifications` (`id`, `name`, `slug`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Red Eye Removal', 'red_eye_removal', 299, NULL, NULL),
-(2, 'Dust/Scratch Removal', 'dust_scratch_removal', 0, NULL, NULL),
-(3, 'Enhance Color', 'enhance_color', 0, NULL, NULL),
-(4, 'Date Stamp Removal', 'date_stamp_Removal', 0, NULL, NULL),
-(5, 'Lighten/Darken Image', 'lighten_darken_image', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -991,19 +661,16 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `metal_type`, `size`, `sizes`, `color`, `colors`, `height`, `width`, `font`, `description`, `short_description`, `shipping_returns`, `related_products`, `price`, `compare_price`, `category_id`, `sub_category_id`, `brand_id`, `is_featured`, `sku`, `barcode`, `track_qty`, `qty`, `status`, `created_at`, `updated_at`) VALUES
 (395, 'Customize Neon', 'customize-neon', 'Neon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Test2</p>', 'test', 'test', '', 600.00, NULL, 296, 57, NULL, 'Yes', 'woodframe_001', NULL, 'Yes', 92, 1, '2025-03-26 09:55:53', '2025-04-02 08:23:33'),
-(497, 'Custom Print', 'custom-print', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'te', 'te', '', 800.00, NULL, 266, 51, NULL, 'Yes', NULL, NULL, 'Yes', 10, 1, '2025-03-29 07:16:51', '2025-04-02 08:23:28'),
-(507, 'Synthetic Frame', 'synthetic-frame', '', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 5000.00, 8000.00, 266, 62, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-01 07:20:41', '2025-04-01 08:18:31'),
-(509, 'Personlized Mug', 'personlized-mug', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<div class=\"LT6XE\" style=\"display: flow-root; overflow-y: clip; position: relative; overflow-wrap: break-word; max-width: 632px; min-width: 0px; flex: 1 1 0%; color: rgb(0, 29, 53); font-family: &quot;Google Sans&quot;, Arial, sans-serif; font-size: 18px;\"><div jsname=\"dvXlsc\" class=\"f5cPye\" data-rl=\"en\" data-lht=\"658\" style=\"letter-spacing: var(--m3t13);\"><div><div class=\"WaaZC\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><div class=\"rPeykc uP58nb\" data-hveid=\"CAwQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQo_EKegQIDBAB\" style=\"margin: 20px 0px 10px; font-size: var(--m3t5); letter-spacing: 0px; line-height: var(--m3t6);\"><span data-huuid=\"554728419806368139\">Here\'s a more detailed explanation:</span></div></div></div><div class=\"WaaZC\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><ul jscontroller=\"M2ABbc\" jsaction=\"jZtoLb:SaHfyb\" data-hveid=\"CDUQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQm_YKegQINRAB\" style=\"margin: 10px 0px 20px; padding: 0px 0px 0px 24px; font-size: var(--m3t7); line-height: var(--m3t8);\"><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 0px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806369926\"><strong>Personalized:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806367791\">This means something is made or adapted to suit a particular person\'s needs or preferences.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"d14ffc3e-aee5-4c60-b663-276f758d49a4\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"d14ffc3e-aee5-4c60-b663-276f758d49a4\" data-uuids=\"554728419806369926,554728419806367791\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CBEQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIERAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806371713\"><strong>Mug:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806369578\">A type of drinking cup, typically made of ceramic or porcelain, with a handle and a wide opening.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"947f4353-a38a-488c-8a1c-8c3dcfdd4909\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"947f4353-a38a-488c-8a1c-8c3dcfdd4909\" data-uuids=\"554728419806371713,554728419806369578\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCwQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQILBAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806369404\"><strong>Personalized Mug:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806371365\">A mug that is customized with something specific, such as:</span><ul jscontroller=\"M2ABbc\" jsaction=\"jZtoLb:SaHfyb\" data-hveid=\"CDEQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQm_YKegQIMRAB\" style=\"margin-top: 8px !important; margin-right: 0px; margin-bottom: 20px; margin-left: 0px; padding: 0px 0px 0px 24px; font-size: var(--m3t7) !important; line-height: var(--m3t8) !important;\"><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806369056\"><strong>Name:</strong>&nbsp;</span><span data-huuid=\"554728419806371017\">The recipient\'s name or a nickname.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"a8b5a825-6a5c-46bc-98f0-a09d331b7285\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"a8b5a825-6a5c-46bc-98f0-a09d331b7285\" data-uuids=\"554728419806369056,554728419806371017\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CC0QAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQILRAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806370843\"><strong>Photo:</strong>&nbsp;</span><span data-huuid=\"554728419806368708\">A picture of a loved one, a special memory, or a favorite image.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"47336aed-c79a-4667-987a-5dd558297c7c\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"47336aed-c79a-4667-987a-5dd558297c7c\" data-uuids=\"554728419806370843,554728419806368708\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCAQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIIBAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806368534\"><strong>Design:</strong>&nbsp;</span><span data-huuid=\"554728419806370495\">A unique pattern, quote, or illustration.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"e814554e-3062-4d2b-a9db-35ab38b23d5e\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"e814554e-3062-4d2b-a9db-35ab38b23d5e\" data-uuids=\"554728419806368534,554728419806370495\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCYQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIJhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806370321\"><strong>Custom Definition:</strong>&nbsp;</span><span data-huuid=\"554728419806368186\">A personalized definition of a name or a person.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"1b5bd68f-bc59-47be-bbff-c58fa6da99f0\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"1b5bd68f-bc59-47be-bbff-c58fa6da99f0\" data-uuids=\"554728419806370321,554728419806368186\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCoQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIKhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li></ul></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806368012\"><strong>Purpose:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806369973\">Personalized mugs are often given as gifts for special occasions or to show appreciation for someone.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"979d75b8-4d4c-4b33-aa32-a87a58d5cf39\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;</span></span></span></div></div></div></div></li></ul></div></div></div></div></div>', 'A \"personalized mug\" in refers to a mug that has been customized or made unique with specific details, like a name, a photo, or a special design, often as a gift or a keepsake.', NULL, '509', 280.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-02 17:05:54', '2025-04-03 07:02:16'),
+(509, 'Personlized Mug', 'personlized-mug', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<div class=\"LT6XE\" style=\"display: flow-root; overflow-y: clip; position: relative; overflow-wrap: break-word; max-width: 632px; min-width: 0px; flex: 1 1 0%; color: rgb(0, 29, 53); font-family: &quot;Google Sans&quot;, Arial, sans-serif; font-size: 18px;\"><div jsname=\"dvXlsc\" class=\"f5cPye\" data-rl=\"en\" data-lht=\"658\" style=\"letter-spacing: var(--m3t13);\"><div><div class=\"WaaZC\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><div class=\"rPeykc uP58nb\" data-hveid=\"CAwQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQo_EKegQIDBAB\" style=\"margin: 20px 0px 10px; font-size: var(--m3t5); letter-spacing: 0px; line-height: var(--m3t6);\"><span data-huuid=\"554728419806368139\">Here\'s a more detailed explanation:</span></div></div></div><div class=\"WaaZC\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><ul jscontroller=\"M2ABbc\" jsaction=\"jZtoLb:SaHfyb\" data-hveid=\"CDUQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQm_YKegQINRAB\" style=\"margin: 10px 0px 20px; padding: 0px 0px 0px 24px; font-size: var(--m3t7); line-height: var(--m3t8);\"><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 0px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806369926\"><strong>Personalized:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806367791\">This means something is made or adapted to suit a particular person\'s needs or preferences.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"d14ffc3e-aee5-4c60-b663-276f758d49a4\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"d14ffc3e-aee5-4c60-b663-276f758d49a4\" data-uuids=\"554728419806369926,554728419806367791\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CBEQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIERAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806371713\"><strong>Mug:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806369578\">A type of drinking cup, typically made of ceramic or porcelain, with a handle and a wide opening.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"947f4353-a38a-488c-8a1c-8c3dcfdd4909\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"947f4353-a38a-488c-8a1c-8c3dcfdd4909\" data-uuids=\"554728419806371713,554728419806369578\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCwQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQILBAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806369404\"><strong>Personalized Mug:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806371365\">A mug that is customized with something specific, such as:</span><ul jscontroller=\"M2ABbc\" jsaction=\"jZtoLb:SaHfyb\" data-hveid=\"CDEQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQm_YKegQIMRAB\" style=\"margin-top: 8px !important; margin-right: 0px; margin-bottom: 20px; margin-left: 0px; padding: 0px 0px 0px 24px; font-size: var(--m3t7) !important; line-height: var(--m3t8) !important;\"><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806369056\"><strong>Name:</strong>&nbsp;</span><span data-huuid=\"554728419806371017\">The recipient\'s name or a nickname.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"a8b5a825-6a5c-46bc-98f0-a09d331b7285\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"a8b5a825-6a5c-46bc-98f0-a09d331b7285\" data-uuids=\"554728419806369056,554728419806371017\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CC0QAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQILRAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806370843\"><strong>Photo:</strong>&nbsp;</span><span data-huuid=\"554728419806368708\">A picture of a loved one, a special memory, or a favorite image.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"47336aed-c79a-4667-987a-5dd558297c7c\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"47336aed-c79a-4667-987a-5dd558297c7c\" data-uuids=\"554728419806370843,554728419806368708\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCAQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIIBAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806368534\"><strong>Design:</strong>&nbsp;</span><span data-huuid=\"554728419806370495\">A unique pattern, quote, or illustration.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"e814554e-3062-4d2b-a9db-35ab38b23d5e\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"e814554e-3062-4d2b-a9db-35ab38b23d5e\" data-uuids=\"554728419806368534,554728419806370495\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCYQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIJhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li><li style=\"margin: 0px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: disc;\"><span data-huuid=\"554728419806370321\"><strong>Custom Definition:</strong>&nbsp;</span><span data-huuid=\"554728419806368186\">A personalized definition of a name or a person.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"1b5bd68f-bc59-47be-bbff-c58fa6da99f0\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"1b5bd68f-bc59-47be-bbff-c58fa6da99f0\" data-uuids=\"554728419806370321,554728419806368186\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CCoQAQ\" data-ved=\"2ahUKEwjR7LzR57mMAxU-R2wGHfcDA-kQ3fYKegQIKhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></li></ul></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"554728419806368012\"><strong>Purpose:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"554728419806369973\">Personalized mugs are often given as gifts for special occasions or to show appreciation for someone.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"979d75b8-4d4c-4b33-aa32-a87a58d5cf39\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;</span></span></span></div></div></div></div></li></ul></div></div></div></div></div>', 'A \"personalized mug\" in refers to a mug that has been customized or made unique with specific details, like a name, a photo, or a special design, often as a gift or a keepsake.', NULL, '509,510', 280.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-02 17:05:54', '2025-04-07 15:44:06'),
 (510, 'Magic Mug', 'magic-mug', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<div class=\"WaaZC\" style=\"color: rgb(0, 29, 53); font-family: &quot;Google Sans&quot;, Arial, sans-serif; font-size: 18px;\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><div class=\"rPeykc uP58nb\" data-hveid=\"CAMQAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Qo_EKegQIAxAB\" style=\"margin: 20px 0px 10px; font-size: var(--m3t5); letter-spacing: 0px; line-height: var(--m3t6);\"><span data-huuid=\"513628392670010182\">Here\'s a more detailed explanation:</span></div></div></div><div class=\"WaaZC\" style=\"color: rgb(0, 29, 53); font-family: &quot;Google Sans&quot;, Arial, sans-serif; font-size: 18px;\"><div class=\"RJPOee EIJn2\" style=\"animation: auto ease 0s 1 normal none running none !important; color: var(--m3c11);\"><ul jscontroller=\"M2ABbc\" jsaction=\"jZtoLb:SaHfyb\" data-hveid=\"CCQQAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Qm_YKegQIJBAB\" style=\"margin: 10px 0px 20px; padding: 0px 0px 0px 24px; font-size: var(--m3t7); line-height: var(--m3t8);\"><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 0px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"513628392670009787\"><strong>How it works:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"513628392670008290\">Magic mugs are coated with a special type of paint called thermochromic ink, which is sensitive to temperature.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"c3d71eb5-49ce-455a-b78c-465bd9a61fc4\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"c3d71eb5-49ce-455a-b78c-465bd9a61fc4\" data-uuids=\"513628392670009787,513628392670008290\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CB4QAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Q3fYKegQIHhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"513628392670009392\"><strong>The \"magic\":</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"513628392670007895\">When a hot liquid is poured into the mug, the temperature change causes the thermochromic ink to change color, revealing a hidden image or design underneath.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"fb520e3e-862e-44d3-9700-231fadd36f65\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"fb520e3e-862e-44d3-9700-231fadd36f65\" data-uuids=\"513628392670009392,513628392670007895\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CB0QAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Q3fYKegQIHRAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"513628392670008997\"><strong>Other names:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"513628392670007500\">Magic mugs are also known as heat-changing, transforming, or disappearing mugs.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"c00585cc-8311-46f0-9f18-4a1d63d500c8\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"c00585cc-8311-46f0-9f18-4a1d63d500c8\" data-uuids=\"513628392670008997,513628392670007500\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CB8QAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Q3fYKegQIHxAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px 0px 8px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"513628392670008602\"><strong>Customization:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"513628392670011201\">Magic mugs are often personalized with photos, designs, or messages, making them a unique and fun gift option.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"a9a04b91-a0fc-4dcd-80d1-872d64b42b59\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;<div class=\"NPrrbc\" data-cid=\"a9a04b91-a0fc-4dcd-80d1-872d64b42b59\" data-uuids=\"513628392670008602,513628392670011201\" style=\"margin-right: 6px; display: inline-flex;\"><div jsname=\"HtgYJd\" class=\"BMebGe btku5b fCrZyc LwdV0e FR7ZSc OJeuxf\" aria-label=\"View related links\" role=\"button\" tabindex=\"0\" jsaction=\"KjsqPd\" data-hveid=\"CBoQAQ\" data-ved=\"2ahUKEwjX5tvw7bmMAxV8T2cHHa47De4Q3fYKegQIGhAB\" style=\"display: inline-block; vertical-align: middle; outline: 0px; -webkit-tap-highlight-color: transparent; color: var(--rrJJUc);\"><div class=\"niO4u\" style=\"display: flex; justify-content: center; position: relative; align-items: stretch; width: 28px; background-color: transparent; border-radius: 9999px; margin: 0px auto; outline: transparent solid 1px; outline-offset: -1px; height: 20px; min-height: 20px;\"><div class=\"kHtcsd\" style=\"display: flex; align-items: center; justify-content: center; width: 28px; border-radius: 9999px; height: 20px;\"><span class=\"d3o3Ad gJdC8e Hkv2Pe\" style=\"color: rgb(11, 87, 208); background: unset !important; display: flex; align-items: center; margin: 0px;\"><span class=\"iPjmzb Sorfoc gNGSDf\" style=\"display: flex; height: unset; rotate: 135deg;\"><span class=\"z1asCe Sb7k4e\" style=\"display: inline-block; fill: currentcolor; height: 18px; line-height: 18px; position: relative; width: 18px;\"><svg focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z\"></path></svg></span></span></span></div></div></div></div></span></span></span></div></div></div></div></li><li class=\"K3KsMc\" style=\"margin: 0px; padding: 0px 0px 0px 4px; list-style-position: inherit; list-style-image: inherit; list-style-type: none;\"><div class=\"zMgcWd dSKvsb\" data-il=\"\" style=\"padding-bottom: 0px; padding-top: 8px; border-bottom: none; margin-left: -28px;\"><div data-crb-p=\"\"><div class=\"xFTqob\" style=\"flex: 1 1 0%; min-width: 0px;\"><div class=\"Gur8Ad\" style=\"font-size: var(--m3t11); line-height: var(--m3t12); overflow: hidden; padding-bottom: 4px; transition: transform 200ms cubic-bezier(0.2, 0, 0, 1);\"><span data-huuid=\"513628392670008207\"><strong>Material:</strong></span></div><div class=\"vM0jzc\" style=\"color: var(--m3c10); font-size: var(--m3t7); letter-spacing: 0.1px; line-height: var(--m3t8);\"><span data-huuid=\"513628392670010806\">They are usually made of ceramic or other materials with low thermal conductivity.<span jscontroller=\"JHnpme\" class=\"pjBG2e\" data-cid=\"f4ccab0d-ab24-442e-bc81-0a8f227e4abf\" jsaction=\"rcuQ6b:npT2md\"><span class=\"UV3uM\" style=\"text-wrap-mode: nowrap;\">&nbsp;</span></span></span></div></div></div></div></li></ul></div></div>', 'A \"magic mug\" is a mug that changes color or reveals a hidden image when filled with a hot liquid, using thermochromic ink that is sensitive to temperature changes.', NULL, '509', 389.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-02 17:23:09', '2025-04-02 17:26:34'),
 (512, 'Mouse Pad', 'mouse-pad', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>details : Add a touch of design and elegance to your workspace with personalised mouse pads</p><p>Want to elevate the look of your desk? Custom Mouse pads for laptop or desktops are a great way to reflect your personality and add a bit of branding to your workspace. Add your memorable photo or choose from readymade templates or design options and start customising a mouse pad online. With our full-color printing, your photos will come out looking great.</p><p><br></p><p>A good quality printed mousepad by Vistaprint can certainly be a great gifting option to employees, clients, friends and family. Mouse pads with company logo, image and message are an ideal corporate gift that keep your brand on top of your client’s mind.</p><p><br></p><p>We use dye-sublimation technique for mouse mat printing, which gives a permanent and durable print output. The mouse pad has a rubber anti-slip bottom which provides adequate grip when the pad is placed on your office/study table / any other surface near your laptop. The top of the surface has a fabric finish for precise mouse control and better glide. High-quality top and bottom surfaces of the personalized mouse pad makes it ideal for daily and long usage.</p><p><br></p><p>It is quite easy to print your mouse pad design online at Vistaprint. After you have selected the type of mouse mat, start customizing it by adding your name, message or image or choose from hundreds of readymade templates or design options. You can also choose from color and theme options. Next, sit back and relax while we print your unique personalised mouse pad!</p><p><br></p><p>For Bulk orders exceeding Rs. 10,000 in value, contact our Customer Care for any assistance.</p><p><br></p><p>Premium Quality at Best Price</p><p><br></p><p>Even Low Quantities @ Best Prices - We offer low/ single product quantities at affordable prices.</p><p>High quality products and Easy design - Our wide selection of high-quality products and online design tools make it easy for you to customize and order your favourite products</p><p>Creative ways to use your Custom Mouse Pads.</p><p><br></p><p>Are you looking for something specific? Check out these on-trend templates for top industries – Accounting &amp; Tax Advice, Web Design &amp; Hosting, Information &amp; Technology, Modern &amp; Simple, Travel &amp; Accommodation, Cosmetics &amp; Perfume, Finance &amp; Insurance, Furniture &amp; Home Goods, Software Development and More.</p><p><br></p><p>Vistaprint India customizes all its products in facilities located within India. Some of our raw materials, intermediate components, and consumables used in the manufacturing of the final product could be from one or more countries. As we follow Global Sourcing, one product is likely to have a different country of origin depending on the batch sold.</p><p><br></p><p>Country of origin: China</p><p><br></p><p>Vistaprint offers Custom Mouse Pads design templates in assorted styles.</p><p>Mouse pads</p><p>Related products</p>', 'Custom Mouse Pads\r\nProfessional and practical, custom mouse pads are a great gift for customers, employees or family.\r\nPersonalise with a photo, logo or message\r\nWith dye-sublimation printing, a smooth feel and rounded corners', NULL, '512', 199.00, NULL, 297, 67, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 16:50:25', '2025-04-03 16:51:50'),
 (513, 'Personalized Moon Lamp', 'personalized-moon-lamp', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p><span style=\"font-weight: bold; color: rgb(118, 118, 118); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">Moon lamps with a photo are a unique and personalized item</span><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">&nbsp;that can make a great gift or decoration for your home. Moon lamps come with pre-designed images</span></p><p><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">moon lamps can be used for a variety of purposes, such as&nbsp;</span><span style=\"font-weight: bold; color: rgb(118, 118, 118); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">providing ambient lighting in a bedroom or living room</span><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">, serving as a night light for children</span></p><p><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">Illuminate special occasions with our enchanting Moon Light Lamp.&nbsp;</span><span style=\"font-weight: bold; color: rgb(118, 118, 118); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">Customize with names, messages, and photos</span><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\">&nbsp;for a unique and heartfelt gift.</span></p><p><span style=\"background-color: rgb(243, 245, 246);\"><font color=\"#474747\" face=\"Arial, sans-serif\"><span style=\"font-size: 14px;\">Discover the magic of personalization with the HM3Design Personalized 3D Moon Night Lamp. This enchanting lamp allows you to turn your favorite photo and heartfelt message into a glowing memory that will shine through the years.</span></font></span><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\"></span><span style=\"color: rgb(71, 71, 71); font-family: Arial, sans-serif; font-size: 14px; background-color: rgb(243, 245, 246);\"></span></p>', 'The best way to express your feelings through this eye gazing piece is a perfect Personalized Gift for Anniversary, Wedding, Engagement, Valentine, Birthday', NULL, '513', 999.00, NULL, 297, 66, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 17:23:04', '2025-04-03 17:23:45'),
 (514, 'Key-Chain', 'key-chain', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Here\'s a more detailed breakdown:</p><p>Meaning and Purpose:</p><p>Keepsake and Reminders: Personalized keychains can act as a tangible reminder of a special memory, relationship, or event.&nbsp;</p><p>Sentimental Value: They can hold significant emotional meaning, representing shared experiences, inside jokes, or a special bond.&nbsp;</p><p>Practical Function: Beyond their sentimental value, keychains serve the practical purpose of holding and organizing keys.&nbsp;</p><p>Gifts: Personalized keychains are a popular choice for gifts, suitable for various occasions and recipients.&nbsp;</p><p>Promotional Items: Businesses and organizations can use personalized keychains as promotional items to increase brand visibility.&nbsp;</p><p>Customization Options:</p><p>Name or Initials: Keychains can be personalized with a name, initials, or a special phrase.&nbsp;</p><p>Photos: You can add a photo to the keychain to create a unique and personal keepsake.&nbsp;</p><p>Designs: Keychains can be customized with various designs, logos, or symbols.&nbsp;</p><p>Materials: Keychains come in various materials, such as metal, leather, or wood, allowing for a range of styles and aesthetics.&nbsp;</p><p>Benefits of Gifting a Personalized Keychain:</p><p>Thoughtful and Personal: A personalized keychain demonstrates care and thoughtfulness, making it a special and memorable gift.&nbsp;</p><p>Versatile Gift: Keychains are a versatile gift option, suitable for people of all ages and interests.&nbsp;</p><p>Affordable and Practical: Personalized keychains are often affordable and practical, making them a great gift for any occasion.&nbsp;</p><p>Daily Reminder: The recipient will use the keychain daily, serving as a constant reminder of the gift and the giver.</p>', 'A personalized keychain, whether with a name, photo, or design, becomes a unique and meaningful gift, serving as a keepsake, a reminder of a special connection, or a practical tool for organizing keys', NULL, '514', 150.00, NULL, 297, 64, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 17:44:52', '2025-04-05 19:24:49'),
-(515, 'Printed Mouse pad', 'printed-mouse-pad', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'brings you an opportunity to customise your very own mouse pad with your best photos, logo, caption or brand name. With our printing technique', NULL, '512', 205.00, NULL, 297, 67, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:03:05', '2025-04-03 18:03:05'),
+(515, 'Printed Mouse pad', 'printed-mouse-pad', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'brings you an opportunity to customise your very own mouse pad with your best photos, logo, caption or brand name. With our printing technique', NULL, '512', 205.00, NULL, 297, 67, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:03:05', '2025-04-07 13:03:11'),
 (516, 'Gaming Mouse Pad', 'gaming-mouse-pad', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Personalized/Customized Gaming Mouse Pad for Laptop/Computer and Water Resistance Coating Natural Rubber Non Slippery Rubber Base (You Think I Print)', NULL, '512,515', 209.00, NULL, 297, 67, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:09:19', '2025-04-03 18:13:10'),
 (517, 'Love Couple Moon Lamp', 'love-couple-moon-lamp', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Love Moon Couple for Gift, Decoration, Night Lamp, Love Proposal, Valentine Fift, Home Decor', NULL, '513', 1080.00, NULL, 297, 66, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:17:13', '2025-04-03 18:19:23'),
-(518, 'Paint Your Own Moon Decorative Lamp', 'paint-your-own-moon-decorative-lamp', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Shop Paint Your Own Moon Lamp Kit Cool Gifts Diy 3d at best prices at Desertcart INDIA. ✓', NULL, '513,517', 1080.00, NULL, 297, 66, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:29:03', '2025-04-03 18:29:03'),
+(518, 'Paint Your Own Moon Decorative Lamp', 'paint-your-own-moon-decorative-lamp', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Shop Paint Your Own Moon Lamp Kit Cool Gifts Diy 3d at best prices at Desertcart INDIA. ✓', NULL, '513,517', 1080.00, NULL, 297, 66, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:29:03', '2025-04-07 12:58:42'),
 (519, 'Metal Panel Photo Prints', 'metal-panel-photo-prints', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Here\'s a more detailed breakdown:</p><p>What they are:</p><p>Metal prints are images printed directly onto a metal surface, typically aluminum, using a special printing process.&nbsp;</p><p>Why they are used:</p><p>Modern and Sleek Look: They offer a contemporary and stylish way to display photos and artwork.&nbsp;</p><p>Durability: Metal prints are known for their durability, scratch resistance, and resistance to fading, making them a long-lasting option.&nbsp;</p><p>Vibrant Colors: They produce vibrant and high-definition images with rich color saturation.&nbsp;</p><p>No Glare: Metal prints often have a matte finish, which helps to reduce glare and reflections.&nbsp;</p><p>Versatility: They can be used for various purposes, including home decor, office spaces, and unique gifts.&nbsp;</p><p>Easy to Hang: Metal prints are lightweight and easy to hang, and they don\'t require additional framing.&nbsp;</p><p>Where to use them:</p><p>Home Decor: Metal prints can be used to decorate walls, create gallery walls, or add a focal point to a room.&nbsp;</p><p>Office Spaces: They can add a touch of elegance and sophistication to office environments.&nbsp;</p><p>Gifts: Metal prints make unique and memorable gifts for special occasions.&nbsp;</p><p>Bathrooms: They are waterproof and ideal for bathrooms, where moisture buildup is a concern.&nbsp;</p><p>Outdoor Spaces: Metal prints are weather-resistant and can be used in outdoor spaces like patios or balconies.&nbsp;</p><p>Types of Metal Prints:</p><p>Aluminum Prints: A common type of metal print using aluminum panels.&nbsp;</p><p>HD Metal Prints: Known for their high-definition image quality.&nbsp;</p><p>Brushed Aluminum Prints: Offer a subtle metallic sheen.&nbsp;</p><p>DiBond Prints: A type of metal print where the print is bonded to a metal core.</p>', 'Metal printed frames, also known as metal photo prints or aluminum prints, are used to display photos and artwork, offering a modern, durable, and vibrant alternative to traditional framed prints', NULL, '519', 512.00, NULL, 266, 51, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-03 18:42:16', '2025-04-07 11:38:35'),
-(520, 'Custom Frame', 'custom-frame', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 266, 53, NULL, 'No', 'metalframe_001', NULL, 'Yes', 100, 1, '2025-04-05 14:52:34', '2025-04-07 11:38:29'),
 (521, 'Elegant Thin Metal Frame for Posters & Photos', 'elegant-thin-metal-frame-for-posters-photos', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>The Advantages. Metal frames are popular for their light weight and sleek looks. Add a few more attractive features and you get your perfect pair of glasses.</p><p>Structural metal stud framing refers to the construction of walls and planes using cold-formed steel components. There are two main components of metal stud framing, a stud and a track. Heavier gauge metal studs are used in load bearing walls and structural applications such as exterior walls.</p><p><br></p>', NULL, NULL, '519', 3456.00, NULL, 266, 51, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 17:53:56', '2025-04-07 11:38:20'),
 (522, 'Metal Poster Frame | Aluminum Frame for Pictures & Photos', 'metal-poster-frame-aluminum-frame-for-pictures-photos', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>What are you framing?</p><p>Upload a digital photo for us to print and frame or share a photo of your physical piece to mail in or drop off at a store.</p><p><font color=\"#001d35\" face=\"Google Sans, Arial, sans-serif\"><span style=\"font-size: 18px;\">Metal prints are personalized, frameless art pieces printed on aluminum, offering durability, vibrant colors, and a modern look, suitable for various purposes like home decor, gifts, and even outdoor signage</span></font></p>', NULL, NULL, '519,521', 2560.00, NULL, 266, 51, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:06:43', '2025-04-07 11:38:13'),
 (523, 'Custom Metal Prints', 'custom-metal-prints', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p><br></p><p>Your memories get better with quality and colour!</p><p><br></p><p>Metal prints are a premium quality photo prints on metal that allows displaying your favourite photos with the least glare and best vibrancy in colours even from a distance. You can print anything on custom metal prints from pictures from your holidays to birthday parties or anniversary pictures. You can also gift some memories printed on metal prints to stand out from the generic ones.</p><p><br></p><p>Customising options are varying with us; hence they make your interior look splendid and striking even if you have coloured walls. To make things more eye-catching, you can choose brightly coloured photos to print on metal photo prints to stand out from the coloured walls</p>', NULL, NULL, '519,521,522', 4800.00, NULL, 266, 51, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:15:50', '2025-04-07 11:38:07');
@@ -1011,7 +678,19 @@ INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `metal_type`, `siz
 (524, 'Acrylic Photo Prints', 'acrylic-photo-prints', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Create Stunning Acrylic Photo Prints for Home or Office.</p><p>Showcase your favourite photos with our premium custom acrylic photo prints, meticulously crafted to highlight the vibrant details and rich colours of your images. Perfect for adding a touch of elegance to both home and office spaces, these acrylic picture prints offer a sleek, modern finish that seamlessly complements any décor. With our easy-to-use online acrylic photo printing service, you can personalise your prints to suit your unique style, making them not only a striking addition to your walls but also a thoughtful and personalised gift for loved ones. The thick, durable acrylic material ensures that your photos remain vivid and sharp for years, while adhesive tapes on the back ensure simple and secure mounting. Preserve your memories with custom acrylic photo prints that are as lasting as they are stunning.</p><p><br></p><p>Product Care Guidelines</p><p><br></p><p>Acrylic Photo prints are provided with a transparent protective layer on the print to avoid scratches or damage during transit. Please peel off the paper before use.</p><p>Acrylic Photo prints are provided with adhesive tapes at the back for easy mounting on a wall or a plain surface.</p><p>Use a dust-free cloth to wipe the acrylic prints. The use of normal cloth may lead to scratches.</p><p>Vistaprint India customizes all its products in facilities located within India. Some of our raw materials, intermediate components, and consumables used in the manufacturing of the final product could be from one or more countries. As we follow Global Sourcing, one product is likely to have a different country of origin depending on the batch sold.</p>', NULL, NULL, '', 1728.00, NULL, 266, 63, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:22:39', '2025-04-07 11:37:59'),
 (525, 'Acrylic photo print personalized', 'acrylic-photo-print-personalized', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Acrylic is a glass alternative that has gained popularity as a framing material. You may know it as Acrylite® or Plexiglas®, which are brands of the same thermoplastic scientifically known as Polymethyl Methacrylate (aka PMMA). It\'s hard, flexible, lightweight, and even recyclable.</p>', NULL, NULL, '524,525,527,526', 512.00, NULL, 266, 63, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:28:58', '2025-04-07 12:36:37'),
 (526, 'Customised Premium  Acrylic Wall Photo Print', 'customised-premium-acrylic-wall-photo-print', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Acrylic photo prints, available online in India, offer a modern, durable way to display photos with a glossy, vibrant finish, often by printing directly onto or mounting onto acrylic sheets.&nbsp;</p>', NULL, NULL, '524,525', 512.00, NULL, 266, 63, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:34:29', '2025-04-07 12:33:45'),
-(527, 'Acrylic Prints', 'acrylic-prints', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Acrylic prints shine beautifully, displaying the full depth and sharp detail of your photos.</p><p>We handcraft each print with care using the highest quality materials. Printing behind thick acrylic glass sheets protects your photos from dust, scratches and UV - they will last for years!</p><p>Free hanging system included.</p><p>Shipped in protective packaging to ensure no damage during transportation.</p>', NULL, NULL, '524,525,526', 512.00, NULL, 266, 63, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:40:06', '2025-04-07 12:27:27');
+(527, 'Acrylic Prints', 'acrylic-prints', 'Customize', 'Canvas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Acrylic prints shine beautifully, displaying the full depth and sharp detail of your photos.</p><p>We handcraft each print with care using the highest quality materials. Printing behind thick acrylic glass sheets protects your photos from dust, scratches and UV - they will last for years!</p><p>Free hanging system included.</p><p>Shipped in protective packaging to ensure no damage during transportation.</p>', NULL, NULL, '524,525,526', 512.00, NULL, 266, 63, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-05 18:40:06', '2025-04-07 13:20:56'),
+(530, 'Canvas Personlized Prints', 'canvas-personlized-prints', 'Customize', 't_shirt', NULL, NULL, NULL, NULL, '8', '8', NULL, '<p>A canvas print is a digital image or photograph printed onto a canvas material, often stretched and gallery-wrapped onto a frame for display, offering a textured, artistic appearance and durability.&nbsp;</p><p>Here\'s a more detailed explanation:</p><p>What is a Canvas Print?</p><p>Material:</p><p>Canvas prints are made by printing an image onto a canvas material, typically a blend of cotton and polyester, which is then stretched over a wooden frame.&nbsp;</p><p>Printing Process:</p><p>The image is printed using a high-quality inkjet printer, ensuring vibrant colors and sharp details.&nbsp;</p><p>Stretching and Wrapping:</p><p>Once printed, the canvas is stretched and secured over a wooden frame, creating a gallery-wrapped look where the canvas wraps around the sides of the frame.&nbsp;</p><p>Frameless or Framed:</p><p>You can choose between frameless (gallery-wrapped) or framed canvas prints, with the latter offering a more traditional look.&nbsp;</p><p>Benefits:</p><p>Texture and Depth: Canvas prints add a unique texture and depth to your wall art, unlike traditional paper or cardstock prints.&nbsp;</p><p>Durability: Canvas is a durable material, making canvas prints long-lasting and resistant to fading or damage.&nbsp;</p><p>Versatility: Canvas prints can be used to display photographs, artwork, or other images, and are suitable for both home and office decor.&nbsp;</p><p>Personalization: Canvas prints can be customized with your own images, making them a great way to create personalized gifts or unique wall art.&nbsp;</p><p>Types of Canvas:</p><p>100% Cotton Canvas: Known for its natural texture and durability.&nbsp;</p><p>Cotton-Effect Polyester Canvas: Offers a more affordable option with a similar look and feel to cotton canvas.&nbsp;</p><p>Gallery Wrap: The canvas is stretched and wrapped around the sides of the frame, creating a seamless, frameless look.&nbsp;</p><p>Framed Canvas: The canvas is stretched and secured within a traditional frame.&nbsp;</p><p>Care and Maintenance:</p><p>Canvas prints are relatively easy to care for. You can simply wipe them down with a damp cloth to remove dust or dirt.&nbsp;</p>', NULL, NULL, '', 512.00, NULL, 266, 53, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 14:44:24', '2025-04-07 14:44:24'),
+(531, 'Custom Photo to Canvas', 'custom-photo-to-canvas', 'Customize', 't_shirt', NULL, NULL, NULL, NULL, '8', '8', NULL, '<p>A canvas print is the result of an image printed onto canvas which is often stretched, or gallery-wrapped, onto a frame and displayed. Canvas prints are used as the final output in an art piece, or as a way to reproduce other forms of art.</p>', NULL, NULL, '530', 320.00, NULL, 266, 53, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 14:49:33', '2025-04-07 14:49:33'),
+(532, 'Canvas Wall Art On Canvas', 'canvas-wall-art-on-canvas', 'Customize', NULL, NULL, NULL, NULL, NULL, '8', '8', NULL, '<p>What Is a Canvas Print? Your Complete Guide to Canvas</p><p>In recent years, canvas prints have become increasingly popular as a unique and stylish way to display artwork and photographs. If you\'re curious about what a canvas print is and how it can enhance your home or office decor, you\'ve come to the right place. This comprehensive guide covers everything you need to know about canvas prints, from their basic definition to their advantages, care tips, and even a handy buying guide. So, let\'s dive in and explore the wonderful world of canvas prints!</p>', NULL, NULL, '530,531', 320.00, NULL, 266, 53, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 15:05:37', '2025-04-07 15:09:46'),
+(533, 'MEMORYWALL Canvas Print Personalized With Your Photos', 'memorywall-canvas-print-personalized-with-your-photos', 'Customize', 't_shirt', NULL, NULL, NULL, NULL, '8', '8', NULL, '<p>Personalise any space with photo canvas prints.</p><p>Ready to put a personal touch on any (and every) space you want? Our photo canvas prints feature vibrant, fade-resistant digital printing and they’re mounted on a sturdy wooden frame. The frame is easy to hang due to the pre-installed hook at the back. So, what are you waiting for? Create the piece of art your wall’s been missing.</p><p><br></p><p>For yourself: Preserve your photo memories at home or in office. Decorate your home or office walls with pictures of your memories. They are the best way to create long lasting memories from the pictures you love.</p><p><br></p><p>For gifting: Photo Canvas Prints are an ideal gift for your loved ones. Canvas Prints make great gifts for any occasion: be it birthdays, anniversaries, housewarming parties or farewells. Upload a single photo or create a collage and create a personalised Canvas Print online in minutes.</p><p><br></p><p>To start creating your canvas prints online, pick your canvas size and orientation, and then explore our gallery of fully customisable design options. Once you’ve found a design that you like, make it yours by adding your favorite pictures, and choosing the options that work best for you, and we will take care of the rest using vibrant, high-quality printing to create a piece that can be treasured for years to come.</p><p><br></p><p><br></p>', NULL, NULL, '530,531,532', 320.00, NULL, 266, 53, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 15:33:57', '2025-04-07 15:33:57'),
+(534, 'Personalized photo mug with a long-lasting design.', 'personalized-photo-mug-with-a-long-lasting-design', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Custom coffee mugs, also known as cup photo prints, make an ideal gifting option for your near and dear ones on special occasions. With mug printing, you can personalize a magic mug with a photo to feature a cherished memory, a favorite quote, or even a company logo. These unique photo cup gifts not only serve as memorable keepsakes but also add a personal touch to everyday coffee rituals. Choose coffee mug printing for the perfect cup printing solution, offering a blend of practicality and sentiment.</p>', NULL, NULL, '510,509', 280.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 15:58:47', '2025-04-07 15:58:47'),
+(535, 'Personalized Sip And Celebrate Birthday Mug', 'personalized-sip-and-celebrate-birthday-mug', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Make every birthday brew extra special with this personalized enamel coffee mug. Meticulously crafted from high-quality stainless steel, this durable and lightweight mug is perfect for sipping in style. The front features the cheerful words Happy Birthday, Sip and Celebrate, while the back showcases a customized image, making it a one-of-a-kind keepsake. Whether it is for morning coffee, evening tea, or a travel-friendly cup of joy, this mug is the perfect way to celebrate another year of happiness. Personalize it with a picture and gift it to a loved one or treat yourself.</p><div><br></div>', NULL, NULL, '509,534', 280.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 16:19:07', '2025-04-07 16:19:07'),
+(536, 'Capture The Moment Personalized Birthday Surprise', 'capture-the-moment-personalized-birthday-surprise', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Surprise your Loved Ones by Gifting Photo Mugs/Cup Online from IGP. Customized your Photo Mug with text, quotes and photo printed on it.', NULL, NULL, '509,534,535', 280.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 16:25:46', '2025-04-07 16:25:46'),
+(537, 'Printing Personalised Magic Mug', 'printing-personalised-magic-mug', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Surprise your loved ones with Zoomin\'s custom magic mugs. Personalize photo mugs that reveal your image with heat. Unique, affordable, and made in India.</p>', NULL, NULL, '510', 380.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 16:33:08', '2025-04-07 16:34:09'),
+(538, 'Custom Magic Mug', 'custom-magic-mug', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Colour-changing magic photo mugs for personal and professional gifting!</p><p>You can use these beautiful magical mugs for any occasion or event. Make your family and friends spend every moment with that mug whenever a hidden photo is revealed. Delight them with magic!</p>', NULL, NULL, '510,537', 380.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 16:38:05', '2025-04-07 16:38:05'),
+(539, 'Custom Magic Mug Gift', 'custom-magic-mug-gift', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Customised/Personalized Magic Mug Gift with Custom Photos Add Logo,Text for Birthday,Anniversary and Wedding Gifts Ceramic Magic Mug</p>', NULL, NULL, '510,537,538', 380.00, NULL, 297, 69, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 16:46:49', '2025-04-07 16:48:02'),
+(540, 'Personalized Photo Mug BLACK PATCH COFFEE MUG', NULL, 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>These patch mugs are not merely containers for beverages but serve as personalized keepsakes, memorable gifts, or branded merchandise. The versatility of design possibilities allows for the creation of unique, one-of-a-kind pieces that resonate with individual tastes and preferences.</p>', NULL, NULL, '', 393.00, NULL, 297, NULL, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 18:03:28', '2025-04-07 18:03:28'),
+(541, 'Personalized Photo Mug BLACK PATCH COFFEE MUG', NULL, 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>These patch mugs are not merely containers for beverages but serve as personalized keepsakes, memorable gifts, or branded merchandise. The versatility of design possibilities allows for the creation of unique, one-of-a-kind pieces that resonate with individual tastes and preferences.</p>', NULL, NULL, '', 393.00, NULL, 297, NULL, NULL, 'Yes', NULL, NULL, 'Yes', 100, 1, '2025-04-07 18:03:33', '2025-04-07 18:03:33');
 
 -- --------------------------------------------------------
 
@@ -1038,26 +717,35 @@ CREATE TABLE `product_images` (
 
 INSERT INTO `product_images` (`id`, `product_id`, `image1`, `image2`, `image3`, `image4`, `image5`, `sort_order`, `created_at`, `updated_at`) VALUES
 (444, 395, 'customize-neon_1_1743248453.JPG', 'customize-neon_2_1743248454.JPG', 'customize-neon_3_1743248456.JPG', 'customize-neon_4_1743248456.JPG', 'customize-neon_5_1743248457.JPG', NULL, '2025-03-29 06:10:59', '2025-03-29 06:10:59'),
-(445, 497, 'custom-print_1_1743879781.jpg', NULL, NULL, NULL, NULL, NULL, '2025-03-29 07:16:51', '2025-04-05 19:03:01'),
-(451, 507, NULL, NULL, NULL, 'synthetic-frame_4_1743492768.webp', NULL, NULL, '2025-04-01 07:20:41', '2025-04-01 07:37:23'),
-(453, 509, 'personlized-mug_1_1743614168.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-02 17:05:54', '2025-04-02 17:16:08'),
-(454, 510, 'magic-mug_1_1743614794.webp', 'magic-mug_2_1743614794.jpg', 'magic-mug_3_1743614794.png', NULL, NULL, NULL, '2025-04-02 17:23:09', '2025-04-02 17:26:34'),
-(456, 512, 'mouse-pad_1_1743699025.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-03 16:50:25', '2025-04-03 16:50:25'),
-(457, 513, 'personalized-moon-lamp_1_1743700984.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-03 17:23:04', '2025-04-03 17:23:04'),
-(458, 514, 'key-chain_1_1743702292.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 17:44:53', '2025-04-03 17:44:53'),
-(459, 515, 'printed-mouse-pad_1_1743703385.webp', 'printed-mouse-pad_2_1743703385.webp', NULL, NULL, NULL, NULL, '2025-04-03 18:03:06', '2025-04-03 18:03:06'),
-(460, 516, 'gaming-mouse-pad_1_1743703990.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:09:19', '2025-04-03 18:13:10'),
-(461, 517, 'love-couple-moon-lamp_1_1743704363.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:17:13', '2025-04-03 18:19:23'),
-(462, 518, 'paint-your-own-moon-decorative-lamp_1_1743704943.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:29:03', '2025-04-03 18:29:03'),
-(463, 519, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:42:16', '2025-04-07 12:55:25'),
-(464, 520, 'custom-frame_1_1743864754.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-05 14:52:34', '2025-04-05 14:52:34'),
+(453, 509, 'personlized-mug_1_1744040646.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-02 17:05:54', '2025-04-07 15:44:06'),
+(454, 510, 'magic-mug_1_1744044687.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-02 17:23:09', '2025-04-07 16:51:28'),
+(456, 512, 'mouse-pad_1_1744032242.png', NULL, NULL, NULL, NULL, NULL, '2025-04-03 16:50:25', '2025-04-07 13:24:02'),
+(457, 513, 'personalized-moon-lamp_1_1744032179.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 17:23:04', '2025-04-07 13:22:59'),
+(458, 514, 'key-chain_1_1744031734.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 17:44:53', '2025-04-07 13:15:34'),
+(459, 515, 'printed-mouse-pad_1_1744031657.jpg', 'printed-mouse-pad_2_1744031657.webp', NULL, NULL, NULL, NULL, '2025-04-03 18:03:06', '2025-04-07 13:14:18'),
+(460, 516, 'gaming-mouse-pad_1_1744030925.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:09:19', '2025-04-07 13:02:05'),
+(461, 517, 'love-couple-moon-lamp_1_1744030759.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:17:13', '2025-04-07 12:59:19'),
+(462, 518, 'paint-your-own-moon-decorative-lamp_1_1744030722.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-03 18:29:03', '2025-04-07 12:58:42'),
+(463, 519, 'metal-panel-photo-prints_1_1744030597.JPG', 'metal-panel-photo-prints_2_1744030598.jpg', 'metal-panel-photo-prints_3_1744030598.jpg', NULL, NULL, NULL, '2025-04-03 18:42:16', '2025-04-07 12:56:38'),
 (465, 521, 'elegant-thin-metal-frame-for-posters-photos_1_1744030460.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-05 17:53:56', '2025-04-07 12:54:20'),
 (466, 522, 'metal-poster-frame-aluminum-frame-for-pictures-photos_1_1744030171.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:06:43', '2025-04-07 12:49:31'),
 (467, 523, 'custom-metal-prints_1_1744029762.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:15:50', '2025-04-07 12:42:42'),
 (468, 524, 'acrylic-photo-prints_1_1744028506.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:22:39', '2025-04-07 12:21:46'),
 (469, 525, 'acrylic-photo-print-personalized_1_1744029397.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:28:59', '2025-04-07 12:36:37'),
 (470, 526, 'customised-premium-acrylic-wall-photo-print_1_1744029225.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:34:29', '2025-04-07 12:33:45'),
-(471, 527, 'acrylic-prints_1_1744028847.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:40:07', '2025-04-07 12:27:28');
+(471, 527, 'acrylic-prints_1_1744028847.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-05 18:40:07', '2025-04-07 12:27:28'),
+(474, 530, 'canvas-personlized-prints_1_1744037064.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-07 14:44:24', '2025-04-07 14:44:24'),
+(475, 531, 'custom-photo-to-canvas_1_1744037373.JPG', NULL, NULL, NULL, NULL, NULL, '2025-04-07 14:49:33', '2025-04-07 14:49:33'),
+(476, 532, 'canvas-wall-art-on-canvas_1_1744038337.JPG', NULL, NULL, NULL, NULL, NULL, '2025-04-07 15:05:37', '2025-04-07 15:05:37'),
+(477, 533, 'memorywall-canvas-print-personalized-with-your-photos_1_1744040037.JPG', NULL, NULL, NULL, NULL, NULL, '2025-04-07 15:33:58', '2025-04-07 15:33:58'),
+(478, 534, 'personalized-photo-mug-with-a-long-lasting-design_1_1744041527.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-07 15:58:47', '2025-04-07 15:58:47'),
+(479, 535, 'personalized-sip-and-celebrate-birthday-mug_1_1744042747.webp', NULL, NULL, NULL, NULL, NULL, '2025-04-07 16:19:07', '2025-04-07 16:19:07'),
+(480, 536, 'capture-the-moment-personalized-birthday-surprise_1_1744043146.png', NULL, NULL, NULL, NULL, NULL, '2025-04-07 16:25:47', '2025-04-07 16:25:47'),
+(481, 537, 'printing-personalised-magic-mug_1_1744043649.png', NULL, NULL, NULL, NULL, NULL, '2025-04-07 16:33:08', '2025-04-07 16:34:09'),
+(482, 538, 'custom-magic-mug_1_1744043885.jpg', NULL, NULL, NULL, NULL, NULL, '2025-04-07 16:38:05', '2025-04-07 16:38:05'),
+(483, 539, 'custom-magic-mug-gift_1_1744044482.png', NULL, NULL, NULL, NULL, NULL, '2025-04-07 16:46:49', '2025-04-07 16:48:03'),
+(484, 540, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-07 18:03:28', '2025-04-07 18:03:28'),
+(485, 541, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-07 18:03:33', '2025-04-07 18:03:33');
 
 -- --------------------------------------------------------
 
@@ -1120,22 +808,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (21, 1),
 (25, 1),
 (26, 9);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sample_products`
---
-
-CREATE TABLE `sample_products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`images`)),
-  `sizes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`sizes`)),
-  `colors` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`colors`)),
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1280,7 +952,6 @@ INSERT INTO `sub_categories` (`id`, `name`, `slug_sub_category`, `image`, `statu
 (53, 'Canvas Print', 'canvas-print', '_1743864809.jpg', 1, 'Yes', 266, '2025-03-26 06:09:30', '2025-04-05 14:53:29'),
 (54, 'Woods', 'woods', '_1743494730.jpg', 1, 'Yes', 297, '2025-03-26 09:54:38', '2025-04-01 11:28:06'),
 (57, 'Customize Neon', 'customize-neon', '_1743494742.jpg', 1, 'Yes', 296, '2025-03-27 08:56:50', '2025-04-01 08:05:42'),
-(61, 'Magic Mug', 'magic-mug', '_1743494552.jpg', 1, 'Yes', 297, '2025-04-01 06:43:02', '2025-04-01 08:02:32'),
 (62, 'Photo Frame', 'photo-frame', '_1743492577.jpg', 1, 'No', 266, '2025-04-01 07:16:26', '2025-04-01 07:29:38'),
 (63, 'Acrylic', 'acrylic', 'photo-frame_1743493700.jpg', 1, 'Yes', 266, '2025-04-01 07:48:20', '2025-04-01 07:48:43'),
 (64, 'Keychain', 'keychain', 'keychain_1743494400.webp', 1, 'Yes', 297, '2025-04-01 08:00:00', '2025-04-01 08:00:00'),
@@ -1289,34 +960,6 @@ INSERT INTO `sub_categories` (`id`, `name`, `slug_sub_category`, `image`, `statu
 (67, 'Mouse Pad', 'mouse-pad', 'mouse-pad_1743494494.webp', 1, 'Yes', 297, '2025-04-01 08:01:34', '2025-04-01 08:01:34'),
 (68, 'T-shirt', 't-shirt', 't-shirt_1743494784.png', 1, 'Yes', 298, '2025-04-01 08:06:25', '2025-04-01 08:06:25'),
 (69, 'Mug', 'mug', 'personlized-mug_1743613848.jpeg', 1, 'Yes', 297, '2025-04-02 17:10:48', '2025-04-02 17:18:33');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `temp_images`
---
-
-CREATE TABLE `temp_images` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `temp_images`
---
-
-INSERT INTO `temp_images` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(573, '1743058156.jpg', '2025-03-27 01:19:16', '2025-03-27 01:19:16'),
-(574, '1743065181.JPG', '2025-03-27 03:16:21', '2025-03-27 03:16:21'),
-(575, '1743065184.JPG', '2025-03-27 03:16:24', '2025-03-27 03:16:24'),
-(576, '1743065186.JPG', '2025-03-27 03:16:26', '2025-03-27 03:16:26'),
-(577, '1743082055.png', '2025-03-27 07:57:35', '2025-03-27 07:57:35'),
-(578, '1743082056.png', '2025-03-27 07:57:36', '2025-03-27 07:57:36'),
-(579, '1743082073.jpg', '2025-03-27 07:57:53', '2025-03-27 07:57:53'),
-(580, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15'),
-(581, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15');
 
 -- --------------------------------------------------------
 
@@ -1427,75 +1070,9 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Indexes for table `frame_borders`
---
-ALTER TABLE `frame_borders`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_frames`
---
-ALTER TABLE `frame_frames`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `frame_materials`
 --
 ALTER TABLE `frame_materials`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_metals`
---
-ALTER TABLE `frame_metals`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_shapes`
---
-ALTER TABLE `frame_shapes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_sizes`
---
-ALTER TABLE `frame_sizes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_wraps`
---
-ALTER TABLE `frame_wraps`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_displays`
---
-ALTER TABLE `hardware_displays`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_finishings`
---
-ALTER TABLE `hardware_finishings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_styles`
---
-ALTER TABLE `hardware_styles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `image_edits`
---
-ALTER TABLE `image_edits`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `laminations`
---
-ALTER TABLE `laminations`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1517,12 +1094,6 @@ ALTER TABLE `model_has_permissions`
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
-
---
--- Indexes for table `modifications`
---
-ALTER TABLE `modifications`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -1620,12 +1191,6 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indexes for table `sample_products`
---
-ALTER TABLE `sample_products`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -1663,12 +1228,6 @@ ALTER TABLE `states`
 ALTER TABLE `sub_categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sub_categories_category_id_foreign` (`category_id`);
-
---
--- Indexes for table `temp_images`
---
-ALTER TABLE `temp_images`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -1729,7 +1288,7 @@ ALTER TABLE `customer_addresses`
 -- AUTO_INCREMENT for table `custom_totals`
 --
 ALTER TABLE `custom_totals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `discount_coupons`
@@ -1744,88 +1303,16 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `frame_borders`
---
-ALTER TABLE `frame_borders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `frame_frames`
---
-ALTER TABLE `frame_frames`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `frame_materials`
 --
 ALTER TABLE `frame_materials`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `frame_metals`
---
-ALTER TABLE `frame_metals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
---
--- AUTO_INCREMENT for table `frame_shapes`
---
-ALTER TABLE `frame_shapes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `frame_sizes`
---
-ALTER TABLE `frame_sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `frame_wraps`
---
-ALTER TABLE `frame_wraps`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `hardware_displays`
---
-ALTER TABLE `hardware_displays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `hardware_finishings`
---
-ALTER TABLE `hardware_finishings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `hardware_styles`
---
-ALTER TABLE `hardware_styles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `image_edits`
---
-ALTER TABLE `image_edits`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `laminations`
---
-ALTER TABLE `laminations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
---
--- AUTO_INCREMENT for table `modifications`
---
-ALTER TABLE `modifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1867,13 +1354,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=530;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=542;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=474;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=486;
 
 --
 -- AUTO_INCREMENT for table `product_ratings`
@@ -1886,12 +1373,6 @@ ALTER TABLE `product_ratings`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `sample_products`
---
-ALTER TABLE `sample_products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1922,12 +1403,6 @@ ALTER TABLE `states`
 --
 ALTER TABLE `sub_categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
-
---
--- AUTO_INCREMENT for table `temp_images`
---
-ALTER TABLE `temp_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=582;
 
 --
 -- AUTO_INCREMENT for table `users`

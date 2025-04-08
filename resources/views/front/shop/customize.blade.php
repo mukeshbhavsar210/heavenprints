@@ -57,7 +57,8 @@
                                             <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                         @endif
                                     </div>
-                                    <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>
+                                    <p style="font-size: 11px">{{ $product->metal_type }}</p>
+                                    <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary">Customize Product</a>
                                 </div>   
                         </div>
                     @endforeach

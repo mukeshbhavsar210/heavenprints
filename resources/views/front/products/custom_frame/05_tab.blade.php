@@ -55,7 +55,7 @@
     <p>Advance</p>
     <div class="container">
         <div class="row" >
-            @if($hardware_advance_finishings)
+            {{-- @if($hardware_advance_finishings)
                 @foreach($hardware_advance_finishings as $value)
                     <div class="col-md-3 col-6"> 
                         <label class="custom-radio hardware_style {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
@@ -67,7 +67,7 @@
                         </label>                            
                     </div>
                 @endforeach
-            @endif
+            @endif --}}
         </div>
     </div>
 </div>

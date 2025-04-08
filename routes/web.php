@@ -15,14 +15,11 @@ use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\SubCategoryController;
-use App\Http\Controllers\admin\TempImagesController;
 use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\PriceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -42,45 +39,30 @@ Route::controller(ShopController::class)->group(function() {
 
     //Product details
     Route::get('/product/{slug}', 'product')->name('front.product');    
-    Route::get('/custom_frame/{slug}', 'custom_frame')->name('custom.frame.product');
 
-    //Frame
+    //Customize
     Route::get('/frames/{slug}', 'first_level')->name('customize.product');    
-    Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');    
+    Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');   
+    Route::post('/delete-image', 'delete')->name('delete.image');
+    Route::get('/check-image', 'checkImage')->name('check.image');
+    Route::post('/upload-image', 'upload')->name('image.upload'); 
 
     //Store first level calculation
     Route::post('customise/product/total', 'store_total')->name('frame.total');
     Route::get('customise/{slug}', 'summary')->name('frame.summary');
 
-    //Neon
-    Route::post('/save-svg', 'saveSVG')->name('save.svg');
-    Route::post('/store-svg', 'storeSVG')->name('update.svg');
-
-    Route::post('/save_frame', 'saveSession')->name('save.session');
-
-    //Storing in session and calculations
-    Route::post('/store-selection-new', 'storeSelection')->name('store.selection');
-    Route::get('/upload_choice', 'showSelection')->name('show.selection'); 
-
-    //Metal Frame
-    Route::post('/update-options', 'updateOptions')->name('update.options');
-    Route::post('/delete-image', 'delete')->name('delete.image');
-    Route::get('/check-image', 'checkImage')->name('check.image');
-    Route::post('/upload-image', 'upload')->name('image.upload');
-    Route::post('/get-frame-details', 'getFrameDetails')->name('get.frame.details');    
+    //NEON price calculation
+    Route::post('/calculate-price', 'calculatePrice')->name('calculate.price');
 });
-
-
-
-Route::get('/select', function() { return view('select'); })->name('select.page');
 
 Route::controller(CartController::class)->group(function() {
     Route::get('/cart','cart')->name('front.cart');
     Route::post('/update-cart','updateCart')->name('front.updateCart');
-    
+
+    //Add to cart
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
     Route::post('/add-to-cart-customize','customize')->name('addToCart_customize');
-    Route::post('/add-to-cart-neon','addToCart_neon')->name('front.addToCart_neon');
+    Route::post('/add-to-cart-neon','addToCart_neon')->name('addToCart_neon');
 
     //Route::post('/update-cart','updateCart')->name('front.updateCart');
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
@@ -101,27 +83,6 @@ Route::controller(CartController::class)->group(function() {
     Route::get('/order-success','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
 });
-
-//Metal Frame Rates calculations saved in session storage
-Route::post('/store-total', function (Illuminate\Http\Request $request) {
-    session(['grandTotal' => $request->grandTotal]);
-    return response()->json(['success' => true, 'grandTotal' => session('grandTotal')]);
-})->name('store.total');
-
-//Store in session applied frames
-Route::post('/store-frame', function (Request $request) {
-    Session::put('frame_class', $request->frame_class);
-    return response()->json(['success' => true, 'frame_class' => $request->frame_class]);
-});
-
-Route::post('/clear-prices', function () {
-    Session::forget('image_options'); // Remove stored options
-    return response()->json(['message' => 'Prices cleared successfully', 'status' => 'success']);
-})->name('clear.prices');
-
-Route::post('/calculate-price', [PriceController::class, 'calculatePrice'])->name('calculate.price');
-
-
 
 //OTP login
 Route::controller(OTPController::class)->group(function() {
@@ -276,7 +237,7 @@ Route::group(['prefix' => 'admin'], function(){
         });
 
         //Temp image controller
-        Route::post('/upload-temp-image', [TempImagesController::class, 'create'])->name('temp-images.create');
+        //Route::post('/upload-temp-image', [TempImagesController::class, 'create'])->name('temp-images.create');
 
         //Setting Route
         Route::controller(SettingController::class)->group(function() {
@@ -305,9 +266,6 @@ Route::group(['prefix' => 'admin'], function(){
             Route::post('/setting_store', 'store_setting')->name('setting.store');
             Route::get('/change-password', 'showChangePasswordForm')->name('admin.showChangePasswordForm');
             Route::post('/process-change-password', 'processChangePassword')->name('admin.processChangePassword');
-
-
-            
         });
 
         //Setting Route

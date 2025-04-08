@@ -77,7 +77,7 @@
             <div id="frame_three" class="accordion-collapse collapse" data-bs-parent="#accordionFrames">
                 <div class="accordion-body">
                     <div class="radio-group row">
-                        @if($floating)
+                        {{-- @if($floating)
                             @foreach($floating as $value)
                                 <div class="col-md-3 col-6"> 
                                     <label class="custom-radio wrap_03 {{ session('frame_class') == $value->slug ? 'active' : '' }}" >                                    
@@ -89,7 +89,7 @@
                                     </label>
                                 </div>
                             @endforeach
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>

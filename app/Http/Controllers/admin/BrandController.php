@@ -7,8 +7,7 @@ use App\Models\Brand;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
-{
+class BrandController extends Controller {
 
     public function index(Request $request){
         $brands = Brand::latest('id');
@@ -21,9 +20,13 @@ class BrandController extends Controller
 
         return view('admin.brands.list',compact('brands'));
     }
+
+
     public function create(){
         return view("admin.brands.create");
     }
+
+
 
     public function store(Request $request ){
         $validator = Validator::make($request->all(), [
@@ -64,8 +67,9 @@ class BrandController extends Controller
         return view('admin.brands.edit',$data);
     }
 
-    public function update($id, Request $request){
 
+
+    public function update($id, Request $request){
         $brand = Brand::find($id);
 
         if (empty($brand)) {
@@ -103,7 +107,6 @@ class BrandController extends Controller
 
     public function destroy($id, Request $request){
         $brand = Brand::find($id);
-
         if(empty($brand)){
             $request->session()->flash('error','Record not found');
             return response([
@@ -111,14 +114,12 @@ class BrandController extends Controller
                 'notFound' => true,
             ]);
         }
-
         $brand->delete();
-
-        $request->session()->flash('success', 'Sub Category deleted successfully');
+        $request->session()->flash('success', 'Brand deleted successfully');
 
         return response([
             'status' => true,
-            'message' => 'Sub Category deleted successfully',
+            'message' => 'Brand deleted successfully',
         ]);
     }
 }
