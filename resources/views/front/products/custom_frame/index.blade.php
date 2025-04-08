@@ -22,7 +22,7 @@
                                 </li>
                                 <li class="nav-item">
                                     @foreach ($firstTotals as $value)                                    
-                                        <a class="nav-link {{ $value->name == $value->name ? 'active' : '' }}" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
+                                        <a class="nav-link" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
                                             <span class="icon icon_product_2"></span>
                                             Upload
                                         </a>
@@ -60,7 +60,7 @@
                                 <div class="tab-pane fade" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
                                     @include('front.products.custom_frame.01_tab')
                                 </div>
-                                <div class="tab-pane fade {{ $value->name == $value->name ? 'show active' : '' }}" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
+                                <div class="tab-pane fade" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
                                     @include('front.products.custom_frame.02_tab')
                                 </div>
                                 <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">

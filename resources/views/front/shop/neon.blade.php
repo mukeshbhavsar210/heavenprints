@@ -215,7 +215,7 @@
         let selectedPrice = $("#price").text();
 
         $.ajax({
-            url: '{{ route("front.addToCart_neon") }}',
+            url: '{{ route("addToCart_neon") }}',
             type: 'post',
             data: {
 				_token: '{{ csrf_token() }}',

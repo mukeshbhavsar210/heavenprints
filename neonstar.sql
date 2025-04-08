@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2025 at 03:00 PM
+-- Generation Time: Apr 08, 2025 at 07:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -190,8 +190,8 @@ CREATE TABLE `custom_totals` (
 --
 
 INSERT INTO `custom_totals` (`id`, `product_id`, `name`, `shape`, `size`, `total`, `custom_size_1`, `custom_size_2`, `created_at`, `updated_at`) VALUES
-(138, 520, 'Acrylic', 'Square', '10\" x 10\"', '1143.00', NULL, NULL, '2025-04-07 07:08:37', '2025-04-07 07:08:37'),
-(139, 521, 'Canvas', 'Square', '8\" x 8\"', '1134.00', NULL, NULL, '2025-04-07 07:16:15', '2025-04-07 07:16:15');
+(141, 521, 'Canvas', 'Square', '10\" x 10\"', '1143.00', NULL, NULL, '2025-04-07 07:38:52', '2025-04-07 07:38:52'),
+(151, 520, 'Acrylic', 'Square', '10\" x 10\"', '1143.00', NULL, NULL, '2025-04-07 23:17:18', '2025-04-07 23:17:18');
 
 -- --------------------------------------------------------
 
@@ -235,56 +235,6 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `frame_borders`
---
-
-CREATE TABLE `frame_borders` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_borders`
---
-
-INSERT INTO `frame_borders` (`id`, `name`, `slug`, `price`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Mirror Image', 'mirror_image', '0', 'mirror-image.jpg', NULL, NULL),
-(2, 'Border Color', 'border_color', '0', 'border-color.jpg', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_frames`
---
-
-CREATE TABLE `frame_frames` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('standard','premium','floating') NOT NULL DEFAULT 'standard',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_frames`
---
-
-INSERT INTO `frame_frames` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Golden', 'golden', '798', 'golden.png', 'standard', NULL, NULL),
-(2, 'Cherry Style', 'cherry', '998.00', 'cherry-style.png', 'premium', NULL, NULL),
-(3, 'Black Floating Frame', 'black_floating', '1798.00', 'black-floating-frame.png', 'floating', NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `frame_materials`
 --
 
@@ -305,263 +255,8 @@ INSERT INTO `frame_materials` (`id`, `name`, `show`, `created_at`, `updated_at`)
 (5, 'Acrylic', 'Yes', '2025-04-01 23:25:42', '2025-04-01 23:25:42'),
 (6, 'Metal', 'Yes', '2025-04-01 23:26:50', '2025-04-01 23:26:50'),
 (7, 'Wood', 'Yes', '2025-04-01 23:26:56', '2025-04-01 23:26:56'),
-(8, 'Others', 'Yes', '2025-04-01 23:27:01', '2025-04-01 23:27:01');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_metals`
---
-
-CREATE TABLE `frame_metals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `shape` varchar(255) NOT NULL,
-  `size` varchar(255) NOT NULL,
-  `custom_size_1` varchar(255) DEFAULT NULL,
-  `custom_size_2` varchar(255) DEFAULT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_metals`
---
-
-INSERT INTO `frame_metals` (`id`, `name`, `shape`, `size`, `custom_size_1`, `custom_size_2`, `price`, `created_at`, `updated_at`) VALUES
-(23, 'test', 'Square', '8', '8', '8', 547863.00, '2025-03-21 05:40:27', '2025-04-01 23:04:13'),
-(24, '971287', 'Rectangle', '8', '8', '8', 971287.00, '2025-03-21 05:43:56', '2025-03-21 05:43:56'),
-(25, '578359', 'Square', '24', '24', '22', 578359.00, '2025-03-21 05:52:52', '2025-03-21 05:52:52'),
-(26, '468220', 'Rectangle', '8', '8', '8', 468220.00, '2025-03-21 05:56:47', '2025-03-21 05:56:47'),
-(27, '230886', 'Square', '8', '8', '8', 230886.00, '2025-03-21 06:58:19', '2025-03-21 06:58:19'),
-(28, '502614', 'Square', '8', '8', '8', 502614.00, '2025-03-21 07:19:35', '2025-03-21 07:19:35'),
-(29, '553866', 'Square', '8', '8', '8', 553866.00, '2025-03-21 07:22:13', '2025-03-21 07:22:13'),
-(30, '590154', 'Square', '8', '8', '8', 590154.00, '2025-03-21 07:23:03', '2025-03-21 07:23:03'),
-(31, '647883', 'Square', '8', '8', '8', 647883.00, '2025-03-21 07:24:12', '2025-03-21 07:24:12'),
-(32, '678475', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:30:55', '2025-03-21 07:30:55'),
-(33, '355340', 'Square', '8', '8', '8', 700.00, '2025-03-21 07:31:24', '2025-03-21 07:31:24'),
-(34, '205907', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:31:46', '2025-03-21 07:31:46'),
-(35, '470811', 'Square', '8', '8', '8', 600.00, '2025-03-21 07:33:20', '2025-03-21 07:33:20');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_shapes`
---
-
-CREATE TABLE `frame_shapes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(255) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `types` enum('canvas','acrylic','metal','wood','others') DEFAULT 'canvas',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_shapes`
---
-
-INSERT INTO `frame_shapes` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Single Print', 'wood', 143, 'icon_single_print.png', 'canvas', NULL, NULL),
-(2, 'Round Canvas', 'metal', 721, 'round_canvas.png', 'canvas', NULL, NULL),
-(3, 'Triangle Canvas', 'triangle_canvas', 1250, 'round_canvas.png', 'metal', NULL, NULL),
-(4, 'Single Print', 'single_print', 355, 'round_canvas.png', 'wood', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_sizes`
---
-
-CREATE TABLE `frame_sizes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `slug` varchar(25) NOT NULL,
-  `price` int(15) NOT NULL,
-  `types` enum('recommended','square','panaromic','large','small') NOT NULL DEFAULT 'recommended',
-  `height` int(10) NOT NULL DEFAULT 20,
-  `width` int(10) NOT NULL DEFAULT 20,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_sizes`
---
-
-INSERT INTO `frame_sizes` (`id`, `name`, `slug`, `price`, `types`, `height`, `width`, `created_at`, `updated_at`) VALUES
-(1, '8\" x 8\"', 'small', 0, 'square', 45, 45, NULL, NULL),
-(2, '10\" x 10\"', 'medium', 30, 'square', 47, 47, NULL, NULL),
-(3, '16\" x 16\"', 'large', 60, 'square', 49, 49, NULL, NULL),
-(4, '24\" x 24\"', 'four', 1066, 'square', 53, 53, NULL, NULL),
-(5, '30\" x 30\"', 'five', 1646, 'square', 56, 56, NULL, NULL),
-(6, '45\" x 45\"', 'six', 3640, 'square', 64, 64, NULL, NULL),
-(7, '11\" x 17\"', 'recommended_01', 379, 'recommended', 32, 50, NULL, NULL),
-(8, '22\" x 34\"', 'recommended_02', 1377, 'recommended', 38, 58, NULL, NULL),
-(9, '33\" x 51\"', 'recommended_03', 3038, 'recommended', 43, 67, NULL, NULL),
-(10, '8\" x 24\"', 'panoromic_01', 396, 'panaromic', 19, 57, NULL, NULL),
-(11, '10\" x 40\"', 'panoromic_02', 764, 'panaromic', 17, 70, NULL, NULL),
-(12, '12\" x 36\"', 'panoromic_03', 817, 'panaromic', 22, 67, NULL, NULL),
-(13, '15\" x 45\"', 'panoromic_04', 1255, 'panaromic', 24, 73, NULL, NULL),
-(14, '16\" x 48\"', 'panoromic_05', 1422, 'panaromic', 25, 76, NULL, NULL),
-(15, '18\" x 54\"', 'panoromic_06', 1787, 'panaromic', 27, 80, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `frame_wraps`
---
-
-CREATE TABLE `frame_wraps` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('wrap','border') NOT NULL DEFAULT 'wrap',
-  `border_color` varchar(255) DEFAULT NULL,
-  `notes` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `frame_wraps`
---
-
-INSERT INTO `frame_wraps` (`id`, `name`, `slug`, `price`, `image`, `types`, `border_color`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 'Canvas Lite (0.50\")', 'canvas_lite', '110', 'size05.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(2, 'Thin Gallery Wrap (0.75\")', 'thin_gallery_wrap', '185.90', 'size75.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(3, 'Thick Gallery Wrap (1.5\")', 'thick_gallery_wrap', '223.08', 'size15.jpg', 'wrap', NULL, NULL, NULL, NULL),
-(4, 'Hanging Canvas', 'hanging_canvas', '121.55', 'hanging-canvas.jpg', 'wrap', NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_displays`
---
-
-CREATE TABLE `hardware_displays` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_displays`
---
-
-INSERT INTO `hardware_displays` (`id`, `name`, `slug`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Open Back', 'open_back', '0', NULL, NULL),
-(2, 'Dust Cover', 'dust_cover', '49.00', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_finishings`
---
-
-CREATE TABLE `hardware_finishings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `types` enum('basic','advance') NOT NULL DEFAULT 'basic',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_finishings`
---
-
-INSERT INTO `hardware_finishings` (`id`, `name`, `slug`, `price`, `image`, `types`, `created_at`, `updated_at`) VALUES
-(1, 'Original Free', 'original_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
-(2, 'Sephia Free', 'sephia_free', '0', 'sepia.jpg', 'basic', NULL, NULL),
-(3, 'Grey Scale', 'grey-scale', '0', 'grayscale.jpg', 'basic', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hardware_styles`
---
-
-CREATE TABLE `hardware_styles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hardware_styles`
---
-
-INSERT INTO `hardware_styles` (`id`, `name`, `slug`, `price`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Hooks for Hanging Free', 'hooks_for_hanging_free', '0', 'hooks-for-hanging.jpg', NULL, NULL),
-(2, 'Ready to Hang Free', 'ready_to_hang_free', '0', 'ready-to-hang.jpg', NULL, NULL),
-(3, 'No Hooks Free', 'no_hooks_free', '0', 'no-hooks.jpg', NULL, NULL),
-(4, 'Sawtooth Hanger', 'sawtooth_hanger', '25.00', 'sawtooth-hanger.jpg', NULL, NULL),
-(5, 'Easel Back', 'easel-back', '49.00', 'easel-back.jpg', NULL, NULL),
-(6, 'Nail Free Hook', 'nail-free-hook', '49.00', 'nail-free-hook.jpg', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `image_edits`
---
-
-CREATE TABLE `image_edits` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `frame` varchar(255) NOT NULL,
-  `size` varchar(255) NOT NULL,
-  `border` varchar(255) NOT NULL,
-  `hardware` varchar(255) NOT NULL,
-  `display_option` varchar(255) NOT NULL,
-  `lamination` varchar(255) NOT NULL,
-  `retouching` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`retouching`)),
-  `notes` text DEFAULT NULL,
-  `price` decimal(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `laminations`
---
-
-CREATE TABLE `laminations` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(10) NOT NULL,
-  `class` int(10) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `laminations`
---
-
-INSERT INTO `laminations` (`id`, `name`, `slug`, `price`, `class`, `created_at`, `updated_at`) VALUES
-(1, 'No', 'no', 0, 2, NULL, NULL),
-(2, 'Standard', 'standard', 149, 5, NULL, NULL),
-(3, 'Premium', 'premium', 249, 5, NULL, NULL);
+(8, 'Others', 'Yes', '2025-04-01 23:27:01', '2025-04-01 23:27:01'),
+(9, 'Synthetic', 'Yes', '2025-04-02 06:08:36', '2025-04-02 06:08:36');
 
 -- --------------------------------------------------------
 
@@ -690,32 +385,6 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (6, 'App\\Models\\User', 4),
 (7, 'App\\Models\\User', 7),
 (9, 'App\\Models\\User', 30);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modifications`
---
-
-CREATE TABLE `modifications` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `price` int(15) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `modifications`
---
-
-INSERT INTO `modifications` (`id`, `name`, `slug`, `price`, `created_at`, `updated_at`) VALUES
-(1, 'Red Eye Removal', 'red_eye_removal', 299, NULL, NULL),
-(2, 'Dust/Scratch Removal', 'dust_scratch_removal', 0, NULL, NULL),
-(3, 'Enhance Color', 'enhance_color', 0, NULL, NULL),
-(4, 'Date Stamp Removal', 'date_stamp_Removal', 0, NULL, NULL),
-(5, 'Lighten/Darken Image', 'lighten_darken_image', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -944,7 +613,7 @@ INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `metal_type`, `siz
 (505, 'Tshirt', 'tshirt', 'Default', 't_shirt', NULL, '\"[\\\"Small\\\",\\\"Medium\\\"]\"', NULL, '\"[\\\"Red\\\",\\\"Blue\\\"]\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', 'metalframe_0012', NULL, 'Yes', 50, 1, '2025-03-31 05:54:23', '2025-03-31 05:54:23'),
 (519, 'test', 'test', 'Default', 't_shirt', NULL, NULL, NULL, '\"[\\\"Red\\\",\\\"Blue\\\",\\\"Black\\\"]\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', NULL, NULL, 'Yes', 99, 1, '2025-04-02 00:25:08', '2025-04-06 20:11:56'),
 (520, 'Mouse Pad', 'mouse-pad', 'Customize', 'Acrylic', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 93, 1, '2025-04-06 20:35:09', '2025-04-07 07:08:27'),
-(521, 'Key Chain', 'key-chain', 'Customize', 'Canvas', NULL, '\"null\"', NULL, '\"null\"', NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 96, 1, '2025-04-06 20:44:43', '2025-04-07 04:48:54');
+(521, 'Key Chain', 'key-chain', 'Customize', 'Canvas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 96, 1, '2025-04-06 20:44:43', '2025-04-07 07:56:26');
 
 -- --------------------------------------------------------
 
@@ -1038,22 +707,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (21, 1),
 (25, 1),
 (26, 9);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `sample_products`
---
-
-CREATE TABLE `sample_products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`images`)),
-  `sizes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`sizes`)),
-  `colors` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`colors`)),
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1198,36 +851,8 @@ INSERT INTO `sub_categories` (`id`, `name`, `slug_sub_category`, `image`, `statu
 (53, 'Canvas Print', 'canvas-print', '_1743080632.jpg', 1, 'Yes', 298, '2025-03-26 06:09:30', '2025-04-06 21:18:43'),
 (54, 'Woods', 'woods', '_1743080624.jpg', 1, 'Yes', 298, '2025-03-26 09:54:38', '2025-04-06 21:18:53'),
 (57, 'Customize Neon', 'customize-neon', 'neon_1743085610.jpg', 1, 'Yes', 296, '2025-03-27 08:56:50', '2025-03-27 09:09:30'),
-(60, 'Common', 'common', 'common_1743420036.png', 1, 'Yes', 297, '2025-03-31 05:50:36', '2025-03-31 05:50:36'),
+(60, 'Common', 'common', '_1744087955.jpg', 1, 'Yes', 297, '2025-03-31 05:50:36', '2025-04-07 23:22:35'),
 (61, 'Customize Products', 'customize-products', 'customize-products_1743990448.jpg', 1, 'Yes', 298, '2025-04-06 20:17:30', '2025-04-06 20:17:30');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `temp_images`
---
-
-CREATE TABLE `temp_images` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `temp_images`
---
-
-INSERT INTO `temp_images` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(573, '1743058156.jpg', '2025-03-27 01:19:16', '2025-03-27 01:19:16'),
-(574, '1743065181.JPG', '2025-03-27 03:16:21', '2025-03-27 03:16:21'),
-(575, '1743065184.JPG', '2025-03-27 03:16:24', '2025-03-27 03:16:24'),
-(576, '1743065186.JPG', '2025-03-27 03:16:26', '2025-03-27 03:16:26'),
-(577, '1743082055.png', '2025-03-27 07:57:35', '2025-03-27 07:57:35'),
-(578, '1743082056.png', '2025-03-27 07:57:36', '2025-03-27 07:57:36'),
-(579, '1743082073.jpg', '2025-03-27 07:57:53', '2025-03-27 07:57:53'),
-(580, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15'),
-(581, '1743082335.png', '2025-03-27 08:02:15', '2025-03-27 08:02:15');
 
 -- --------------------------------------------------------
 
@@ -1339,75 +964,9 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Indexes for table `frame_borders`
---
-ALTER TABLE `frame_borders`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_frames`
---
-ALTER TABLE `frame_frames`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `frame_materials`
 --
 ALTER TABLE `frame_materials`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_metals`
---
-ALTER TABLE `frame_metals`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_shapes`
---
-ALTER TABLE `frame_shapes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_sizes`
---
-ALTER TABLE `frame_sizes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `frame_wraps`
---
-ALTER TABLE `frame_wraps`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_displays`
---
-ALTER TABLE `hardware_displays`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_finishings`
---
-ALTER TABLE `hardware_finishings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `hardware_styles`
---
-ALTER TABLE `hardware_styles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `image_edits`
---
-ALTER TABLE `image_edits`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `laminations`
---
-ALTER TABLE `laminations`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1429,12 +988,6 @@ ALTER TABLE `model_has_permissions`
 ALTER TABLE `model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
-
---
--- Indexes for table `modifications`
---
-ALTER TABLE `modifications`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -1532,12 +1085,6 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indexes for table `sample_products`
---
-ALTER TABLE `sample_products`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -1577,12 +1124,6 @@ ALTER TABLE `sub_categories`
   ADD KEY `sub_categories_category_id_foreign` (`category_id`);
 
 --
--- Indexes for table `temp_images`
---
-ALTER TABLE `temp_images`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1611,13 +1152,13 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT for table `colors`
@@ -1641,7 +1182,7 @@ ALTER TABLE `customer_addresses`
 -- AUTO_INCREMENT for table `custom_totals`
 --
 ALTER TABLE `custom_totals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `discount_coupons`
@@ -1656,88 +1197,16 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `frame_borders`
---
-ALTER TABLE `frame_borders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `frame_frames`
---
-ALTER TABLE `frame_frames`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `frame_materials`
 --
 ALTER TABLE `frame_materials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `frame_metals`
---
-ALTER TABLE `frame_metals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
---
--- AUTO_INCREMENT for table `frame_shapes`
---
-ALTER TABLE `frame_shapes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `frame_sizes`
---
-ALTER TABLE `frame_sizes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `frame_wraps`
---
-ALTER TABLE `frame_wraps`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `hardware_displays`
---
-ALTER TABLE `hardware_displays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `hardware_finishings`
---
-ALTER TABLE `hardware_finishings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `hardware_styles`
---
-ALTER TABLE `hardware_styles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `image_edits`
---
-ALTER TABLE `image_edits`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `laminations`
---
-ALTER TABLE `laminations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
-
---
--- AUTO_INCREMENT for table `modifications`
---
-ALTER TABLE `modifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1779,13 +1248,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=522;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=523;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=467;
 
 --
 -- AUTO_INCREMENT for table `product_ratings`
@@ -1798,12 +1267,6 @@ ALTER TABLE `product_ratings`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `sample_products`
---
-ALTER TABLE `sample_products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1833,13 +1296,7 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
-
---
--- AUTO_INCREMENT for table `temp_images`
---
-ALTER TABLE `temp_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=582;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `users`
