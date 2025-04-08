@@ -876,13 +876,13 @@ aside a {
   font-size: 26px;
 }
 
-.featuredProducts .slick-prev, .latestProducts  .slick-prev, .customProducts .slick-prev  {  position: absolute; top:-56px; left:84%;}
-.featuredProducts .slick-next, .latestProducts  .slick-next, .customProducts .slick-next {  position: absolute; top:-56px; left:93%;}
+.featuredProducts .slick-prev, .latestProducts  .slick-prev, .customProducts .slick-prev  {  position: absolute; left:auto; top:-56px; right:35px;}
+.featuredProducts .slick-next, .latestProducts  .slick-next, .customProducts .slick-next {  position: absolute; top:-56px; right:0;}
 
 .subCategory_listing { width: 100%;}
 .subCategory_listing li { border-bottom: 1px #666 dotted;}
 
-.product-title { color: var(--black); font-size: 20px;}
+.product-title { color: var(--black); font-size: 18px;}
 .product-title:hover { color: var(--primary);}
 
-.product-price { color: var(--dark-grey); font-size: 18px;}
+.product-price { color: var(--dark-grey); font-size: 16px;}

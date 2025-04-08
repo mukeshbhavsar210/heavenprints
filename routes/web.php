@@ -28,17 +28,17 @@ Route::controller(FrontController::class)->group(function() {
     Route::get('/', 'index')->name('front.home');
     Route::post('/add-to-wishlist', 'addToWishlist')->name('front.addToWishlist');
     Route::get('/page/{slug}', 'page')->name('front.page');
-    Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');
+    Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');      
 });
 
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('/customize/{categorySlug?}/{subCategorySlug?}','customizeProducts')->name('customize.products');
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
-    Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');
+    Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');    
 
     //Product details
-    Route::get('/product/{slug}', 'product')->name('front.product');    
+    Route::get('/product/{slug}', 'product')->name('front.product');        
 
     //Customize
     Route::get('/frames/{slug}', 'first_level')->name('customize.product');    
@@ -61,10 +61,9 @@ Route::controller(CartController::class)->group(function() {
 
     //Add to cart
     Route::post('/add-to-cart','addToCart')->name('front.addToCart');
-    Route::post('/add-to-cart-customize','customize')->name('addToCart_customize');
     Route::post('/add-to-cart-neon','addToCart_neon')->name('addToCart_neon');
-
-    //Route::post('/update-cart','updateCart')->name('front.updateCart');
+    Route::post('/add-to-cart-customize','addToCart_customize')->name('addToCart_customize');
+    
     Route::post('/delete-item','deleteItem')->name('front.deleteItem.cart');
     Route::get('/checkout','checkout')->name('front.checkout');
     Route::post('/process-checkout','processCheckout')->name('front.processCheckout');
@@ -82,7 +81,16 @@ Route::controller(CartController::class)->group(function() {
     Route::post('checkout/razorpay', 'razorpayPayment')->name('checkout.razorpay');
     Route::get('/order-success','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
+
+
+    //Route::get('/get-product-price', 'getProductPrice')->name('getProductPrice');
+    //Route::post('/update-cart', 'updateCart')->name('cart.update');
+
 });
+
+
+
+
 
 //OTP login
 Route::controller(OTPController::class)->group(function() {

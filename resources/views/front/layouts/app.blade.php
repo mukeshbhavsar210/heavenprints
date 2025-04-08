@@ -127,7 +127,7 @@
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
 																			<p class="nav_name">{{ $subCategory->name }}</p>
 																		</div>																	
-																	</a>																
+																	</a>
 																@else	
 																	<a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug_category,$subCategory->slug_sub_category])}}">
 																		<div class="nav_thumb"> 

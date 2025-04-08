@@ -109,7 +109,8 @@ class ShopController extends Controller {
 
         return view('front.shop.neon',$data);
     }
-   
+
+
 
     //CUSTOMIZE PRODUCT
     public function customizeProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
@@ -184,16 +185,10 @@ class ShopController extends Controller {
         return view('front.shop.result',$data);
     }
 
+    
     public function product($slug){
-        $products = Product::latest('id')->with('product_images');
         $product = Product::where('slug',$slug)->with('product_images')->first();
-        $product = Product::where('slug',$slug)
-                            ->with('product_images')
-                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-                            ->first();
-        
+       
         if($product == null){
             abort(404);
         }
@@ -205,9 +200,41 @@ class ShopController extends Controller {
             $relatedProducts = Product::whereIn('id',$productArray)->where('status',1)->with('product_images')->get();
         }
 
+        // Define the price arrays
+        $shapePrices = [
+            'Square' => 1.00, 
+            'Rectangle' => 2.00, 
+            'Panoramic' => 3.00, 
+            'Large' => 4.00, 
+            'Small' => 5.00
+        ];
+
+        $sizePrices = [
+            '8" x 8"' => 11.00, 
+            '10" x 10"' => 20.00, 
+            '12" x 12"' => 30.00, 
+            '16x16' => 40.00, 
+            '20x20' => 500.00, 
+            '24x24' => 600.00
+        ];
+
+        $customSizePrices1 = [
+            8 => 211.00, 
+            10 => 100.00, 12 => 200.00, 
+            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
+        ];
+
+        $customSizePrices2 = [
+            8 => 50.00, 10 => 100.00, 12 => 200.00, 
+            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
+        ];
+
         $data['product'] = $product;
-        $data['products'] = $products;
-        $data['relatedProducts'] = $relatedProducts;               
+        $data['relatedProducts'] = $relatedProducts;  
+        $data['shapePrices'] = $shapePrices;     
+        $data['sizePrices'] = $sizePrices;     
+        $data['customSizePrices1'] = $customSizePrices1;     
+        $data['customSizePrices2'] = $customSizePrices2;                  
 
         return view('front.products.index',$data);
     }
