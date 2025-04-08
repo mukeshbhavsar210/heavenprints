@@ -114,9 +114,11 @@
                                             <div id="colorFinishingBasicDetails"></div>
                                         </div>
                                     </div>
-    
-                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCart_Customize({{ $product->id }})">Add To Cart</a>
 
+                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
+                                        Add To Cart
+                                    </a> 
+    
                                     <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                         <?xml version="1.0" encoding="utf-8"?>
                                         <svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -183,14 +185,11 @@
         const wood_material_data = @json($wood_material_data);
         const other_material_data = @json($other_material_data);
         const hardwareStyleData = @json($hardwareStyleData);
-
-        //Select Size 
         const recommended_data = @json($recommended_data);
         const square_data = @json($square_data);
         const panaromic_data = @json($panaromic_data);
         const large_data = @json($large_data);
         const small_data = @json($small_data);
-
         const borderData = @json($borderData);
         const standardFrame = @json($standardFrame);
         const premiumFrame = @json($premiumFrame);        
@@ -523,45 +522,35 @@
         // Set initial values on page load
         document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
-});
+    });
 
 
-//Add to cart for METAL FRAME
-function addToCart_Customize(id){
+    function addToCartCustomize(id){
         let uploadedImageName = "{{ session('uploaded_image') }}";
 		let image = uploadedImageName || 'No image found';
-
         let product_type = $('input[name="common"]:checked').data('type');
         let product_name = $('input[name="common"]:checked').data('name');
         let product_price = $('input[name="common"]:checked').data('price');
-
         let custom_name = $('input[name="product_selection"]:checked').data('name');
         let custom_image = $('input[name="product_selection"]:checked').data('image');
         let custom_price = $('input[name="product_selection"]:checked').data('price');
-
         let size_type = $('input[name="size"]:checked').data('type');
         let size_name = $('input[name="size"]:checked').data('name');
         let size_price = $('input[name="size"]:checked').data('price');
-
         let wrap_name = $('input[name="wrap"]:checked').data('name');
         let wrap_image = $('input[name="wrap"]:checked').data('image');
         let wrap_price = $('input[name="wrap"]:checked').data('price');
-
         let border_name = $('input[name="border"]:checked').data('name');
         let border_image = $('input[name="border"]:checked').data('image');
         let border_price = $('input[name="border"]:checked').data('price');
-
         let frame_name = $('input[name="frame_border"]:checked').data('name');
         let frame_image = $('input[name="frame_border"]:checked').data('image');
         let frame_price = $('input[name="frame_border"]:checked').data('price');
-
         let hardware_name = $('input[name="hardware_style"]:checked').data('name');
         let hardware_image = $('input[name="hardware_style"]:checked').data('image');
         let hardware_price = $('input[name="hardware_style"]:checked').data('price');
-
         let display_name = $('input[name="display_option"]:checked').data('name');        
         let display_price = $('input[name="display_option"]:checked').data('price');
-
         let lamination_name = $('input[name="lamination_option"]:checked').data('name');        
         let lamination_price = $('input[name="lamination_option"]:checked').data('price');
         
@@ -583,14 +572,13 @@ function addToCart_Customize(id){
             proof_prices = 49; // Fixed price
         }
 
-
-        let price = $('#grandTotal').text();
-		
+        let price = $("#finalPrice").text();
+        
         $.ajax({
             url: '{{ route("addToCart_customize") }}',
             type: 'post',
             data: {
-				_token: '{{ csrf_token() }}', // Include CSRF token
+				_token: '{{ csrf_token() }}',
 				id: id,
                 image: image,
                 product_type: product_type,
@@ -622,7 +610,7 @@ function addToCart_Customize(id){
                 retouch_prices: retouch_prices,
                 proof_names: proof_names,
                 proof_prices: proof_prices,
-                price: price,
+                price: price			
 			},
             dataType: 'json',
             success: function(response){
@@ -635,7 +623,12 @@ function addToCart_Customize(id){
         })
     }
 
-    
+    function toggleMenu(e) {
+        e.classList.toggle("active");
+        document.querySelector("aside").classList.toggle("active");
+    }   
+
+
     $(document).ready(function () {
         $(".frame-option").change(function () {
             let parentLabel = $(this).closest("label");
@@ -766,43 +759,6 @@ $(".toggle-btn").click(function() {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-        function updateCartPrice() {
-            let rowId = document.getElementById('rowId').value; // Get row ID
-            let qty = document.getElementById('qty').value; // Get quantity
-            let newPrice = document.getElementById('finalPrice').innerText.trim(); // Get updated price
-
-            fetch('/update-cart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    rowId: rowId,
-                    qty: qty,
-                    new_price: newPrice
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
-                    alert('Cart updated successfully!');
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error updating cart:', error));
-        }
-
-        // Call updateCartPrice when final price updates
-        document.getElementById('customSizeSelect').addEventListener('change', updateCartPrice);
-    });
-
-    function toggleMenu(e) {
-        e.classList.toggle("active");
-        document.querySelector("aside").classList.toggle("active");
-    }   
 </script>
 
 </body>

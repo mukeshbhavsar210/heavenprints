@@ -212,6 +212,7 @@
 		let neon_font = $("input[name='neon_font']:checked").val();
 		let neon_light = $("input[name='neon_light']:checked").val();
 		let custom_neon = $("input[name='custom_neon']").val();
+
         let selectedPrice = $("#price").text();
 
         $.ajax({

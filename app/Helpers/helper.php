@@ -21,7 +21,14 @@ use Illuminate\Support\Facades\Mail;
     }
 
     function getCategories(){
-        return Category::orderBy('name','ASC')->with('sub_category')->take(4)->orderBy('id','DESC')->where('status',1)->where('showHome','Yes')->get();
+        return Category::withCount('products')
+            ->with('sub_category')
+            ->where('status', 1)
+            ->where('showHome', 'Yes')
+            ->orderBy('name', 'ASC')
+            ->orderBy('id', 'DESC')
+            ->take(4)
+            ->get();
     }
 
     function allProducts(){

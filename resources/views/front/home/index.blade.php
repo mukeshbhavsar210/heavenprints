@@ -28,29 +28,29 @@
             <h2>Categories</h2>
         </div>
         <div class="row pb-3">   
-            @if($categories->isNotEmpty())
-                @foreach ($categories as $value)
-                <div class="col-md-3 col-6">
-                    <div class="cat-card">
-                        <div class="left">
-                            <a href="{{ route('front.shop',[$value->slug_category])}}">
-                                <div class="nav_thumb"> 
-                                    <img src="{{ asset('uploads/category/'.$value->image) }}" alt="" />
-                                </div>																	
-                            </a>
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h5 class="mb-1">{{ $value->name }}</h5>
-                                <a href="{{ route('front.shop',[$value->slug_category])}}"><b>{{ $value->products_count }}</b> Products</a>
+            @if (getCategories()->isNotEmpty())
+                    @foreach (getCategories() as $category)
+                        <div class="col-lg-3">
+                            <div class="cat-card">
+                                <div class="left">
+                                    @if ($category->image != "")
+                                        <img src="{{ asset('uploads/category/'.$category->image) }} " alt="" class="img-fluid">
+                                    @endif
+                                </div>
+                                <div class="right">
+                                    <div class="cat-data">
+                                        <h2>{{$category->name}}</h2>
+                                        <a href="{{ route('front.shop',[$value->slug_category])}}"><b>{{ $category->products_count }}</b> Products</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>                   
-                @endforeach                
-            @endif                    
+                    @endforeach
+                @endif
         </div>    
     </section>
+
+
 
 
     @if ($featuredProducts->isNotEmpty())  
@@ -71,6 +71,11 @@
                             </a>                        
                             <div class="product-action-home">
                                 <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+
+                                @if($product->metal_type)
+                                    <span class="selectedCategory">{{ $product->metal_type }}</span>    
+                                @endif
+                                
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
@@ -103,7 +108,9 @@
             </div>
         @endif  
 
-
+        {{-- @dd(dd(Product::select('slug'))); --}}
+        
+        
     @if ($latestProducts->isNotEmpty())  
         <div class="section-title mt-5"><h2>Latest Products</h2></div> 
             <div class="latestProducts">
@@ -122,6 +129,11 @@
                             </a>                        
                             <div class="product-action-home">
                                 <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+
+                                @if($product->metal_type)
+                                    <span class="selectedCategory">{{ $product->metal_type }}</span>    
+                                @endif
+                                
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
@@ -148,10 +160,12 @@
                                     <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                 @endif
                             </div>
-                        </div>                      
+                        </div>     
                     </div>
                 @endforeach
             </div>
         @endif   
     </div>    
 @endsection
+
+

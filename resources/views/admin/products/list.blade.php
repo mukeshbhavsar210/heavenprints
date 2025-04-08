@@ -67,7 +67,8 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>
-                                    <a href="{{ route('front.product',$product->slug) }}" target="_blank" >
+                                    <a href="" target="_blank" >
+                                    {{-- <a href="{{ route('front.product',$product->slug) }}" target="_blank" > --}}
                                         @if (!empty($productImage->image1))
                                             <img src="{{ asset('uploads/products/small/'.$productImage->image1) }}" class="img-thumbnail" width="75" >
                                             @else
@@ -76,7 +77,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <h5 class="mb-0">{{ Str::limit($product->name, 30, '...') }}</h5>
+                                    <h5 class="mb-0">{{ Str::limit($product->name, 45, '...') }}</h5>
                                     <span style="font-size:14px;">
                                         @if(!empty($product->sizes))
                                             @php

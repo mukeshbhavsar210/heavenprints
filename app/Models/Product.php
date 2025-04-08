@@ -22,7 +22,7 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
-    protected $fillable = ['name', 'sizes', 'colors'];
+    protected $fillable = ['name', 'slug', 'sizes', 'colors'];
 
     protected $casts = [
         'sizes' => 'array',

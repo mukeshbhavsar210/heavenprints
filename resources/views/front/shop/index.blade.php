@@ -166,7 +166,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         {{-- <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-3">View Product</a> --}}
                                     </div>
                                 </div>

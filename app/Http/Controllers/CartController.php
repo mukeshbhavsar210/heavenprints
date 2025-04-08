@@ -97,40 +97,128 @@ class CartController extends Controller {
     }
 
 
-    public function updatePrice(Request $request, $productId) {
-        $product = Product::find($productId);
-        
-        // Base price
-        $price = $product->base_price;
+    // public function addToCart_customize(Request $request){
+    //     $product = Product::with('product_images')->find($request->id);
+    //     // $size = $request->size ?? 'Default Size';
+    //     // $color = $request->color ?? 'Default Red';
 
-        // Adding extra costs based on user selections
-        if ($request->has('frame')) {
-            $price += $request->frame_price; // Frame cost
-        }
-        if ($request->has('lamination')) {
-            $price += $request->lamination_price; // Lamination cost
-        }
-        if ($request->has('border')) {
-            $price += $request->border_price; // Border cost
-        }
+    //     if ($product == null) {
+    //         return response()->json([
+    //             "status"=> false,
+    //             "message"=> "Product not found"
+    //         ]);
+    //     }
 
-        // Applying discounts if applicable
-        if ($request->has('discount')) {
-            $price -= $request->discount; // Subtract discount
-        }
+    //     if (Cart::count() > 0) {
+    //         $cartContent = Cart::content();
+    //         $productAlreadyExist = false;
 
-        // Save the final price
-        $product->final_price = $price;
-        $product->save();
+    //         foreach ($cartContent as $item) {
+    //             if ($item->id == $product->id) {
+    //                 $productAlreadyExist = true;
+    //             }
+    //         }
 
-        return response()->json(['success' => true, 'final_price' => $price]);
-    }
+    //         if($productAlreadyExist == false){
+    //             Cart::add(
+    //                     $product->id, 
+    //                     $product->name, 
+    //                     1, 
+    //                     $product->price,                        
+    //                     [
+    //                         'category' => 'Customize Product', 
+    //                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+    //                         'image'             => $request->image,
+    //                         'canvas_material'   => $request->canvas_material,
+    //                         // 'size'              => $request->size,
+    //                         // 'frame'             => $request->frame,                            
+    //                         // 'size'              => $request->size,
+    //                         // 'wrap'              => $request->wrap,
+    //                         // 'border'            => $request->border,
+    //                         // 'major'             => $request->major,
+    //                         // 'wrap_wrap'         => $request->wrap_wrap,
+    //                         // 'hardware_style'    => $request->hardware_style,
+    //                         // 'hardware_display'  => $request->hardware_display,
+    //                         // 'lamination'        => $request->lamination,
+    //                         // 'retouching'        => $request->retouching,
+    //                         // 'hardware_finishing'=> $request->hardware_finishing,
+    //                         // 'proof'             => $request->proof
+    //                     ]
+    //             );
+    //             $status = true;
+    //             $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
+    //             session()->flash('success', $message);
+    //         } else {
+    //             $status = false;
+    //             $message = $product->name.' already added in cart';
+    //         }
 
-    public function customize(Request $request){
+    //     } else {
+
+    //         $retouchNames = $request->input('retouch_names'); // Get names array
+    //         $fixedRetouchPrice = 299;
+    //         $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
+
+    //         $proofNames = $request->input('proof'); // Get selected proof name
+    //         $fixedProofPrice = 49; 
+    //         $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
+
+    //         Cart::add(
+    //                 $product->id, 
+    //                 $product->name, 
+    //                 1, 
+    //                 $product->price, 
+    //                 [
+    //                     'category' => 'Customize', 
+    //                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+    //                         'image'             => $request->image,
+    //                         'product_type'       => $request->product_type,
+    //                         'product_name'       => $request->product_name,
+    //                         'product_price'      => $request->product_price,
+    //                         'custom_name'       => $request->custom_name,
+    //                         'custom_image'       => $request->custom_image,
+    //                         'custom_price'      => $request->custom_price,
+    //                         'size_type'       => $request->size_type,
+    //                         'size_name'       => $request->size_name,
+    //                         'size_price'      => $request->size_price,
+    //                         'wrap_name'       => $request->wrap_name,
+    //                         'wrap_image'       => $request->wrap_image,
+    //                         'wrap_price'      => $request->wrap_price,
+    //                         'border_name'       => $request->border_name,
+    //                         'border_image'       => $request->border_image,
+    //                         'border_price'      => $request->border_price,
+    //                         'frame_name'       => $request->frame_name,
+    //                         'frame_image'       => $request->frame_image,
+    //                         'frame_price'      => $request->frame_price,
+    //                         'hardware_name'       => $request->hardware_name,
+    //                         'hardware_image'       => $request->hardware_image,
+    //                         'hardware_price'      => $request->hardware_price,
+    //                         'display_name'       => $request->display_name,
+    //                         'display_price'      => $request->display_price,
+    //                         'lamination_name'       => $request->lamination_name,
+    //                         'lamination_price'      => $request->lamination_price,
+    //                         'retouch_names'       => $retouchNames,
+    //                         'retouch_price'      => $retouchPrice,
+
+    //                         'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
+    //                         'proof_price'   => $proofPrice,
+
+    //                 ]);
+    //         $status = true;
+    //         $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
+    //         session()->flash('success', $message);
+    //     }
+
+    //     return response()->json([
+    //         "status"=> $status,
+    //         "message"=> $message
+    //     ]);
+    // }
+
+
+    public function addToCart_customize(Request $request){
         $product = Product::with('product_images')->find($request->id);
-        // $size = $request->size ?? 'Default Size';
-        // $color = $request->color ?? 'Default Red';
-
+        
         if ($product == null) {
             return response()->json([
                 "status"=> false,
@@ -149,57 +237,21 @@ class CartController extends Controller {
             }
 
             if($productAlreadyExist == false){
+                $retouchNames = $request->input('retouch_names'); // Get names array
+                $fixedRetouchPrice = 299;
+                $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
+
+                $proofNames = $request->input('proof'); // Get selected proof name
+                $fixedProofPrice = 49; 
+                $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
+
                 Cart::add(
                         $product->id, 
                         $product->name, 
                         1, 
-                        $product->price,                        
+                        $request->price,
                         [
-                            'category' => 'Customize Product', 
-                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-                            'image'             => $request->image,
-                            'canvas_material'   => $request->canvas_material,
-                            // 'size'              => $request->size,
-                            // 'frame'             => $request->frame,                            
-                            // 'size'              => $request->size,
-                            // 'wrap'              => $request->wrap,
-                            // 'border'            => $request->border,
-                            // 'major'             => $request->major,
-                            // 'wrap_wrap'         => $request->wrap_wrap,
-                            // 'hardware_style'    => $request->hardware_style,
-                            // 'hardware_display'  => $request->hardware_display,
-                            // 'lamination'        => $request->lamination,
-                            // 'retouching'        => $request->retouching,
-                            // 'hardware_finishing'=> $request->hardware_finishing,
-                            // 'proof'             => $request->proof
-                        ]
-                );
-                $status = true;
-                $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
-                session()->flash('success', $message);
-            } else {
-                $status = false;
-                $message = $product->name.' already added in cart';
-            }
-
-        } else {
-
-            $retouchNames = $request->input('retouch_names'); // Get names array
-            $fixedRetouchPrice = 299;
-            $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
-
-            $proofNames = $request->input('proof'); // Get selected proof name
-            $fixedProofPrice = 49; 
-            $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
-
-            Cart::add(
-                    $product->id, 
-                    $product->name, 
-                    1, 
-                    $product->price, 
-                    [
-                        'category' => 'Customize', 
-                            'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                            'category' => 'Customize', 
                             'image'             => $request->image,
                             'product_type'       => $request->product_type,
                             'product_name'       => $request->product_name,
@@ -228,10 +280,66 @@ class CartController extends Controller {
                             'lamination_price'      => $request->lamination_price,
                             'retouch_names'       => $retouchNames,
                             'retouch_price'      => $retouchPrice,
-
                             'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
-                            'proof_price'   => $proofPrice,
+                            'proof_price'   => $proofPrice,  
+                        ]
+                );
+                $status = true;
+                $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
+                session()->flash('success', $message);
+            } else {
+                $status = false;
+                $message = $product->name.' already added in cart';
+            }
 
+        } else {
+            $retouchNames = $request->input('retouch_names'); // Get names array
+            $fixedRetouchPrice = 299;
+            $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
+
+            $proofNames = $request->input('proof'); // Get selected proof name
+            $fixedProofPrice = 49; 
+            $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
+
+            Cart::add(
+                    $product->id, 
+                    $product->name, 
+                    1, 
+                    $request->price, 
+                    [
+                        'category' => 'Customize', 
+                        'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
+                        'image'             => $request->image,
+                        'product_type'       => $request->product_type,
+                        'product_name'       => $request->product_name,
+                        'product_price'      => $request->product_price,
+                        'custom_name'       => $request->custom_name,
+                        'custom_image'       => $request->custom_image,
+                        'custom_price'      => $request->custom_price,
+                        'size_type'       => $request->size_type,
+                        'size_name'       => $request->size_name,
+                        'size_price'      => $request->size_price,
+                        'wrap_name'       => $request->wrap_name,
+                        'wrap_image'       => $request->wrap_image,
+                        'wrap_price'      => $request->wrap_price,
+                        'border_name'       => $request->border_name,
+                        'border_image'       => $request->border_image,
+                        'border_price'      => $request->border_price,
+                        'frame_name'       => $request->frame_name,
+                        'frame_image'       => $request->frame_image,
+                        'frame_price'      => $request->frame_price,
+                        'hardware_name'       => $request->hardware_name,
+                        'hardware_image'       => $request->hardware_image,
+                        'hardware_price'      => $request->hardware_price,
+                        'display_name'       => $request->display_name,
+                        'display_price'      => $request->display_price,
+                        'lamination_name'       => $request->lamination_name,
+                        'lamination_price'      => $request->lamination_price,
+                        'retouch_names'       => $retouchNames,
+                        'retouch_price'      => $retouchPrice,
+                        'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
+                        'proof_price'   => $proofPrice,                      
+                        
                     ]);
             $status = true;
             $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
@@ -321,90 +429,82 @@ class CartController extends Controller {
         ]);
     }
 
-
-    public function updateCart_2(Request $request){
-        $cart = session()->get('cart', []);
-
-        foreach ($cart as &$item) {
-            if ($item['id'] == $request->product_id) {
-                $item['final_price'] = (float) $request->new_price; 
-            }
-        }
-
-        session()->put('cart', $cart);
-
-        return response()->json(['success' => true, 'cart' => $cart]);
+    
+    public function getProductPrice(Request $request) {
+        // Fetch latest prices from the database based on selections
+        $product = Product::where('name', $request->product_name)->first();
+        $size = Size::where('name', $request->size_name)->first();
+        $wrap = Wrap::where('name', $request->wrap_name)->first();
+        $border = Border::where('name', $request->border_name)->first();
+        $frame = Frame::where('name', $request->frame_name)->first();
+        $hardware = Hardware::where('name', $request->hardware_name)->first();
+        $display = Display::where('name', $request->display_name)->first();
+        $lamination = Lamination::where('name', $request->lamination_name)->first();
+        $retouchPrice = Retouching::whereIn('name', $request->retouch_names)->sum('price');
+    
+        $product_price = $product->price ?? 0;
+        $size_price = $size->price ?? 0;
+        $wrap_price = $wrap->price ?? 0;
+        $border_price = $border->price ?? 0;
+        $frame_price = $frame->price ?? 0;
+        $hardware_price = $hardware->price ?? 0;
+        $display_price = $display->price ?? 0;
+        $lamination_price = $lamination->price ?? 0;
+        $proof_price = count($request->proof_names) > 0 ? 49 : 0;
+    
+        $total_price = $product_price + $size_price + $wrap_price + $border_price + 
+                       $frame_price + $hardware_price + $display_price + 
+                       $lamination_price + $retouchPrice + $proof_price;
+    
+        return response()->json([
+            'status' => true,
+            'product_price' => $product_price,
+            'size_price' => $size_price,
+            'wrap_price' => $wrap_price,
+            'border_price' => $border_price,
+            'frame_price' => $frame_price,
+            'hardware_price' => $hardware_price,
+            'display_price' => $display_price,
+            'lamination_price' => $lamination_price,
+            'retouch_prices' => $retouchPrice,
+            'proof_prices' => $proof_price,
+            'total_price' => $total_price,
+        ]);
     }
 
 
-    // public function updateCart(Request $request){
-    //     $rowId = $request->rowId;
-    //     $qty = $request->qty;
-
-    //     $itemInfo = Cart::get($rowId);
-    //     $product = Product::find($itemInfo->id);
-
-    //     //check qty available in stock
-    //     if($product->track_qty == "Yes"){
-    //         if($qty <= $product->qty ){
-    //             Cart::update($rowId, $qty);
-    //             $message = 'Cart updated successfully';
-    //             $state = true;
-    //             session()->flash('success',$message);
-    //         } else {
-    //             $message = 'Requested qty('.$qty.') not available in stock.';
-    //             $state = false;
-    //             session()->flash('error',$message);
-    //         }
-    //     } else {
-    //         Cart::update($rowId, $qty);
-    //         $message = 'Cart updated successfully';
-    //         $state = true;
-    //         session()->flash('success',$message);
-    //     }
-
-    //     return response()->json([
-    //         "status"=> $state,
-    //         "message"=> $message
-    //     ]);
-    // }
-
-
-    public function updateCart(Request $request) {
+    public function updateCart(Request $request){
         $rowId = $request->rowId;
         $qty = $request->qty;
-        $newPrice = $request->new_price;
 
         $itemInfo = Cart::get($rowId);
         $product = Product::find($itemInfo->id);
 
-        if ($product->track_qty == "Yes") {
-            if ($qty <= $product->qty) {
-                // Update Quantity & Price
-                Cart::update($rowId, ['qty' => $qty, 'price' => $newPrice]);
-
+        //check qty available in stock
+        if($product->track_qty == "Yes"){
+            if($qty <= $product->qty ){
+                Cart::update($rowId, $qty);
                 $message = 'Cart updated successfully';
                 $state = true;
-                session()->flash('success', $message);
+                session()->flash('success',$message);
             } else {
-                $message = 'Requested qty ('.$qty.') not available in stock.';
+                $message = 'Requested qty('.$qty.') not available in stock.';
                 $state = false;
-                session()->flash('error', $message);
+                session()->flash('error',$message);
             }
         } else {
-            // Update Quantity & Price
-            Cart::update($rowId, ['qty' => $qty, 'price' => $newPrice]);
-
+            Cart::update($rowId, $qty);
             $message = 'Cart updated successfully';
             $state = true;
-            session()->flash('success', $message);
+            session()->flash('success',$message);
         }
 
         return response()->json([
-            "status" => $state,
-            "message" => $message
+            "status"=> $state,
+            "message"=> $message
         ]);
     }
+
 
 
     public function deleteItem(Request $request){
