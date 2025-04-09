@@ -97,124 +97,6 @@ class CartController extends Controller {
     }
 
 
-    // public function addToCart_customize(Request $request){
-    //     $product = Product::with('product_images')->find($request->id);
-    //     // $size = $request->size ?? 'Default Size';
-    //     // $color = $request->color ?? 'Default Red';
-
-    //     if ($product == null) {
-    //         return response()->json([
-    //             "status"=> false,
-    //             "message"=> "Product not found"
-    //         ]);
-    //     }
-
-    //     if (Cart::count() > 0) {
-    //         $cartContent = Cart::content();
-    //         $productAlreadyExist = false;
-
-    //         foreach ($cartContent as $item) {
-    //             if ($item->id == $product->id) {
-    //                 $productAlreadyExist = true;
-    //             }
-    //         }
-
-    //         if($productAlreadyExist == false){
-    //             Cart::add(
-    //                     $product->id, 
-    //                     $product->name, 
-    //                     1, 
-    //                     $product->price,                        
-    //                     [
-    //                         'category' => 'Customize Product', 
-    //                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-    //                         'image'             => $request->image,
-    //                         'canvas_material'   => $request->canvas_material,
-    //                         // 'size'              => $request->size,
-    //                         // 'frame'             => $request->frame,                            
-    //                         // 'size'              => $request->size,
-    //                         // 'wrap'              => $request->wrap,
-    //                         // 'border'            => $request->border,
-    //                         // 'major'             => $request->major,
-    //                         // 'wrap_wrap'         => $request->wrap_wrap,
-    //                         // 'hardware_style'    => $request->hardware_style,
-    //                         // 'hardware_display'  => $request->hardware_display,
-    //                         // 'lamination'        => $request->lamination,
-    //                         // 'retouching'        => $request->retouching,
-    //                         // 'hardware_finishing'=> $request->hardware_finishing,
-    //                         // 'proof'             => $request->proof
-    //                     ]
-    //             );
-    //             $status = true;
-    //             $message = '<strong>'.$product->name.'</strong> added in your cart successfully.';
-    //             session()->flash('success', $message);
-    //         } else {
-    //             $status = false;
-    //             $message = $product->name.' already added in cart';
-    //         }
-
-    //     } else {
-
-    //         $retouchNames = $request->input('retouch_names'); // Get names array
-    //         $fixedRetouchPrice = 299;
-    //         $retouchPrice = !empty($retouchNames) ? $fixedRetouchPrice : 0;
-
-    //         $proofNames = $request->input('proof'); // Get selected proof name
-    //         $fixedProofPrice = 49; 
-    //         $proofPrice = !empty($proofNames) ? $fixedProofPrice : 0;
-
-    //         Cart::add(
-    //                 $product->id, 
-    //                 $product->name, 
-    //                 1, 
-    //                 $product->price, 
-    //                 [
-    //                     'category' => 'Customize', 
-    //                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
-    //                         'image'             => $request->image,
-    //                         'product_type'       => $request->product_type,
-    //                         'product_name'       => $request->product_name,
-    //                         'product_price'      => $request->product_price,
-    //                         'custom_name'       => $request->custom_name,
-    //                         'custom_image'       => $request->custom_image,
-    //                         'custom_price'      => $request->custom_price,
-    //                         'size_type'       => $request->size_type,
-    //                         'size_name'       => $request->size_name,
-    //                         'size_price'      => $request->size_price,
-    //                         'wrap_name'       => $request->wrap_name,
-    //                         'wrap_image'       => $request->wrap_image,
-    //                         'wrap_price'      => $request->wrap_price,
-    //                         'border_name'       => $request->border_name,
-    //                         'border_image'       => $request->border_image,
-    //                         'border_price'      => $request->border_price,
-    //                         'frame_name'       => $request->frame_name,
-    //                         'frame_image'       => $request->frame_image,
-    //                         'frame_price'      => $request->frame_price,
-    //                         'hardware_name'       => $request->hardware_name,
-    //                         'hardware_image'       => $request->hardware_image,
-    //                         'hardware_price'      => $request->hardware_price,
-    //                         'display_name'       => $request->display_name,
-    //                         'display_price'      => $request->display_price,
-    //                         'lamination_name'       => $request->lamination_name,
-    //                         'lamination_price'      => $request->lamination_price,
-    //                         'retouch_names'       => $retouchNames,
-    //                         'retouch_price'      => $retouchPrice,
-
-    //                         'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
-    //                         'proof_price'   => $proofPrice,
-
-    //                 ]);
-    //         $status = true;
-    //         $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
-    //         session()->flash('success', $message);
-    //     }
-
-    //     return response()->json([
-    //         "status"=> $status,
-    //         "message"=> $message
-    //     ]);
-    // }
-
 
     public function addToCart_customize(Request $request){
         $product = Product::with('product_images')->find($request->id);
@@ -522,6 +404,8 @@ class CartController extends Controller {
 
         Cart::remove($request->rowId);
 
+        session()->forget('finalPriceData');
+
         $success = 'Item removed from cart successfully.';
         session()->flash('success',$success);
         return response()->json([
@@ -585,7 +469,6 @@ class CartController extends Controller {
             'grandTotal' => $grandTotal
         ]);
     }
-
 
 
     // Generate Razorpay Order
@@ -739,11 +622,14 @@ class CartController extends Controller {
                     'order_id' => $order->id,
                     'product_id' => $item->id,
                     'name' => $item->name,
-                    'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
+                     'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
                     
                     'font' => $item->options->font ?? $item->options->neon_font,
-                    'size' => $item->options->size ?? $item->options->neon_size,
+                    'size' => $item->options->size || $item->options->neon_size || $item->options->size_name,
                     'color' => $item->options->color ?? $item->options->neon_color,
+
+                    'selected_product' => $item->options->custom_image,
+                    'selected_product_name' => $item->options->custom_name,
 
                     'image' => $item->options->image,
                     'frame' => $item->options->frame_name,

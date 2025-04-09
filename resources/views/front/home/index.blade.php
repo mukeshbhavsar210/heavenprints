@@ -47,70 +47,34 @@
                         </div>
                     @endforeach
                 @endif
+
+
+            {{-- @if($getCategories->isNotEmpty())
+                @foreach ($getCategories as $value)
+                <div class="col-md-3 col-6">
+                    <div class="cat-card">
+                        <div class="left">
+                            <a href="{{ route('front.shop',[$value->slug_category])}}">
+                                <div class="nav_thumb"> 
+                                    <img src="{{ asset('uploads/category/'.$value->image) }}" alt="" />
+                                </div>																	
+                            </a>
+                        </div>
+                        <div class="right">
+                            <div class="cat-data">
+                                <h5 class="mb-1">{{ $value->name }}</h5>
+                                <a href="{{ route('front.shop',[$value->slug_category])}}"><b>{{ $value->products_count }}</b> Products</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                   
+                @endforeach                
+            @endif                     --}}
         </div>    
     </section>
 
 
 
-
-    @if ($featuredProducts->isNotEmpty())  
-        <div class="section-title mt-5"><h2>Featured Products</h2></div> 
-            <div class="featuredProducts">
-                @foreach ($featuredProducts as $product)
-                    @php
-                        $productImage = $product->product_images->first();
-                    @endphp                
-                    <div>
-                        <div class="product-image position-relative">     
-                            <a href="{{ route('front.product',$product->slug) }}" class="product-img">
-                                @if (!empty($productImage->image1))
-                                    <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
-                                @else
-                                    <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                @endif
-                            </a>                        
-                            <div class="product-action-home">
-                                <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
-
-                                @if($product->metal_type)
-                                    <span class="selectedCategory">{{ $product->metal_type }}</span>    
-                                @endif
-                                
-                                @if ($product->track_qty == 'Yes')
-                                    @if ($product->qty > 0)
-                                        <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                            <i class="fa fa-shopping-cart"></i> Add To Cart
-                                        </a>
-                                    @else
-                                        <a class="btn btn-primary" href="javascript:void(0);">
-                                            <i class="fa fa-shopping-cart"></i> Out of Stock
-                                        </a>
-                                    @endif
-                                @else
-                                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
-                                </a>
-                                @endif                        
-                            </div>
-                        </div>
-
-                        <div class="price mt-2">
-                            <a class="product-title" href="{{ route('front.product',$product->slug) }}">{{ Str::limit($product->name, 16, '...') }}</a>
-                            <div class="product-price">
-                                <span>₹{{ $formattedPrice = number_format($product->price, 2, '.', ''); }}</span>
-                                @if ($product->compare_price > 0)
-                                <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
-                                @endif
-                            </div>
-                        </div>                      
-                    </div>
-                @endforeach
-            </div>
-        @endif  
-
-        {{-- @dd(dd(Product::select('slug'))); --}}
-        
-        
     @if ($latestProducts->isNotEmpty())  
         <div class="section-title mt-5"><h2>Latest Products</h2></div> 
             <div class="latestProducts">
@@ -120,7 +84,7 @@
                     @endphp                
                     <div>
                         <div class="product-image position-relative">     
-                            <a href="{{ route('front.product',$product->slug) }}" class="product-img">
+                            <a href="" class="product-img">
                                 @if (!empty($productImage->image1))
                                     <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                 @else
@@ -133,7 +97,7 @@
                                 @if($product->metal_type)
                                     <span class="selectedCategory">{{ $product->metal_type }}</span>    
                                 @endif
-                                
+
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
@@ -153,19 +117,22 @@
                         </div>
 
                         <div class="price mt-2">
-                            <a class="product-title" href="{{ route('front.product',$product->slug) }}">{{ Str::limit($product->name, 16, '...') }}</a>
+                            <a class="product-title" href="">{{ Str::limit($product->name, 16, '...') }}</a>
                             <div class="product-price">
                                 <span>₹{{ $formattedPrice = number_format($product->price, 2, '.', ''); }}</span>
                                 @if ($product->compare_price > 0)
                                     <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                 @endif
                             </div>
-                        </div>     
+
+                            @if($product->product_type == 'Customize')
+                                <p class="selectedCategory mt-1" style="font-size:13px; color:#0d6efd;">Customizable</p>    
+                            @endif
+                        </div>                      
                     </div>
                 @endforeach
             </div>
         @endif   
     </div>    
 @endsection
-
 

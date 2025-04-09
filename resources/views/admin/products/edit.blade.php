@@ -37,12 +37,11 @@
                                             <option value="" disabled selected>Select Type</option> 
                                             <option {{ ($product->product_type == 'Default' ? 'selected' : '')}} value="Default">Default</option>
                                             <option {{ ($product->product_type == 'Customize' ? 'selected' : '')}} value="Customize">Customize</option>
-                                            <option {{ ($product->product_type == 'Neon' ? 'selected' : '')}} value="Neon">Neon</option>                                                                                  
                                         </select>
                                     </div>
                                 </div>
                                
-                                <div class="row default_details hidden">  
+                                <div class="row default_details hidden {{ $product->product_type == 'Default' ? 'force_active' : '' }}">  
                                     <div class="col-md-12 col-12" >
                                         <div class="form-group">                                           
                                             <label for="size">Size</label>
@@ -245,15 +244,38 @@
                             <div class="card-body">
                                 <h2 class="h4 mb-2">Pricing </h2>
                                 <div class="row">
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <label for="compare_price">Price <span class="required">*</span></label>
-                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price" value="{{ $product->price }}">
+                                        <div class="input-group">                                            
+                                            <span class="input-group-text" id="basic-addon1">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" name="price" id="price" class="form-control" placeholder="Price" value="{{ $product->price }}">
+                                          </div>
                                         <p></p>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-4 col-12">
                                         <label for="compare_price">Compare at Price</label>
-                                        <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{ $product->compare_price }}">
+                                        <div class="input-group">                                            
+                                            <span class="input-group-text" id="basic-addon1">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{ $product->compare_price }}">
+                                          </div>                                        
                                     </div>
+                                    <div class="col-md-4 col-12">
+                                        <p class="mb-2"><b>Status</b></p>  
+                                        <div class="form-group">
+                                        <select name="status" id="status" class="form-control">
+                                            <option {{ ($product->status == 1 ? 'selected' : '' )}} value="1">Active</option>
+                                            <option  {{ ($product->status == 0 ? 'selected' : '' )}} value="0">Block</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +304,8 @@
                                         <option value="">Select a category</option>
                                         @if ($categories->isNotEmpty())
                                             @foreach ($categories as $value)
-                                                <option {{ ($product->category_id == $value->id) ? 'selected' : '' }} value="{{ $value->id }}">{{ $value->name }}</option>
+                                                <option  value="{{ $value->id }}" {{ ($product->category_id == $value->id) ? 'selected' : '' }} 
+                                                    {{ $value->id == 296 ? 'disabled' : '' }} >{{ $value->name }}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -346,31 +369,6 @@
                             </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <p class="mb-2"><b>Featured</b></p>  
-                                        <div class="form-group">
-                                            <select name="is_featured" id="is_featured" class="form-control">
-                                                <option {{ ($product->is_featured == 'No' ? 'selected' : '')}} value="No" >No</option>
-                                                <option  {{ ($product->is_featured == 'Yes' ? 'selected' : '')}} value="Yes" >Yes</option>
-                                            </select>
-                                            <p class="error"></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <p class="mb-2"><b>Status</b></p>  
-                                        <div class="form-group">
-                                        <select name="status" id="status" class="form-control">
-                                            <option {{ ($product->status == 1 ? 'selected' : '' )}} value="1">Active</option>
-                                            <option  {{ ($product->status == 0 ? 'selected' : '' )}} value="0">Block</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
                     </div>
                 </div>
 
@@ -610,16 +608,14 @@ $("#edit_productForm").submit(function(event){
     $('#productType').on('change', function () {
         var selectedValue = $(this).val();
         // Hide all divs first
-        $('.default_details, .customize_details, .neon_details').hide();
+        $('.default_details, .customize_details').hide();
         
         // Show the selected div
         if (selectedValue == 'Default') {
             $('.default_details').show();                    
         } else if (selectedValue == 'Customize') {
             $('.customize_details').show();
-        } else if (selectedValue == 'Neon') {
-            $('.neon_details').show();
-        }
+        } 
     });    
 
         $('.dropdown-menu').on('click', function(e) {

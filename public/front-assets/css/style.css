@@ -327,9 +327,15 @@ aside a {
 
 .image-upload-wrapper { padding-right: 15px; }
 .image-upload-wrapper .text { margin-top: 20px; margin-bottom: 40px;}
-.image-upload-wrapper .preview { border:1px var(--dark-grey) solid; border-radius: 5px; width: 300px; margin:0 auto; padding:7px; position: relative; }
+.image-upload-wrapper .preview { width: 300px; margin:0 auto; padding:7px; position: relative; }
+.image-upload-wrapper .preview .image_pre { border:1px var(--dark-grey) solid; border-radius: 5px;  }
 .image-upload-wrapper .preview img { border-radius: 5px; position: relative; width: 100%; }
-.image-upload-wrapper .preview .btn { position: absolute; right:7px; top:7px;}
+.image-upload-wrapper .preview .btn { right:7px; top:7px;}
+
+.selectedPhoto {  margin-bottom: 20px;}
+.selectedPhoto .picture { width: 50%;}
+
+.productSlider .slick-list .slick-track .image-container { margin:0; }
 
 .image-upload-wrapper .accordion-button { padding: 12px 15px;}
 
@@ -539,6 +545,12 @@ aside a {
 .demo-image-default { text-align: center; border: 2px dashed var(--primary); border-radius: 8px; padding:20px; margin: 30px;    }
 .demo-image-default .upload-control { margin: 10% auto; width: 100%; text-align: center;}
 .demo-image-default  .upload_logo span { background-position: -3px -122px; width: 45px; height: 45px; display: block; margin: 20px auto 5px auto;}
+
+.uploadPhoto { text-align: center; border: 2px dashed var(--primary); border-radius: 8px; padding:20px; margin:10px;    }
+.uploadPhoto .upload-control { margin: 10% auto; width: 100%; text-align: center;}
+.uploadPhoto  .upload_logo span { background-position: -3px -122px; width: 45px; height: 45px; display: block; margin: 20px auto 5px auto;}
+
+
 .framesRadio .row { width: 100%; margin-left: -10px; margin-right: -10px; }
 .framesRadio .row>* { padding:0 5px; }
 .framesRadio .row label { border:1px #666 solid; padding:5px 10px; color:#fff; width: 100%; text-align: center; font-size: 11px; cursor: pointer; border-radius:3px; }
@@ -779,17 +791,21 @@ aside a {
 
 
 @media screen and (max-width: 600px) {
+  .mainLogo { margin-top: 9px;} 
+  .mobileTitle { margin-bottom: 10px !important;}
+  .mobilePrice { margin-top: 5px !important;}
+  .banner-details { display: none;}
   .product-tab .nav-link, .size-tab .nav-link { padding:9px 13px 11px 13px;}
   aside { left:-455px; position: absolute; width:100%; height: 100%; padding-top: 70px; background-color: var(--white); z-index: 9; }
   .socialAccounts { float: left;}
   .sticky-header .logoWrapper, .frame_mobile_menu { display: block !important;}
-  main { margin-top: 58px;}
+  main { margin-top: 70px;}
   main section { margin-top: 0;}
   #homeBanner { height: auto;}
   .breadcrumb { margin-bottom: 10px !important;}
   .navbar-nav .dropdown-menu li {  margin-right:8px; }
   .mobile_margin { margin-top: 20px;}
-  .hideMobile { display: none;}
+  .hideMobile { display: none !important;}
   
 }
 
@@ -856,8 +872,10 @@ aside a {
 .my-slider{
   padding: 0 70px;
 }
+
+#homeBanner .slick-initialized .slick-slide { margin:0 !important; }
 .slick-initialized .slick-slide{
-  margin: 0 15px 0 0;
+  margin: 0 15px 0 0 ; width: 100%;
   align-items: center;
   justify-content: center;
 }

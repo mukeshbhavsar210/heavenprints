@@ -20,16 +20,30 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller {
 
     public function index(Request $request){
-        $products = Product::latest('id')->with('product_images');
+        $default_products = Product::latest('id')->where('product_type','Default')->with('product_images');
+        $customize_products = Product::latest('id')->where('product_type','Customize')->with('product_images');
+        $neon_products = Product::latest('id')->where('product_type','Neon')->with('product_images');
         
-
         if ($request->get('keyword') != ""){
-            $products = $products->where('name', 'like', '%'.$request->keyword.'%');
+            $default_products = $default_products->where('name', 'like', '%'.$request->keyword.'%');
         }
 
-        $products = $products->paginate();
+        if ($request->get('keyword') != ""){
+            $customize_products = $customize_products->where('name', 'like', '%'.$request->keyword.'%');
+        }
 
-        $data['products'] = $products;
+        if ($request->get('keyword') != ""){
+            $neon_products = $neon_products->where('name', 'like', '%'.$request->keyword.'%');
+        }
+
+        $default_products = $default_products->paginate();
+        $customize_products = $customize_products->paginate();
+        $neon_products = $neon_products->paginate();
+
+        $data['default_products'] = $default_products;
+        $data['customize_products'] = $customize_products;
+        $data['neon_products'] = $neon_products;
+
         return view ('admin.products.list',$data);
     }
 
@@ -83,8 +97,7 @@ class ProductController extends Controller {
             $product->status = $request->status;
             $product->category_id = $request->category;
             $product->sub_category_id = $request->sub_category;
-            $product->brand_id = $request->brand;
-            $product->is_featured = $request->is_featured;
+            $product->brand_id = $request->brand;            
             $product->shipping_returns = $request->shipping_returns;
             $product->short_description = $request->short_description;
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
@@ -218,8 +231,7 @@ class ProductController extends Controller {
             $product->status = $request->status;
             $product->category_id = $request->category;
             $product->sub_category_id = $request->sub_category;
-            $product->brand_id = $request->brand;
-            $product->is_featured = $request->is_featured;
+            $product->brand_id = $request->brand;            
             $product->shipping_returns = $request->shipping_returns;
             $product->short_description = $request->short_description;
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';

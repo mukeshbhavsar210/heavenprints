@@ -31,7 +31,7 @@
                     <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
                         @if ($image)
                             <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />
-                            <button class="btn btn-danger" id="deleteImage"><i class="fa fa-times"></i></button>            
+                            <button class="btn btn-danger mt-2" id="deleteImage">Delete</button>            
                         @endif
                     </div> 
                 </div>

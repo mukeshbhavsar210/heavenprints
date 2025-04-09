@@ -18,7 +18,7 @@
     <div class="container-fluid">
         @include('admin.message')
         
-        <form action="" method="post" name="productForm" id="productForm" enctype="multipart/form-data" >   
+        <form action="" method="post" name="productForm" id="productForm" enctype="multipart/form-data" >           
             @csrf       
             
             <div class="row">
@@ -38,16 +38,14 @@
                                     <select id="productType" name="product_type" class="form-control" required>
                                         <option value="" disabled selected>Select Type</option> 
                                         <option value="Default">Default</option>
-                                        <option value="Customize">Customize</option>                                        
-                                        <option value="Neon">Neon</option>
+                                        <option value="Customize">Customize</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="row default_details hidden"> 
                                 <div class="col-md-12 col-12">   
-                                    <div class="form-group">          
-                                        <input type="hidden" name="metal_type" value="t_shirt">
+                                    <div class="form-group">
                                         <label for="size">Size</label>
 
                                         <div class="size-picker">
@@ -176,14 +174,23 @@
                         <div class="card-body">
                             <h2 class="h4 mb-3">Pricing</h2>
                             <div class="row">
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <label for="price">Price <span class="required">*</span></label>
                                     <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                                     <p></p>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <label for="compare_price">Compare at Price</label>
                                     <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <p class="mb-2"><b>Status</b></p>
+                                    <div class="form-group">
+                                        <select name="status" id="status" class="form-control">
+                                            <option value="1">Active</option>
+                                            <option value="0">Block</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>                                        
                         </div>
@@ -210,7 +217,9 @@
 
                                     @if ($categories->isNotEmpty())
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" {{ $category->id == 296 ? 'disabled' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -262,32 +271,6 @@
                                     <div>
                                         <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
                                         <p></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <p class="mb-2"><b>Featured</b></p>                                        
-                                    <div class="form-group">
-                                        <select name="is_featured" id="is_featured" class="form-control">
-                                            <option value="No">No</option>
-                                            <option value="Yes">Yes</option>
-                                        </select>
-                                        <p class="error"></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <p class="mb-2"><b>Status</b></p>
-                                    <div class="form-group">
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="1">Active</option>
-                                            <option value="0">Block</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -434,16 +417,14 @@
     $('#productType').on('change', function () {
         var selectedValue = $(this).val();
         // Hide all divs first
-        $('.default_details, .customize_details, .neon_details').hide();
+        $('.default_details, .customize_details').hide();
         
         // Show the selected div
         if (selectedValue == 'Default') {
             $('.default_details').show();                    
         } else if (selectedValue == 'Customize') {
             $('.customize_details').show();
-        } else if (selectedValue == 'Neon') {
-            $('.neon_details').show();
-        }
+        } 
     });       
 
         $('.dropdown-menu').on('click', function(e) {

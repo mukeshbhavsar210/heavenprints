@@ -43,12 +43,19 @@ Route::controller(ShopController::class)->group(function() {
     //Customize
     Route::get('/frames/{slug}', 'first_level')->name('customize.product');    
     Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');   
+    Route::get('/frames/extra/{slug}', 'extra')->name('extra.product');   
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');
     Route::post('/upload-image', 'upload')->name('image.upload'); 
 
+
+    //Upload image 2
+    Route::post('/delete-image-extra', 'delete2')->name('delete.image2');
+    Route::get('/check-image-extra', 'checkImage2')->name('check.image2');
+    Route::post('/upload-image-extra', 'upload2')->name('image.upload2'); 
+
     //Store first level calculation
-    Route::post('customise/product/total', 'store_total')->name('frame.total');
+    Route::post('customise/product/total', 'store_total')->name('store_total');
     Route::get('customise/{slug}', 'summary')->name('frame.summary');
 
     //NEON price calculation
@@ -82,15 +89,7 @@ Route::controller(CartController::class)->group(function() {
     Route::get('/order-success','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
 
-
-    //Route::get('/get-product-price', 'getProductPrice')->name('getProductPrice');
-    //Route::post('/update-cart', 'updateCart')->name('cart.update');
-
 });
-
-
-
-
 
 //OTP login
 Route::controller(OTPController::class)->group(function() {
@@ -189,13 +188,7 @@ Route::group(['prefix' => 'admin'], function(){
         });
 
         //Sub Categories Connect to main Categories
-        Route::get('/product-subcategories', [ProductSubCategoryController::class, 'index'])->name('product-subcategories.index');
-
-        //Update or Delete Product
-        Route::controller(ProductImageController::class)->group(function() {
-            Route::post('/product-images/update', 'update')->name('product-images.update');
-            Route::delete('/product-images', 'destroy')->name('product-images.destroy');
-        });
+        Route::get('/product-subcategories', [ProductSubCategoryController::class, 'index'])->name('product-subcategories.index');        
 
         //Shipping Routes
         Route::controller(ShippingController::class)->group(function() {

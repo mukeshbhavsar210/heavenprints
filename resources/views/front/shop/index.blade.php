@@ -86,8 +86,7 @@
                 <div class="col-md-9">
                     <div class="row mb-3">
                         <div class="col-md-10 col-8"><h3>Products</h3></div>
-                        <div class="col-md-2 col-4">
-                            
+                        <div class="col-md-2 col-4">                            
                             <select name="sort" id="sort" class="form-control">
                                 <option value="Latest" {{ ($sort == 'latest') ? 'selected' : ' ' }}>Latest</option>
                                 <option value="price_desc" {{ ($sort == 'price_desc') ? 'selected' : ' ' }}>Price High</option>
@@ -95,6 +94,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="row">  
                         @if ($products->isNotEmpty())
                             @foreach ($products as $product)
@@ -142,31 +142,44 @@
                                                 <span class="text-underline"><del>₹ {{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                             @endif
                                         </div>
-                                        
+
                                         <div class="row mt-2">
                                             <div class="col-md-6 col-6">
-                                                <div class="form-group">
-                                                    <select name="size" id="size" class="form-control">
-                                                        <option value="">Size</option>
-                                                        <option value="Small" {{ old('size', $product->size ?? '') == 'Small' ? 'selected' : '' }}>Small</option>
-                                                        <option value="Medium" {{ old('size', $product->size ?? '') == 'Medium' ? 'selected' : '' }}>Medium</option>
-                                                        <option value="Large" {{ old('size', $product->size ?? '') == 'Large' ? 'selected' : '' }}>Large</option>
-                                                    </select>
-                                                </div>
+                                                @if(!empty($product->sizes))
+                                                    @php
+                                                        $decodedSizes = json_decode($product->sizes, true); // Decode as an array
+                                                    @endphp
+                                                    <div class="form-group">
+                                                        @if(is_array($decodedSizes))                                                        
+                                                            <select name="size" class="form-control">
+                                                                <option value="">Select Size</option>
+                                                                @foreach($decodedSizes as $size)
+                                                                    <option value="{{ $size }}">{{ $size }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        @endif     
+                                                    </div>
+                                                @endif
                                             </div>
 
                                             <div class="col-md-6 col-6">
-                                                <div class="form-group">
-                                                    <select name="color" id="color" class="form-control">
-                                                        <option value="">Color</option>
-                                                        <option value="Red" {{ old('color', $product->color ?? '') == 'Red' ? 'selected' : '' }}>Red</option>
-                                                        <option value="Blue" {{ old('color', $product->color ?? '') == 'Blue' ? 'selected' : '' }}>Blue</option>
-                                                        <option value="Green" {{ old('color', $product->color ?? '') == 'Green' ? 'selected' : '' }}>Green</option>
-                                                    </select>
-                                                </div>
+                                                @if(!empty($product->colors))
+                                                    @php
+                                                        $decodedColors = json_decode($product->colors, true);
+                                                    @endphp    
+                                                    <div class="form-group">                                            
+                                                        @if(is_array($decodedColors))
+                                                            <select name="color" class="form-control">
+                                                                <option value="">Select Color</option>
+                                                                @foreach($decodedColors as $color)
+                                                                    <option value="{{ $color }}">{{ ucfirst($color) }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
-                                        {{-- <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary mt-3">View Product</a> --}}
                                     </div>
                                 </div>
                             @endforeach

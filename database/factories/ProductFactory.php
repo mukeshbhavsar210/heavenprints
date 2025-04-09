@@ -36,7 +36,6 @@ class ProductFactory extends Factory
             'sku' => rand(1000,100000),
             'track_qty' => 'Yes',
             'qty' => 10,
-            'is_featured' => 'Yes',
             'status' => 1,
         ];
     }
