@@ -29,16 +29,15 @@
 
                 @if (Cart::count() > 0)
                     <div class="col-md-9 col-12 mainCart">
-                        <div class="card mb-2">                                  
+                        <div class="card mb-2 hideMobile">                                  
                             <div class="card-body py-2">
                                 <div class="row">
                                     <div class="col-md-2 col-4"><b>Photo</b></div>
                                     <div class="col-md-10 col-8">
                                         <div class="row">
-                                            <div class="col-md-6 col-6"><b>Item</b></div>                                            
+                                            <div class="col-md-7 col-6"><b>Item</b></div>                                            
                                             <div class="col-md-2 col-2"><b><p class="m-0" style="text-align: center">Qty</p></b></div>
-                                            <div class="col-md-2 col-2"><b><p class="m-0" style="text-align: right">Total</p></b></div>
-                                            <div class="col-md-2 col-2"><b><p class="m-0" style="text-align: center">Remove</p></b></div>
+                                            <div class="col-md-2 col-2"><b><p class="m-0" style="text-align: right">Total</p></b></div>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -68,9 +67,9 @@
 
                                     <div class="col-md-10 col-8">                                   
                                         <div class="row">
-                                            <div class="col-md-6 col-12"><h5>{{ $item->name }}</h5></div>
+                                            <div class="col-md-7 col-12"><h5 class="mobileTitle">{{ $item->name }}</h5></div>
                                             {{-- <div class="col-md-1 col-3">₹{{ $item->price }}</div> --}}
-                                            <div class="col-md-2 col-4">
+                                            <div class="col-md-2 col-6">
                                                 <div class="input-group quantity mx-auto" >
                                                     <div class="input-group-btn">
                                                         <button class="btn btn-sm btn-primary btn-minus p-2 pt-1 pb-1 sub" data-id="{{ $item->rowId }}">
@@ -86,9 +85,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2 col-3">
-                                                <p style="text-align: right">₹{{ $item->price*$item->qty }}</p>
+                                                <p style="text-align: right" class="mobilePrice">₹{{ $item->price*$item->qty }}</p>
                                             </div>
-                                            <div class="col-md-2 col-2" style="text-align: center">
+                                            <div class="col-md-1 col-2" style="text-align: center">
                                                 <button class="btn btn-sm btn-danger" onclick="deleteItem('{{ $item->rowId}}' );"><i class="fa fa-times"></i></button>
                                             </div>
 

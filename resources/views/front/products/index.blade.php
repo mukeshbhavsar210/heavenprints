@@ -16,8 +16,8 @@
                     <li class="breadcrumb-item">{{ $product->name }}</li>
                 </ol>         
                 <div class="row">
-                    <div class="col-md-5 col-12">
-                        <div class="slider-for heightFix">
+                    <div class="col-md-5 col-12 ">
+                        <div class="slider-for productSlider heightFix">
                             <div class="image-container">
                             @if ($product->product_images)
                                 @foreach ($product->product_images as $key => $productImage)
@@ -72,43 +72,42 @@
                             <small class="pt-1">(99 Reviews)</small>
                         </div>
 
-                        <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
-                            @if($product->product_type != 'Metal')
-                                @if ($product->track_qty == 'Yes')
-                                    @if ($product->qty > 0)
-                                        <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
-                                    @else
-                                        <a class="btn btn-primary" href="javascript:void(0);">OUT OF STOCK</a>
-                                    @endif
-                                @else
-                                    <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
-                                @endif
-
-                                <div class="productDetailsTabs">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                            {!! $product->description !!}
-                                        </div>
-                                        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-                                            {!! $product->shipping_returns !!}
-                                        </div>
-                                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                            {!! $product->description !!}
-                                        </div>
-                                    </div>
-                                </div>  
+                        <div class="mt-2 mb-3">{!! $product->short_description !!}</div>                           
+                        @if ($product->track_qty == 'Yes')
+                            @if ($product->qty > 0)
+                                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
+                            @else
+                                <a class="btn btn-primary" href="javascript:void(0);">OUT OF STOCK</a>
                             @endif
+                        @else
+                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">ADD TO CART</a>
+                        @endif
+
+                        <div class="productDetailsTabs">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                    {!! $product->description !!}
+                                </div>
+                                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                                    {!! $product->shipping_returns !!}
+                                </div>
+                                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                    {!! $product->description !!}
+                                </div>
+                            </div>
+                        </div>  
+                        
                             
                             @if (!empty($relatedProducts))
                                 <section class="section-8">                                    

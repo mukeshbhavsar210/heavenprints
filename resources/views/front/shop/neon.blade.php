@@ -15,8 +15,7 @@
                             <svg id="previewSVG" width="100%" height="250" style="background: black" xmlns="http://www.w3.org/2000/svg" >
                                 <text x="50%" y="50%" font-family="Passionate" font-size="50" fill="white" text-anchor="middle" alignment-baseline="middle">Text Preview</text>
                             </svg>
-                        </div>                        
-                        {{-- <button class="btn btn-primary" onclick="downloadSVG()" >Download SVG</button> --}}
+                        </div>                                                
                     </div>
                 </div>
                         

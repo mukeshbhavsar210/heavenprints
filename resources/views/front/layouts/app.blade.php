@@ -33,7 +33,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3 col-5 d-flex">
-						<a href="{{ route('front.home') }}" class="text-decoration-none" title="{{ $settings->name }}">
+						<a href="{{ route('front.home') }}" class="mainLogo" title="{{ $settings->name }}">
 							<img src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
 						</a>
 					</div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Color;
+use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -17,6 +19,9 @@ class ShopController extends Controller {
         $categorySelected = ' ';
         $subCategorySelected = ' ';
         $brandsArray = [];
+
+        $colors = Color::get();
+        $sizes = Size::get();
 
         $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
         $brands = Brand::orderBy('name','ASC')->where('status',1)->get();
@@ -78,6 +83,8 @@ class ShopController extends Controller {
         $data['priceMax'] = (intval($request->get('price_max')) == 0 ? 1000 : $request->get('price_max'));
         $data['priceMin'] = intval($request->get('price_min'));
         $data['sort'] = $request->get('sort');
+        $data['colors'] = $colors;
+        $data['sizes'] = $sizes;
 
         return view('front.shop.index',$data);
     }
@@ -90,7 +97,7 @@ class ShopController extends Controller {
         $categorySelected = ' ';
         $subCategorySelected = ' ';
         
-        $products = Product::where('status',1);
+        $products = Product::where('product_type','Neon')->where('status',1);
 
         //Apply filters here
         if(!empty($categorySlug)) {
@@ -109,8 +116,6 @@ class ShopController extends Controller {
 
         return view('front.shop.neon',$data);
     }
-
-
 
     //CUSTOMIZE PRODUCT
     public function customizeProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
@@ -319,7 +324,48 @@ class ShopController extends Controller {
     }
 
 
-    public function store_total (Request $request) {
+    public function extra($slug){       
+        $products = Product::latest('id')->with('product_images');
+        $product = Product::where('slug',$slug)->with('product_images')->first();
+        $product = Product::where('slug',$slug)
+                            ->with('product_images')
+                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
+                            ->first();
+
+        if($product == null){
+            abort(404);
+        }
+
+        // $productSelection = [
+        //     '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
+        //     '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
+        //     '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
+        //     '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
+        //     '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
+        //     '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
+        //     '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
+        //     '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
+        //     '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
+        // ];
+      
+        $data['product'] = $product;
+        $data['products'] = $products;
+        //$data['productSelection'] = $productSelection;
+
+        // Load stored image and options from session
+        $image = Session::get('uploaded_image');
+        $data['image'] = $image;
+
+        return view('front.products.custom_frame.extra',$data);
+    }
+
+
+    public function store_total(Request $request) {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'name' => 'nullable|string',
@@ -329,34 +375,39 @@ class ShopController extends Controller {
             'custom_size_1' => 'nullable|string',
             'custom_size_2' => 'nullable|string',
         ]);
-    
-        // Remove the old entry if exists
-        CustomTotal::where('product_id', $request->product_id)->delete();
-    
-        // Create new entry
-        $frame = CustomTotal::create([
+
+        // 🗑️ Remove Old Stored Data
+        session()->forget('finalPriceData');  
+
+        // Perform First-Level Calculation (Example: Add 10% Tax or any logic)
+        $finalPrice = $request->total ? $request->total * 1.10 : 0; // Example: Adding 10% to total
+
+        // Store Calculation Data in Session
+        session()->put('finalPriceData', [
             'product_id' => $request->product_id,
             'name' => $request->name,
             'size' => $request->size,
             'shape' => $request->shape,
-            'total' => $request->total,
+            'finalPrice' => $finalPrice,
             'custom_size_1' => $request->custom_size_1,
             'custom_size_2' => $request->custom_size_2
         ]);
-    
-        // Ensure product exists
-        if (!$frame->product) {
+
+       
+
+        // Fetch the product to get the slug
+        $product = Product::find($request->product_id);
+        if (!$product) {
             return redirect()->back()->with('error', 'Product not found.');
         }
-    
-        return redirect()->route('frame.summary', ['slug' => $frame->product->slug]);
+
+        return redirect()->route('frame.summary', ['slug' => $product->slug]);
     }
-    
+
     
     public function summary($slug){
+        $finalPriceData = session('finalPriceData', []);
         $product = Product::where('slug', $slug)->firstOrFail();        
-        $firstTotals = CustomTotal::get();        
-
         $products = Product::latest('id')->with('product_images');
         $product = Product::where('slug',$slug)->with('product_images')->first();
         $product = Product::where('slug',$slug)
@@ -501,6 +552,22 @@ class ShopController extends Controller {
             '3' => ['name' => 'Grey Scale', 'price' => 0.00, 'image' => 'grayscale.jpg']
         ];
 
+
+        $productSelection = [
+            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
+            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
+            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
+            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
+            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
+            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
+            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
+            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
+            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
+            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
+        ];
+
         $canvas_material_data = [            
             '1' => ['name' => 'Single Print', 'price' => 143.00, 'image' => 'icon_single_print.png'],
             '2' => ['name' => 'Round Canvas', 'price' => 721.27, 'image' => 'round_canvas.png'],
@@ -565,20 +632,7 @@ class ShopController extends Controller {
             '3' => ['name' => 'Wall Murals', 'price' => 1225.60, 'image' => 'wall_murals.png'],
         ];
 
-        $productSelection = [
-            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
-            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
-            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
-            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
-            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
-            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
-            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
-            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
-            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
-        ];
+       
 
         $data['sizeData'] = $sizeData;
         $data['canvas_material_data'] = $canvas_material_data;
@@ -600,12 +654,12 @@ class ShopController extends Controller {
         $data['floatFrame'] = $floatFrame;
         $data['hardwareStyleData'] = $hardwareStyleData;
         $data['displayOption'] = $displayOption;
-        $data['retouchingOption'] = $retouchingOption;
-        $data['productSelection'] = $productSelection;
+        $data['retouchingOption'] = $retouchingOption;        
         $data['proofOption'] = $proofOption;        
-        $data['laminationOption'] = $laminationOption;
-        $data['firstTotals'] = $firstTotals;
-
+        $data['laminationOption'] = $laminationOption;    
+        $data['finalPriceData'] = $finalPriceData;
+        $data['productSelection'] = $productSelection;
+        
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
         $data['image'] = $image;
@@ -659,8 +713,7 @@ class ShopController extends Controller {
         }
     
         return response()->json(['success' => false]);
-    }
-
+    }    
 
     public function checkImage() {
         // Get the stored image path from the session
@@ -682,13 +735,12 @@ class ShopController extends Controller {
                 unlink($oldImagePath); // Delete the file
             }
 
-            // Clear session value
+            // Clear session value            
             Session::forget('uploaded_image');
         }
         return response()->json(['success' => 'Image deleted']);
-    }    
-
-
+    }   
+    
     public function checkSessionImage(Request $request) {
         $imagePath = Session::get('uploaded_image'); // Assuming image is stored in session
 
@@ -705,5 +757,85 @@ class ShopController extends Controller {
 
         return response()->json(['price' => $totalPrice]);
     }
+
+
+
+
+
+
+
+    public function uploadImage2(Request $request) {
+        $request->validate([
+            'image2' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+    
+        if ($request->hasFile('image2')) {
+            $file = $request->file('image2');
+            $extension = $file->getClientOriginalExtension();
+            $imageName = time() . '_2.' . $extension;
+    
+            // Define path
+            $uploadPath = public_path('uploads/custom_frames/');
+    
+            // Ensure the directory exists
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+    
+            // Define full image path
+            $fullPath = $uploadPath . $imageName;
+    
+            // Initialize ImageManager
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file);
+    
+            // Save the image as JPG with 100% quality
+            $image->toJpeg(100)->save($fullPath);
+    
+            // Save resized version (500x500)
+            $resizedPath = $uploadPath . $imageName;
+            $image->cover(500, 500)->save($resizedPath);
+    
+            // ✅ Step 3: Store new image in session
+            Session::put('uploaded_image2', $imageName);
+    
+            // Generate URL to return in response
+            $imageUrl = asset('uploads/custom_frames/' . $imageName);
+    
+            return response()->json([
+                'success' => true,
+                'image_url' => $imageUrl
+            ]);
+        }
+    
+        return response()->json(['success' => false]);
+    }
+    
+    public function checkImage2() {
+        // Get the stored image path from the session
+        $imagePath = Session::get('uploaded_image2');
+    
+        return response()->json([
+            'success' => true,
+            'image' => $imagePath ? asset('uploads/custom_frames/' . $imagePath) : null,
+        ]);
+    }
+    
+    public function deleteImage2() {
+        if (Session::has('uploaded_image2')) {
+            $oldImage = Session::get('uploaded_image2');
+            $oldImagePath = public_path('uploads/custom_frames/' . $oldImage);
+    
+            // Check if the file exists before deleting
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath); // Delete the file
+            }
+    
+            // Clear session value            
+            Session::forget('uploaded_image2');
+        }
+        return response()->json(['success' => 'Image deleted']);
+    }
+    
     
 }

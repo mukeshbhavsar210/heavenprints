@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\DB;
 class FrontController extends Controller {
 
     public function index(){
-        $featuredProducts = Product::select('id', 'name', 'slug')->where('is_featured','Yes')->orderBy('id','DESC')->where('status',1)->get();
-        $latestProducts = Product::orderBy('id','DESC')->where('status',1)->get();        
+        $featuredProducts = Product::select('id', 'name', 'slug')->orderBy('id','DESC')->where('status',1)->get();
+        $latestProducts = Product::orderBy('id','DESC')->where('status',1)->get();  
+        $categories = Category::withCount('products') 
+                    ->limit(4)
+                    ->get();      
 
         $data['featuredProducts'] = $featuredProducts;        
-        $data['latestProducts'] = $latestProducts;        
+        $data['latestProducts'] = $latestProducts; 
+        $data['categories'] = $categories;         
 
         return view("front.home.index",$data);
     }

@@ -19,7 +19,7 @@ class OrderItem extends Model
 
     protected $fillable = [
             'order_id', 'product_id', 
-            'name', 'category', 'font', 'size', 'color', 'frame', 'image', 'border', 'major', 
+            'name', 'category', 'font', 'size', 'color', 'frame', 'selected_product', 'selected_product_name', 'image', 'border', 'major', 
             'wrap_wrap', 'hardware_style', 'hardware_display', 'lamination', 'retouching', 'hardware_finishing', 'proof', 
             'qty', 'price', 'total'
     ];

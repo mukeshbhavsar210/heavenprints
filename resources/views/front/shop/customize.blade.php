@@ -12,7 +12,7 @@
                 use Illuminate\Support\Str;
             @endphp
 
-            <h3 class="mb-4">Frame Products</h3>
+            <h3 class="mb-4">Customize Products</h3>
 
             @if ($products->isNotEmpty())  
                 <div class="customProducts">
@@ -31,6 +31,11 @@
                                     </a>                        
                                     <div class="product-action-home">
                                         <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+
+                                        @if($product->metal_type)
+                                            <span class="selectedCategory">{{ $product->metal_type }}</span>    
+                                        @endif
+
                                         @if ($product->track_qty == 'Yes')
                                             @if ($product->qty > 0)
                                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
@@ -57,10 +62,19 @@
                                             <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                         @endif
                                     </div>
-                                    <p style="font-size: 11px">{{ $product->metal_type }}</p>
-                                    <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary">Customize Product</a>
+
+                                    <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>    
+                                                                        
+                                    {{-- @if($product->metal_type == 'Canvas' || 
+                                        $product->metal_type == 'Acrylic' || 
+                                        $product->metal_type == 'Metal' || 
+                                        $product->metal_type == 'Wood')
+                                        <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>    
+                                    @else
+                                        <a href="{{ route('extra.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>
+                                    @endif --}}
                                 </div>   
-                        </div>
+                            </div>
                     @endforeach
                 </div>
             @endif 

@@ -214,16 +214,16 @@
                                                         </div>
                                                     </td>
                                                 @else
-                                                    <td style="width: 100px">
+                                                    <td style="width: 200px">
                                                         @if($item->product->images->isNotEmpty()) 
-                                                            <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image1) }}" alt="Product Image" class="img-thumbnail" style="width: 80px;">
+                                                            <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image1) }}" alt="Product Image" class="img-thumbnail" style="100%">
                                                         @else
                                                             <img src="{{ asset('uploads/products/small/default.jpg') }}" alt="Default Image" style="width: 80px;">
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <h5 class="mb-1 mt-3">{{ $item->name }}</h5>
-                                                        <p style="font-size: 13px; margin:0;">
+                                                        <h4 class="mb-1">{{ $item->name }}</h4>
+                                                        <p style="font-size: 14px; margin:0;">
                                                             @if($item->category)
                                                                 <b>Selected:</b> {{ $item->category }},
                                                             @endif 
@@ -235,8 +235,70 @@
                                                             @endif 
                                                             @if($item->font)
                                                                 <b>Font:</b> {{ $item->font }}
-                                                            @endif 
+                                                            @endif <br />
+                                                            @if($item->selected_product_name)
+                                                                <b>Product Name:</b> {{ $item->selected_product_name }}
+                                                            @endif <br />
+                                                            @if($item->selected_product)
+                                                                <a href="#"data-toggle="modal" data-target="#largeModal">
+                                                                    <img src="{{ asset('uploads/icons/selection/' . $item->selected_product) }}" alt="Product Image" class="img-thumbnail mt-2" style="width:100px;">
+                                                                </a>                                                            
+                                                            @endif                                                             
                                                         </p>
+                                                          
+                                                        
+                                                          <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h4 class="modal-title" id="myModalLabel">Selected Product</h4>
+                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                  </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="{{ asset('uploads/icons/selection/' . $item->selected_product) }}" alt="Product Image" class="img-thumbnail" >
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                          
+                                                          <!-- small modal -->
+                                                          <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                                                            <div class="modal-dialog modal-sm">
+                                                              <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                  <h4 class="modal-title" id="myModalLabel">Small Modal</h4>
+                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                  </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                  <h3>Modal Body</h3>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+
+                                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Upload Photo</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    @if($item->selected_product)
+                                                                        <img src="{{ asset('uploads/icons/selection/' . $item->selected_product) }}" alt="Product Image" class="img-thumbnail">
+                                                                    @endif 
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 @endif
                                             </td>
