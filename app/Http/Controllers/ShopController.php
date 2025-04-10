@@ -539,10 +539,8 @@ class ShopController extends Controller {
         $data['laminationOption'] = $laminationOption;    
         $data['finalPriceData'] = $finalPriceData;
         $data['productSelection'] = $productSelection;
-      
         $data['product'] = $product;
-        $data['products'] = $products;
-        //$data['latestProducts'] = $latestProducts; 
+        $data['products'] = $products;        
 
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
@@ -580,8 +578,6 @@ class ShopController extends Controller {
             'custom_size_2' => $request->custom_size_2
         ]);
 
-       
-
         // Fetch the product to get the slug
         $product = Product::find($request->product_id);
         if (!$product) {
@@ -593,6 +589,7 @@ class ShopController extends Controller {
 
     
     public function summary($slug){
+        $productSelection = Product::orderBy('id','DESC')->where('status',1)->get(); 
         $finalPriceData = session('finalPriceData', []);
         $product = Product::where('slug', $slug)->firstOrFail();        
         $products = Product::latest('id')->with('product_images');
@@ -740,20 +737,20 @@ class ShopController extends Controller {
         ];
 
 
-        $productSelection = [
-            '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
-            '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
-            '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
-            '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
-            '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
-            '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
-            '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
-            '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
-            '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
-            '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
-        ];
+        // $productSelection = [
+        //     '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
+        //     '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
+        //     '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
+        //     '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
+        //     '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
+        //     '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
+        //     '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
+        //     '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
+        //     '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
+        //     '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
+        // ];
 
         $canvas_material_data = [            
             '1' => ['name' => 'Single Print', 'price' => 143.00, 'image' => 'icon_single_print.png'],

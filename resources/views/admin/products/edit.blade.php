@@ -25,125 +25,12 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-9 col-12">
+                                    <div class="col-md-12 col-12">
                                         <label for="name">Name <span class="required">*</span></label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $product->name }}">
                                         <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="Slug" value="{{ $product->slug }}">
                                         <p></p>
-                                    </div>
-                                    <div class="col-md-3 col-12">
-                                        <label for="productType">Type <span class="required">*</span></label>
-                                        <select id="productType" name="product_type" class="form-control" >
-                                            <option value="" disabled selected>Select Type</option> 
-                                            <option {{ ($product->product_type == 'Default' ? 'selected' : '')}} value="Default">Default</option>
-                                            <option {{ ($product->product_type == 'Customize' ? 'selected' : '')}} value="Customize">Customize</option>
-                                        </select>
-                                    </div>
-                                </div>
-                               
-                                <div class="row default_details hidden {{ $product->product_type == 'Default' ? 'force_active' : '' }}">  
-                                    <div class="col-md-12 col-12" >
-                                        <div class="form-group">                                           
-                                            <label for="size">Size</label>
-
-                                            @php
-                                                $selectedSizes = json_decode($product->sizes, true); 
-                                            @endphp
-
-                                            <div class="size-picker">
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Small", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Small" id="size_1" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="size_1">
-                                                        <p>Small</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Medium", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Medium" id="size_2" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="size_2">
-                                                        <p>Medium</p>
-                                                    </label>
-                                                </div>  
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("Large", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="Large" id="size_3" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="size_3">
-                                                        <p>Large</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("XL", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="XL" id="size_4" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="size_4">
-                                                        <p>XL</p>
-                                                    </label>
-                                                </div>
-                                                <div class="size-picker__item" >
-                                                    <input type="checkbox" {{ in_array("XXL", $selectedSizes ?? []) ? 'checked' : '' }} name="sizes[]" value="XXL" id="size_5" class="size-picker__input">
-                                                    <label class="size-picker__color paddingControl" for="size_5">
-                                                        <p>XXL</p>
-                                                    </label>
-                                                </div>                                                   
-                                            </div>
-                                            <p class="error"></p>                                           
-                                        </div>  
-                                    </div>  
-                                    <div class="col-md-12 col-12" >
-                                        <div class="form-group">
-                                            <label for="colors">Colors</label>
-
-                                            @php
-                                                $selectedColors = json_decode($product->colors, true); 
-                                            @endphp
-
-                                            <div class="size-picker">
-                                                @if($colors)
-                                                    @foreach ($colors as $index => $value)
-                                                        <div class="size-picker__item">
-                                                            <input type="checkbox" {{ in_array("Red", $selectedColors ?? []) ? 'checked' : '' }} name="colors[]" value="{{ $value->name }}" id="colors_{{ $index }}" class="size-picker__input">
-                                                            <label class="size-picker__color paddingControl" for="colors_{{ $index }}">
-                                                                <p>{{ $value->name }}</p>
-                                                            </label>                                                                
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                            <p class="error"></p>
-                                        </div>
-                                    </div>  
-                                </div>  
-                                
-                                <div class="customize_details hidden {{ $product->product_type == 'Customize' ? 'force_active' : '' }}"> 
-                                    <div class="row"> 
-                                        <div class="col-md-12 col-12">     
-                                            <div class="form-group">                                           
-                                                <label for="size">Material</label>
-                                                <div class="size-picker">
-                                                    @if($frameMaterials)
-                                                        @foreach ($frameMaterials as $index => $value)
-                                                            <div class="size-picker__item">
-                                                                <input type="radio" name="metal_type" value="{{ $value->name }}" id="metalProduct_{{ $index }}" class="size-picker__input"
-                                                                    @if(isset($product->metal_type) && $product->metal_type == $value->name) checked @endif>
-                                                                <label class="size-picker__color paddingControl" for="metalProduct_{{ $index }}">
-                                                                    <p>{{ $value->name }}</p>
-                                                                </label>                                                                
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-                                                </div>
-                                                <p class="error"></p>                                           
-                                            </div>  
-                                        </div>   
-                                        <div class="col-md-12 col-12 mb-3"> 
-                                            <div class="row">
-                                                <div class="col-md-3 col-6">
-                                                    <label class="height">Height <span class="required">*</span></label>
-                                                    <input type="text" id="height" class="form-control" placeholder="Height" id="height" name="height">                                
-                                                </div> 
-                                                <div class="col-md-3 col-6">
-                                                    <label class="width">Width <span class="required">*</span></label>
-                                                    <input type="text" id="width" class="form-control" placeholder="Width" id="width" name="width">                                
-                                                </div> 
-                                            </div>
-                                        </div> 
-                                    </div>
+                                    </div>                                    
                                 </div>
                               
                                 <div class="row">
@@ -298,6 +185,135 @@
                     <div class="col-md-4 col-12">                        
                         <div class="card">
                             <div class="card-body">
+                                <div class="form-group">                                           
+                                        @if($frameMaterials)
+                                            <div class="form-group">
+                                                <label for="metal_type">Select Type <span class="required">*</span></label>
+                                                <select name="metal_type" id="metal_type" class="form-control">
+                                                    <option value="">Select Type</option>
+                                                    @foreach ($frameMaterials as $value)
+                                                        <option value="{{ $value->name }}" 
+                                                            {{ isset($product->metal_type) && $product->metal_type == $value->name ? 'selected' : '' }}>
+                                                            {{ $value->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        @endif
+                                        <p class="error"></p>                                           
+                                    </div> 
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            @php
+                                            $selectedSizes = [];
+
+                                            if (!empty($product->sizes)) {
+                                                if (is_string($product->sizes)) {
+                                                    // If sizes are stored as a JSON array
+                                                    if (str_contains($product->sizes, '[')) {
+                                                        $selectedSizes = json_decode($product->sizes, true);
+                                                    } else {
+                                                        // If sizes are stored as a comma-separated string
+                                                        $selectedSizes = explode(',', $product->sizes);
+                                                    }
+                                                }
+                                            }
+                                        @endphp
+                                            <div class="form-group">
+                                                <label for="sizes">Sizes</label>
+                                                <div class="dropdown checkboxDropdown">
+                                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                        <span>Select Sizes</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        @if($sizes)
+                                                            @foreach ($sizes as $index => $value)
+                                                                <li>
+                                                                    <a class="option-link" href="#">
+                                                                        <label>
+                                                                            <input type="checkbox" name="sizes[]" value="{{ $value->name }}" class="option justone"
+                                                                                @if(in_array($value->name, $selectedSizes)) checked @endif>
+                                                                            {{ $value->name }}
+                                                                        </label>
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                                <p class="error"></p>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-md-6 col-12">
+                                        @php
+                                            $selectedColors = [];
+                                    
+                                            if (!empty($product->colors)) {
+                                                if (is_string($product->colors)) {
+                                                    // If colors are stored as a JSON array
+                                                    if (str_contains($product->colors, '[')) {
+                                                        $selectedColors = json_decode($product->colors, true);
+                                                    } else {
+                                                        // If colors are stored as a comma-separated string
+                                                        $selectedColors = explode(',', $product->colors);
+                                                    }
+                                                }
+                                            }
+                                        @endphp
+                                        <div class="form-group">
+                                            <label for="colors">Colors</label>
+                                            <div class="dropdown checkboxDropdown">
+                                                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    <span>Select Colors</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    @if($colors)
+                                                        @foreach ($colors as $index => $value)
+                                                            <li>
+                                                                <a class="option-link" href="#">
+                                                                    <label>
+                                                                        <input type="checkbox" name="colors[]" value="{{ $value->name }}" class="option justone"
+                                                                            @if(in_array($value->name, $selectedColors)) checked @endif>
+                                                                        {{ $value->name }}
+                                                                    </label>
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </div>
+                                            <p class="error"></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-6">
+                                        <label class="height">Height</label>
+                                        <input type="text" id="height" class="form-control" placeholder="Height"  name="height" value="{{ $product->height }}">                                
+                                    </div> 
+                                    <div class="col-md-6 col-6">
+                                        <label class="width">Width</label>
+                                        <input type="text" id="width" class="form-control" placeholder="Width"  name="width" value="{{ $product->width }}">                                
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-body"> 
                                 <h2 class="h4  mb-3">Product category</h2>
                                 <div class="mb-3">
                                     <label for="category">Category <span class="required">*</span></label>
@@ -691,5 +707,21 @@ function previewImage(input, index) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+$("input[type='checkbox'].justone").change(function(){
+    var a = $("input[type='checkbox'].justone");
+    if(a.length == a.filter(":checked").length){
+        $('.selectall').prop('checked', true);
+        $(".select-text").html(' Deselect');
+    }
+    else {
+        $('.selectall').prop('checked', false);
+        $(".select-text").html(' Select');
+    }
+  var total = $('input[name="options[]"]:checked').length;
+  $(".dropdown-text").html('(' + total + ') Selected');
+});
+
+
 </script>
 @endsection

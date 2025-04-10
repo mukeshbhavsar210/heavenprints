@@ -20,30 +20,15 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller {
 
     public function index(Request $request){
-        $default_products = Product::latest('id')->where('product_type','Default')->with('product_images');
-        $customize_products = Product::latest('id')->where('product_type','Customize')->with('product_images');
-        $neon_products = Product::latest('id')->where('product_type','Neon')->with('product_images');
+        $products = Product::latest('id')->where('product_type','Default')->with('product_images');
         
-
         if ($request->get('keyword') != ""){
-            $default_products = $default_products->where('name', 'like', '%'.$request->keyword.'%');
+            $products = $products->where('name', 'like', '%'.$request->keyword.'%');
         }
 
-        if ($request->get('keyword') != ""){
-            $customize_products = $customize_products->where('name', 'like', '%'.$request->keyword.'%');
-        }
+        $products = $products->paginate();
 
-        if ($request->get('keyword') != ""){
-            $neon_products = $neon_products->where('name', 'like', '%'.$request->keyword.'%');
-        }
-
-        $default_products = $default_products->paginate();
-        $customize_products = $customize_products->paginate();
-        $neon_products = $neon_products->paginate();
-
-        $data['default_products'] = $default_products;
-        $data['customize_products'] = $customize_products;
-        $data['neon_products'] = $neon_products;
+        $data['products'] = $products;
 
         return view ('admin.products.list',$data);
     }
@@ -207,10 +192,10 @@ class ProductController extends Controller {
         $product = Product::find($id);
         $rules = [
             'name' => 'required|min:3',   
-            'product_type' => 'required',
+            //'product_type' => 'required',
             'price' => 'required|min:3',  
             'category' => 'required|numeric',
-            'qty' => 'required',
+            //'qty' => 'required',
         ];
 
         $validator = Validator::make($request->all(),$rules);
@@ -218,7 +203,7 @@ class ProductController extends Controller {
         if($validator->passes()) {
             $product->name = $request->name;
             $product->slug = $request->slug;
-            $product->product_type = $request->product_type;
+            //$product->product_type = $request->product_type;
             $product->height = $request->height;
             $product->width = $request->width;
             $product->metal_type = $request->metal_type;

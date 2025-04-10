@@ -1,6 +1,6 @@
 <nav>
     <div class="nav nav-tabs product-tab" id="nav-tab" role="tablist">
-        <button class="nav-link {{ session('finalPriceData.name') == 'Canvas' ? 'active' : '' }}" id="nav-canvas" data-bs-toggle="tab" data-bs-target="#nav_1" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Canvas</button>
+        <button class="nav-link active {{ session('finalPriceData.name') == 'Canvas' ? 'active' : '' }}" id="nav-canvas" data-bs-toggle="tab" data-bs-target="#nav_1" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Canvas</button>
         <button class="nav-link {{ session('finalPriceData.name') == 'Acrylic' ? 'active' : '' }}" id="nav-acrylic" data-bs-toggle="tab" data-bs-target="#nav_2" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Acrylic</button>
         <button class="nav-link {{ session('finalPriceData.name') == 'Metal' ? 'active' : '' }}" id="nav-metal" data-bs-toggle="tab" data-bs-target="#nav_3" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Metal</button>
         <button class="nav-link {{ session('finalPriceData.name') == 'Wood' ? 'active' : '' }}" id="nav-acrylic" data-bs-toggle="tab" data-bs-target="#nav_4" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Wood</button>
@@ -9,8 +9,7 @@
 </nav>
 
 <div class="tab-content mt-2" id="nav-tabContent">
-   
-        <div class="tab-pane fade {{ session('finalPriceData.name') == 'Canvas' ? 'active show' : '' }} " id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
+        <div class="tab-pane active show fade {{ session('finalPriceData.name') == 'Canvas' ? 'active show' : '' }} " id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
             <div class="paddWrapper">
                 <div class="radio-group row">
                         @foreach ($canvas_material_data as $key => $size)

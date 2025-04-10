@@ -302,10 +302,10 @@ aside a {
 .social_03 span { height: 35px; width: 35px; display: block; background-position: -78px -43px; }
 .social_04 span { height: 35px; width: 35px; display: block; background-position: -116px -43px; }
 
-.customizeFrames { background: url('../images/pattern.jpg'); margin-top: 60px;   }
+.customizeFrames { background: url('../images/pattern.jpg'); margin-top: 60px; height: 100vh;   }
 .customizeFrames .controls { display: flex; background-color: #fff; border-right: 1px #ccc solid; }
-.customizeFrames .controls .leftControl { width: 90px; }
-.customizeFrames .controls .rightControl { width: 82%; margin:15px 0 15px 15px; }
+.customizeFrames .controls .leftControl { width: 90px;  height: 100vh; }
+.customizeFrames .controls .rightControl { width: 82%; margin:15px 0 15px 15px;  height: 100vh; }
 .customizeFrames .row>* { padding: 0 4px;}
 .customizeFrames .frame-price { float: right; display: flex; margin-right: 20px; margin-bottom: 10px; }
 .customizeFrames .frame-price h3 { margin-right: 20px; }
@@ -454,6 +454,10 @@ aside a {
 .radio-group { text-align: center; padding:0 8px; }
 .radio-group .radio-label { font-size: 10px; }
 
+.radio-product { padding:0 8px; }
+.radio-product .radio-label { font-size: 10px; }
+.radio-product p { font-size: 14px; }
+
 .custom-radio { display: inline-block; border: 2px solid #ccc; border-radius: 4px; position: relative; width: 100%; cursor: pointer; padding:8px 5px; text-align: center; margin-bottom: 10px; transition: all 0.3s; color:var(--dark-grey) }
 .custom-radio p { margin: 0;}
 .custom-radio .icon { width: 35px; margin-bottom: 5px; background: none;}
@@ -466,7 +470,7 @@ aside a {
 .hardware_style { height: 145px; }
 .hardware_style img { margin-bottom: 8px;}
 
-.price { font-size: 20px; text-align: center;}
+.price { font-size: 20px; }
 
 .custom-radio-wrap { margin-bottom: 10px; font-size: 12px;}
 .custom-radio-wrap p { margin: 0;}
@@ -478,8 +482,9 @@ aside a {
 .custom-radio-wrap.active .wrapMain { border-color: var(--green); color: var(--black);}
 .custom-radio-wrap.active .wrapMain::after { content:"✔"; position: absolute; top:0px; right:0px; background-color: var(--green); color: var(--white); height: 20px; width: 20px; border-radius: 0 2px 0 0; padding:2px 5px; display: block; font-size: 10px;}
 
-.custom-radio-wrap .productImg { display: inline-block; border: 2px solid #ccc; border-radius: 4px; position: relative; width: 100%; cursor: pointer; text-align: center; margin-bottom: 5px; transition: all 0.3s; color:var(--dark-grey) }
-.custom-radio-wrap.active .productImg { border-color: var(--green); color: var(--black); padding:5px;}
+.custom-radio-wrap .productImg { display: inline-block; position: relative; width: 100%; cursor: pointer; text-align: center; margin-bottom: 5px; transition: all 0.2s; color:var(--dark-grey) }
+.custom-radio-wrap .productImg img { border-radius: 5px;}
+.custom-radio-wrap.active .productImg { border:2px solid var(--green); padding:3px; border-radius:6px; color: var(--black); }
 .custom-radio-wrap.active .productImg::after { content:"✔"; position: absolute; top:0px; right:0px; background-color: var(--green); color: var(--white); height: 20px; width: 20px; border-radius: 0 2px 0 0; padding:2px 5px; display: block; }
 
 .custom-radio .object { background-color: #bbbbbb; margin: 5px auto 10px auto;}
@@ -629,7 +634,7 @@ aside a {
 #accordionExample .accordion-body { padding: 0;}
 #accordionExample .accordion-item a { padding:8px 0;}
 
-.text-underline del { color: var(--dark-grey); font-size: 16px;}
+.text-underline del { color: var(--dark-grey); font-size: 13px;}
 
 #faq .accordion-button { padding:20px 0 !important; background: none; }
 #faq .accordion-button:not(.collapsed) { color: var(--primary);}
@@ -903,4 +908,4 @@ aside a {
 .product-title { color: var(--black); font-size: 18px;}
 .product-title:hover { color: var(--primary);}
 
-.product-price { color: var(--dark-grey); font-size: 16px;}
+.product-price { color: var(--dark-grey); font-size: 18px;}

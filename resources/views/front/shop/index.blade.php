@@ -116,6 +116,11 @@
                                             <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)">
                                                 <i class="far fa-heart"></i>
                                             </a>
+
+                                            @if($product->metal_type)
+                                                <span class="selectedCategory">{{ $product->metal_type }}</span>    
+                                            @endif
+
                                             @if ($product->track_qty == 'Yes')
                                                 @if ($product->qty > 0)
                                                     <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
@@ -134,8 +139,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-2">
-                                        <a href="{{ route('front.product',$product->slug) }}" class="product-title">{{ Str::limit($product->name, 20, '...') }}</a>
+                                    <div class="price mt-2">
+                                        <h5>{{ Str::limit($product->name, 20, '...') }}</h5>
+                                        {{-- <a href="{{ route('front.product',$product->slug) }}" class="product-title">{{ Str::limit($product->name, 20, '...') }}</a> --}}
                                         <div class="product-price mt-1">
                                             ₹ {{ $formattedPrice = number_format($product->price, 2, '.', ''); }}
                                             @if ($product->compare_price > 0)
@@ -143,7 +149,7 @@
                                             @endif
                                         </div>
 
-                                        <div class="row mt-2">
+                                        <div class="row mt-2 mb-2">
                                             <div class="col-md-6 col-6">
                                                 @if(!empty($product->sizes))
                                                     @php
@@ -180,6 +186,8 @@
                                                 @endif
                                             </div>
                                         </div>
+
+                                        <a href="{{ route('customize.second',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
                                     </div>
                                 </div>
                             @endforeach

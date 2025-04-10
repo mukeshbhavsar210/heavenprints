@@ -223,7 +223,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_07" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                    <a class="nav-link" id="tab_07" data-bs-toggle="pill" data-bs-target="#product-options">
                                         <span class="icon icon_product_6"></span>
                                         Select Product
                                     </a>
@@ -240,7 +240,7 @@
                                     @include('front.products.custom_frame.02_tab')
                                 </div>
                                 <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
-                                    {{-- @include('front.products.custom_frame.03_tab')  --}}
+                                    @include('front.products.custom_frame.03_tab') 
                                 </div>
                                 <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
                                     <div class="paddWrapper">
@@ -257,7 +257,7 @@
                                         @include('front.products.custom_frame.06_tab')
                                     </div>
                                 </div>
-                                <div class="tab-pane fade active show" id="pills-options" role="tabpanel" aria-labelledby="tab_07">
+                                <div class="tab-pane fade {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}" id="product-options" role="tabpanel" aria-labelledby="tab_07">
                                     <div class="paddWrapper">
                                         @include('front.products.custom_frame.07_tab')
                                     </div>

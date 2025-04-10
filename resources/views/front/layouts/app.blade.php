@@ -114,14 +114,7 @@
 													<ul class="dropdown-menu dropdown-menu-dark">
 														@foreach ($category->sub_category as $subCategory)
 															<li>
-																@if($category->slug_category == 'customize')
-																	<a class="dropdown-item nav-link" href="{{ route('customize.products',[$category->slug_category,$subCategory->slug_sub_category])}}">
-																		<div class="nav_thumb"> 
-																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
-																			<p class="nav_name">{{ $subCategory->name }}</p>
-																		</div>																	
-																	</a>
-																@elseif($category->slug_category == 'neon')
+																@if($category->slug_category == 'neon')
 																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug_category,$subCategory->slug_sub_category])}}">
 																		<div class="nav_thumb"> 
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
