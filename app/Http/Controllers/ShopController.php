@@ -123,16 +123,8 @@ class ShopController extends Controller {
         $subCategorySelected = ' ';        
 
         $categories = Category::orderBy("name","ASC")->with('sub_category')->where('status',1)->get();
-        $products = Product::where('status',1);
-
-        // $products = Product::where('status', 1)
-        // ->where(function ($query) use ($metalType) {
-        //     if (!empty($metalType)) {
-        //         $query->where('metal_type', $metalType);
-        //     }
-        // })
-        // ->get();
-
+        $products = Product::whereNotNull('metal_type')->where('metal_type', '!=', '')->where('status',1);
+   
         //Apply filters here
         if(!empty($categorySlug)) {
             $category = Category::where('slug_category',$categorySlug)->first();
@@ -300,6 +292,9 @@ class ShopController extends Controller {
 
 
     public function second_level($slug){       
+
+        $productSelection = Product::orderBy('id','DESC')->where('status',1)->get();  
+
         $products = Product::latest('id')->with('product_images');
         $product = Product::where('slug',$slug)->with('product_images')->first();
         $product = Product::where('slug',$slug)
@@ -312,31 +307,131 @@ class ShopController extends Controller {
         if($product == null){
             abort(404);
         }
-      
-        $data['product'] = $product;
-        $data['products'] = $products;
-
-        // Load stored image and options from session
-        $image = Session::get('uploaded_image');
-        $data['image'] = $image;
-
-        return view('front.products.custom_frame.index',$data);
-    }
 
 
-    public function extra($slug){       
-        $products = Product::latest('id')->with('product_images');
-        $product = Product::where('slug',$slug)->with('product_images')->first();
-        $product = Product::where('slug',$slug)
-                            ->with('product_images')
-                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-                            ->first();
+        $wrapData = [
+            '1' => ['name' => 'Canvas Lite (0.50")', 'price' => 143.00, 'image' => 'size05.jpg',],
+            '2' => ['name' => 'Thin Gallery Wrap (0.75)', 'price' => 185.00, 'image' => 'size75.jpg',],
+            '3' => ['name' => 'Thick Gallery Wrap (1.5")', 'price' => 223.08, 'image' => 'size15.jpg',],
+            '4' => ['name' => 'Hanging Canvas', 'price' => 121.55, 'image' => 'hanging-canvas.jpg',],
+        ];
 
-        if($product == null){
-            abort(404);
-        }
+        $borderData = [
+            '1' => ['name' => 'Mirror Image Free', 'price' => 0.00, 'image' => 'mirror-image.jpg'],
+            '2' => ['name' => 'Border Color Free', 'price' => 10.00, 'image' => 'border-color.jpg'],
+        ];
+
+        $standardFrame = [
+            '1' => ['name' => 'Golden', 'price' => 798.00, 'image' => 'golden.png'],
+            '2' => ['name' => 'Silver', 'price' => 298.00, 'image' => 'golden.png'],
+        ];
+
+        $premiumFrame = [
+            'first' => ['name' => 'Cherry Style', 'price' => 998.00, 'image' => 'cherry-style.png'],            
+        ];
+
+        $floatFrame = [
+            'first' => ['name' => 'Black floating Frame', 'price' => 1798.00, 'image' => 'black-floating-frame.png'],
+        ];
+
+        $hardwareStyleData = [
+            '1' => ['name' => 'Hooks for Hanging Free', 'price' => 0.00, 'image' => 'hooks-for-hanging.jpg'],
+            '2' => ['name' => 'Ready to Hang Free', 'price' => 0.00, 'image' => 'hooks-for-hanging.jpg'],
+            '3' => ['name' => 'No Hooks Free', 'price' => 0.00, 'image' => 'no-hooks.jpg'],
+            '4' => ['name' => 'Sawtooth Hanger', 'price' => 25.00, 'image' => 'sawtooth-hanger.jpg'],
+            '5' => ['name' => 'Easel Back', 'price' => 49.00, 'image' => 'easel-back.jpg'],
+            '6' => ['name' => 'Nail Free Hook', 'price' => 49.00, 'image' => 'nail-free-hook.jpg'],
+        ];
+
+        $displayOption = [
+            '1' => ['name' => 'Open Back', 'price' => 0.00,],
+            '2' => ['name' => 'Dust Cover', 'price' => 49.00,],
+        ];
+
+        $laminationOption = [
+            '1' => ['name' => 'No', 'price' => 0.00, 'class' => 3],
+            '2' => ['name' => 'Standard', 'price' => 149.00, 'class' => 4],
+            '3' => ['name' => 'Premium', 'price' => 249.00, 'class' => 4],
+        ];
+
+        $retouchingOption = [
+            '1' => ['name' => 'Red Eye Removal', 'price' => 299.00],
+            '2' => ['name' => 'Dust/Scratch Removal', 'price' => 299.00],
+            '3' => ['name' => 'Enhance Color', 'price' => 299.00 ],
+            '4' => ['name' => 'Date Stamp Removal', 'price' => 299.00 ],
+            '5' => ['name' => 'Lighten/Darken Image', 'price' => 299.00 ],
+        ];
+
+        $proofOption = [
+            '1' => ['name' => 'Email with link to the design proof will be emailed within 24 hours and has to be approved online.
+                Customers should approve their proof(s) as quickly as possible in order to avoid delays in production and shipping times.', 'price' => 49.00],            
+        ];
+
+        $shapeData = [
+            '1' => [ 'name' => 'Square Shape', 'price' =>  2.00, 'height' => 12, 'width' => 12, 'image' => 'square.jpg' ], 
+            '2' => [ 'name' => 'Rectangle Shape', 'price' =>  4.00, 'height' => 12, 'width' => 18, 'image' => 'rectangle.jpg' ], 
+            '3' => [ 'name' => 'Panoramic Shape', 'price' =>  6.00, 'height' => 10, 'width' => 30, 'image' => 'panoramic.jpg' ], 
+            '4' => [ 'name' => 'Large Shape', 'price' =>  8.00, 'height' => 24, 'width' => 36, 'image' => 'large.jpg' ], 
+            '5' => [ 'name' => 'Small Shape', 'price' =>  10.00, 'height' => 8, 'width' => 10, 'image' => 'small.jpg' ] 
+        ];
+
+        $sizeData = [
+            '1' => ['name' => '8" x 8"', 'price' => 143.00, 'height' => 45, 'width' => 45],
+            '2' => ['name' => '10" x 10"', 'price' => 212.00, 'height' => 47, 'width' => 47],
+            '3' => ['name' => '16" x 16"', 'price' => 489.00, 'height' => 49, 'width' => 49],
+            '4' => ['name' => '24" x 24"', 'price' => 1066.00, 'height' => 53, 'width' => 53],
+            '5' => ['name' => '30" x 30"', 'price' => 1646.00, 'height' => 56, 'width' => 56],
+            '5' => ['name' => '45" x 45"', 'price' => 3640.00, 'height' => 58, 'width' => 58],
+        ];
+
+        $recommended_data = [
+            '1' => ['name' => 'Square Shape', 'price' => 379.00, 'width' => 47, 'height' => 29, ],
+            '2' => ['name' => 'Rectangle Shape', 'price' => 1377.00, 'width' => 49, 'height' => 31, ],
+            '3' => ['name' => 'Panoramic Shape', 'price' => 3038.00, 'width' => 51, 'height' => 33, ],
+        ];
+
+        $square_data = [
+            '1' => ['name' => '8" x 8"', 'price' => 143.00, 'width' => 45, 'height' => 45, ],
+            '2' => ['name' => '10" x 10"', 'price' => 212.00, 'width' => 47, 'height' => 47, ],
+            '3' => ['name' => '16" x 16"', 'price' => 489.00, 'width' => 49, 'height' => 49, ],
+            '4' => ['name' => '24" x 24"', 'price' => 1066.00, 'width' => 52, 'height' => 52, ],
+            '5' => ['name' => '30" x 30"', 'price' => 1646.00, 'width' => 58, 'height' => 58, ],
+            '6' => ['name' => '45" x 45"', 'price' => 3640.00, 'width' => 60, 'height' => 60, ],
+        ];
+
+        $panaromic_data = [
+            '1' => ['name' => '8" x 24"', 'price' => 396.00, 'width' => 45, 'height' => 45, ],
+            '2' => ['name' => '10" x 40"', 'price' => 212.00, 'width' => 47, 'height' => 47, ],
+            '3' => ['name' => '12" x 36"', 'price' => 489.00, 'width' => 49, 'height' => 49, ],
+            '4' => ['name' => '15" x 45"', 'price' => 1066.00, 'width' => 52, 'height' => 52, ],
+            '5' => ['name' => '16" x 48"', 'price' => 1646.00, 'width' => 58, 'height' => 58, ],
+            '6' => ['name' => '18" x 54"', 'price' => 3640.00, 'width' => 60, 'height' => 60, ],
+        ];
+
+        $large_data = [
+            '1' => ['name' => '16" x 20"', 'price' => 604.00, 'width' => 45, 'height' => 45, ],
+            '2' => ['name' => '24" x 36"', 'price' => 1584.00, 'width' => 47, 'height' => 47, ],
+            '3' => ['name' => '18" x 24"', 'price' => 808.00, 'width' => 49, 'height' => 49, ],
+            '4' => ['name' => '30" x 40"', 'price' => 2181.00, 'width' => 52, 'height' => 52, ],
+            '5' => ['name' => '36" x 54"', 'price' => 3501.00, 'width' => 58, 'height' => 58, ],
+            '6' => ['name' => '40" x 40"', 'price' => 2889.00, 'width' => 60, 'height' => 60, ],
+        ];
+
+        $small_data = [
+            '1' => ['name' => '8" x 8"', 'price' => 143.00, 'width' => 45, 'height' => 45, ],
+            '2' => ['name' => '12" x 8"', 'price' => 206.00, 'width' => 47, 'height' => 47, ],
+            '3' => ['name' => '11" x 14"', 'price' => 316.00, 'width' => 49, 'height' => 49, ],
+            '4' => ['name' => '12" x 12"', 'price' => 297.00, 'width' => 52, 'height' => 52, ],
+            '5' => ['name' => '12" x 18"', 'price' => 417.00, 'width' => 58, 'height' => 58, ],
+            '6' => ['name' => '16" x 20"', 'price' => 604.00, 'width' => 60, 'height' => 60, ],
+        ];
+
+        $colorFinishingBasic = [
+            '1' => ['name' => 'Original Free', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '2' => ['name' => 'Sephia Free"', 'price' => 0.00, 'image' => 'sepia.jpg'],
+            '3' => ['name' => 'Grey Scale', 'price' => 0.00, 'image' => 'grayscale.jpg']
+        ];
+
 
         // $productSelection = [
         //     '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
@@ -352,18 +447,110 @@ class ShopController extends Controller {
         //     '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
         //     '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
         // ];
+
+        $canvas_material_data = [            
+            '1' => ['name' => 'Single Print', 'price' => 143.00, 'image' => 'icon_single_print.png'],
+            '2' => ['name' => 'Round Canvas', 'price' => 721.27, 'image' => 'round_canvas.png'],
+            '3' => ['name' => 'Triangle Canvas', 'price' => 1250.79, 'image' => 'triangle_canvas.png'],
+            '4' => ['name' => 'Heart Canvas', 'price' => 1854.68, 'image' => 'heart_canvas.png'],
+            '5' => ['name' => 'Oval Canvas', 'price' => 1398.67, 'image' => 'oval_canvas.png'],
+            '6' => ['name' => 'Wall Display', 'price' => 726.75, 'image' => 'icon_wall_display.png'],
+            '7' => ['name' => 'Photo Collage', 'price' => 214.50, 'image' => 'icon_photo_collage.png'],
+            '8' => ['name' => 'Hexagon Prints', 'price' => 449.00, 'image' => 'icon_honeycomb.png'],
+            '9' => ['name' => 'Split Canvas', 'price' => 271.70, 'image' => 'icon_split_canvas.png'],
+            '10' => ['name' => 'Photo Mosaic', 'price' => 214.50, 'image' => 'mosaic.png'],
+            '11' => ['name' => 'Lyric on Canvas', 'price' => 214.50, 'image' => 'lyrics_on_canvas.png'],
+            '12' => ['name' => 'Digital Painting', 'price' => 2642.00, 'image' => 'digital_painting.png'],
+            '13' => ['name' => 'Quotes on Canvas', 'price' => 143.00, 'image' => 'quotes_on_canvas.jpg'],
+            '14' => ['name' => 'Bus Roll', 'price' => 599.40, 'image' => 'bus_roll.png'],
+            '15' => ['name' => 'Canvas Banner', 'price' => 399.00, 'image' => 'canvas-banner.png'],
+            '16' => ['name' => 'Pop Art', 'price' => 642.00, 'image' => 'pop-art.jpg'],
+            '17' => ['name' => 'Word Art', 'price' => 242.00, 'image' => 'word-art-icon.png'],
+        ];
+        
+        $acrylic_material_data = [            
+            '1' => ['name' => 'Single Print', 'price' => 355.00, 'image' => 'acrylic_print.png'],
+            '2' => ['name' => 'Wall Display', 'price' => 1983.60, 'image' => 'icon_wall_display.png'],
+            '3' => ['name' => 'Photo Collage', 'price' => 426.60, 'image' => 'icon_photo_collage.png'],
+            '4' => ['name' => 'Split Acrylic', 'price' => 674.50, 'image' => 'icon_split_canvas.png'],
+            '5' => ['name' => 'Photo Mosaic', 'price' => 426.00, 'image' => 'mosaic.png'],
+            '6' => ['name' => 'Lyric on Acrylic', 'price' => 426.00, 'image' => 'lyrics_on_canvas.png'],
+            '7' => ['name' => 'Digital Painting', 'price' => 2854.00, 'image' => 'digital_painting.png'],
+            '8' => ['name' => 'Quotes on Acrylic', 'price' => 355.00, 'image' => 'quotes_on_canvas.jpg'],
+            '9' => ['name' => 'Bus Roll', 'price' => 1065.60, 'image' => 'bus_roll.png'],
+            '10' => ['name' => 'Word Art', 'price' => 454.00, 'image' => 'word-art-icon.png'],
+        ];
+        
+        $metal_material_data = [            
+            '1' => ['name' => 'Single Print', 'price' => 444.00, 'image' => 'metal_print.png'],
+            '2' => ['name' => 'Wall Display', 'price' => 2479.50, 'image' => 'icon_wall_display.png'],
+            '3' => ['name' => 'Photo Collage', 'price' => 532.80, 'image' => 'icon_photo_collage.png'],
+            '4' => ['name' => 'Split Metal', 'price' => 843.60, 'image' => 'icon_split_canvas.png'],
+            '5' => ['name' => 'Photo Mosaic', 'price' => 532.80, 'image' => 'mosaic.png'],
+            '6' => ['name' => 'Lyric on Metal', 'price' => 532.80, 'image' => 'lyrics_on_canvas.png'],
+            '7' => ['name' => 'Digital Painting', 'price' => 2943.00, 'image' => 'digital_painting.png'],
+            '8' => ['name' => 'Quotes on Metal', 'price' => 444.00, 'image' => 'quotes_on_canvas.jpg'],
+            '9' => ['name' => 'Bus Roll', 'price' => 1333.20, 'image' => 'bus_roll.png'],
+            '10' => ['name' => 'Word Art', 'price' => 543.00, 'image' => 'word-art-icon.png'],
+        ];
+        
+        $wood_material_data = [            
+            '1' => ['name' => 'Single Print', 'price' => 1799.00, 'image' => 'icon_wood_print.png'],
+            '2' => ['name' => 'Round Wood', 'price' => 2699.00, 'image' => 'round_wood.png'],
+            '3' => ['name' => 'Wood Wall Display', 'price' => 8857.80, 'image' => 'icon_wall_display.png'],
+            '4' => ['name' => 'Lyric on Wood', 'price' => 2158.80, 'image' => 'lyrics_on_canvas.png'],
+            '5' => ['name' => 'Digital Painting', 'price' => 4298.00, 'image' => 'digital_painting.png'],
+            '6' => ['name' => 'Quotes on Wood', 'price' => 1799.00, 'image' => 'quotes_on_canvas.jpg'],
+            '7' => ['name' => 'Split Wood', 'price' => 3418.10, 'image' => 'icon_split_canvas.png'],
+            '8' => ['name' => 'Hexagon Wood', 'price' => 807.30, 'image' => 'icon_honeycomb.png'],
+            '9' => ['name' => 'Word Art', 'price' => 1898.00, 'image' => 'word-art-icon.png'],
+        ];
+        
+        $other_material_data = [            
+            '1' => ['name' => 'Peel & Stick', 'price' => 1589.28, 'image' => 'peel_stick.jpg'],
+            '2' => ['name' => 'Engraved Prints', 'price' => 329.00, 'image' => 'engrave_print.jpg'],
+            '3' => ['name' => 'Wall Murals', 'price' => 1225.60, 'image' => 'wall_murals.png'],
+        ];
+
+        $finalPriceData = session('finalPriceData', []);
+
+        $data['sizeData'] = $sizeData;
+        $data['canvas_material_data'] = $canvas_material_data;
+        $data['acrylic_material_data'] = $acrylic_material_data;
+        $data['metal_material_data'] = $metal_material_data;
+        $data['wood_material_data'] = $wood_material_data;
+        $data['other_material_data'] = $other_material_data;
+        $data['recommended_data'] = $recommended_data;
+        $data['square_data'] = $square_data;
+        $data['panaromic_data'] = $panaromic_data;
+        $data['large_data'] = $large_data;
+        $data['small_data'] = $small_data;
+        $data['shapeData'] = $shapeData;
+        $data['colorFinishingBasic'] = $colorFinishingBasic;
+        $data['wrapData'] = $wrapData;
+        $data['borderData'] = $borderData;
+        $data['standardFrame'] = $standardFrame;
+        $data['premiumFrame'] = $premiumFrame;
+        $data['floatFrame'] = $floatFrame;
+        $data['hardwareStyleData'] = $hardwareStyleData;
+        $data['displayOption'] = $displayOption;
+        $data['retouchingOption'] = $retouchingOption;        
+        $data['proofOption'] = $proofOption;        
+        $data['laminationOption'] = $laminationOption;    
+        $data['finalPriceData'] = $finalPriceData;
+        $data['productSelection'] = $productSelection;
       
         $data['product'] = $product;
         $data['products'] = $products;
-        //$data['productSelection'] = $productSelection;
+        //$data['latestProducts'] = $latestProducts; 
 
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
         $data['image'] = $image;
 
-        return view('front.products.custom_frame.extra',$data);
+        return view('front.products.custom_frame.index',$data);
     }
-
+   
 
     public function store_total(Request $request) {
         $request->validate([

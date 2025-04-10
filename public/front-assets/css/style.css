@@ -466,7 +466,7 @@ aside a {
 .hardware_style { height: 145px; }
 .hardware_style img { margin-bottom: 8px;}
 
-.price { font-size: 20px;}
+.price { font-size: 20px; text-align: center;}
 
 .custom-radio-wrap { margin-bottom: 10px; font-size: 12px;}
 .custom-radio-wrap p { margin: 0;}

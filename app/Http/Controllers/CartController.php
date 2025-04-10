@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use Razorpay\Api\Api;
 
+use function Ramsey\Uuid\v1;
 
 class CartController extends Controller {
     public function addToCart(Request $request){
@@ -96,8 +97,6 @@ class CartController extends Controller {
         return view('front.cart.index',$data);
     }
 
-
-
     public function addToCart_customize(Request $request){
         $product = Product::with('product_images')->find($request->id);
         
@@ -162,8 +161,10 @@ class CartController extends Controller {
                             'lamination_price'      => $request->lamination_price,
                             'retouch_names'       => $retouchNames,
                             'retouch_price'      => $retouchPrice,
+                            'major'      => $request->major,
                             'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
                             'proof_price'   => $proofPrice,  
+                              
                         ]
                 );
                 $status = true;
@@ -217,6 +218,7 @@ class CartController extends Controller {
                         'display_price'      => $request->display_price,
                         'lamination_name'       => $request->lamination_name,
                         'lamination_price'      => $request->lamination_price,
+                        'major'      => $request->major,
                         'retouch_names'       => $retouchNames,
                         'retouch_price'      => $retouchPrice,
                         'proof_names'   => !empty($proofNames) ? implode(', ', (array) $proofNames) : null, 
@@ -387,8 +389,6 @@ class CartController extends Controller {
         ]);
     }
 
-
-
     public function deleteItem(Request $request){
         $rowId = $request->rowId;
         $itemInfo = Cart::get($rowId);
@@ -413,7 +413,6 @@ class CartController extends Controller {
             "message"=> $success,
         ]);
     }
-
 
     public function checkout(){
         $discount = 0;
@@ -471,6 +470,76 @@ class CartController extends Controller {
     }
 
 
+
+    // public function checkout() {
+    //     $discount = 0;
+    
+    //     // If cart is empty, redirect to cart page
+    //     if (Cart::count() == 0) {
+    //         return redirect()->route('front.cart');
+    //     }
+    
+    //     // If user is not logged in, redirect to login page
+    //     if (!Auth::check()) {
+    //         if (!session()->has('url.intended')) {
+    //             session(['url.intended' => url()->current()]);
+    //         }
+    //         return redirect()->route('account.login');
+    //     }
+    
+    //     // Get the customer's saved address
+    //     $customerAddresses = CustomerAddress::where('user_id', Auth::id())->get();
+    //     //$customerAddress = CustomerAddress::where('user_id', Auth::id())->first();
+        
+    //     session()->forget('url.intended');
+    
+    //     $countries = Country::orderBy('name', 'ASC')->get();
+    
+    //     // Calculate shipping charges
+    //     $totalQty = Cart::count();
+    //     $totalShiipingCharge = 0;
+    //     $grandTotal = Cart::subtotal(2, '.', '');
+    
+    //     if ($customerAddresses) {
+    //         $userCountry = $customerAddresses->first()?->country_id ?? null;
+    //         $shippingInfo = ShippingCharge::where('country_id', $userCountry)->first();
+    
+    //         if ($shippingInfo) {
+    //             $totalShiipingCharge = $totalQty * $shippingInfo->amount;
+    //         }
+    //     }
+    
+    //     // Calculate discount if applicable
+    //     // Check if the user has a discount column or a discount in session
+    //     if (Auth::check() && Auth::user()->discount > 0) {
+    //         $discount = Auth::user()->discount;
+    //     } elseif (session()->has('discount_amount')) {
+    //         $discount = session('discount_amount');
+    //     }
+    
+    //     // Ensure discount does not exceed subtotal
+    //     $discount = min($discount, $grandTotal);
+        
+    //     // Final grand total calculation
+    //     $grandTotal = max(0, $grandTotal + $totalShiipingCharge - $discount);
+    
+    //     return view('front.checkout.index', [
+    //         'countries' => $countries,
+    //         'customerAddresses' => $customerAddresses,
+    //         'totalShiipingCharge' => $totalShiipingCharge,
+    //         'discount' => $discount,
+    //         'grandTotal' => $grandTotal
+    //     ]);
+    // }
+    
+
+
+
+    
+
+
+
+
     // Generate Razorpay Order
     public function processCheckout(Request $request) {
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -488,11 +557,9 @@ class CartController extends Controller {
         return response()->json([
             'order_id' => $order['id'],
             'key' => config('services.razorpay.key'),
-            'amount' => $order['amount']
+            'amount' => $order['amount'],
         ]);
     }
-
-
 
     // Verify Payment
     public function verifyPayment(Request $request) {
@@ -622,15 +689,12 @@ class CartController extends Controller {
                     'order_id' => $order->id,
                     'product_id' => $item->id,
                     'name' => $item->name,
-                     'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
-                    
+                    'category' => $item->options->category ?? ($item->options->custom_neon . ' - ' . $item->options->neon_light),
                     'font' => $item->options->font ?? $item->options->neon_font,
                     'size' => $item->options->size || $item->options->neon_size || $item->options->size_name,
                     'color' => $item->options->color ?? $item->options->neon_color,
-
                     'selected_product' => $item->options->custom_image,
                     'selected_product_name' => $item->options->custom_name,
-
                     'image' => $item->options->image,
                     'frame' => $item->options->frame_name,
                     'border' => $item->options->border_name,
@@ -638,12 +702,10 @@ class CartController extends Controller {
                     'hardware_style' => $item->options->hardware_name,
                     'hardware_display' => $item->options->display_name,
                     'lamination' => $item->options->lamination_name,
-
-                    //'retouching' => $item->options->retouch_names,
+                    'retouching' => json_encode($item->options->retouch_names),
+                    'major' => $item->options->major,
                     //'proof' => $item->options->proof_names,
-                    // 'major' => $item->options->major,
                     // 'hardware_finishing'=> $item->options->hardware_finishing,
-
                     'qty' => $item->qty,
                     'price' => $item->price,
                     'total' => $item->price * $item->qty,                    

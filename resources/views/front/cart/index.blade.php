@@ -171,7 +171,7 @@
                                                                 @if($item->options->custom_name )
                                                                     <div class="row mb-2">
                                                                         <div class="col-md-3 col-3">
-                                                                            <img src="http://127.0.0.1:8000/uploads/icons/selection/{{ $item->options->custom_image }}" style="width: 100%; border-radius:5px;" />
+                                                                            <img src="uploads/products/small/{{ $item->options->custom_image }}" style="width: 100%; border-radius:5px;" />
                                                                             </div>
                                                                         <div class="col-md-9 col-9"> 
                                                                             <h5>Selected product for print</h5>

@@ -114,12 +114,13 @@
                                     <div class="row"> 
                                         <div class="col-md-12 col-12">     
                                             <div class="form-group">                                           
-                                                <label for="size">Frame material</label>
+                                                <label for="size">Material</label>
                                                 <div class="size-picker">
                                                     @if($frameMaterials)
                                                         @foreach ($frameMaterials as $index => $value)
                                                             <div class="size-picker__item">
-                                                                <input type="radio" name="metal_type" value="{{ $value->name }}" id="metalProduct_{{ $index }}" class="size-picker__input">
+                                                                <input type="radio" name="metal_type" value="{{ $value->name }}" id="metalProduct_{{ $index }}" class="size-picker__input"
+                                                                    @if(isset($product->metal_type) && $product->metal_type == $value->name) checked @endif>
                                                                 <label class="size-picker__color paddingControl" for="metalProduct_{{ $index }}">
                                                                     <p>{{ $value->name }}</p>
                                                                 </label>                                                                
