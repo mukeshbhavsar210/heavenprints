@@ -63,16 +63,11 @@
                                         @endif
                                     </div>
 
-                                    <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>    
-                                                                        
-                                    {{-- @if($product->metal_type == 'Canvas' || 
-                                        $product->metal_type == 'Acrylic' || 
-                                        $product->metal_type == 'Metal' || 
-                                        $product->metal_type == 'Wood')
-                                        <a href="{{ route('customize.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>    
+                                    @if($product->metal_type == 'Others')
+                                        <a href="{{ route('customize.second',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>
                                     @else
-                                        <a href="{{ route('extra.product',$product->slug) }}" class="btn btn-outline-primary mt-2">Customize Product</a>
-                                    @endif --}}
+                                        <a href="{{ route('customize.first',$product->slug) }}" class="btn btn-outline-secondary mt-2">Customize Product</a>
+                                    @endif
                                 </div>   
                             </div>
                     @endforeach

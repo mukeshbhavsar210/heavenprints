@@ -17,4 +17,8 @@ class Category extends Model
     public function products(){
         return $this->hasMany(Product::class, 'category_id');
     }
+
+    public function products_count(){
+        return $this->hasMany(Product::class);
+    }
 }

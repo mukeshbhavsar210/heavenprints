@@ -10,8 +10,8 @@ class Product extends Model
     use HasFactory;
 
 
-    public function frames() {
-        return $this->hasMany(CustomTotal::class);
+    public function category(){
+        return $this->belongsTo(Category::class);
     }
 
     public function product_images(){

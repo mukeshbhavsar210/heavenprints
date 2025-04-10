@@ -12,22 +12,24 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller {
-
     public function index(){
-        $featuredProducts = Product::select('id', 'name', 'slug')->orderBy('id','DESC')->where('status',1)->get();
+        //$customizeProducts = Product::select('id', 'name', 'slug')->orderBy('id','DESC')->where('product_type','Customize')->where('status',1)->get();
         $latestProducts = Product::orderBy('id','DESC')->where('status',1)->get();  
-        $categories = Category::withCount('products') 
-                    ->limit(4)
-                    ->get();      
+        $totalProducts = Product::where('status', 1)->count();
+        
+        // $categories = Category::withCount('products') 
+        //             ->limit(4)
+        //             ->get();      
 
-        $data['featuredProducts'] = $featuredProducts;        
+        
         $data['latestProducts'] = $latestProducts; 
-        $data['categories'] = $categories;         
+        $data['totalProducts'] = $totalProducts;            
+
+        //$data['customizeProducts'] = $customizeProducts;        
+        //$data['categories'] = $categories;         
 
         return view("front.home.index",$data);
     }
-
-
 
 
     public function addToWishlist(Request $request){

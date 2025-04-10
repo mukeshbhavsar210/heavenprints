@@ -12,11 +12,9 @@
                 </div>
             </div>
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- Main content -->
+
     <section class="content">
-        <!-- Default box -->
         <div class="container-fluid">
             <div class="row">
                 @include('admin.message')
@@ -28,8 +26,8 @@
                                 <div class="col-sm-7 invoice-col">
                                     <address>
                                         <h4>{{ $order->customerAddress->first_name.' '.$order->customerAddress->last_name.'' }} </h4>
-                                        {{ $order->customerAddress->apartment }},
                                         {{ $order->customerAddress->address }}<br>
+                                        {{ $order->customerAddress->apartment }},                                        
                                         {{ $order->customerAddress->city }},
                                         {{ $order->customerAddress->zip }}.
                                         {{ $order->customerAddress->countryName }}

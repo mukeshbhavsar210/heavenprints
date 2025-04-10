@@ -24,6 +24,7 @@ class ProductController extends Controller {
         $customize_products = Product::latest('id')->where('product_type','Customize')->with('product_images');
         $neon_products = Product::latest('id')->where('product_type','Neon')->with('product_images');
         
+
         if ($request->get('keyword') != ""){
             $default_products = $default_products->where('name', 'like', '%'.$request->keyword.'%');
         }
@@ -237,13 +238,13 @@ class ProductController extends Controller {
             $product->related_products = (!empty($request->related_products)) ? implode(',',$request->related_products) : '';
 
             if ($request->has('sizes')) {
-                $product->sizes = json_encode($request->size);
+                $product->sizes = json_encode($request->sizes);
             } else {
                 $product->sizes = null;
             }
 
             if ($request->has('colors')) {
-                $product->colors = json_encode($request->color);
+                $product->colors = json_encode($request->colors);
             } else {
                 $product->colors = null;
             }

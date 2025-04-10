@@ -33,146 +33,174 @@
 
 <section class="section-9 pt-4">
     <div class="container">
-        <form id="razorpay-form" method="POST" action="{{ route('front.processCheckout') }}">
-            @csrf
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="sub-title mb-4"><h2>Shipping Address</h2></div>                   
-                    <div class="row">                    
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>First name</label>
-                                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" value={{ (!empty($customerAddress)) ? $customerAddress->first_name : '' }}>
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>Last Name</label>
-                                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" value={{ (!empty($customerAddress)) ? $customerAddress->last_name : '' }} >
-                                <p></p>
-                            </div>
-                        </div>                    
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" name="email" id="email" class="form-control" placeholder="Email" value={{ (!empty($customerAddress)) ? $customerAddress->email : '' }}>
-                                <p></p>
-                            </div>
-                        </div>  
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>Mobile</label>
-                                <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No." value={{ (!empty($customerAddress)) ? $customerAddress->mobile : '' }}>
-                                <p></p>
-                            </div>
-                        </div> 
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>Address</label>
-                                {{-- <input type="text" name="address" id="address" class="form-control" placeholder="Address" value={{ (!empty($customerAddress)) ? $customerAddress->address : '' }}> --}}
-                                <textarea name="address" id="address" cols="30" rows="5" placeholder="Address" class="form-control" >{{ (!empty($customerAddress)) ? $customerAddress->address : '' }}</textarea>
-                                <p></p>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Notes</label>
-                                <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
-                                <p></p>
-                            </div>
-                        </div> 
-                        <div class="col-md-6 col-12">
-                            <div class="form-group">
-                                <label>Apartment</label>
-                                <input type="text" name="apartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value={{ (!empty($customerAddress)) ? $customerAddress->apartment : '' }}>
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>City</label>
-                                        <input type="text" name="city" id="city" class="form-control" placeholder="City" value={{ (!empty($customerAddress)) ? $customerAddress->city : '' }}>
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Pin code</label>
-                                        <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value={{ (!empty($customerAddress)) ? $customerAddress->zip : '' }}>
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label>State</label>
-                                        <select name="country" id="country" class="form-control">
-                                            <option value="">Select a State</option>
-                                                @if ($countries->isNotEmpty())
-                                                    @foreach ($countries as $country)
-                                                        <option {{ (!empty($customerAddress) && $customerAddress->country_id == $country->id) ? 'selected' : '' }} value="{{ $country->id }}" >{{ $country->name }}</option>
-                                                    @endforeach
-                                                    <option value="rest_of_world">Rest of the state</option>
-                                                @endif
-                                        </select>
-                                        <p></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                                                                    
-                    </div>                                           
+        {{-- @if($customerAddresses->isNotEmpty())
+            @foreach($customerAddresses as $address)
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="shipping_address" 
+                        id="address_{{ $address->id }}" value="{{ $address->id }}" 
+                        {{ $loop->first ? 'checked' : '' }}>
+                    <label class="form-check-label" for="address_{{ $address->id }}">
+                        {{ $address->name }}, {{ $address->address }}, {{ $address->city }},
+                        {{ $address->state }} - {{ $address->pincode }}, {{ $address->country }}
+                    </label>
                 </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-4">
-                    <div class="sub-title"><h2>Order Summery</h3></div>                    
-                    @foreach (Cart::content() as $item)
-                        <div class="d-flex justify-content-between">
-                            <p>{{ $item->name }}</p>
-                            <p>₹{{ $item->price*$item->qty }}</p>
-                        </div>
-                    @endforeach
-                    <div class="d-flex justify-content-between">
-                        <p>Subtotal</p>
-                        <p>₹{{ Cart::subtotal() }}</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Discount</p>
-                        <p id="discount_value">₹{{ number_format($discount,2) }}</p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Shipping</p>
-                        <p id="shippingAmount">₹ {{ number_format($totalShiipingCharge,2) }}</p>
-                    </div>
-                    <hr />
-                    <div class="d-flex justify-content-between">
-                        <p>Total</p>
-                        <p id="grandTotal">₹{{ number_format($grandTotal,2) }}</p>
-                        <input type="hidden" id="grand_total" value="{{ $grandTotal }}">
-                    </div>
-                                           
-                    <div class="input-group apply-coupan mt-1">
-                        <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code">
-                        <button class="btn btn-dark" type="button" id="apply-discount">Apply Coupon</button>
-                    </div>
-                    
-                    <div id="discount-response-wrapper">
-                        @if (Session::has('code'))
-                            <div class="mt-4" id="discount-response">
-                                {{ Session::get('code')->code }}
-                                <a class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>
-                            </div>
-                        @endif
-                    </div>
+            @endforeach
+        @endif
 
-                    <hr />
-                   
-                        <div class="mt-3">
-                            <input type="hidden" id="grand_total" name="amount" value="1000">
-                            <button type="submit" class="btn btn-primary w-100">Pay with Razorpay</button>
-                        </form>
+        <!-- New Address Option -->
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="radio" name="shipping_address" 
+                id="custom_address" value="custom">
+            <label class="form-check-label" for="custom_address">
+                Enter a New Shipping Address
+            </label>
+        </div> --}}
+
+            <form id="razorpay-form" method="POST" action="{{ route('front.processCheckout') }}" >
+                @csrf
+                <div class="row">
+                    <div class="col-md-7">  
+                        <div >  
+                            {{-- <div id="custom_address_section" style="display: none; margin-top: 20px;">   --}}
+                            <div class="sub-title mb-4"><h2>Shipping Address</h2></div>                                     
+                            <div class="row">                    
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>First name</label>
+                                        <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" value={{ (!empty($customerAddress)) ? $customerAddress->first_name : '' }}>
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" value={{ (!empty($customerAddress)) ? $customerAddress->last_name : '' }} >
+                                        <p></p>
+                                    </div>
+                                </div>                    
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" name="email" id="email" class="form-control" placeholder="Email" value={{ (!empty($customerAddress)) ? $customerAddress->email : '' }}>
+                                        <p></p>
+                                    </div>
+                                </div>  
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Mobile</label>
+                                        <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No." value={{ (!empty($customerAddress)) ? $customerAddress->mobile : '' }}>
+                                        <p></p>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        {{-- <input type="text" name="address" id="address" class="form-control" placeholder="Address" value={{ (!empty($customerAddress)) ? $customerAddress->address : '' }}> --}}
+                                        <textarea name="address" id="address" cols="30" rows="5" placeholder="Address" class="form-control" >{{ (!empty($customerAddress)) ? $customerAddress->address : '' }}</textarea>
+                                        <p></p>
+                                    </div>
+        
+                                    <div class="form-group">
+                                        <label>Notes</label>
+                                        <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
+                                        <p></p>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label>Apartment</label>
+                                        <input type="text" name="apartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value={{ (!empty($customerAddress)) ? $customerAddress->apartment : '' }}>
+                                    </div>
+        
+                                    <div class="row mt-3">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label>City</label>
+                                                <input type="text" name="city" id="city" class="form-control" placeholder="City" value={{ (!empty($customerAddress)) ? $customerAddress->city : '' }}>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label>Pin code</label>
+                                                <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value={{ (!empty($customerAddress)) ? $customerAddress->zip : '' }}>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-12">
+                                            <div class="form-group">
+                                                <label>State</label>
+                                                <select name="country" id="country" class="form-control">
+                                                    <option value="">Select a State</option>
+                                                        @if ($countries->isNotEmpty())
+                                                            @foreach ($countries as $country)
+                                                                <option {{ (!empty($customerAddress) && $customerAddress->country_id == $country->id) ? 'selected' : '' }} value="{{ $country->id }}" >{{ $country->name }}</option>
+                                                            @endforeach
+                                                            <option value="rest_of_world">Rest of the state</option>
+                                                        @endif
+                                                </select>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                                                    
+                            </div>                                           
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <div class="sub-title"><h2>Order Summery</h3></div>                    
+                        @foreach (Cart::content() as $item)
+                            <div class="d-flex justify-content-between">
+                                <p>{{ $item->name }}</p>
+                                <p>₹{{ $item->price*$item->qty }}</p>
+                            </div>
+                        @endforeach
+                        <div class="d-flex justify-content-between">
+                            <p>Subtotal</p>
+                            <p>₹{{ Cart::subtotal() }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Discount</p>
+                            <p id="discount_value">₹{{ number_format($discount,2) }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Shipping</p>
+                            <p id="shippingAmount">₹ {{ number_format($totalShiipingCharge,2) }}</p>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between">
+                            <p>Total</p>
+                            <p id="grandTotal">₹{{ number_format($grandTotal,2) }}</p>
+                            <input type="hidden" id="grand_total" value="{{ $grandTotal }}">
+                        </div>
+                                               
+                        <div class="input-group apply-coupan mt-1">
+                            <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code">
+                            <button class="btn btn-dark" type="button" id="apply-discount">Apply Coupon</button>
+                        </div>
+                        
+                        <div id="discount-response-wrapper">
+                            @if (Session::has('code'))
+                                <div class="mt-4" id="discount-response">
+                                    {{ Session::get('code')->code }}
+                                    <a class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>
+                                </div>
+                            @endif
+                        </div>
+    
+                        <hr />
+                       
+                            <div class="mt-3">
+                                <input type="hidden" id="grand_total" name="amount" value="1000">
+                                <button type="submit" class="btn btn-primary w-100">Pay with Razorpay</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        
+        
     </div>
 </section>
 @endsection
@@ -398,5 +426,13 @@
                 }
             })
         })
+
+
+        document.querySelectorAll('input[name="shipping_address"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                document.getElementById('custom_address_section').style.display = 
+                    (this.value === 'custom') ? 'block' : 'none';
+            });
+        });
     </script>
 @endsection

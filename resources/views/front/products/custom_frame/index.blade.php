@@ -186,7 +186,7 @@
                     <div class="controls">                                         
                         <div class="leftControl">                            
                             <ul class="nav nav-pills framesVerTabs" >
-                                <li class="nav-item">                               
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
                                     <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
                                         <span class="icon icon_product_1"></span>
                                         Products
@@ -198,28 +198,34 @@
                                         Upload
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
                                     <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
                                         <span class="icon icon_product_3"></span>
                                         Select Size
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
                                     <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
                                         <span class="icon icon_product_4"></span>
                                         Wrap & Border
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
                                     <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
                                         <span class="icon icon_product_5"></span>
                                         Hardware & Finish
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
                                     <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
                                         <span class="icon icon_product_6"></span>
                                         Options
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_07" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                        <span class="icon icon_product_6"></span>
+                                        Select Product
                                     </a>
                                 </li>
                             </ul>                            
@@ -227,28 +233,33 @@
                         
                         <div class="rightControl">
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
+                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
                                     @include('front.products.custom_frame.01_tab')
                                 </div>
                                 <div class="tab-pane fade show active" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
                                     @include('front.products.custom_frame.02_tab')
                                 </div>
-                                <div class="tab-pane fade" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
-                                    @include('front.products.custom_frame.03_tab') 
+                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
+                                    {{-- @include('front.products.custom_frame.03_tab')  --}}
                                 </div>
-                                <div class="tab-pane fade" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
+                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
                                     <div class="paddWrapper">
                                         @include('front.products.custom_frame.04_tab')
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
+                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
                                     <div class="paddWrapper">
                                         @include('front.products.custom_frame.05_tab')
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
+                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
                                     <div class="paddWrapper">
                                         @include('front.products.custom_frame.06_tab')
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade active show" id="pills-options" role="tabpanel" aria-labelledby="tab_07">
+                                    <div class="paddWrapper">
+                                        @include('front.products.custom_frame.07_tab')
                                     </div>
                                 </div>
                             </div>
@@ -258,6 +269,7 @@
             </div>
                 
             <div class="col-md-7 col-12">
+                
                 {{-- @if(!empty($finalPriceData))
                     <ul>
                         <li><strong>Size:</strong> {{ $finalPriceData['size'] }}</li>
@@ -698,6 +710,7 @@
         let display_price = $('input[name="display_option"]:checked').data('price');
         let lamination_name = $('input[name="lamination_option"]:checked').data('name');        
         let lamination_price = $('input[name="lamination_option"]:checked').data('price');
+        let major = $('textarea[name="major"]').val().trim(); 
         
         let retouch_names = [];
         let retouch_prices = 0;
@@ -758,6 +771,7 @@
                 retouch_prices: retouch_prices,
                 proof_names: proof_names,
                 proof_prices: proof_prices,
+                major: major,
                 price: price 			
 			},
             dataType: 'json',

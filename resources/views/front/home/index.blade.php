@@ -11,19 +11,19 @@
             @foreach (getBanners() as $key => $value)
                 <div>
                     <img class="w-100 h-100" src="{{ asset('uploads/banners/'.$value->image) }}" alt="Image">
-                    <div class="container relative">
+                    {{-- <div class="container relative">
                         <div class="banner-details">
                             <h3>{{ $value->name }}</h3>
                             <p>{{ $value->description }}</p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             @endforeach                    
         </div>
     @endif
     
 <div class="container">
-    <section class="section-3" >
+    {{-- <section class="section-3" >
         <div class="section-title">
             <h2>Categories</h2>
         </div>
@@ -47,36 +47,11 @@
                         </div>
                     @endforeach
                 @endif
-
-
-            {{-- @if($getCategories->isNotEmpty())
-                @foreach ($getCategories as $value)
-                <div class="col-md-3 col-6">
-                    <div class="cat-card">
-                        <div class="left">
-                            <a href="{{ route('front.shop',[$value->slug_category])}}">
-                                <div class="nav_thumb"> 
-                                    <img src="{{ asset('uploads/category/'.$value->image) }}" alt="" />
-                                </div>																	
-                            </a>
-                        </div>
-                        <div class="right">
-                            <div class="cat-data">
-                                <h5 class="mb-1">{{ $value->name }}</h5>
-                                <a href="{{ route('front.shop',[$value->slug_category])}}"><b>{{ $value->products_count }}</b> Products</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>                   
-                @endforeach                
-            @endif                     --}}
         </div>    
-    </section>
-
-
+    </section> --}}
 
     @if ($latestProducts->isNotEmpty())  
-        <div class="section-title mt-5"><h2>Latest Products</h2></div> 
+        <div class="section-title mt-5"><h2>Latest Products ({{ $totalProducts }})</h2>  </div> 
             <div class="latestProducts">
                 @foreach ($latestProducts as $product)
                     @php
@@ -101,38 +76,36 @@
                                 @if ($product->track_qty == 'Yes')
                                     @if ($product->qty > 0)
                                         <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                            <i class="fa fa-shopping-cart"></i> Add To Cart
+                                            Add To Cart
                                         </a>
                                     @else
                                         <a class="btn btn-primary" href="javascript:void(0);">
-                                            <i class="fa fa-shopping-cart"></i> Out of Stock
+                                            Out of Stock
                                         </a>
                                     @endif
                                 @else
                                 <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">
-                                    <i class="fa fa-shopping-cart"></i> Add To Cart
+                                    Add To Cart
                                 </a>
                                 @endif                        
                             </div>
                         </div>
 
                         <div class="price mt-2">
-                            <a class="product-title" href="">{{ Str::limit($product->name, 16, '...') }}</a>
-                            <div class="product-price">
+                            <a class="product-title" href="">{{ Str::limit($product->name, 20, '...') }}</a>
+                            <div class="product-price mt-1">
                                 <span>₹{{ $formattedPrice = number_format($product->price, 2, '.', ''); }}</span>
                                 @if ($product->compare_price > 0)
                                     <span class="h6 text-underline"><del>₹{{ $formattedPrice = number_format($product->compare_price, 2, '.', ''); }}</del></span>
                                 @endif
                             </div>
-
-                            @if($product->product_type == 'Customize')
-                                <p class="selectedCategory mt-1" style="font-size:13px; color:#0d6efd;">Customizable</p>    
-                            @endif
+                            <a href="" class="btn btn-outline-primary mt-2">Customize</a>
                         </div>                      
                     </div>
                 @endforeach
             </div>
         @endif   
-    </div>    
+    </div>
+</div>  
 @endsection
 

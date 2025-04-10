@@ -41,18 +41,12 @@ Route::controller(ShopController::class)->group(function() {
     Route::get('/product/{slug}', 'product')->name('front.product');        
 
     //Customize
-    Route::get('/frames/{slug}', 'first_level')->name('customize.product');    
-    Route::get('/frames/product/{slug}', 'second_level')->name('front.frame.second.product');   
+    Route::get('/frames/{slug}', 'first_level')->name('customize.first');    
+    Route::get('/frames/product/{slug}', 'second_level')->name('customize.second');   
     Route::get('/frames/extra/{slug}', 'extra')->name('extra.product');   
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');
     Route::post('/upload-image', 'upload')->name('image.upload'); 
-
-
-    //Upload image 2
-    Route::post('/delete-image-extra', 'delete2')->name('delete.image2');
-    Route::get('/check-image-extra', 'checkImage2')->name('check.image2');
-    Route::post('/upload-image-extra', 'upload2')->name('image.upload2'); 
 
     //Store first level calculation
     Route::post('customise/product/total', 'store_total')->name('store_total');
