@@ -13,24 +13,16 @@ use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller {
     public function index(){
-        //$customizeProducts = Product::select('id', 'name', 'slug')->orderBy('id','DESC')->where('product_type','Customize')->where('status',1)->get();
+        $products = Product::where('is_featured','Yes')->orderBy('id','DESC')->where('status',1)->get();
         $latestProducts = Product::orderBy('id','DESC')->where('status',1)->get();  
         $totalProducts = Product::where('status', 1)->count();
         
-        // $categories = Category::withCount('products') 
-        //             ->limit(4)
-        //             ->get();      
-
-        
         $data['latestProducts'] = $latestProducts; 
-        $data['totalProducts'] = $totalProducts;            
-
-        //$data['customizeProducts'] = $customizeProducts;        
-        //$data['categories'] = $categories;         
+        $data['totalProducts'] = $totalProducts; 
+        $data['featuredProducts'] = $products;            
 
         return view("front.home.index",$data);
-    }
-
+    }  
 
     public function addToWishlist(Request $request){
         if(Auth::check() == false){

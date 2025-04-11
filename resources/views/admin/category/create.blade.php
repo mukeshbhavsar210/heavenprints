@@ -37,7 +37,7 @@
                                 <div class="col-md-6 col-12">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                    <input type="hidden" readonly name="slug_category" id="slug_category" class="form-control" placeholder="">
+                                    <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
                                     <p></p>
                                 </div>                        
                                 <div class="col-md-6 col-6">
@@ -80,7 +80,7 @@
                 success: function(response){
                     $("button[type=submit]").prop('disabled', false);
                     if(response["status"] == true){
-                        $("#slug_category").val(response["slug"]);
+                        $("#slug").val(response["slug"]);
                     }
                 }
             });

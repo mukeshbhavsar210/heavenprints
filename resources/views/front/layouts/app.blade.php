@@ -114,20 +114,20 @@
 													<ul class="dropdown-menu dropdown-menu-dark">
 														@foreach ($category->sub_category as $subCategory)
 															<li>
-																@if($category->slug_category == 'neon')
-																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug_category,$subCategory->slug_sub_category])}}">
+																@if($category->slug == 'neon')
+																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug,$subCategory->slug])}}">
 																		<div class="nav_thumb"> 
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
 																			<p class="nav_name">{{ $subCategory->name }}</p>
 																		</div>																	
 																	</a>
-																@else	
-																	<a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug_category,$subCategory->slug_sub_category])}}">
+																@else
+																	<a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug,$subCategory->slug])}}">
 																		<div class="nav_thumb"> 
 																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
 																			<p class="nav_name">{{ $subCategory->name }}</p>
 																		</div>																	
-																	</a>
+																	</a>																
 																@endif																
 															</li>
 														@endforeach

@@ -114,12 +114,12 @@ class SampleController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug_category' => 'required|unique:categories,slug_category,'.$category->id.',id',
+            'slug' => 'required|unique:categories,slug,'.$category->id.',id',
         ]);
 
         if ($validator->passes()) {
             $category->name = $request->name;
-            $category->slug_category = $request->slug_category;
+            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->showHome = $request->showHome;
             $category->save();
@@ -139,7 +139,7 @@ class SampleController extends Controller
                 // Process new image upload
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $fileName = $category->slug_category . '_' . time() . '.' . $extension;
+                $fileName = $category->slug . '_' . time() . '.' . $extension;
             
                 // Define paths
                 $uploadPath = public_path('/uploads/category/');

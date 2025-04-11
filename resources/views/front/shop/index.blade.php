@@ -187,7 +187,11 @@
                                             </div>
                                         </div>
 
-                                        <a href="{{ route('customize.second',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
+                                        @if($product->metal_type == 'Others')
+                                            <a href="{{ route('front.product.details',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
+                                        @else
+                                            <a href="{{ route('front.product',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach

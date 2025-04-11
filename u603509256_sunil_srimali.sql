@@ -70,7 +70,7 @@ CREATE TABLE `brands` (
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `slug_category` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `image` varchar(100) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `showHome` enum('Yes','No') NOT NULL DEFAULT 'No',
@@ -83,7 +83,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `slug_category`, `image`, `status`, `showHome`, `is_protected`, `created_at`, `updated_at`) VALUES
+INSERT INTO `categories` (`id`, `name`, `slug`, `image`, `status`, `showHome`, `is_protected`, `created_at`, `updated_at`) VALUES
 (266, 'Customize', 'customize', 'frames_1743502249.jpg', 1, 'Yes', 1, '2025-03-25 04:17:06', '2025-04-07 11:35:26'),
 (296, 'NEON', 'neon', 'neon_1743494673.jpeg', 1, 'Yes', 1, '2025-03-27 08:56:31', '2025-04-01 08:04:33'),
 (297, 'Shop', 'shop', 'shop_1743494716.jpg', 1, 'Yes', 0, '2025-03-30 06:08:40', '2025-04-01 08:05:16'),
@@ -934,7 +934,7 @@ INSERT INTO `states` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `sub_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `slug_sub_category` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT 1,
   `showHome` enum('Yes','No') NOT NULL DEFAULT 'No',
@@ -947,7 +947,7 @@ CREATE TABLE `sub_categories` (
 -- Dumping data for table `sub_categories`
 --
 
-INSERT INTO `sub_categories` (`id`, `name`, `slug_sub_category`, `image`, `status`, `showHome`, `category_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `sub_categories` (`id`, `name`, `slug`, `image`, `status`, `showHome`, `category_id`, `created_at`, `updated_at`) VALUES
 (51, 'Metal Prints', 'metal-prints', '_1743879581.jpeg', 1, 'Yes', 266, '2025-03-25 04:17:20', '2025-04-05 18:59:41'),
 (53, 'Canvas Print', 'canvas-print', '_1743864809.jpg', 1, 'Yes', 266, '2025-03-26 06:09:30', '2025-04-05 14:53:29'),
 (54, 'Woods', 'woods', '_1743494730.jpg', 1, 'Yes', 297, '2025-03-26 09:54:38', '2025-04-01 11:28:06'),

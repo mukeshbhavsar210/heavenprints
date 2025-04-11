@@ -53,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                        <input type="hidden" readonly name="slug_sub_category" id="slug_sub_category" class="form-control" placeholder="Slug">
+                                        <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="Slug">
                                         <p></p>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                         .siblings('p')
                         .removeClass('invalid-feedback').html("");
 
-                        $('#slug_sub_category').removeClass('is-invalid')
+                        $('#slug').removeClass('is-invalid')
                         .siblings('p')
                         .removeClass('invalid-feedback').html("");
 
@@ -130,12 +130,12 @@
                             .removeClass('invalid-feedback').html("");
                         }
 
-                        if(errors['slug_sub_category']){
-                            $('#slug_sub_category').addClass('is-invalid')
+                        if(errors['slug']){
+                            $('#slug').addClass('is-invalid')
                             .siblings('p')
-                            .addClass('invalid-feedback').html(errors['slug_sub_category']);
+                            .addClass('invalid-feedback').html(errors['slug']);
                         } else {
-                            $('#slug_sub_category').removeClass('is-invalid')
+                            $('#slug').removeClass('is-invalid')
                             .siblings('p')
                             .removeClass('invalid-feedback').html("");
                         }
@@ -160,7 +160,7 @@
             success: function(response){
                 $("button[type=submit]").prop('disabled', false);
                 if(response["status"] == true){
-                    $("#slug_sub_category").val(response["slug"]);
+                    $("#slug").val(response["slug"]);
                 }
             }
         });

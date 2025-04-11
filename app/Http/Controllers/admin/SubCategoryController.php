@@ -44,7 +44,7 @@ class SubCategoryController extends Controller {
         if ($validator->passes()) {
             $subCategory = new SubCategory();
             $subCategory->name = $request->name;
-            $subCategory->slug_sub_category = $request->slug_sub_category;
+            $subCategory->slug = $request->slug;
             $subCategory->status = $request->status;
             $subCategory->showHome = $request->showHome;
             $subCategory->category_id = $request->category;
@@ -53,7 +53,7 @@ class SubCategoryController extends Controller {
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $extenstion = $file->getClientOriginalExtension();
-                $fileName = $subCategory->slug_sub_category.'_'.time().'.'.$extenstion;
+                $fileName = $subCategory->slug.'_'.time().'.'.$extenstion;
                 $path = public_path().'/uploads/sub_category/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
@@ -102,14 +102,14 @@ class SubCategoryController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug_sub_category' => 'required|unique:sub_categories,slug_sub_category,'.$subCategory->id.',id',
+            'slug' => 'required|unique:sub_categories,slug,'.$subCategory->id.',id',
             'category' => 'required',
             'status' => 'required',
         ]);
 
         if ($validator->passes()) {
             $subCategory->name = $request->name;
-            $subCategory->slug_sub_category = $request->slug_sub_category;
+            $subCategory->slug = $request->slug;
             $subCategory->status = $request->status;
             $subCategory->showHome = $request->showHome;
             $subCategory->category_id = $request->category;
@@ -128,7 +128,7 @@ class SubCategoryController extends Controller {
                 // Process new image upload
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $fileName = $subCategory->slug_category . '_' . time() . '.' . $extension;
+                $fileName = $subCategory->slug . '_' . time() . '.' . $extension;
             
                 // Define paths
                 $uploadPath = public_path('/uploads/sub_category/');
@@ -163,12 +163,12 @@ class SubCategoryController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug_category' => 'required|unique:categories,slug_category,'.$category->id.',id',
+            'slug' => 'required|unique:categories,slug,'.$category->id.',id',
         ]);
 
         if ($validator->passes()) {
             $category->name = $request->name;
-            $category->slug_category = $request->slug_category;
+            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->showHome = $request->showHome;
             $category->category_id = $request->category;
@@ -189,7 +189,7 @@ class SubCategoryController extends Controller {
                 // Process new image upload
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $fileName = $category->slug_category . '_' . time() . '.' . $extension;
+                $fileName = $category->slug . '_' . time() . '.' . $extension;
             
                 // Define paths
                 $uploadPath = public_path('/uploads/sub_category/');

@@ -10,7 +10,6 @@ use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\Models\CustomTotal;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -30,13 +29,13 @@ class ShopController extends Controller {
 
         //Apply filters here
         if(!empty($categorySlug)) {
-            $category = Category::where('slug_category',$categorySlug)->first();
+            $category = Category::where('slug',$categorySlug)->first();
             $products = $products->where('category_id',$category->id);
             $categorySelected = $category->id;
         }
 
         if(!empty($subCategorySlug)) {
-            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $subCategory = SubCategory::where('slug',$subCategorySlug)->first();
             $products = $products->where('sub_category_id',$subCategory->id);
             $subCategorySelected = $subCategory->id;
         }
@@ -89,6 +88,10 @@ class ShopController extends Controller {
         return view('front.shop.index',$data);
     }
 
+
+
+    
+
     //CUSTOM NEON PRODUCT
     public function neonProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
         $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
@@ -101,7 +104,7 @@ class ShopController extends Controller {
 
         //Apply filters here
         if(!empty($categorySlug)) {
-            $category = Category::where('slug_category',$categorySlug)->first();
+            $category = Category::where('slug',$categorySlug)->first();
             $products = $products->where('category_id',$category->id);
             $categorySelected = $category->id;
         }
@@ -127,13 +130,13 @@ class ShopController extends Controller {
    
         //Apply filters here
         if(!empty($categorySlug)) {
-            $category = Category::where('slug_category',$categorySlug)->first();
+            $category = Category::where('slug',$categorySlug)->first();
             $products = $products->where('category_id',$category->id);
             $categorySelected = $category->id;
         }
 
         if(!empty($subCategorySlug)) {
-            $subCategory = SubCategory::where('slug_sub_category',$subCategorySlug)->first();
+            $subCategory = SubCategory::where('slug',$subCategorySlug)->first();
             $products = $products->where('sub_category_id',$subCategory->id);
             $subCategorySelected = $subCategory->id;
         }
@@ -157,13 +160,13 @@ class ShopController extends Controller {
 
         //Apply filters here
         if(!empty($searchCategorySlug)) {
-            $category = Category::where('slug_category',$searchCategorySlug)->first();
+            $category = Category::where('slug',$searchCategorySlug)->first();
             $products = $products->where('category_id',$category->id);
             $categorySelected = $category->id;
         }
 
         if(!empty($searchSubCategorySlug)) {
-            $subCategory = SubCategory::where('slug_sub_category',$searchSubCategorySlug)->first();
+            $subCategory = SubCategory::where('slug',$searchSubCategorySlug)->first();
             $products = $products->where('sub_category_id',$subCategory->id);
             $subCategorySelected = $subCategory->id;
         }
@@ -236,74 +239,10 @@ class ShopController extends Controller {
         return view('front.products.index',$data);
     }
 
-    public function first_level($slug){          
-        $products = Product::latest('id')->with('product_images');
-        $product = Product::where('slug',$slug)->with('product_images')->first();
-        $product = Product::where('slug',$slug)
-                            ->with('product_images')
-                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-                            ->first();
-       
-        // Define the price arrays
-        $shapePrices = [
-            'Square' => 1.00, 
-            'Rectangle' => 2.00, 
-            'Panoramic' => 3.00, 
-            'Large' => 4.00, 
-            'Small' => 5.00
-        ];
-
-        $sizePrices = [
-            '8" x 8"' => 11.00, 
-            '10" x 10"' => 20.00, 
-            '12" x 12"' => 30.00, 
-            '16x16' => 40.00, 
-            '20x20' => 500.00, 
-            '24x24' => 600.00
-        ];
-
-        $customSizePrices1 = [
-            8 => 211.00, 
-            10 => 100.00, 12 => 200.00, 
-            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
-        ];
-
-        $customSizePrices2 = [
-            8 => 50.00, 10 => 100.00, 12 => 200.00, 
-            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
-        ];
-
-        if($product == null){
-            abort(404);
-        }
-      
-        $data['product'] = $product;
-        $data['products'] = $products;      
-
-        $data['shapePrices'] = $shapePrices;     
-        $data['sizePrices'] = $sizePrices;     
-        $data['customSizePrices1'] = $customSizePrices1;     
-        $data['customSizePrices2'] = $customSizePrices2;     
-
-        return view('front.products.index',$data);
-    }
-
 
     public function second_level($slug){       
-
         $productSelection = Product::orderBy('id','DESC')->where('status',1)->get();  
-
-        $products = Product::latest('id')->with('product_images');
-        $product = Product::where('slug',$slug)->with('product_images')->first();
-        $product = Product::where('slug',$slug)
-                            ->with('product_images')
-                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-                            ->first();
-
+        $product = Product::where('slug',$slug)->with('product_images')->first();    
         if($product == null){
             abort(404);
         }
@@ -433,20 +372,6 @@ class ShopController extends Controller {
         ];
 
 
-        // $productSelection = [
-        //     '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
-        //     '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
-        //     '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
-        //     '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
-        //     '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
-        //     '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
-        //     '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
-        //     '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
-        //     '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
-        // ];
 
         $canvas_material_data = [            
             '1' => ['name' => 'Single Print', 'price' => 143.00, 'image' => 'icon_single_print.png'],
@@ -539,8 +464,7 @@ class ShopController extends Controller {
         $data['laminationOption'] = $laminationOption;    
         $data['finalPriceData'] = $finalPriceData;
         $data['productSelection'] = $productSelection;
-        $data['product'] = $product;
-        $data['products'] = $products;        
+        $data['product'] = $product;               
 
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
@@ -591,15 +515,7 @@ class ShopController extends Controller {
     public function summary($slug){
         $productSelection = Product::orderBy('id','DESC')->where('status',1)->get(); 
         $finalPriceData = session('finalPriceData', []);
-        $product = Product::where('slug', $slug)->firstOrFail();        
-        $products = Product::latest('id')->with('product_images');
-        $product = Product::where('slug',$slug)->with('product_images')->first();
-        $product = Product::where('slug',$slug)
-                            ->with('product_images')
-                            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-                            ->leftJoin('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
-                            ->select('products.*', 'categories.name as category_name', 'sub_categories.name as sub_category_name')
-                            ->first();
+        $product = Product::where('slug',$slug)->with('product_images')->first();        
 
         $shapes = ['Square', 'Rectangle', 'Panoramic', 'Large', 'Small'];
         $sizes = ['8" x 8"', '10" x 10"', '12" x 12"', '16" x 16"', '20" x 20"', '24" x 24"'];
@@ -611,7 +527,7 @@ class ShopController extends Controller {
         }
       
         $data['product'] = $product;
-        $data['products'] = $products;  
+        
             
         $wrapData = [
             '1' => ['name' => 'Canvas Lite (0.50")', 'price' => 143.00, 'image' => 'size05.jpg',],
@@ -736,21 +652,6 @@ class ShopController extends Controller {
             '3' => ['name' => 'Grey Scale', 'price' => 0.00, 'image' => 'grayscale.jpg']
         ];
 
-
-        // $productSelection = [
-        //     '1' => ['name' => 'Mug', 'price' => 10.00, 'image' => 'magic_mug.jpg'],
-        //     '2' => ['name' => 'Magic Mug', 'price' => 50.00, 'image' => 'default.png'],
-        //     '3' => ['name' => 'Patch Mug', 'price' => 50.00, 'image' => 'default.png'],
-        //     '4' => ['name' => 'Key Chain', 'price' => 30.00, 'image' => 'default.png'],
-        //     '5' => ['name' => 'Mouse Pad', 'price' => 30.00, 'image' => 'default.png'],
-        //     '6' => ['name' => 'Desk Pad', 'price' => 30.00, 'image' => 'default.png'],
-        //     '7' => ['name' => 'Moon Lamp', 'price' => 30.00, 'image' => 'default.png'],
-        //     '8' => ['name' => 'Calander', 'price' => 30.00, 'image' => 'default.png'],
-        //     '9' => ['name' => 'White Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '10' => ['name' => 'Square Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '11' => ['name' => 'Heart Pillow', 'price' => 30.00, 'image' => 'default.png'],
-        //     '12' => ['name' => 'T-Shirt', 'price' => 20.00, 'image' => 'default.png'],            
-        // ];
 
         $canvas_material_data = [            
             '1' => ['name' => 'Single Print', 'price' => 143.00, 'image' => 'icon_single_print.png'],
