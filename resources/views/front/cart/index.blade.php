@@ -140,11 +140,7 @@
                                                                 </svg>
                                                             </div>
                                                         @elseif ($item->options->category == 'Customize')          
-                                                            @if($item->options->image)
-                                                                <img src="{{ asset('uploads/custom_frames/' . $item->options->image ) }}" alt="Customised Frame" >
-                                                            @else
-                                                                <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
-                                                            @endif
+                                                            <img src="{{ asset('uploads/custom_frames/' . $item->options->image) }}" alt="Customised Frame">                                                            
                                                         @else                                            
                                                             @if (!empty($item->options->productImage->image1))
                                                                 <img src="{{ asset('uploads/products/small/'.$item->options->productImage->image1) }}" >

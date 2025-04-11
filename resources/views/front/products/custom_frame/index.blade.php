@@ -28,61 +28,21 @@
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
 </head>
 <body data-instant-intensity="mousedown">
-
-	<header id="mainWrapper">		
-		<div class="page-header">
+    <header id="mainWrapper">
+		<div class="logoWrapper">
 			<div class="container">
-				<nav class="navbar navbar-expand-xl" id="navbar" >
-					<div class="row">
-                        <div class="col-md-2 col-4 mt-3">
-                            <a href="{{ route('front.home') }}"  title="{{ $settings->name }}">
-                                <img src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
-                            </a>
-                        </div>
+				<div class="row">
+					<div class="col-md-3 col-5 d-flex">
+						<a href="{{ route('front.home') }}" class="mainLogo" title="{{ $settings->name }}">
+							<img src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
+						</a>
+					</div>
 
-						<div class="col-md-5 col-2">
-							<div class="collapse navbar-collapse" id="navbarSupportedContent">
-								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-									@if (getCategories()->isNotEmpty())
-										@foreach (getCategories() as $category )
-											<li class="nav-item dropdown">
-												<button class="btn dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
-													{{ $category->name }}
-												</button>
-												@if ($category->sub_category->isNotEmpty())
-													<ul class="dropdown-menu dropdown-menu-dark">
-														@foreach ($category->sub_category as $subCategory)
-															<li>
-																@if($category->slug == 'neon')
-																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug,$subCategory->slug])}}">
-																		<div class="nav_thumb"> 
-																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
-																			<p class="nav_name">{{ $subCategory->name }}</p>
-																		</div>																	
-																	</a>																
-																@else	
-																	<a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug,$subCategory->slug])}}">
-																		<div class="nav_thumb"> 
-																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
-																			<p class="nav_name">{{ $subCategory->name }}</p>
-																		</div>																	
-																	</a>
-																@endif																
-															</li>
-														@endforeach
-													</ul>
-												@endif
-											</li>
-										@endforeach
-									@endif
-								</ul>
-							</div>
-						</div>
-
-						<div class="col-md-5 col-6">
+					<div class="col-md-9 col-7">
+						<div class="pull-right rightLogin">
                             <div class="nameTotal">
                                 <div class="d-flex">
-                                    <div class="priceHover mt-2">   
+                                    <div class="priceHover  mt-2">   
                                         <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                             ₹<span id="finalPrice">
                                                 @if(session()->has('finalPriceData') && isset(session('finalPriceData')['finalPrice']))
@@ -121,27 +81,11 @@
                                         </div>
                                     </div>
 
-                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
+                                    <a class="btn btn-primary mt-1 hideMobile" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
                                         Add To Cart
-                                    </a> 
+                                    </a>                                    
     
-                                    <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <?xml version="1.0" encoding="utf-8"?>
-                                        <svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6.5 11.75C6.08579 11.75 5.75 12.0858 5.75 12.5C5.75 12.9142 6.08579 13.25 6.5 13.25V11.75ZM18.5 13.25C18.9142 13.25 19.25 12.9142 19.25 12.5C19.25 12.0858 18.9142 11.75 18.5 11.75V13.25ZM6.5 15.75C6.08579 15.75 5.75 16.0858 5.75 16.5C5.75 16.9142 6.08579 17.25 6.5 17.25V15.75ZM18.5 17.25C18.9142 17.25 19.25 16.9142 19.25 16.5C19.25 16.0858 18.9142 15.75 18.5 15.75V17.25ZM6.5 7.75C6.08579 7.75 5.75 8.08579 5.75 8.5C5.75 8.91421 6.08579 9.25 6.5 9.25V7.75ZM18.5 9.25C18.9142 9.25 19.25 8.91421 19.25 8.5C19.25 8.08579 18.9142 7.75 18.5 7.75V9.25ZM6.5 13.25H18.5V11.75H6.5V13.25ZM6.5 17.25H18.5V15.75H6.5V17.25ZM6.5 9.25H18.5V7.75H6.5V9.25Z" fill="#000000"/>
-                                        </svg>
-                                    </button>
-    
-                                    <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#searchWrapper" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <?xml version="1.0" encoding="utf-8"?>
-                                        <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#323232" stroke-width="2"/>
-                                        <path d="M14 14L16 16" stroke="#323232" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M15 11.5C15 13.433 13.433 15 11.5 15C9.567 15 8 13.433 8 11.5C8 9.567 9.567 8 11.5 8C13.433 8 15 9.567 15 11.5Z" stroke="#323232" stroke-width="2"/>
-                                        </svg>
-                                    </button>
-    
-                                    <a href="{{ route('front.cart') }}" class="ml-5 d-flex pt-2 relative">
+                                    <a href="{{ route('front.cart') }}" class="ml-5 d-flex pt-2 relative hideMobile">
                                         <?xml version="1.0" encoding="utf-8"?>
                                         <svg width="40px" height="40px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M10.692 17.95C10.6909 18.5286 10.2212 18.9968 9.64268 18.996C9.06414 18.9953 8.59564 18.5259 8.59601 17.9474C8.59638 17.3688 9.06547 16.9 9.64401 16.9C9.92222 16.9003 10.1889 17.0111 10.3855 17.208C10.582 17.4049 10.6923 17.6718 10.692 17.95V17.95Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -151,118 +95,177 @@
                                         </svg>
                                         <div class="cartCount">{{ Cart::count() }}</div>
                                     </a>
-
-                                    {{-- @if (Auth::check())
-                                        <a href="{{ route('account.profile')}}" class="btn btn-secondary loginBtn mt-1">My Account</a>
-                                    @else
-                                        <a href="{{ route('account.login')}}" class="btn btn-secondary loginBtn mt-1">Login</a>
-                                    @endif --}}
                                 </div>  
                             </div>
+							
+                            <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <?xml version="1.0" encoding="utf-8"?>
+                                <svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.5 11.75C6.08579 11.75 5.75 12.0858 5.75 12.5C5.75 12.9142 6.08579 13.25 6.5 13.25V11.75ZM18.5 13.25C18.9142 13.25 19.25 12.9142 19.25 12.5C19.25 12.0858 18.9142 11.75 18.5 11.75V13.25ZM6.5 15.75C6.08579 15.75 5.75 16.0858 5.75 16.5C5.75 16.9142 6.08579 17.25 6.5 17.25V15.75ZM18.5 17.25C18.9142 17.25 19.25 16.9142 19.25 16.5C19.25 16.0858 18.9142 15.75 18.5 15.75V17.25ZM6.5 7.75C6.08579 7.75 5.75 8.08579 5.75 8.5C5.75 8.91421 6.08579 9.25 6.5 9.25V7.75ZM18.5 9.25C18.9142 9.25 19.25 8.91421 19.25 8.5C19.25 8.08579 18.9142 7.75 18.5 7.75V9.25ZM6.5 13.25H18.5V11.75H6.5V13.25ZM6.5 17.25H18.5V15.75H6.5V17.25ZM6.5 9.25H18.5V7.75H6.5V9.25Z" fill="#000000"/>
+                                </svg>
+                            </button>
+									
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="page-header">
+			<div class="container">
+				<nav class="navbar navbar-expand-xl" id="navbar" >
+					<div class="row">
+						<div class="col-md-8 col-12">
+							<div class="collapse navbar-collapse" id="navbarSupportedContent">
+								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+									@if (getCategories()->isNotEmpty())
+										@foreach (getCategories() as $category )
+											<li class="nav-item dropdown">
+												<button class="btn dropdown-toggle"  data-bs-toggle="dropdown" aria-expanded="false">
+													{{ $category->name }}
+												</button>
+												@if ($category->sub_category->isNotEmpty())
+													<ul class="dropdown-menu dropdown-menu-dark">
+														@foreach ($category->sub_category as $subCategory)
+															<li>
+																@if($category->slug == 'neon')
+																	<a class="dropdown-item nav-link" href="{{ route('neon.products',[$category->slug,$subCategory->slug])}}">
+																		<div class="nav_thumb"> 
+																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
+																			<p class="nav_name">{{ $subCategory->name }}</p>
+																		</div>																	
+																	</a>
+																@else
+																	<a class="dropdown-item nav-link" href="{{ route('front.shop',[$category->slug,$subCategory->slug])}}">
+																		<div class="nav_thumb"> 
+																			<img src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
+																			<p class="nav_name">{{ $subCategory->name }}</p>
+																		</div>																	
+																	</a>																
+																@endif																
+															</li>
+														@endforeach
+													</ul>
+												@endif
+											</li>
+										@endforeach
+									@endif
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-4 col-12">
+                            
 						</div>
 					</div>
 				</nav>
 			</div>
-		</div>
+		</div>	
     </header>
     
-<div class="customizeFrames">
-        <nav class="frame_mobile_menu">
-            <div class="toggle-wrap" onclick="toggleMenu(this)">
-                <span class="toggle-bar"></span>
-            </div>
-        </nav>
-
+<main class="customMain">
+    <div class="container">
         <div class="row">                                           
-            <div class="col-md-5">
-                <aside>  
-                    <div class="controls">                                         
-                        <div class="leftControl">                            
+            <div class="col-md-6 col-2 noPadMobile">                                 
+                <div class="row">                                           
+                    <div class="col-md-2 col-12 noPadMobile"> 
+                        <div class="leftControl" id="left">                            
                             <ul class="nav nav-pills framesVerTabs" >
                                 <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
                                         <span class="icon icon_product_1"></span>
                                         Products                                       
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
+                                    <a class="nav-link active" onclick="toggleMenu(this)" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
                                         <span class="icon icon_product_2"></span>
                                         Upload
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
                                         <span class="icon icon_product_3"></span>
                                         Select Size
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
                                         <span class="icon icon_product_4"></span>
                                         Wrap & Border
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
                                         <span class="icon icon_product_5"></span>
                                         Hardware & Finish
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
                                         <span class="icon icon_product_6"></span>
                                         Options
                                     </a>
                                 </li>
                                 <li class="nav-item {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}">
-                                    <a class="nav-link" id="tab_07" data-bs-toggle="pill" data-bs-target="#product-options">
+                                    <a class="nav-link" onclick="toggleMenu(this)" id="tab_07" data-bs-toggle="pill" data-bs-target="#product-options">
                                         <span class="icon icon_product_6"></span>
                                         Select Product
                                     </a>
                                 </li>
                             </ul>                            
                         </div>
-                        
-                        <div class="rightControl">
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
-                                    @include('front.products.custom_frame.01_tab')
-                                </div>
-                                <div class="tab-pane fade show active" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
-                                    @include('front.products.custom_frame.02_tab')
-                                </div>
-                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
-                                    @include('front.products.custom_frame.03_tab') 
-                                </div>
-                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
-                                    <div class="paddWrapper">
-                                        @include('front.products.custom_frame.04_tab')
+                    </div>
+                    <div class="col-md-10 col-9 noPad_left"> 
+                        <aside>
+                            <div class="rightControl">
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
+                                        @include('front.products.custom_frame.01_tab')
                                     </div>
-                                </div>
-                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
-                                    <div class="paddWrapper">
-                                        @include('front.products.custom_frame.05_tab')
+                                    <div class="tab-pane fade show active" id="pills-upload" role="tabpanel" aria-labelledby="tab_02">
+                                        @include('front.products.custom_frame.02_tab')
                                     </div>
-                                </div>
-                                <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
-                                    <div class="paddWrapper">
-                                        @include('front.products.custom_frame.06_tab')
+                                    <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-size" role="tabpanel" aria-labelledby="tab_03">
+                                        @include('front.products.custom_frame.03_tab') 
                                     </div>
-                                </div>
-                                <div class="tab-pane fade {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}" id="product-options" role="tabpanel" aria-labelledby="tab_07">
-                                    <div class="paddWrapper">
-                                        @include('front.products.custom_frame.07_tab')
+                                    <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-border" role="tabpanel" aria-labelledby="tab_04">
+                                        <div class="paddWrapper">
+                                            @include('front.products.custom_frame.04_tab')
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-hardware" role="tabpanel" aria-labelledby="tab_05">
+                                        <div class="paddWrapper">
+                                            @include('front.products.custom_frame.05_tab')
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-options" role="tabpanel" aria-labelledby="tab_06">
+                                        <div class="paddWrapper">
+                                            @include('front.products.custom_frame.06_tab')
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}" id="product-options" role="tabpanel" aria-labelledby="tab_07">
+                                        <div class="paddWrapper">
+                                            @include('front.products.custom_frame.07_tab')
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>  
-                </aside>         
+                        </aside>
+                    </div>                           
+                </div>                         
             </div>
                 
-            <div class="col-md-7 col-12">
-                
+            <div class="col-md-6 col-10">
+                <nav class="frame_mobile_menu">
+                    <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
+                        Add To Cart
+                    </a> 
+
+                    <div class="toggle-wrap" onclick="toggleMenu(this)">
+                        <span class="toggle-bar"></span>
+                    </div>
+                </nav>
+
                 {{-- @if(!empty($finalPriceData))
                     <ul>
                         <li><strong>Size:</strong> {{ $finalPriceData['size'] }}</li>
@@ -272,47 +275,19 @@
                     </ul>
                 @else
                     <p>No session data found.</p>
-                @endif --}}
-
-                <div class="frame-generate">
-                    <div class="renderFrame">                
-                        <div class="mainImg">
-                            <div class="leftControl"></div>
-                            <div class="create-your-prints">
-                                <div class="h-scale" style="margin-left: 20px; width: 380px;">
-                                    <span id="scalewidth">10 inch</span>
-                                </div>
-                                <div class="v-scale" style="margin-top: 20px; height: 380px;">
-                                    <span id="scalewidth">10 inch</span>
-                                </div>
-                                <div class="preview-img">
-                                    <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
-                                        <div id="frameDetails">
-                                            <div class="wrapBorder {{ session('selected_product.category_name') }}">
-                                                <div class="border">
-                                                    <div class="top-left"></div>
-                                                    <div class="top-right"></div>
-                                                    <div class="bottom-left"></div>
-                                                    <div class="bottom-right"></div>
-                                                    
-                                                    <div id="image">          
-                                                        <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rightControl"></div>
+                @endif --}}                            
+               
+                <div class="create-your-prints">                               
+                    <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
+                        <div id="image">          
+                            <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
                         </div>
-                    </div>
+                    </div>                               
                 </div>
             </div>
         </div> 
     </div>        
-
-    
+</main>
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
@@ -406,7 +381,7 @@
                     document.getElementById('productDetails').innerHTML = `
                         <div class="breakup-details">
                             <div class="photo">
-                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}" alt="${product.name}" >
+                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}">                                
                             </div>
                             <div class="text">
                                 <h6>Selected Product</h6>
@@ -781,6 +756,7 @@
     function toggleMenu(e) {
         e.classList.toggle("active");
         document.querySelector("aside").classList.toggle("active");
+        document.querySelector("#left").classList.toggle("active");
     }   
 
     $(".frame-option").change(function () {

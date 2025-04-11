@@ -33,8 +33,7 @@ Route::controller(FrontController::class)->group(function() {
 
 
 Route::controller(ShopController::class)->group(function() {
-    Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
-    //Route::get('/customize/{categorySlug?}/{subCategorySlug?}','customizeProducts')->name('customize.products');
+    Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');    
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');    
 

@@ -21,6 +21,10 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
+    public function images_order(){
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
     protected $fillable = ['name', 'slug', 'sizes', 'colors'];
 
     protected $casts = [

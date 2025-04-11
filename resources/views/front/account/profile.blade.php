@@ -3,17 +3,30 @@
 @section('content')
 <section class="section-5 pt-4">
     <div class="container">
-        <ol class="breadcrumb primary-color">
-            <li class="breadcrumb-item"><a class="white-text" href="#">My Account</a></li>
-            <li class="breadcrumb-item">Settings</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-9 col-10">
+                <ol class="breadcrumb primary-color">
+                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
+                    <li class="breadcrumb-item">Profile</li>
+                </ol>
+            </div>
+            <div class="col-md-3 col-2">
+                <nav class="frame_mobile_menu">
+                    <div class="toggle-wrap" onclick="toggleMenu(this)">
+                        <span class="toggle-bar" style="margin-top:0;"></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12">
                 @include('front.account.common.message')
             </div>
             <div class="col-md-3 col-12">
-                @include('front.account.common.sidebar')
+                <aside>
+                    @include('front.account.common.sidebar')
+                </aside>
             </div>
             <div class="col-md-9 col-12">         
                 <div class="card">
@@ -23,28 +36,28 @@
                     <div class="card-body">
                     <form action="" id="profileForm" name="profileForm">
                         <div class="row">
-                            <div class="col-md-2 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="form-group">
                                     <label for="name">First Name</label>
                                     <input value={{ $user->first_name }} type="text" name="name" id="name" placeholder="Enter Your Name" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-6">
+                            <div class="col-md-6 col-6">
                                 <div class="form-group">
                                     <label for="name">Last Name</label>
                                     <input value={{ $user->last_name }} type="text" name="name" id="name" placeholder="Enter Your Name" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input value={{ $user->email }} type="text" name="email" id="email" placeholder="Enter Your Email" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
                                     <input value={{ $user->phone }} type="text" name="phone" id="phone" placeholder="Enter Your Phone" class="form-control">
@@ -52,8 +65,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2 ">
-                                <button class="btn btn-primary mt-4">Update</button>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary">Update</button>
                             </div>
                         </div>
                     </form> 
@@ -62,7 +75,7 @@
                
                 <div class="card mt-4">
                     <div class="card-header">
-                        <h2 class="h5 mt-1">Address</h2>     
+                        <h2 class="h5 mt-1">Shipping Address</h2>     
                     </div>         
                     <div class="card-body">
                     <form action="" id="addressForm" name="addressForm">
@@ -151,7 +164,7 @@
                                             <p></p>
                                         </div>
                                     </div>
-                                    <div class="col-md-4  col-6">
+                                    <div class="col-md-4 col-6">
                                         <div class="form-group">
                                             <label for="zip">Zip</label>
                                             <input value={{ (!empty($address)) ? $address->zip : '' }}  type="text" name="zip" id="zip" placeholder="Enter Your Zip" class="form-control">
@@ -163,7 +176,7 @@
                         </div>
 
                         <div class="d-flex">
-                            <button class="btn btn-primary">Update</button>
+                            <button class="btn btn-primary">Update Address</button>
                         </div>
                         </form>
                     </div>
@@ -300,5 +313,10 @@
             }
         })
     })
+
+    function toggleMenu(e) {
+        e.classList.toggle("active");
+        document.querySelector("aside").classList.toggle("active");        
+    }   
 </script>
 @endsection

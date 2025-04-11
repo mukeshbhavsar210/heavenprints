@@ -3,7 +3,7 @@
     <div class="container">  
         <div class="row" >
             @foreach ($hardwareStyleData as $key => $value)
-                <div class="col-md-3 col-4">     
+                <div class="col-md-3 col-3">     
                     <label class="custom-radio hardware_style" >
                         <input type="radio" name="hardware_style" value="{{ $key }}" class="size-picker__input" id="hardwareStyle_{{ $loop->index + 1 }}" data-image="{{ $value['image'] }}"  data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}">
                         <div class="wrapMain"><img src="{{ asset('uploads/icons/hardware/option/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
@@ -22,7 +22,7 @@
         <div class="row">         
             <div class="size-picker mt-2">
                 @foreach ($displayOption as $key => $value)
-                    <div class="col-md-6 col-6">
+                    <div class="col-md-6 col-12">
                         <label class="custom-radio-small hardware_display" >
                             <input type="radio" name="display_option" value="{{ $key }}" class="frame-option" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}"> 
                             <p class="radio-label">{{ $value['name'] }} (₹ {{ number_format($value['price'], 2) }})</p>
