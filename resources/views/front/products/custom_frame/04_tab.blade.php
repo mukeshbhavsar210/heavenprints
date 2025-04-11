@@ -3,7 +3,7 @@
     <div class="radio-group row">
         @if($wrapData)
             @foreach ($wrapData as $key => $value)
-                <div class="col-md-3 col-4">     
+                <div class="col-md-3 col-3">     
                     <label class="custom-radio-wrap wrap_01" >
                         <input type="radio" name="wrap" value="{{ $key }}" class="frame-option" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" > 
                         <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" ></div>
@@ -19,7 +19,7 @@
     <h5 class="title-wrap">Border</h5>
     <div class="radio-group row">       
         @foreach ($borderData as $key => $value)
-            <div class="col-md-3 col-4">     
+            <div class="col-md-3 col-3">     
                 <label class="custom-radio-wrap wrap_01" >
                     <input type="radio" name="border" value="{{ $key }}" class="frame-option" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
                     <div class="wrapMain"><img src="{{ asset('uploads/icons/wrap_borders/'.$value['image']) }}" alt="{{ $value['name'] }}" width="50"></div>
@@ -40,7 +40,7 @@
                 <div class="accordion-body">
                     <div class="radio-group row">
                         @foreach ($standardFrame as $key => $value)
-                            <div class="col-md-3 col-6">     
+                            <div class="col-md-3 col-3">     
                                 <label class="custom-radio wrap_03" >
                                 <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Standard" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
                                     <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/'.$value['image']) }}" alt="{{ $value['name'] }}" >
@@ -59,7 +59,7 @@
                 <div class="accordion-body">
                     <div class="radio-group row">
                         @foreach ($premiumFrame as $key => $value)
-                            <div class="col-md-3 col-6">     
+                            <div class="col-md-3 col-3">     
                                 <label class="custom-radio wrap_03" >
                                     <input type="radio" name="frame_border" value="{{ $key }}" class="frame-option" data-type="Premium" data-image="{{ $value['image'] }}" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" >
                                     <img class="icon" src="{{ asset('uploads/icons/wrap_borders/frames/'.$value['image']) }}" alt="{{ $value['name'] }}" >

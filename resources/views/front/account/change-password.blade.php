@@ -3,54 +3,63 @@
 @section('content')
 <section class="section-5 pt-4">
     <div class="container">
-        <ol class="breadcrumb primary-color">
-            <li class="breadcrumb-item"><a class="white-text" href="#">My Account</a></li>
-            <li class="breadcrumb-item">Settings</li>
-        </ol>
+        <div class="row">
+            <div class="col-md-9 col-10">
+                <ol class="breadcrumb primary-color">
+                    <li class="breadcrumb-item"><a class="white-text" href="{{ route('front.home') }}">Home</a></li>
+                    <li class="breadcrumb-item">Change Password</li>
+                </ol>
+            </div>
+            <div class="col-md-3 col-2">
+                <nav class="frame_mobile_menu">
+                    <div class="toggle-wrap" onclick="toggleMenu(this)">
+                        <span class="toggle-bar" style="margin-top:0;"></span>
+                    </div>
+                </nav>
+            </div>
+        </div>
        
         <div class="row">
             <div class="col-md-12">
                 @include('front.account.common.message')
             </div>
             <div class="col-md-3 col-12">
-                @include('front.account.common.sidebar')
+                <aside>
+                    @include('front.account.common.sidebar')
+                </aside>
             </div>
             <div class="col-md-9 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="h5 mb-0 pt-2 pb-2">Change Password</h2>
-                    </div>
-                    <div class="card-body p-4">
-                        <form action="" method="post" name="changePasswordForm" id="changePasswordForm" >
-                            <div class="row">
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label for="old_password">Old Password</label>
-                                        <input type="password" name="old_password" id="old_password" placeholder="Old Password" class="form-control">
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label for="new_password">New Password</label>
-                                        <input type="password" name="new_password" id="new_password" placeholder="New Password" class="form-control">
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" name="confirm_password" id="confirm_password" placeholder="Old Password" class="form-control">
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-12">                                
-                                    <button class="btn btn-primary mt-4" type="submit" id="submit">Change Password</button>
-                                </div>
+                <form action="" method="post" name="changePasswordForm" id="changePasswordForm" >
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h5">Change Password</h2>
+                        </div>
+                        <div class="card-body">
+                        <div class="col-md-5 col-12">
+                            <div class="form-group">
+                                <label for="old_password">Old Password</label>
+                                <input type="password" name="old_password" id="old_password" placeholder="Old Password" class="form-control">
+                                <p></p>
                             </div>
-                        </form>
+                        
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <input type="password" name="new_password" id="new_password" placeholder="New Password" class="form-control">
+                                <p></p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" name="confirm_password" id="confirm_password" placeholder="Old Password" class="form-control">
+                                <p></p>
+                            </div>
+                                                        
+                            <button class="btn btn-primary" type="submit" id="submit">Change Password</button>
+                        </div>
+                        </div>
                     </div>
-                </div>
+                </form>
+                   
             </div>
         </div>
     </div>
@@ -103,5 +112,10 @@
             }
         })
     })
+
+    function toggleMenu(e) {
+        e.classList.toggle("active");
+        document.querySelector("aside").classList.toggle("active");        
+    }   
 </script>
 @endsection

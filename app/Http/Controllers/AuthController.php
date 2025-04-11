@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\CustomerAddress;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\User;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -189,10 +190,29 @@ class AuthController extends Controller
         return redirect()->route('account.login')->with('success','You successfully logged out!');;
     }
 
-    public function orders(){
+    public function orders(Request $request){
         $user = Auth::user();
-        $orders = Order::where('user_id', $user->id)->orderBy('created_at','DESC')->get();
+        $orderCount = Order::count();
+        $orders = Order::with('product.images')->where('user_id', $user->id)->orderBy('created_at','DESC')->get();
+        $orders = Order::
+                    leftJoin('products', 'orders.product_id', '=', 'products.id')
+                    ->leftJoin('product_images', 'products.id', '=', 'product_images.product_id')
+                    ->select('orders.*', 'products.name as product_name', 'products.price', 'product_images.image1 as product_image')
+                    ->get();
+
+        if ($request->get('keyword') != "") {
+            $orders = Order::with('product')
+                ->whereHas('product', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->keyword . '%');
+                })
+                ->get();
+        } else {
+            $orders = Order::with('product')->get();
+        }        
+
         $data['orders'] = $orders;
+        $data['orderCount'] = $orderCount;
+        
         return view('front.account.order', $data);
     }
 
@@ -212,7 +232,11 @@ class AuthController extends Controller
 
     public function wishlist(){
         $wishlists = Wishlist::where('user_id', Auth::user()->id)->with('product')->get();
+        $wishlistCount = Wishlist::where('user_id', Auth::id())->count();
+
         $data['wishlists'] = $wishlists;
+        $data['wishlistCount'] = $wishlistCount;
+
         return view('front.account.wishlist', $data);
     }
 

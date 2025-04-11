@@ -10,7 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-                    'user_id',
+                    'user_id', 'product_id',
                     'subtotal', 
                     'shipping', 
                     'coupon_code', 
@@ -30,6 +30,14 @@ class Order extends Model
 
     public function customerAddress(){
         return $this->hasOne(CustomerAddress::class, 'user_id', 'user_id');
+    }
+
+    public function product_images(){
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function product() {
+        return $this->belongsTo(Product::class);
     }
 
     public function user() {

@@ -674,6 +674,7 @@ class CartController extends Controller {
 
             $order = Order::create([
                 'user_id' => $user->id,
+                'product_id' => $item->id,
                 'subtotal' => $subTotal,
                 'shipping' => $shipping,
                 'grandtotal' => $grandTotal,
