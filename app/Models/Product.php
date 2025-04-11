@@ -9,14 +9,13 @@ class Product extends Model
 {
     use HasFactory;
 
-
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
-
     public function product_images(){
         return $this->hasMany(ProductImage::class);
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }    
 
     public function images() {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');

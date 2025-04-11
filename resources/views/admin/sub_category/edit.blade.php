@@ -56,7 +56,7 @@
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $subCategory->name }}">
-                                        <input type="hidden" name="slug_sub_category" id="slug_sub_category"  value="{{ $subCategory->slug_sub_category }}">
+                                        <input type="hidden" name="slug" id="slug"  value="{{ $subCategory->slug }}">
                                         <p></p>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
             success: function(response){
                 $("button[type=submit]").prop('disabled', false);
                 if(response["status"] == true){
-                    $("#slug_sub_category").val(response["slug"]);
+                    $("#slug").val(response["slug"]);
                 }
             }
         });

@@ -31,19 +31,16 @@ Route::controller(FrontController::class)->group(function() {
     Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');      
 });
 
+
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
-    Route::get('/customize/{categorySlug?}/{subCategorySlug?}','customizeProducts')->name('customize.products');
+    //Route::get('/customize/{categorySlug?}/{subCategorySlug?}','customizeProducts')->name('customize.products');
     Route::get('/neon/{categorySlug?}/{subCategorySlug?}','neonProducts')->name('neon.products');
     Route::get('/result/{searchCategorySlug?}/{searchSubCategorySlug?}','search')->name('front.search');    
 
-    //Product details
-    Route::get('/product/{slug}', 'product')->name('front.product');        
-
     //Customize
-    Route::get('/frames/{slug}', 'first_level')->name('customize.first');    
-    Route::get('/frames/product/{slug}', 'second_level')->name('customize.second');   
-    Route::get('/frames/extra/{slug}', 'extra')->name('extra.product');   
+    Route::get('/product/{slug}', 'product')->name('front.product'); 
+    Route::get('/product/details/{slug}', 'second_level')->name('front.product.details');   
     Route::post('/delete-image', 'delete')->name('delete.image');
     Route::get('/check-image', 'checkImage')->name('check.image');
     Route::post('/upload-image', 'upload')->name('image.upload'); 
@@ -56,6 +53,8 @@ Route::controller(ShopController::class)->group(function() {
     Route::post('/calculate-price', 'calculatePrice')->name('calculate.price');
 });
 
+
+//Product details
 Route::controller(CartController::class)->group(function() {
     Route::get('/cart','cart')->name('front.cart');
     Route::post('/update-cart','updateCart')->name('front.updateCart');

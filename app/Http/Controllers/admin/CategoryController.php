@@ -38,7 +38,7 @@ class CategoryController extends Controller {
         if ($validator->passes()) {
             $category = new Category();
             $category->name = $request->name;
-            $category->slug_category = $request->slug_category;
+            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->showHome = $request->showHome;
 
@@ -46,7 +46,7 @@ class CategoryController extends Controller {
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $extenstion = $file->getClientOriginalExtension();
-                $fileName = $category->slug_category.'_'.time().'.'.$extenstion;
+                $fileName = $category->slug.'_'.time().'.'.$extenstion;
                 $path = public_path().'/uploads/category/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
@@ -90,12 +90,12 @@ class CategoryController extends Controller {
 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'slug_category' => 'required|unique:categories,slug_category,'.$category->id.',id',
+            'slug' => 'required|unique:categories,slug,'.$category->id.',id',
         ]);
 
         if ($validator->passes()) {
             $category->name = $request->name;
-            $category->slug_category = $request->slug_category;
+            $category->slug = $request->slug;
             $category->status = $request->status;
             $category->showHome = $request->showHome;
             $category->save();
@@ -115,7 +115,7 @@ class CategoryController extends Controller {
                 // Process new image upload
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $fileName = $category->slug_category . '_' . time() . '.' . $extension;
+                $fileName = $category->slug . '_' . time() . '.' . $extension;
             
                 // Define paths
                 $uploadPath = public_path('/uploads/category/');

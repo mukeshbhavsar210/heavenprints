@@ -20,7 +20,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller {
 
     public function index(Request $request){
-        $products = Product::latest('id')->where('product_type','Default')->with('product_images');
+        $products = Product::latest('id')->with('product_images');
         
         if ($request->get('keyword') != ""){
             $products = $products->where('name', 'like', '%'.$request->keyword.'%');
@@ -58,18 +58,14 @@ class ProductController extends Controller {
             'name' => 'required|min:3',   
             'price' => 'required|min:3',  
             'category' => 'required|numeric',
-            'qty' => 'required',
-            'product_type' => 'required',
-            //'track_qty' => 'required|in:Yes,No',
-            //'sku' => 'required|unique:products',                        
-            //'is_featured' => 'required|in:Yes,No',        
+            'qty' => 'required',     
         ]);
 
         if($validator->passes()) {
             $product = new Product;
             $product->name = $request->name;   
             $product->slug = $request->slug;
-            $product->product_type = $request->product_type;         
+            // $product->product_type = $request->product_type;         
             $product->metal_type = $request->metal_type;
             $product->height = $request->height;
             $product->width = $request->width;

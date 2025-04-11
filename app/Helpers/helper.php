@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Mail;
             'userType' => $userType,
         ];
 
-        //Mail::to($email)->send(new OrderEmail($mailData));
+        Mail::to($email)->send(new OrderEmail($mailData));
     }
 
     function getCountryInfo($id){
@@ -66,6 +66,11 @@ use Illuminate\Support\Facades\Mail;
     function aboutusPages(){
         $pages = Page::orderBy('name','ASC')->where('category','about_us')->get();
         return $pages;
+    }
+
+    function products(){
+        $products = Product::orderBy('id','DESC')->with('product_images')->where('product_type','Default')->where('status',1)->get();          
+        return $products;
     }
 
     function insrpirationPages(){
