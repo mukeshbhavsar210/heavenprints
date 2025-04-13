@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use Razorpay\Api\Api;
+use Illuminate\Support\Str;
 
 use function Ramsey\Uuid\v1;
 
@@ -471,75 +472,6 @@ class CartController extends Controller {
 
 
 
-    // public function checkout() {
-    //     $discount = 0;
-    
-    //     // If cart is empty, redirect to cart page
-    //     if (Cart::count() == 0) {
-    //         return redirect()->route('front.cart');
-    //     }
-    
-    //     // If user is not logged in, redirect to login page
-    //     if (!Auth::check()) {
-    //         if (!session()->has('url.intended')) {
-    //             session(['url.intended' => url()->current()]);
-    //         }
-    //         return redirect()->route('account.login');
-    //     }
-    
-    //     // Get the customer's saved address
-    //     $customerAddresses = CustomerAddress::where('user_id', Auth::id())->get();
-    //     //$customerAddress = CustomerAddress::where('user_id', Auth::id())->first();
-        
-    //     session()->forget('url.intended');
-    
-    //     $countries = Country::orderBy('name', 'ASC')->get();
-    
-    //     // Calculate shipping charges
-    //     $totalQty = Cart::count();
-    //     $totalShiipingCharge = 0;
-    //     $grandTotal = Cart::subtotal(2, '.', '');
-    
-    //     if ($customerAddresses) {
-    //         $userCountry = $customerAddresses->first()?->country_id ?? null;
-    //         $shippingInfo = ShippingCharge::where('country_id', $userCountry)->first();
-    
-    //         if ($shippingInfo) {
-    //             $totalShiipingCharge = $totalQty * $shippingInfo->amount;
-    //         }
-    //     }
-    
-    //     // Calculate discount if applicable
-    //     // Check if the user has a discount column or a discount in session
-    //     if (Auth::check() && Auth::user()->discount > 0) {
-    //         $discount = Auth::user()->discount;
-    //     } elseif (session()->has('discount_amount')) {
-    //         $discount = session('discount_amount');
-    //     }
-    
-    //     // Ensure discount does not exceed subtotal
-    //     $discount = min($discount, $grandTotal);
-        
-    //     // Final grand total calculation
-    //     $grandTotal = max(0, $grandTotal + $totalShiipingCharge - $discount);
-    
-    //     return view('front.checkout.index', [
-    //         'countries' => $countries,
-    //         'customerAddresses' => $customerAddresses,
-    //         'totalShiipingCharge' => $totalShiipingCharge,
-    //         'discount' => $discount,
-    //         'grandTotal' => $grandTotal
-    //     ]);
-    // }
-    
-
-
-
-    
-
-
-
-
     // Generate Razorpay Order
     public function processCheckout(Request $request) {
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -563,19 +495,14 @@ class CartController extends Controller {
 
     // Verify Payment
     public function verifyPayment(Request $request) {
-
         $amount = $request->amount ?? 0;
-        $first_name = $request->first_name;
-        $last_name = $request->last_name;
-        $email = $request->email;
-        $mobile = $request->mobile;
-        $address = $request->address;
-        $order_notes = $request->order_notes;
-        $apartment = $request->apartment;
-        $city = $request->city;
-        $country = $request->country;
-        $zip = $request->zip;
-        $notes = $request->notes;
+        $address = $request->address ?? $request->existing_address;
+        $order_notes = $request->order_notes ?? $request->existing_order_notes;
+        $apartment = $request->apartment ?? $request->existing_apartment;
+        $city = $request->city ?? $request->existing_city;
+        $country = $request->country ?? $request->existing_country;
+        $zip = $request->zip ?? $request->existing_zip;
+        $notes = $request->notes ?? $request->existing_notes;
 
         try {
             $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -590,11 +517,11 @@ class CartController extends Controller {
 
             //Step 1: apply validations while make orders
             $validator = Validator::make($request->all(),[
-                'first_name' => 'required|min:5',
-                'last_name' => 'required',
-                'mobile' => 'required',
-                'email' => 'required|email',
-                'address' => 'required|min:10',
+                // 'first_name' => 'required|min:5',
+                // 'last_name' => 'required',
+                //'mobile' => 'required',
+                // 'email' => 'required|email',
+                // 'address' => 'required|min:10',
                 'city' => 'required',
                 'zip' => 'required'
             ]);
@@ -609,15 +536,11 @@ class CartController extends Controller {
 
             $user = Auth::user();
 
-            //Step 2: Save user address
+
             $address = CustomerAddress::updateOrCreate(
                 ['user_id' => $user->id ],
                 [
-                    'user_id' => $user->id,
-                    'first_name' => $first_name,
-                    'last_name' => $last_name,
-                    'mobile' => $mobile,
-                    'email' => $email,
+                    'user_id' => $user->id,                    
                     'country_id' => $country,
                     'address' => $address,
                     'apartment' => $apartment,
@@ -627,6 +550,7 @@ class CartController extends Controller {
                 ]
             );
 
+            
             //Step 3: Store data in orders table
             $discountCodeId = NULL;
             $promoCode = '';
@@ -672,7 +596,11 @@ class CartController extends Controller {
                 $productData->save();
             }   
 
+            //$random  = Str::random(6);
+            $random  = 'order_' . Str::random(6);
+
             $order = Order::create([
+                'order_id' => $random,
                 'user_id' => $user->id,
                 'product_id' => $item->id,
                 'subtotal' => $subTotal,
@@ -696,15 +624,15 @@ class CartController extends Controller {
                     'color' => $item->options->color ?? $item->options->neon_color,
                     'selected_product' => $item->options->custom_image,
                     'selected_product_name' => $item->options->custom_name,
-                    'image' => $item->options->image,
                     'frame' => $item->options->frame_name,
+                    'image' => $item->options->image,                    
                     'border' => $item->options->border_name,
+                    'major' => $item->options->major,                    
                     'wrap_wrap' => $item->options->wrap_name,
                     'hardware_style' => $item->options->hardware_name,
                     'hardware_display' => $item->options->display_name,
                     'lamination' => $item->options->lamination_name,
-                    'retouching' => json_encode($item->options->retouch_names),
-                    'major' => $item->options->major,
+                    'retouching' => json_encode($item->options->retouch_names),                    
                     //'proof' => $item->options->proof_names,
                     // 'hardware_finishing'=> $item->options->hardware_finishing,
                     'qty' => $item->qty,
@@ -725,18 +653,27 @@ class CartController extends Controller {
                 'payment_data' => json_encode($request->all()),               
             ]);
 
+            //Send confirmed order email
+            orderEmail($order->id, 'customer');
+
             Cart::destroy();
+
             session()->forget(['grand_total']);
 
-            return response()->json(['status' => 'success', 'message' => 'Payment verified successfully']);
+            return response()->json([
+                'status' => 'success', 
+                'order_id' => $order->order_id,
+                'message' => 'Payment verified successfully'
+            ]);
         } catch (\Exception $e) {
             Log::error('Payment Verification Failed: ' . $e->getMessage());
             return response()->json(['status' => 'failed', 'message' => 'Payment verification failed'], 500);
         }
     }
 
-    public function success(){
-        return view("front.checkout.success");
+    public function success($orderId) {
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+        return view('front.checkout.success', compact('order'));
     }
 
     public function failed(){

@@ -281,7 +281,7 @@ class ShopController extends Controller {
             'Rectangle' => 2.00, 
             'Panoramic' => 3.00, 
             'Large' => 4.00, 
-            'Small' => 5.00
+            'Small' => 5.00,            
         ];
 
         $sizePrices = [

@@ -14,16 +14,11 @@ class Payment extends Model
         'product_id',
         'razorpay_payment_id',
         'razorpay_order_id',
-        'amount',
+        'payment_mode',
         'status',
+        'amount',        
         'currency',
-        'payment_data',
-        'payment_id',
-        'name',
-        'category',
-        'photo',
-        'color',
-        'qty',
+        'payment_data',        
     ];    
 
     protected $casts = [

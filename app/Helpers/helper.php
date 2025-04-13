@@ -5,12 +5,12 @@ use App\Models\Category;
 use App\Models\Country;
 use App\Models\Banner;
 use App\Models\Order;
-use App\Models\Role;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
     function onlyMetalProducts(){
         return Product::orderBy('name','ASC')->where('product_type','metal')->get();
@@ -41,7 +41,9 @@ use Illuminate\Support\Facades\Mail;
 
     function orderEmail($orderId, $userType="customer"){
         $order = Order::where('id',$orderId)->with('items')->first();
-
+        $order = Order::where('id', $orderId)->with(['user', 'items', 'items.product', 'customerAddress', 'customerAddress.country']) // include shippingAddress
+                ->first();
+        
         if($userType == 'customer'){
             $subject = 'Thanks for your order';
             $email = $order->email;
@@ -58,6 +60,8 @@ use Illuminate\Support\Facades\Mail;
 
         Mail::to($email)->send(new OrderEmail($mailData));
     }
+
+    
 
     function getCountryInfo($id){
         return Country::where('id',$id)->first();

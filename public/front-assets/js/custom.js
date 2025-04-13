@@ -97,7 +97,7 @@ $(document).ready(function(){
     let bannerHeight = $(window).height();
     
     $('#homeBanner').slick({
-        dots: true,
+        dots: false,
         infinite: true,
         autoplay: true, // Enables auto-play
         autoplaySpeed: 3000, // 2 seconds per slide
@@ -195,6 +195,7 @@ $(document).ready(function(){
         slidesToScroll: 1,
         arrows: true,
         dots: false,
+        centerMode: false,
         speed: 500,
         infinite: true,
         autoplaySpeed: 4000,
