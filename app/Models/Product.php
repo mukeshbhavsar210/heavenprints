@@ -25,6 +25,10 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id');
     }
 
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
     protected $fillable = ['name', 'slug', 'sizes', 'colors'];
 
     protected $casts = [

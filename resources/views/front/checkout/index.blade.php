@@ -33,120 +33,145 @@
 
 <section class="section-9 pt-4">
     <div class="container">
-        {{-- @if($customerAddresses->isNotEmpty())
-            @foreach($customerAddresses as $address)
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="shipping_address" 
-                        id="address_{{ $address->id }}" value="{{ $address->id }}" 
-                        {{ $loop->first ? 'checked' : '' }}>
-                    <label class="form-check-label" for="address_{{ $address->id }}">
-                        {{ $address->name }}, {{ $address->address }}, {{ $address->city }},
-                        {{ $address->state }} - {{ $address->pincode }}, {{ $address->country }}
-                    </label>
-                </div>
-            @endforeach
-        @endif
+        <div class="row">
+            <div class="col-md-7">  
+                <div class="sub-title mb-4"><h2>Shipping Address</h2></div> 
 
-        <!-- New Address Option -->
-        <div class="form-check mt-3">
-            <input class="form-check-input" type="radio" name="shipping_address" 
-                id="custom_address" value="custom">
-            <label class="form-check-label" for="custom_address">
-                Enter a New Shipping Address
-            </label>
-        </div> --}}
+                <form id="razorpay-form" method="POST" action="{{ route('front.processCheckout') }}" >
+                    @csrf   
 
-            <form id="razorpay-form" method="POST" action="{{ route('front.processCheckout') }}" >
-                @csrf
-                <div class="row">
-                    <div class="col-md-7">  
-                        <div >  
-                            {{-- <div id="custom_address_section" style="display: none; margin-top: 20px;">   --}}
-                            <div class="sub-title mb-4"><h2>Shipping Address</h2></div>                                     
-                            <div class="row">                    
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>First name</label>
-                                        <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name" value={{ (!empty($customerAddress)) ? $customerAddress->first_name : '' }}>
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name" value={{ (!empty($customerAddress)) ? $customerAddress->last_name : '' }} >
-                                        <p></p>
-                                    </div>
-                                </div>                    
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" name="email" id="email" class="form-control" placeholder="Email" value={{ (!empty($customerAddress)) ? $customerAddress->email : '' }}>
-                                        <p></p>
-                                    </div>
-                                </div>  
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Mobile</label>
-                                        <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No." value={{ (!empty($customerAddress)) ? $customerAddress->mobile : '' }}>
-                                        <p></p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        {{-- <input type="text" name="address" id="address" class="form-control" placeholder="Address" value={{ (!empty($customerAddress)) ? $customerAddress->address : '' }}> --}}
-                                        <textarea name="address" id="address" cols="30" rows="5" placeholder="Address" class="form-control" >{{ (!empty($customerAddress)) ? $customerAddress->address : '' }}</textarea>
-                                        <p></p>
-                                    </div>
-        
-                                    <div class="form-group">
-                                        <label>Notes</label>
-                                        <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
-                                        <p></p>
-                                    </div>
-                                </div> 
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label>Apartment</label>
-                                        <input type="text" name="apartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value={{ (!empty($customerAddress)) ? $customerAddress->apartment : '' }}>
-                                    </div>
-        
-                                    <div class="row mt-3">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label>City</label>
-                                                <input type="text" name="city" id="city" class="form-control" placeholder="City" value={{ (!empty($customerAddress)) ? $customerAddress->city : '' }}>
-                                                <p></p>
+                    @php
+                        $user = Auth::user();
+                        $savedAddress = $user->customerAddress;
+                    @endphp
+                
+                    <div class="card">
+                        <label>                       
+                            <div class="card-header">
+                                <input type="radio" name="address_option" value="existing" checked>
+                                <strong>Home Address</strong>
+                            </div>
+                            <div class="card-body">
+                                @auth
+                                    @if(Auth::user()->shippingAddress)
+                                        <div class="row">                                                                
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <textarea name="existing_address" id="existing_address" cols="30" rows="5" placeholder="Address" class="form-control" >{{ Auth::user()->shippingAddress->address }}</textarea>
+                                                    <p></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label>Pin code</label>
-                                                <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value={{ (!empty($customerAddress)) ? $customerAddress->zip : '' }}>
-                                                <p></p>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Apartment</label>
+                                                    <input type="text" name="existing_apartment" id="existing_apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value={{ Auth::user()->shippingAddress->apartment }}>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label>City</label>
+                                                    <input type="text" name="existing_city" id="existing_city" class="form-control" placeholder="City" value={{ Auth::user()->shippingAddress->city }}>
+                                                    <p></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 col-12">
-                                            <div class="form-group">
-                                                <label>State</label>
-                                                <select name="country" id="country" class="form-control">
-                                                    <option value="">Select a State</option>
-                                                        @if ($countries->isNotEmpty())
-                                                            @foreach ($countries as $country)
-                                                                <option {{ (!empty($customerAddress) && $customerAddress->country_id == $country->id) ? 'selected' : '' }} value="{{ $country->id }}" >{{ $country->name }}</option>
-                                                            @endforeach
-                                                            <option value="rest_of_world">Rest of the state</option>
-                                                        @endif
-                                                </select>
-                                                <p></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                                                                    
-                            </div>                                           
+                                                <div class="row mt-3">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="form-group">
+                                                            <label>State</label>
+                                                            <input type="text" name="existing_country" id="existing_country" class="form-control" placeholder="Zip" value={{ Auth::user()->shippingAddress->country->name }}>
+
+                                                            <p></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="form-group">
+                                                            <label>Pin code</label>
+                                                            <input type="text" name="existing_zip" id="existing_zip" class="form-control" placeholder="Zip" value={{ Auth::user()->shippingAddress->zip }}>
+                                                            <p></p>
+                                                        </div>
+                                                    </div>
+                                                <div class="form-group">
+                                                    <label>Notes</label>
+                                                    <textarea name="existing_order_notes" id="existing_order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
+                                                    <p></p>
+                                                </div>
+                                             
+                                            </div>                                                                    
+                                        </div> 
+                                    @endif
+                                @endauth
+                            </label>                   
                         </div>
                     </div>
+        
+                    <!-- Add New Address -->
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <label>
+                                <input type="radio" name="address_option" value="new">
+                                <strong>Add New Address</strong>
+                            </label>
+                        </div>
+                        
+                        <div class="card-body">                       
+                            <div id="new-address-form" style="display: none;">
+                                <div class="row">  
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <textarea name="address" id="address" cols="30" rows="5" placeholder="Address" class="form-control" >{{ (!empty($customerAddress)) ? $customerAddress->address : '' }}</textarea>
+                                            <p></p>
+                                        </div>
+            
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
+                                            <p></p>
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label>Apartment</label>
+                                            <input type="text" name="apartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value={{ (!empty($customerAddress)) ? $customerAddress->apartment : '' }}>
+                                        </div>
+            
+                                        <div class="row mt-3">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>City</label>
+                                                    <input type="text" name="city" id="city" class="form-control" placeholder="City" value={{ (!empty($customerAddress)) ? $customerAddress->city : '' }}>
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Pin code</label>
+                                                    <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip" value={{ (!empty($customerAddress)) ? $customerAddress->zip : '' }}>
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group">
+                                                    <label>State</label>
+                                                    <select name="country" id="country" class="form-control">
+                                                        <option value="">Select a State</option>
+                                                            @if ($countries->isNotEmpty())
+                                                                @foreach ($countries as $country)
+                                                                    <option {{ (!empty($customerAddress) && $customerAddress->country_id == $country->id) ? 'selected' : '' }} value="{{ $country->id }}" >{{ $country->name }}</option>
+                                                                @endforeach
+                                                                <option value="rest_of_world">Rest of the state</option>
+                                                            @endif
+                                                    </select>
+                                                    <p></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                                                    
+                                </div>                                           
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                   
                     <div class="col-md-1"></div>
                     <div class="col-md-4">
                         <div class="sub-title"><h2>Order Summery</h3></div>                    
@@ -172,7 +197,7 @@
                         <div class="d-flex justify-content-between">
                             <p>Total</p>
                             <p id="grandTotal">₹{{ number_format($grandTotal,2) }}</p>
-                            <input type="hidden" id="grand_total" value="{{ $grandTotal }}">
+                            {{-- <input type="text" id="grandTotal" value="{{ $grandTotal }}"> --}}
                         </div>
                                                
                         <div class="input-group apply-coupan mt-1">
@@ -191,16 +216,14 @@
     
                         <hr />
                        
-                            <div class="mt-3">
-                                <input type="hidden" id="grand_total" name="amount" value="1000">
-                                <button type="submit" class="btn btn-primary w-100">Pay with Razorpay</button>
-                            </form>
-                        </div>
+                        <div class="mt-3">
+                            <input type="hidden" name="amount" id="grand_total" value="{{ number_format($grandTotal, 2, '.', '') }}" class="form-control" readonly>
+                            <button type="submit" class="btn btn-primary w-100">Make Payment</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        
-        
+        </div>
     </div>
 </section>
 @endsection
@@ -213,19 +236,23 @@
         if (razorpayForm) {
             razorpayForm.addEventListener("submit", function (event) {
                 event.preventDefault(); // Prevent default form submission
-    
-                let grandTotal = document.getElementById('grand_total').value;
-                let first_name = document.getElementById('first_name').value;
-                let last_name = document.getElementById('last_name').value;
-                let email = document.getElementById('email').value;
-                let mobile = document.getElementById('mobile').value;
+
                 let address = document.getElementById('address').value;
-                let order_notes = document.getElementById('order_notes').value;
                 let apartment = document.getElementById('apartment').value;
                 let city = document.getElementById('city').value;
                 let country = document.getElementById('country').value;
                 let zip = document.getElementById('zip').value;
-    
+                let order_notes = document.getElementById('order_notes').value;
+
+                let existing_address = document.getElementById('existing_address').value;
+                let existing_apartment = document.getElementById('existing_apartment').value;
+                let existing_city = document.getElementById('existing_city').value;
+                let existing_country = document.getElementById('existing_country').value;
+                let existing_zip = document.getElementById('existing_zip').value;
+                let existing_order_notes = document.getElementById('existing_order_notes').value;
+
+                let grandTotal = document.getElementById('grand_total').value;
+                    
                 // Send data to Laravel to generate an order_id
                 fetch("{{ route('front.processCheckout') }}", {
                     method: "POST",
@@ -254,16 +281,12 @@
                         "order_id": data.order_id,
                         "handler": function (response) {
                             response.amount = grandTotal * 100;
-                            response.first_name = document.getElementById('first_name').value;
-                            response.last_name = document.getElementById('last_name').value;
-                            response.email = document.getElementById('email').value;
-                            response.mobile = document.getElementById('mobile').value;
-                            response.address = document.getElementById('address').value;
-                            response.order_notes = document.getElementById('order_notes').value;
-                            response.apartment = document.getElementById('apartment').value;
-                            response.city = document.getElementById('city').value;
-                            response.country = document.getElementById('country').value;
-                            response.zip = document.getElementById('zip').value;
+                            response.address = address;
+                            response.order_notes = order_notes;
+                            response.apartment = apartment;
+                            response.city = city;
+                            response.country = country;
+                            response.zip = zip;
     
                             // Send payment details to Laravel for verification
                             fetch("{{ route('verify.payment') }}", {
@@ -276,8 +299,9 @@
                             })
                             .then(verifyResponse => verifyResponse.json())
                             .then(verifyData => {
-                                if (verifyData.status === "success") {
-                                    window.location.href = "{{ route('order.success') }}";
+                                if (verifyData.status === "success") {       
+                                    var orderUrl = "{{ route('order.success', ['order' => 'orderId']) }}".replace(':orderId', data.order_id);
+                                    window.location.href = orderUrl;
                                 } else {
                                     window.location.href = "{{ route('order.failed') }}";
                                 }
@@ -285,9 +309,9 @@
                             .catch(error => console.error("Error:", error));
                         },
                         "prefill": {
-                            "name": first_name,
-                            "email": email,
-                            "contact": mobile
+                            //"name": first_name,
+                            //"email": email,
+                            //"contact": mobile
                         }
                     };
     
@@ -320,24 +344,6 @@
 
                     //front thankyou page
                     if(response.status == false){
-                        if(errors.first_name){
-                            $("#first_name").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.first_name)
-                        } else {
-                            $("#first_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('')
-                        }
-
-                        if(errors.last_name){
-                            $("#last_name").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.last_name)
-                        } else {
-                            $("#last_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('')
-                        }
-
-                        if(errors.email){
-                            $("#email").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.email)
-                        } else {
-                            $("#email").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('')
-                        }
-
                         if(errors.country){
                             $("#country").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.country)
                         } else {
@@ -362,12 +368,6 @@
                             $("#city").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('')
                         }
 
-                       
-                        if(errors.mobile){
-                            $("#mobile").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.mobile)
-                        } else {
-                            $("#mobile").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('')
-                        }
                     } else {
                         window.location.href="{{ url('thanks/') }}/"+response.orderId;
                     }
@@ -385,7 +385,8 @@
                 success: function(response){
                     if(response.status == true)
                         $("#shippingAmount").html(response.shippingCharge);
-                        $("#grandTotal").html(response.grandTotal);
+                        $("#grandTotal").html(response.grandTotal);                        
+                        $("#grand_total").val(response.grandTotal); // This is your input
                     }
             });
         });
@@ -434,5 +435,22 @@
                     (this.value === 'custom') ? 'block' : 'none';
             });
         });
+
+        function updateGrandTotalInput() {
+            let grandTotalText = document.getElementById('grand_total').innerText;
+            let cleanedTotal = grandTotalText.replace(/[₹,]/g, '').trim(); // Remove ₹ and commas
+            document.getElementById('grand_total').value = cleanedTotal;
+        }
+
+
+        document.querySelectorAll('input[name="address_option"]').forEach((radio) => {
+            radio.addEventListener('change', function () {
+                const form = document.getElementById('new-address-form');
+                form.style.display = (this.value === 'new') ? 'block' : 'none';
+            });
+        });
+
+       
+
     </script>
 @endsection

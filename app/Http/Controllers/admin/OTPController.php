@@ -43,24 +43,28 @@ class OTPController extends Controller {
             'otp' => 'required|digits:6'
         ]);
 
-        // Check if OTP exists and is valid
         $user = User::where('email', $request->email)
-        ->where('otp', $request->otp)
-        ->where('otp_expires_at', '>', now()) // Ensure it's not expired
-        ->first();
+            ->where('otp', $request->otp)
+            ->where('otp_expires_at', '>', now())
+            ->first();
 
         if (!$user) {
-            return response()->json(['message' => 'Invalid OTP or expired'], 400);
+            return back()->with('error', 'Invalid OTP or expired');
         }
 
-        // OTP is valid → Mark user as verified (Optional)
         $user->update([
-            'otp' => null, // Clear OTP after use
+            'otp' => null,
             'otp_expires_at' => null,
-            'email_verified_at' => now(), // Mark email as verified if needed
+            'email_verified_at' => now(),
         ]);
 
         Auth::login($user);
-        return response()->json(['message' => 'OTP verified successfully'], 200);
+
+        // ✅ Redirect with success message
+        return response()->json([
+            'message' => 'OTP verified successfully',
+            'redirect' => route('account.profile') // Or any other URL you want to redirect to
+        ], 200);
     }
+
 }

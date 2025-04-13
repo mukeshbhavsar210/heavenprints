@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        'otp',
+        'otp_expires_at',
     ];
 
     /**
@@ -41,4 +45,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function shippingAddress() {
+    //     return $this->hasOne(CustomerAddress::class)->where('type', 'shipping');
+    // }
+
+    public function shippingAddress() {
+        return $this->hasOne(CustomerAddress::class);
+    }
 }
