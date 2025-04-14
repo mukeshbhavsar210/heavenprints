@@ -55,6 +55,9 @@ class BrandController extends Controller {
     }
 
 
+    
+
+
     public function edit($id, Request $request){
         $brand = Brand::find($id);
 

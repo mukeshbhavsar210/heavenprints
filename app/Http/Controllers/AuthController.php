@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Country;
 use App\Models\CustomerAddress;
 use App\Models\Order;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+
+use function PHPSTORM_META\type;
 
 class AuthController extends Controller
 {
@@ -89,20 +92,21 @@ class AuthController extends Controller
         }
     }
 
+
+
     public function profile(){
-
         $userId = Auth::user()->id;
-
         $countries = Country::orderBy('name','ASC')->get();
-
         $user = User::where('id',$userId)->first();
 
-        $address = CustomerAddress::where('user_id',$userId)->first();
+        $home_address = CustomerAddress::where('type','home')->where('user_id',$userId)->first();
+        $office_address = CustomerAddress::where('type','office')->where('user_id',$userId)->first();
 
         return view('front.account.profile',[
             'user' => $user,
             'countries' => $countries,
-            'address' => $address
+            'home_address' => $home_address,
+            'office_address' => $office_address,
         ]);
     }
 
@@ -141,36 +145,27 @@ class AuthController extends Controller
         $userId = Auth::user()->id;
 
         $validator = Validator::make($request->all(),[
-            'first_name' => 'required|min:5',
-            'last_name' => 'required',
-            'mobile' => 'required',
-            'email' => 'required|email',
             'country_id' => 'required',
             'address' => 'required|min:30',
             'city' => 'required',
-            'state' => 'required',
             'zip' => 'required'
         ]);
 
         if($validator->passes()){
             CustomerAddress::updateOrCreate(
-                ['user_id' => $userId],
+                ['user_id' => $userId, 'type' => 'home'],
                 [
-                    'user_id' => $userId,
-                    'first_name' => $request->first_name,
-                    'last_name' => $request->last_name,
-                    'mobile' => $request->mobile,
-                    'email' => $request->email,
+                    'user_id' => $userId,                    
                     'country_id' => $request->country_id,
                     'address' => $request->address,
                     'apartment' => $request->apartment,
                     'city' => $request->city,
-                    'state' => $request->state,
-                    'zip' => $request->zip
+                    'zip' => $request->zip,
+                    'type' => $request->type
                 ]
             );
 
-            session()->flash('success','Address updated successfully.');
+            session()->flash('success','Home Address updated successfully.');
 
             return response()->json([
                 'status' => true,
@@ -184,6 +179,80 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
+
+    public function office_updateAddress(Request $request){
+        $userId = Auth::user()->id;
+
+        $validator = Validator::make($request->all(),[
+            'country_id' => 'required',
+            'address' => 'required|min:30',
+            'city' => 'required',
+            'zip' => 'required'
+        ]);
+
+        if($validator->passes()){
+            CustomerAddress::updateOrCreate(
+                ['user_id' => $userId, 'type' => 'office'],
+                [
+                    'user_id' => $userId,                    
+                    'country_id' => $request->country_id,
+                    'address' => $request->address,
+                    'apartment' => $request->apartment,
+                    'city' => $request->city,
+                    'zip' => $request->zip,
+                    'type' => $request->type
+                ]
+            );
+
+            session()->flash('success','Office Address updated successfully.');
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Profile updated successfully.'
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ]);
+        }
+    }
+
+
+    public function office_store(Request $request){
+        $userId = Auth::user()->id;
+
+        $validator = Validator::make($request->all(), [
+            'address' => 'required',
+            'apartment' => 'required',
+            'city' => 'required',
+            'zip' => 'required',
+            'country_id' => 'required',
+        ]);
+
+        if ($validator->passes()) {
+            CustomerAddress::updateOrCreate(
+                ['user_id' => $userId, 'type' => 'office'],
+                [
+                    'user_id' => $userId,                    
+                    'country_id' => $request->country_id,
+                    'address' => $request->address,
+                    'apartment' => $request->apartment,
+                    'city' => $request->city,
+                    'zip' => $request->zip,
+                    'type' => $request->type
+                ]
+            );      
+
+            return redirect()->route('account.profile')->with('success','Office address saved successfully.');
+        } else {
+            return redirect()->route('account.profile')->withInput()->withErrors($validator);
+        }            
+    }
+
 
     public function logout(){
         Auth::logout();

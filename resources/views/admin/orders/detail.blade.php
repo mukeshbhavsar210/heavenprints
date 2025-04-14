@@ -25,15 +25,14 @@
                             <div class="row invoice-info">
                                 <div class="col-sm-7 invoice-col">
                                     <address>
-                                        <h4>{{ $order->customerAddress->first_name.' '.$order->customerAddress->last_name.'' }} </h4>
+                                        <h4>{{ $order->user->first_name.' '.$order->user->last_name }}</h4>
                                         {{ $order->customerAddress->address }}<br>
                                         {{ $order->customerAddress->apartment }},                                        
                                         {{ $order->customerAddress->city }},
-                                        {{ $order->customerAddress->zip }}.
-                                        {{ $order->customerAddress->countryName }}
-                                        {{ $order->countryName }}<br>
-                                        Phone: {{ $order->customerAddress->mobile }},<br>
-                                        Email: {{ $order->customerAddress->email }},
+                                        {{ $order->customerAddress->zip }}.<br>
+                                        {{ $order->customerAddress->country->name }}.<br>
+                                        Phone: {{ $order->user->phone }},<br>
+                                        Email: {{ $order->user->email }}
                                     </address>
                                 </div>
 

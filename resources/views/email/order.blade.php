@@ -21,7 +21,7 @@
             padding: 5px 10px 5px 10px; height: 30px;
             border-radius: 3px;
         }
-        .logo { width: 250px; margin:0 auto 15px 153px; }
+        .logo { width: 250px; margin:0 auto 15px 30%; }
         .order-body {
             margin-top: 20px;
         }
@@ -64,7 +64,7 @@
             <table cellpadding="5" cellspacing="5" border="0" width="100%">
                 <thead>
                     <tr style="background: #666666; color:#fff; padding:6px; border-radius:5px;">
-                        <th>ID</th>
+                        <th>Order No.</th>
                         <th>Product</th>
                         <th style="text-align: right">Price</th>
                         <th style="text-align: center">Qty</th>
