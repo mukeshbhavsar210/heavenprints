@@ -27,6 +27,7 @@ class OrderController extends Controller {
     }
 
     public function detail($orderId){
+        $order = Order::with('user')->findOrFail($orderId);
         $order = Order::where('orders.id',$orderId)->with(['payments', 'customerAddress'])
                 ->leftJoin('customer_addresses', 'orders.user_id', '=', 'customer_addresses.user_id', )
                 ->leftJoin('countries', 'customer_addresses.country_id', '=', 'countries.id')
@@ -66,16 +67,32 @@ class OrderController extends Controller {
         ]);
     }
 
-    public function sendInvoiceEmail(Request $request, $orderId){
-        orderEmail($orderId, $request->userType);
 
-        $message = 'Order email sent successfully';
+    public function sendInvoiceEmail(Request $request, $orderId) {
+        orderEmail($orderId, 'both');
 
-        session()->flash('success',$message);
+        $message = 'Order email sent to admin and customer successfully';
+
+        session()->flash('success', $message);
 
         return response()->json([
             'status' => true,
             'message' => $message,
         ]);
     }
+
+
+
+    // public function sendInvoiceEmail(Request $request, $orderId){
+    //     orderEmail($orderId, $request->userType);
+
+    //     $message = 'Order email sent successfully';
+
+    //     session()->flash('success',$message);
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => $message,
+    //     ]);
+    // }
 }

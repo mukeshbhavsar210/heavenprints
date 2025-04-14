@@ -425,7 +425,6 @@ class CartController extends Controller {
 
         //if user is not logged in then redirect to login page
         if (Auth::check() == false) {
-
             if (!session()->has('url.intended')) {
                 session(['url.intended' => url()->current()]);
             }
@@ -434,7 +433,17 @@ class CartController extends Controller {
         }
 
 
+        $homeAddress = Auth::check()
+                        ? Auth::user()->customerAddresses->where('type', 'home')->first()
+                        : null;
+
+        $officeAddress = Auth::check()
+                        ? Auth::user()->customerAddresses->where('type', 'office')->first()
+                        : null;
+   
         $customerAddress = CustomerAddress::find(Auth::user()->id);
+
+        $countryShow = CustomerAddress::with('country')->get();
 
         session()->forget('url.intended');
 
@@ -466,10 +475,12 @@ class CartController extends Controller {
             'customerAddress' => $customerAddress,
             'totalShiipingCharge' => $totalShiipingCharge,
             'discount' => $discount,
-            'grandTotal' => $grandTotal
+            'grandTotal' => $grandTotal,
+            'countryShow' => $countryShow,
+            'homeAddress' => $homeAddress,
+            'officeAddress' => $officeAddress,            
         ]);
     }
-
 
 
     // Generate Razorpay Order
@@ -483,7 +494,6 @@ class CartController extends Controller {
             'currency' => 'INR',
             'payment_capture' => 1 // Auto capture payment
         ]);
-
         //Cart::destroy();
 
         return response()->json([
@@ -495,14 +505,10 @@ class CartController extends Controller {
 
     // Verify Payment
     public function verifyPayment(Request $request) {
-        $amount = $request->amount ?? 0;
-        $address = $request->address ?? $request->existing_address;
-        $order_notes = $request->order_notes ?? $request->existing_order_notes;
-        $apartment = $request->apartment ?? $request->existing_apartment;
-        $city = $request->city ?? $request->existing_city;
-        $country = $request->country ?? $request->existing_country;
-        $zip = $request->zip ?? $request->existing_zip;
-        $notes = $request->notes ?? $request->existing_notes;
+        $amount = $request->amount ?? 0;                
+        $order_notes = $request->order_notes;                
+        $country = $request->country;
+        $type = $request->address_type ?? 'home';
 
         try {
             $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -517,13 +523,8 @@ class CartController extends Controller {
 
             //Step 1: apply validations while make orders
             $validator = Validator::make($request->all(),[
-                // 'first_name' => 'required|min:5',
-                // 'last_name' => 'required',
-                //'mobile' => 'required',
-                // 'email' => 'required|email',
-                // 'address' => 'required|min:10',
-                'city' => 'required',
-                'zip' => 'required'
+                // 'city' => 'required',
+                // 'zip' => 'required'
             ]);
 
             if ($validator->fails()){
@@ -535,21 +536,15 @@ class CartController extends Controller {
             }
 
             $user = Auth::user();
-
-
             $address = CustomerAddress::updateOrCreate(
                 ['user_id' => $user->id ],
                 [
                     'user_id' => $user->id,                    
                     'country_id' => $country,
-                    'address' => $address,
-                    'apartment' => $apartment,
-                    'city' => $city,
-                    'zip' => $zip,
                     'notes' => $order_notes,
+                    'type' => $type,
                 ]
             );
-
             
             //Step 3: Store data in orders table
             $discountCodeId = NULL;
@@ -596,7 +591,7 @@ class CartController extends Controller {
                 $productData->save();
             }   
 
-            //$random  = Str::random(6);
+            $random  = Str::random(6);
             $random  = 'order_' . Str::random(6);
 
             $order = Order::create([
@@ -633,8 +628,6 @@ class CartController extends Controller {
                     'hardware_display' => $item->options->display_name,
                     'lamination' => $item->options->lamination_name,
                     'retouching' => json_encode($item->options->retouch_names),                    
-                    //'proof' => $item->options->proof_names,
-                    // 'hardware_finishing'=> $item->options->hardware_finishing,
                     'qty' => $item->qty,
                     'price' => $item->price,
                     'total' => $item->price * $item->qty,                    
@@ -654,7 +647,7 @@ class CartController extends Controller {
             ]);
 
             //Send confirmed order email
-            orderEmail($order->id, 'customer');
+            //orderEmail($order->id, 'customer');
 
             Cart::destroy();
 
@@ -701,9 +694,11 @@ class CartController extends Controller {
                 $discount = $code->discount_amount;
             }
 
-            $discountString = '<div class="mt-4" id="discount-response">
-                <strong>'.session()->get('code')->code.'</strong>
-                <a class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>
+            $discountString = '<div id="discount-response">
+                <div class="card-body p-2">
+                    <strong>'.session()->get('code')->code.'</strong>
+                    <a id="remove-discount"><i class="fa fa-times"></i></a>
+                </div>
             </div>';
         }
         //Appy Discount end here
@@ -833,4 +828,7 @@ class CartController extends Controller {
         session()->forget('code');
         return $this->getOrderSummary($request);
     }
+
+
+    
 }

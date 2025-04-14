@@ -293,6 +293,13 @@ aside a {
 
 .heightFix { height:400px;;}
 
+.apply-coupan .form-control { border-radius: 3px 0 0 3px !important;}
+.apply-coupan .btn { border-radius: 0 3px 3px 0 !important;}
+
+#discount-response { border:1px #ccc solid; margin-top: 10px; display: inline-block; border-radius: 3px; padding:0 5px;}
+#discount-response:hover { border-color: var(--primary);}
+#discount-response #remove-discount { font-size: 16px; color:red; margin-left: 5px; position: relative; top:2px; cursor: pointer;}
+
 .talk { border-right:1px #ccc solid; margin-right: 15px; height: 35px; margin-top: 5px; }
 .talk .icon { float: left; width: 40px; margin-top:7px; }
 .talk .icon-text .small-text { font-size: 12px;}

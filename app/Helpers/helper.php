@@ -11,6 +11,8 @@ use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Mail\OrderInvoiceMail;
+
 
     function onlyMetalProducts(){
         return Product::orderBy('name','ASC')->where('product_type','metal')->get();
@@ -40,9 +42,14 @@ use Illuminate\Support\Facades\Log;
     }
 
     function orderEmail($orderId, $userType="customer"){
+        $order = Order::with('user')->find($orderId);
         $order = Order::where('id',$orderId)->with('items')->first();
         $order = Order::where('id', $orderId)->with(['user', 'items', 'items.product', 'customerAddress', 'customerAddress.country']) // include shippingAddress
                 ->first();
+
+        if (!$order) {
+            return;
+        }
         
         if($userType == 'customer'){
             $subject = 'Thanks for your order';
@@ -58,8 +65,22 @@ use Illuminate\Support\Facades\Log;
             'userType' => $userType,
         ];
 
-        Mail::to($email)->send(new OrderEmail($mailData));
+        // Send to Admin
+        if ($userType === 'admin' || $userType === 'both') {
+            Mail::to('info@heavenprints.in')->send(new OrderEmail($mailData, 'admin'));
+        }
+
+        // Send to Customer
+        if (($userType === 'customer' || $userType === 'both') && $order->user && $order->user->email) {
+            Mail::to($order->user->email)->send(new OrderEmail($mailData, 'customer'));
+        }
+
+        // Mail::to($email)->send(new OrderEmail($mailData));
+        // Mail::to($order->user->email)->send(new OrderEmail($mailData));
     }
+
+
+    
 
     
 
