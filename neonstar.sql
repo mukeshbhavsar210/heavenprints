@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2025 at 04:19 PM
+-- Generation Time: Apr 16, 2025 at 11:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,6 +61,13 @@ CREATE TABLE `brands` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `name`, `slug`, `status`, `created_at`, `updated_at`) VALUES
+(44, 'qweqwqwe', NULL, NULL, '2025-04-16 00:24:42', '2025-04-16 00:24:42');
 
 -- --------------------------------------------------------
 
@@ -134,7 +141,8 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUES
-(1, 'Gujarat', 'GJ', NULL, NULL);
+(1, 'Gujarat', 'GJ', NULL, NULL),
+(2, 'Karnataka', 'KA', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -145,16 +153,14 @@ INSERT INTO `countries` (`id`, `name`, `code`, `created_at`, `updated_at`) VALUE
 CREATE TABLE `customer_addresses` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `mobile` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
   `country_id` bigint(20) UNSIGNED DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `apartment` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `zip` varchar(255) DEFAULT NULL,
+  `apartment` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `zip` varchar(25) DEFAULT NULL,
   `notes` text DEFAULT NULL,
+  `type` enum('home','office') NOT NULL DEFAULT 'home',
+  `delivery_at` enum('home','office') DEFAULT 'home',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -163,8 +169,9 @@ CREATE TABLE `customer_addresses` (
 -- Dumping data for table `customer_addresses`
 --
 
-INSERT INTO `customer_addresses` (`id`, `user_id`, `first_name`, `last_name`, `mobile`, `email`, `country_id`, `address`, `apartment`, `city`, `zip`, `notes`, `created_at`, `updated_at`) VALUES
-(9, 30, 'Dhruv', 'Bhavsar', '09978835005', 'dhruvbhavsar210@gmail.com', 1, 'Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,', NULL, 'Banglore', '560100', 'I want ', '2025-03-26 23:38:23', '2025-04-10 01:14:26');
+INSERT INTO `customer_addresses` (`id`, `user_id`, `country_id`, `address`, `apartment`, `city`, `zip`, `notes`, `type`, `delivery_at`, `created_at`, `updated_at`) VALUES
+(30, 30, 2, 'Keerthi Royal Palms, Service', 'Keerthi Royal Palm', 'Banglore', '560100', NULL, 'office', 'home', '2025-04-16 00:54:30', '2025-04-16 00:54:30'),
+(33, 30, 1, 'Mansarovar road, New Chandkheda', 'Shlok heights', 'Ahmedabad', '382424', NULL, 'home', 'home', '2025-04-16 01:55:01', '2025-04-16 01:55:01');
 
 -- --------------------------------------------------------
 
@@ -188,6 +195,13 @@ CREATE TABLE `discount_coupons` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `discount_coupons`
+--
+
+INSERT INTO `discount_coupons` (`id`, `code`, `name`, `description`, `max_uses`, `max_uses_user`, `type`, `discount_amount`, `min_amount`, `status`, `starts_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(11, 'MIRADA99', 'Mirada Offer', 'test', '100', '5', 'fixed', 100.00, 300.00, 1, '2025-04-13 18:30:02', '2025-04-29 23:30:05', '2025-04-14 01:10:33', '2025-04-14 01:11:04');
 
 -- --------------------------------------------------------
 
@@ -376,6 +390,8 @@ CREATE TABLE `orders` (
   `coupon_code` varchar(255) DEFAULT NULL,
   `coupon_code_id` int(11) DEFAULT NULL,
   `discount` double(10,2) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `price` double(10,2) DEFAULT NULL,
   `grandtotal` double(10,2) NOT NULL,
   `shipped_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('pending','shipped','delivered','cancelled') NOT NULL DEFAULT 'pending',
@@ -387,8 +403,8 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `product_id`, `country_id`, `subtotal`, `shipping`, `coupon_code`, `coupon_code_id`, `discount`, `grandtotal`, `shipped_date`, `status`, `created_at`, `updated_at`) VALUES
-(3, 30, 520, 1, 800.00, 50.00, '', NULL, 0.00, 850.00, '2025-04-11 13:32:36', 'pending', '2025-04-11 08:02:36', '2025-04-11 08:02:36');
+INSERT INTO `orders` (`id`, `user_id`, `product_id`, `country_id`, `subtotal`, `shipping`, `coupon_code`, `coupon_code_id`, `discount`, `qty`, `price`, `grandtotal`, `shipped_date`, `status`, `created_at`, `updated_at`) VALUES
+(118, 30, 505, 1, 800.00, 50.00, '', NULL, 0.00, 1, 800.00, 850.00, '2025-04-15 11:03:19', 'pending', '2025-04-15 05:33:19', '2025-04-15 05:33:19');
 
 -- --------------------------------------------------------
 
@@ -430,26 +446,7 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `name`, `category`, `font`, `size`, `color`, `selected_product`, `selected_product_name`, `frame`, `image`, `border`, `major`, `wrap_wrap`, `hardware_style`, `hardware_display`, `lamination`, `retouching`, `hardware_finishing`, `proof`, `qty`, `price`, `total`, `created_at`, `updated_at`) VALUES
-(115, 225, 519, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 800.00, 800.00, '2025-04-09 08:24:25', '2025-04-09 08:24:25'),
-(116, 226, 519, 'test', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 800.00, 800.00, '2025-04-09 08:25:35', '2025-04-09 08:25:35'),
-(117, 227, 519, 'test', 'Default', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 800.00, 800.00, '2025-04-09 08:26:08', '2025-04-09 08:26:08'),
-(118, 228, 395, 'Customize Neon', 'Neon light', 'Passionate', 'Large', '#ffffff', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 9000.00, 9000.00, '2025-04-09 08:27:58', '2025-04-09 08:27:58'),
-(119, 229, 520, 'Mouse Pad', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, '1744202047.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 287.00, 287.00, '2025-04-09 08:29:05', '2025-04-09 08:29:05'),
-(120, 230, 521, 'Key Chain', 'Customize', NULL, NULL, NULL, NULL, NULL, NULL, '1744202047.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 223.00, 223.00, '2025-04-09 08:30:14', '2025-04-09 08:30:14'),
-(121, 231, 520, 'Mouse Pad', 'Customize', NULL, '1', NULL, 'magic_mug.jpg', 'Mug', NULL, '1744202047.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 223.00, 223.00, '2025-04-09 08:36:37', '2025-04-09 08:36:37'),
-(122, 232, 520, 'Mouse Pad', 'Customize', NULL, '1', NULL, NULL, NULL, NULL, '1744202047.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1257.30, 1257.30, '2025-04-09 08:52:31', '2025-04-09 08:52:31'),
-(123, 234, 520, 'Mouse Pad', 'Customize', NULL, '1', NULL, 'magic_mug.jpg', 'Mug', 'Golden', '1744202047.jpg', 'Border Color Free', NULL, 'Canvas Lite (0.50\")', 'No Hooks Free', 'Dust Cover', 'Premium', '[\"Dust\\/Scratch Removal\",\"Date Stamp Removal\"]', NULL, NULL, 1, 1881.00, 1881.00, '2025-04-09 08:59:14', '2025-04-09 08:59:14'),
-(124, 235, 521, 'Key Chain', 'Customize', NULL, '1', NULL, 'magic_mug.jpg', 'Mug', NULL, '1744202047.jpg', NULL, 'test world mukesh', NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 154.00, 154.00, '2025-04-09 09:09:23', '2025-04-09 09:09:23'),
-(125, 236, 519, 'test', 'Default', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 800.00, 800.00, '2025-04-09 10:18:53', '2025-04-09 10:18:53'),
-(126, 237, 395, 'Customize Neon', 'Neon light', 'Robo', '1', '#ffffff', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 12000.00, 12000.00, '2025-04-10 01:14:26', '2025-04-10 01:14:26'),
-(127, 239, 519, 'test', 'Default', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 800.00, 800.00, '2025-04-10 01:21:59', '2025-04-10 01:21:59'),
-(128, 240, 520, 'Mouse Pad', 'Customize', NULL, '0', NULL, 'key-chain_1_1743992083.jpg', 'Key Chain', NULL, 'No image found', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 700.00, 700.00, '2025-04-10 22:35:45', '2025-04-10 22:35:45'),
-(129, 241, 519, 'test', 'Customize', NULL, '0', NULL, 'customize-neon_1_1743248453.JPG', 'Customize Neon', NULL, '1744344359.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 600.00, 600.00, '2025-04-10 22:36:26', '2025-04-10 22:36:26'),
-(130, 242, 395, 'Customize Neon', 'Neon light', 'Passionate', '1', '#ffffff', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 12000.00, 12000.00, '2025-04-10 22:37:04', '2025-04-10 22:37:04'),
-(131, 243, 521, 'Key Chain', 'Customize', NULL, '0', NULL, NULL, NULL, NULL, '1744344359.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 1257.30, 1257.30, '2025-04-10 22:37:44', '2025-04-10 22:37:44'),
-(132, 244, 521, 'Key Chain', 'Customize', NULL, '1', NULL, NULL, NULL, NULL, '1744344359.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 1101.27, 1101.27, '2025-04-10 22:38:25', '2025-04-10 22:38:25'),
-(133, 245, 520, 'Mouse Pad', 'Customize', NULL, '0', NULL, 'customize-neon_1_1743248453.JPG', 'Customize Neon', NULL, '1744367613.png', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 600.00, 600.00, '2025-04-11 05:04:16', '2025-04-11 05:04:16'),
-(136, 3, 520, 'Mouse Pad', 'Customize', NULL, '0', NULL, 'test_1_1743573308.jpg', 'test', NULL, '1744367613.png', NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 800.00, 800.00, '2025-04-11 08:02:36', '2025-04-11 08:02:36');
+(249, 118, 505, 'Tshirt', 'Default', NULL, '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'null', NULL, NULL, 1, 800.00, 800.00, '2025-04-15 05:33:19', '2025-04-15 05:33:19');
 
 -- --------------------------------------------------------
 
@@ -525,6 +522,7 @@ CREATE TABLE `payments` (
   `product_id` bigint(20) UNSIGNED DEFAULT NULL,
   `razorpay_payment_id` varchar(255) DEFAULT NULL,
   `razorpay_order_id` varchar(255) DEFAULT NULL,
+  `payment_mode` varchar(255) DEFAULT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'pending',
   `amount` decimal(10,2) DEFAULT NULL,
   `currency` varchar(255) NOT NULL DEFAULT 'INR',
@@ -537,27 +535,8 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `order_id`, `product_id`, `razorpay_payment_id`, `razorpay_order_id`, `status`, `amount`, `currency`, `payment_data`, `created_at`, `updated_at`) VALUES
-(126, 225, 519, 'pay_QGyz092Lrrh5CJ', 'order_QGyyvxUQ1fzELF', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGyz092Lrrh5CJ\\\",\\\"razorpay_order_id\\\":\\\"order_QGyyvxUQ1fzELF\\\",\\\"razorpay_signature\\\":\\\"fb22d63c7d18e6eb013d34bd71b5ef18ec59519857ba7dd3ca7e19508f1acebf\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:24:25', '2025-04-09 08:24:25'),
-(127, 226, 519, 'pay_QGz0EOKDANSBSV', 'order_QGz0APklQmHmv1', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGz0EOKDANSBSV\\\",\\\"razorpay_order_id\\\":\\\"order_QGz0APklQmHmv1\\\",\\\"razorpay_signature\\\":\\\"6567b935790c7edbbd07c4448f0ef1ad590760ad8a1aee1e460264aa62f3d028\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:25:35', '2025-04-09 08:25:35'),
-(128, 227, 519, 'pay_QGz0ozLWFNwDer', 'order_QGz0lExBm2LT5w', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGz0ozLWFNwDer\\\",\\\"razorpay_order_id\\\":\\\"order_QGz0lExBm2LT5w\\\",\\\"razorpay_signature\\\":\\\"96cc772bb1bd0d075417b016845c923c5bc9bb0632614b0fdb783b05149c86cb\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:26:08', '2025-04-09 08:26:08'),
-(129, 228, 395, 'pay_QGz2ki8wZfu1Iq', 'order_QGz2gVsmYQHRKG', 'Paid', 9000.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGz2ki8wZfu1Iq\\\",\\\"razorpay_order_id\\\":\\\"order_QGz2gVsmYQHRKG\\\",\\\"razorpay_signature\\\":\\\"00b7f7475815d0a2020a2275964ec3c7baaae620a646e79c72b1e79fbf6f4361\\\",\\\"amount\\\":900000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:27:58', '2025-04-09 08:27:58'),
-(130, 229, 520, 'pay_QGz3w4RG0QJbgt', 'order_QGz3sFnw6P0aJl', 'Paid', 287.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGz3w4RG0QJbgt\\\",\\\"razorpay_order_id\\\":\\\"order_QGz3sFnw6P0aJl\\\",\\\"razorpay_signature\\\":\\\"62e9d96340879f6948822c6f1c480a2b01d6aa3ee697aa7292f35e9830851448\\\",\\\"amount\\\":28700,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:29:05', '2025-04-09 08:29:05'),
-(131, 230, 521, 'pay_QGz59A08LgFM3V', 'order_QGz53twyplIEoH', 'Paid', 223.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGz59A08LgFM3V\\\",\\\"razorpay_order_id\\\":\\\"order_QGz53twyplIEoH\\\",\\\"razorpay_signature\\\":\\\"ac4296d1a49010416dd6a17ff509c5cf22f1bdb817aea0a27529ffd68aecf762\\\",\\\"amount\\\":22300,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:30:15', '2025-04-09 08:30:15'),
-(132, 231, 520, 'pay_QGzBtNfeL5jSsM', 'order_QGzBpAm7MOTlNa', 'Paid', 223.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGzBtNfeL5jSsM\\\",\\\"razorpay_order_id\\\":\\\"order_QGzBpAm7MOTlNa\\\",\\\"razorpay_signature\\\":\\\"cfbef0f047f88d1a00797b7ad289cb70a3323d37da1df80caf7d0dd7ecf0ab71\\\",\\\"amount\\\":22300,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:36:37', '2025-04-09 08:36:37'),
-(133, 232, 520, 'pay_QGzSfUvdjV317i', 'order_QGzSaqNfJ3PiSQ', 'Paid', 1257.30, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGzSfUvdjV317i\\\",\\\"razorpay_order_id\\\":\\\"order_QGzSaqNfJ3PiSQ\\\",\\\"razorpay_signature\\\":\\\"15790cf41a4813f4e1d8c3827149d3e38d5d2c005be9004d45e8c32e20e4b8b8\\\",\\\"amount\\\":125730,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:52:31', '2025-04-09 08:52:31'),
-(134, 234, 520, 'pay_QGzZlicCDO6GcU', 'order_QGzZhPR15VSGxM', 'Paid', 1881.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGzZlicCDO6GcU\\\",\\\"razorpay_order_id\\\":\\\"order_QGzZhPR15VSGxM\\\",\\\"razorpay_signature\\\":\\\"f28134fd6f434caf8643394212b6ab7e0741130453db04e965057f28ead2aabb\\\",\\\"amount\\\":188100,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 08:59:14', '2025-04-09 08:59:14'),
-(135, 235, 521, 'pay_QGzkU8QCQPu1vw', 'order_QGzkPNsfKwAs0W', 'Paid', 154.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QGzkU8QCQPu1vw\\\",\\\"razorpay_order_id\\\":\\\"order_QGzkPNsfKwAs0W\\\",\\\"razorpay_signature\\\":\\\"2d5bda1e33b9c9546d9dad27f38bcb0e2fa65b2638810072ed762e83d1a01715\\\",\\\"amount\\\":15400,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 09:09:23', '2025-04-09 09:09:23'),
-(136, 236, 519, 'pay_QH0vu17Z7TPawT', 'order_QH0vptx05LWEuG', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QH0vu17Z7TPawT\\\",\\\"razorpay_order_id\\\":\\\"order_QH0vptx05LWEuG\\\",\\\"razorpay_signature\\\":\\\"731843c6391ad7382ef0d6b0178004b1fb0ed3984005ed0031bbcf7782631746\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Mukesh\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"mukeshbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-09 10:18:53', '2025-04-09 10:18:53'),
-(137, 237, 395, 'pay_QHGBvMszPDeSV8', 'order_QHGBqdr92qJL9y', 'Paid', 12000.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHGBvMszPDeSV8\\\",\\\"razorpay_order_id\\\":\\\"order_QHGBqdr92qJL9y\\\",\\\"razorpay_signature\\\":\\\"c1dad08b3fe9327d5fcb150abf9d608352730c0ffaeb1be041e09f865ddd35cb\\\",\\\"amount\\\":1200000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 01:14:27', '2025-04-10 01:14:27'),
-(138, 239, 519, 'pay_QHGJtiUpCPB8Gx', 'order_QHGJpSVfCBxBER', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHGJtiUpCPB8Gx\\\",\\\"razorpay_order_id\\\":\\\"order_QHGJpSVfCBxBER\\\",\\\"razorpay_signature\\\":\\\"1dc22b6834d2093c823413e90a898e17e790ee706943fb8c799701dfc33fd6bd\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 01:21:59', '2025-04-10 01:21:59'),
-(139, 240, 520, 'pay_QHc1OMwsYwo9jX', 'order_QHc1G3saF9roRj', 'Paid', 700.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHc1OMwsYwo9jX\\\",\\\"razorpay_order_id\\\":\\\"order_QHc1G3saF9roRj\\\",\\\"razorpay_signature\\\":\\\"61aba5c6d1433c61a690de3bfe8749eb024871372fb1ea59338c21e93b617bdf\\\",\\\"amount\\\":70000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 22:35:46', '2025-04-10 22:35:46'),
-(140, 241, 519, 'pay_QHc282rfbbBxYD', 'order_QHc23gzd2fOk6U', 'Paid', 600.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHc282rfbbBxYD\\\",\\\"razorpay_order_id\\\":\\\"order_QHc23gzd2fOk6U\\\",\\\"razorpay_signature\\\":\\\"99d237a6a377a0f5009432f395cc649c2eb9793142deea13ae86197da3ab04bd\\\",\\\"amount\\\":60000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 22:36:26', '2025-04-10 22:36:26'),
-(141, 242, 395, 'pay_QHc2nZaYorocRY', 'order_QHc2hvi7q0h0F6', 'Paid', 12000.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHc2nZaYorocRY\\\",\\\"razorpay_order_id\\\":\\\"order_QHc2hvi7q0h0F6\\\",\\\"razorpay_signature\\\":\\\"eda06329f3c587eebf8379ca32153bc68d23f71ea7a0fa39a03167ef58b6bd85\\\",\\\"amount\\\":1200000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 22:37:04', '2025-04-10 22:37:04'),
-(142, 243, 521, 'pay_QHc3VH0ncBUfhw', 'order_QHc3QXdMHCS6Cc', 'Paid', 1257.30, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHc3VH0ncBUfhw\\\",\\\"razorpay_order_id\\\":\\\"order_QHc3QXdMHCS6Cc\\\",\\\"razorpay_signature\\\":\\\"17ce9da809781b8e8b28576e03f856e149e462c08a8316fa9288d77f9853506c\\\",\\\"amount\\\":125730,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 22:37:44', '2025-04-10 22:37:44'),
-(143, 244, 521, 'pay_QHc4DrGsVlSKUj', 'order_QHc49CjRfzfKj2', 'Paid', 1101.27, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHc4DrGsVlSKUj\\\",\\\"razorpay_order_id\\\":\\\"order_QHc49CjRfzfKj2\\\",\\\"razorpay_signature\\\":\\\"e425caae8ae1ac702d37b1ac09ec7c0edad8a815f034413376726fd397cd9af6\\\",\\\"amount\\\":110127,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-10 22:38:25', '2025-04-10 22:38:25'),
-(144, 245, 520, 'pay_QHidoKx3rA2w11', 'order_QHidhgKKS4h4S4', 'Paid', 600.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHidoKx3rA2w11\\\",\\\"razorpay_order_id\\\":\\\"order_QHidhgKKS4h4S4\\\",\\\"razorpay_signature\\\":\\\"7fa1c7075cbf178fb9ba40bb0e6f73f5cb5e9766806d58ce39150c53e71a270f\\\",\\\"amount\\\":60000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-11 05:04:16', '2025-04-11 05:04:16'),
-(147, 3, 520, 'pay_QHlgBcQ61c2pzv', 'order_QHlg5BnIniytbD', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QHlgBcQ61c2pzv\\\",\\\"razorpay_order_id\\\":\\\"order_QHlg5BnIniytbD\\\",\\\"razorpay_signature\\\":\\\"9e6e2824e04320c4b049c9bbd074605c33f1bcadfcf62205cd42568e66c617bc\\\",\\\"amount\\\":80000,\\\"first_name\\\":\\\"Dhruv\\\",\\\"last_name\\\":\\\"Bhavsar\\\",\\\"email\\\":\\\"dhruvbhavsar210@gmail.com\\\",\\\"mobile\\\":\\\"09978835005\\\",\\\"address\\\":\\\"Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms, Keerthi Royal Palms,\\\",\\\"order_notes\\\":null,\\\"apartment\\\":null,\\\"city\\\":\\\"Banglore\\\",\\\"country\\\":\\\"1\\\",\\\"zip\\\":\\\"560100\\\"}\"', '2025-04-11 08:02:36', '2025-04-11 08:02:36');
+INSERT INTO `payments` (`id`, `order_id`, `product_id`, `razorpay_payment_id`, `razorpay_order_id`, `payment_mode`, `status`, `amount`, `currency`, `payment_data`, `created_at`, `updated_at`) VALUES
+(262, 118, 505, 'pay_QJJGbUvkbKB7s2', 'order_QJJGXPpyo137DB', 'Online', 'Paid', 800.00, 'INR', '\"{\\\"razorpay_payment_id\\\":\\\"pay_QJJGbUvkbKB7s2\\\",\\\"razorpay_order_id\\\":\\\"order_QJJGXPpyo137DB\\\",\\\"razorpay_signature\\\":\\\"fe68279cc5f976a9a59b41fbe872abf666d0b0547593c61e1537763b4a4b5201\\\",\\\"amount\\\":85000,\\\"address_type\\\":\\\"home\\\",\\\"order_notes\\\":null,\\\"country\\\":\\\"1\\\"}\"', '2025-04-15 05:33:19', '2025-04-15 05:33:19');
 
 -- --------------------------------------------------------
 
@@ -646,8 +625,8 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `name`, `slug`, `product_type`, `metal_type`, `size`, `sizes`, `color`, `colors`, `height`, `width`, `font`, `description`, `short_description`, `shipping_returns`, `related_products`, `price`, `compare_price`, `category_id`, `sub_category_id`, `brand_id`, `is_featured`, `sku`, `barcode`, `track_qty`, `qty`, `status`, `created_at`, `updated_at`) VALUES
 (395, 'Customize Neon', 'customize-neon', 'Neon', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>Test2</p>', 'test', 'test', '373', 600.00, NULL, 296, 57, NULL, 'No', 'woodframe_001', NULL, 'Yes', 86, 1, '2025-03-26 09:55:53', '2025-04-11 05:25:08'),
 (504, 'Common', 'common', 'Default', 't_shirt', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 297, 60, NULL, 'No', 'metalframe_001', NULL, 'Yes', 100, 1, '2025-03-31 05:51:08', '2025-03-31 05:55:57'),
-(505, 'Tshirt', 'tshirt', 'Customize', 'Others', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', 'metalframe_0012', NULL, 'Yes', 50, 1, '2025-03-31 05:54:23', '2025-04-09 22:18:20'),
-(519, 'test', 'test', 'Customize', 'Others', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', NULL, NULL, 'Yes', 93, 1, '2025-04-02 00:25:08', '2025-04-10 22:36:26'),
+(505, 'Tshirt', 'tshirt', 'Customize', 'Others', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', 'metalframe_0012', NULL, 'Yes', 31, 1, '2025-03-31 05:54:23', '2025-04-15 05:33:18'),
+(519, 'test', 'test', 'Customize', 'Others', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 800.00, NULL, 297, 60, NULL, 'No', NULL, NULL, 'Yes', 194, 1, '2025-04-02 00:25:08', '2025-04-15 05:18:39'),
 (520, 'Mouse Pad', 'mouse-pad', 'Default', 'Others', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 84, 1, '2025-04-06 20:35:09', '2025-04-11 08:02:36'),
 (521, 'Key Chain', 'key-chain', 'Customize', 'Canvas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>test</p>', 'test', 'test', '', 700.00, NULL, 298, 61, NULL, 'No', 'metalframe_001', NULL, 'Yes', 91, 1, '2025-04-06 20:44:43', '2025-04-10 22:38:25'),
 (525, 'Mukesh Bhavsar', 'mukesh-bhavsar', 'Default', 'Canvas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '<p>t</p>', 't', 't', '', 700.00, NULL, 298, 53, NULL, 'No', NULL, NULL, 'Yes', 100, 1, '2025-04-10 19:25:36', '2025-04-10 19:25:36');
@@ -812,7 +791,7 @@ CREATE TABLE `shipping_charges` (
 
 INSERT INTO `shipping_charges` (`id`, `country_id`, `amount`, `created_at`, `updated_at`) VALUES
 (19, '1', 50.00, '2025-02-20 05:35:38', '2025-02-20 05:35:38'),
-(23, '6', 100.00, '2025-03-26 07:47:09', '2025-03-26 07:47:09');
+(24, '2', 90.00, '2025-04-14 08:44:06', '2025-04-14 08:44:06');
 
 -- --------------------------------------------------------
 
@@ -922,8 +901,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `status`, `role`, `email_verified_at`, `password`, `remember_token`, `is_protected`, `created_at`, `updated_at`, `otp`, `otp_expires_at`) VALUES
 (7, 'Mukesh', 'Bhavsar', 'mukeshbhavsar210@gmail.com', NULL, 1, 2, NULL, '$2y$10$atts/65kfJw0YoA6jw3f2.U0XsNfRera0pwSXdTRmdlQHmvpAIHK2', NULL, 1, '2023-12-19 07:11:37', '2023-12-19 07:11:37', NULL, NULL),
-(30, 'Dhruv', 'Bhavsar', 'dhruvbhavsar210@gmail.com', NULL, 1, 1, NULL, '$2y$10$CINsltt2MKGU/BTfWGEQgex3wlwhdvt9.uLROJuwhZ48SezK.b1ia', NULL, 0, '2025-02-17 01:03:07', '2025-03-31 02:03:54', NULL, NULL),
-(38, 'Priyanka', 'Bhavsar', 'p.bhavsar2610@gmail.com', '09978835005', 1, 2, NULL, '$2y$10$mdQmbXEsrP39cT0gXXoaEeP7Pr3mX.Ex81j5avMRs4uZrjD3CopQe', NULL, 0, '2025-03-31 04:38:32', '2025-03-31 04:38:32', NULL, NULL),
+(30, 'Dhruv', 'Bhavsar', 'dhruvbhavsar210@gmail.com', '9978812345', 1, 1, NULL, '$2y$10$CINsltt2MKGU/BTfWGEQgex3wlwhdvt9.uLROJuwhZ48SezK.b1ia', NULL, 0, '2025-02-17 01:03:07', '2025-03-31 02:03:54', NULL, NULL),
+(38, 'Priyanka', 'Bhavsar', 'p.bhavsar2610@gmail.com', '09978835005', 1, 2, NULL, '$2y$10$mdQmbXEsrP39cT0gXXoaEeP7Pr3mX.Ex81j5avMRs4uZrjD3CopQe', NULL, 0, '2025-03-31 04:38:32', '2025-04-13 01:16:52', '105711', '2025-04-13 01:21:52'),
 (39, 'Jay', 'Shrimali', 'jay@gmail.com', '9978812345', 1, 1, NULL, '$2y$10$OZwZ23bg01WA.1t3ZnSnnOBZa.500oyrNwxv9AiXIkYbfkpvvGsJi', NULL, 0, '2025-04-01 22:30:27', '2025-04-01 22:30:27', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -1193,7 +1172,7 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1211,19 +1190,19 @@ ALTER TABLE `colors`
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer_addresses`
 --
 ALTER TABLE `customer_addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `discount_coupons`
 --
 ALTER TABLE `discount_coupons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1247,13 +1226,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -1265,7 +1244,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=263;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -1313,7 +1292,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `shipping_charges`
 --
 ALTER TABLE `shipping_charges`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `sizes`

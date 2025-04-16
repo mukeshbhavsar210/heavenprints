@@ -21,34 +21,42 @@
                 <div class="col-md-9">
                     <div class="card">
                         <div class="card-header pt-3">
-                            <h1 class="h5 mb-3">Shipping Address</h1>
                             <div class="row invoice-info">
-                                <div class="col-sm-7 invoice-col">
-                                    <address>
-                                        <h4>{{ $order->user->first_name.' '.$order->user->last_name }}</h4>
-                                        {{ $order->customerAddress->address }}<br>
-                                        {{ $order->customerAddress->apartment }},                                        
-                                        {{ $order->customerAddress->city }},
-                                        {{ $order->customerAddress->zip }}.<br>
-                                        {{ $order->customerAddress->country->name }}.<br>
-                                        Phone: {{ $order->user->phone }},<br>
-                                        Email: {{ $order->user->email }}
-                                    </address>
+                                <div class="col-sm-6 invoice-col col-12">
+                                    @php
+                                        // First, fetch the selected address based on delivery_at type ('home' or 'office')
+                                        $selectedAddress = $order->user->customerAddresses->where('delivery_at', $order->delivery_at)->whereNotNull('delivery_at')->first();
+
+                                        // If no address found with the selected type, try to get the other type ('home' or 'office')
+                                        if (!$selectedAddress) {
+                                            $otherType = $order->delivery_at === 'home' ? 'office' : 'home';
+                                            $selectedAddress = $order->user->customerAddresses->where('delivery_at', $otherType)->whereNotNull('delivery_at')->first();
+                                        }
+                                    @endphp
+
+                                    @if($selectedAddress)
+                                        <address>        
+                                            <h1 class="h5 mb-3">Shipping to - {{ ucfirst($selectedAddress->delivery_at) }} address</h1>
+                                            <strong>{{ $order->user->first_name . ' ' . $order->user->last_name }}</strong> - <br>                                            
+                                            {{ $selectedAddress->address }}<br>
+                                            {{ $selectedAddress->apartment }}, {{ $selectedAddress->city }}, {{ $selectedAddress->zip }}, 
+                                            {{ $selectedAddress->country->name }}<br>
+                                            Phone: <a href="callto:{{ $order->user->phone }}">{{ $order->user->phone }}</a><br>
+                                            Email: <a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a>
+                                        </address>
+                                    @else
+                                        <p>No address found for the selected delivery type.</p>
+                                    @endif
                                 </div>
 
-                                <div class="col-sm-5">
+                                <div class="col-sm-6 col-12">
                                     <div class="row">
                                         <div class="col-sm-6 text-right">Invoice</div>
                                         <div class="col-sm-6"><b>#007612</b></div>
-                                    </div>
+                                    </div><br />
 
-                                    {{-- @foreach($order->payments as $payment)
+                                    @foreach($order->payments as $payment)
                                     @endforeach
-
-                                    <div class="row">
-                                        <div class="col-sm-6 text-right"><span>Payment ID:</span></div>
-                                        <div class="col-sm-6"><b>{{ $payment->razorpay_payment_id }} </b></div>
-                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-sm-6 text-right"><span>Order ID:</span></div>
@@ -56,9 +64,25 @@
                                     </div>
 
                                     <div class="row">
+                                        <div class="col-sm-6 text-right"><span>Payment ID:</span></div>
+                                        <div class="col-sm-6"><b>{{ $payment->razorpay_payment_id }} </b></div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-6 text-right"><span>Total:</span></div>
                                         <div class="col-sm-6"><b>₹ {{ number_format($order->grandtotal,2) }} </b></div>
-                                        {{-- <div class="col-sm-6"><b>₹ {{ number_format($order->grandtotal,2) }} - {{ $payment->status }}</b></div> --}}
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-6 text-right"><span>Order Date:</span></div>
+                                        <div class="col-sm-6">
+                                            <b>
+                                                @if (!empty($order->shipped_date))
+                                                    {{ \Carbon\Carbon::parse($order->shipped_date)->format('d M, y')}}
+                                                @else
+                                                    n/a
+                                                @endif
+                                            </b>
+                                        </div>
                                     </div>
 
                                     <div class="row">
@@ -73,19 +97,6 @@
                                             @else
                                                 <span class="badge bg-danger">Cancelled</span>
                                             @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6 text-right"><span>Shipped Date:</span></div>
-                                        <div class="col-sm-6">
-                                            <b>
-                                                @if (!empty($order->shipped_date))
-                                                    {{ \Carbon\Carbon::parse($order->shipped_date)->format('d M, y')}}
-                                                @else
-                                                    n/a
-                                                @endif
-                                            </b>
                                         </div>
                                     </div>
                                 </div>

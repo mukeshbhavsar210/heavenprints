@@ -100,7 +100,7 @@ class AuthController extends Controller
         $user = User::where('id',$userId)->first();
 
         $home_address = CustomerAddress::where('type','home')->where('user_id',$userId)->first();
-        $office_address = CustomerAddress::where('type','office')->where('user_id',$userId)->first();
+        $office_address = CustomerAddress::where('type','office')->where('user_id',$userId)->first();      
 
         return view('front.account.profile',[
             'user' => $user,
@@ -145,113 +145,41 @@ class AuthController extends Controller
         $userId = Auth::user()->id;
 
         $validator = Validator::make($request->all(),[
-            'country_id' => 'required',
-            'address' => 'required|min:30',
-            'city' => 'required',
-            'zip' => 'required'
-        ]);
-
-        if($validator->passes()){
-            CustomerAddress::updateOrCreate(
-                ['user_id' => $userId, 'type' => 'home'],
-                [
-                    'user_id' => $userId,                    
-                    'country_id' => $request->country_id,
-                    'address' => $request->address,
-                    'apartment' => $request->apartment,
-                    'city' => $request->city,
-                    'zip' => $request->zip,
-                    'type' => $request->type
-                ]
-            );
-
-            session()->flash('success','Home Address updated successfully.');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Profile updated successfully.'
-            ]);
-
-        } else {
-            return response()->json([
-                'status' => false,
-                'error' => $validator->errors()
-            ]);
-        }
-    }
-
-
-
-    public function office_updateAddress(Request $request){
-        $userId = Auth::user()->id;
-
-        $validator = Validator::make($request->all(),[
-            'country_id' => 'required',
-            'address' => 'required|min:30',
-            'city' => 'required',
-            'zip' => 'required'
-        ]);
-
-        if($validator->passes()){
-            CustomerAddress::updateOrCreate(
-                ['user_id' => $userId, 'type' => 'office'],
-                [
-                    'user_id' => $userId,                    
-                    'country_id' => $request->country_id,
-                    'address' => $request->address,
-                    'apartment' => $request->apartment,
-                    'city' => $request->city,
-                    'zip' => $request->zip,
-                    'type' => $request->type
-                ]
-            );
-
-            session()->flash('success','Office Address updated successfully.');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Profile updated successfully.'
-            ]);
-
-        } else {
-            return response()->json([
-                'status' => false,
-                'error' => $validator->errors()
-            ]);
-        }
-    }
-
-
-    public function office_store(Request $request){
-        $userId = Auth::user()->id;
-
-        $validator = Validator::make($request->all(), [
-            'address' => 'required',
             'apartment' => 'required',
-            'city' => 'required',
-            'zip' => 'required',
             'country_id' => 'required',
+            'address' => 'required|min:20',
+            'city' => 'required',
+            'zip' => 'required'
         ]);
 
-        if ($validator->passes()) {
-            CustomerAddress::updateOrCreate(
-                ['user_id' => $userId, 'type' => 'office'],
-                [
-                    'user_id' => $userId,                    
-                    'country_id' => $request->country_id,
-                    'address' => $request->address,
-                    'apartment' => $request->apartment,
-                    'city' => $request->city,
-                    'zip' => $request->zip,
-                    'type' => $request->type
-                ]
-            );      
+        if($validator->passes()){
+            CustomerAddress::create([
+                'user_id' => $userId,
+                'country_id' => $request->country_id,
+                'address' => $request->address,
+                'apartment' => $request->apartment,
+                'city' => $request->city,
+                'zip' => $request->zip,
+                'type' => $request->type
+            ]);
 
-            return redirect()->route('account.profile')->with('success','Office address saved successfully.');
+            session()->flash('success','Address updated successfully.');
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Address updated successfully.'
+            ]);
+
         } else {
-            return redirect()->route('account.profile')->withInput()->withErrors($validator);
-        }            
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()
+            ]);
+        }
     }
+
+
+
 
 
     public function logout(){
@@ -364,8 +292,6 @@ class AuthController extends Controller
         }
     }
 
-
-
     public function showLinkRequestForm() {
         return view('front.account.forgot-password');
     }
@@ -407,4 +333,21 @@ class AuthController extends Controller
     }
     
 
+    public function destroy($id, Request $request){
+        $addess = CustomerAddress::find($id);
+        if(empty($addess)){
+            $request->session()->flash('error','Record not found');
+            return response([
+                'status' => false,
+                'notFound' => true,
+            ]);
+        }
+        $addess->delete();
+        $request->session()->flash('success', 'Address deleted successfully');
+
+        return response([
+            'status' => true,
+            'message' => 'Address deleted successfully',
+        ]);
+    }
 }

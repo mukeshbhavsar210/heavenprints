@@ -390,6 +390,7 @@ class CartController extends Controller {
         ]);
     }
 
+
     public function deleteItem(Request $request){
         $rowId = $request->rowId;
         $itemInfo = Cart::get($rowId);
@@ -415,6 +416,7 @@ class CartController extends Controller {
         ]);
     }
 
+
     public function checkout(){
         $discount = 0;
 
@@ -428,10 +430,8 @@ class CartController extends Controller {
             if (!session()->has('url.intended')) {
                 session(['url.intended' => url()->current()]);
             }
-
             return redirect()->route('account.login');
         }
-
 
         $homeAddress = Auth::check()
                         ? Auth::user()->customerAddresses->where('type', 'home')->first()
@@ -440,7 +440,10 @@ class CartController extends Controller {
         $officeAddress = Auth::check()
                         ? Auth::user()->customerAddresses->where('type', 'office')->first()
                         : null;
-   
+        
+        
+        $discountCode = DiscountCoupon::get();
+
         $customerAddress = CustomerAddress::find(Auth::user()->id);
 
         $countryShow = CustomerAddress::with('country')->get();
@@ -470,6 +473,8 @@ class CartController extends Controller {
             $totalShiipingCharge = 0;
         }
 
+     
+
         return view('front.checkout.index',[
             'countries' => $countries,
             'customerAddress' => $customerAddress,
@@ -479,6 +484,7 @@ class CartController extends Controller {
             'countryShow' => $countryShow,
             'homeAddress' => $homeAddress,
             'officeAddress' => $officeAddress,            
+            'discountCode' => $discountCode, 
         ]);
     }
 
@@ -503,12 +509,14 @@ class CartController extends Controller {
         ]);
     }
 
+
+
     // Verify Payment
     public function verifyPayment(Request $request) {
         $amount = $request->amount ?? 0;                
         $order_notes = $request->order_notes;                
         $country = $request->country;
-        $type = $request->address_type ?? 'home';
+        $address_type = $request->address_type;        
 
         try {
             $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -522,8 +530,7 @@ class CartController extends Controller {
             $api->utility->verifyPaymentSignature($attributes);
 
             //Step 1: apply validations while make orders
-            $validator = Validator::make($request->all(),[
-                // 'city' => 'required',
+            $validator = Validator::make($request->all(),[                                
                 // 'zip' => 'required'
             ]);
 
@@ -533,18 +540,39 @@ class CartController extends Controller {
                     'status' => false,
                     'errors' => $validator->errors()
                 ]);
-            }
+            }           
 
             $user = Auth::user();
-            $address = CustomerAddress::updateOrCreate(
-                ['user_id' => $user->id ],
-                [
-                    'user_id' => $user->id,                    
-                    'country_id' => $country,
-                    'notes' => $order_notes,
-                    'type' => $type,
-                ]
-            );
+
+            if ($address_type === 'home') {
+                CustomerAddress::where('user_id', $user->id)
+                                ->whereNotNull('delivery_at')
+                                ->update(['delivery_at' => null]);
+
+                $homeAddress = CustomerAddress::updateOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'type' => 'home'
+                    ],
+                    [
+                        'country_id' => $country,
+                        'notes' => $order_notes,
+                        'delivery_at' => 'home',
+                    ]
+                );
+            } elseif ($address_type === 'office') {
+                $officeAddress = CustomerAddress::updateOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'type' => 'office'
+                    ],
+                    [
+                        'country_id' => $country,
+                        'notes' => $order_notes,
+                        'delivery_at' => 'office',
+                    ]
+                );
+            }            
             
             //Step 3: Store data in orders table
             $discountCodeId = NULL;
@@ -591,23 +619,22 @@ class CartController extends Controller {
                 $productData->save();
             }   
 
-            $random  = Str::random(6);
-            $random  = 'order_' . Str::random(6);
-
             $order = Order::create([
-                'order_id' => $random,
                 'user_id' => $user->id,
                 'product_id' => $item->id,
+                'country_id' => $country,
                 'subtotal' => $subTotal,
                 'shipping' => $shipping,
-                'grandtotal' => $grandTotal,
-                'discount' => $discount,
-                'coupon_code_id' => $discountCodeId,
                 'coupon_code' => $promoCode,
+                'coupon_code_id' => $discountCodeId,
+                'discount' => $discount,
+                'qty' => $item->qty,
+                'price' => $item->price,
+                'grandtotal' => $grandTotal,
                 'status' => 'pending',
-                'country_id' => $country,
             ]);        
             
+            //Order Item update
             foreach (Cart::content() as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -634,6 +661,7 @@ class CartController extends Controller {
                 ]);
             }
 
+            //Payment table update
             Payment::create([
                 'order_id' => $order->id,
                 'product_id' => $item->id,
@@ -646,16 +674,15 @@ class CartController extends Controller {
                 'payment_data' => json_encode($request->all()),               
             ]);
 
-            //Send confirmed order email
+            //Send confirmed order email onilne for ONLINE NOT for LOCAL
             //orderEmail($order->id, 'customer');
 
             Cart::destroy();
-
             session()->forget(['grand_total']);
 
             return response()->json([
-                'status' => 'success', 
-                'order_id' => $order->order_id,
+                'status' => 'success',                
+                'orderId' => $order->id,
                 'message' => 'Payment verified successfully'
             ]);
         } catch (\Exception $e) {
@@ -664,20 +691,19 @@ class CartController extends Controller {
         }
     }
 
-    public function success($orderId) {
-        $order = Order::where('order_id', $orderId)->firstOrFail();
-        return view('front.checkout.success', compact('order'));
+    public function thankyou($id){
+        $order = Order::where('id', $id)->firstOrFail();
+        return view('front.checkout.thanks',[
+            'id' => $id,
+            'order' => $order,
+        ]);
     }
 
     public function failed(){
         return view("front.checkout.failed");
     }
 
-    public function thankyou($id){
-        return view('front.checkout.thanks',[
-            'id' => $id,
-        ]);
-    }
+    
 
     public function getOrderSummary(Request $request){
         $subTotal = Cart::subtotal(2,'.','');

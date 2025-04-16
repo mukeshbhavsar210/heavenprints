@@ -76,7 +76,7 @@
 								</div>
 
 								@if (Auth::check())
-									<a href="{{ route('account.profile')}}" class="btn btn-primary loginBtn mt-1">My Account</a>
+									<a href="{{ route('account.profile')}}" class="btn btn-primary loginBtn mt-1">Account</a>
 								@else
 									<a href="{{ route('account.login')}}" class="btn btn-primary loginBtn mt-1">Login</a>
 								@endif
