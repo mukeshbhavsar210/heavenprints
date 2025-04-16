@@ -80,7 +80,7 @@ Route::controller(CartController::class)->group(function() {
     Route::post('/verify-payment', 'verifyPayment')->name('verify.payment');
     Route::post('checkout/razorpay', 'razorpayPayment')->name('checkout.razorpay');
     //Route::get('/order/success','success')->name('order.success');
-    Route::get('/order/success/{order}','success')->name('order.success');
+    //Route::get('/order/success/{order}','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
 
 });
@@ -116,6 +116,7 @@ Route::group(['prefix' => 'account'], function(){
             Route::get('/profile','profile')->name('account.profile');
             Route::post('/update-profile','updateProfile')->name('account.updateProfile');
             Route::post('/update-address','updateAddress')->name('account.updateAddress');
+            Route::delete('/address/{address}', 'destroy')->name('address.delete');      
             Route::post('/update-address-office', 'office_store')->name('office.store');
             Route::get('/change-password','changePasswordForm')->name('account.changePassword');
             Route::post('/process-change-password','changePassword')->name('account.processChangePassword');

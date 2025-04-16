@@ -57,4 +57,7 @@ class User extends Authenticatable
     public function customerAddresses() {
         return $this->hasOne(CustomerAddress::class);
     }
+
+    
+   
 }

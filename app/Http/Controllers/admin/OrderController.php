@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerAddress;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class OrderController extends Controller {
                 ->leftJoin('customer_addresses', 'orders.user_id', '=', 'customer_addresses.user_id', )
                 ->leftJoin('countries', 'customer_addresses.country_id', '=', 'countries.id')
                 ->select('orders.*', 'customer_addresses.address',   )
-                ->first();
+                ->first();                                       
 
         //$orderItems = OrderItem::where('order_id',$orderId)->get();
 
@@ -44,6 +45,8 @@ class OrderController extends Controller {
                         )
                         ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
                         ->get();
+
+        //dd($order);
 
         return view('admin.orders.detail',[
             'order' => $order,

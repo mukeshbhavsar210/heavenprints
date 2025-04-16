@@ -46,44 +46,40 @@
                 </div>
 
                 @if ($orders->isNotEmpty())
-                    @foreach ($orders as $order)
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-2 col-3">
-                                        <a href="{{ route('account.orderDetail',$order->id) }}"><img src="{{ asset('uploads/products/small/' . $order->product->images->first()->image1) }}" style="width:70px; border-radius:4px"></a>
-                                    </div>
-                                    <div class="col-md-10 col-9">
-                                        <div class="row">
-                                            <div class="col-md-8 col-12">
-                                                <h6 class="mb-1"><a href="{{ route('account.orderDetail',$order->id) }}" class="price-title">{{ $order->product->name }}</a></h6>
-                                                ₹ {{ number_format($order->grandtotal,2) }}
-                                            </div>
-                                            <div class="col-md-2 col-6">
-                                                <p class="mt-3">{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</p>
-                                            </div>
-                                            <div class="col-md-2 col-6">
-                                                <p class="mt-3">
-                                                    @if ($order->status == 'pending')
-                                                    <span class="badge bg-danger">Pending</span>
-                                                    @elseif ($order->status == 'shipped')
-                                                        <span class="badge bg-info">Shipped</span>
-                                                    @elseif ($order->status == 'delivered')
-                                                        <span class="badge bg-success">Delivered</span>
-                                                    @else
-                                                        <span class="badge bg-danger">Cancelled</span>
-                                                    @endif          
-                                                </p>                                                                              
-                                            </div>                                        
+                <div class="row">
+                    @foreach ($orders as $order)                    
+                        <div class="col-md-6 col-12">
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 col-4">
+                                            <a href="{{ route('account.orderDetail',$order->id) }}"><img src="{{ asset('uploads/products/small/' . $order->product->images->first()->image1) }}" style="border-radius:4px"></a>
                                         </div>
+                                        <div class="col-md-8 col-8">
+                                            <h6 class="mb-1"><a href="{{ route('account.orderDetail',$order->id) }}" class="price-title">{{ $order->product->name }}</a></h6>
+                                            ₹ {{ number_format($order->grandtotal,2) }}
+                                            <p class="mt-1 mb-2">{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</p>
+                                            <p>
+                                                @if ($order->status == 'pending')
+                                                <span class="badge bg-danger">Pending</span>
+                                                @elseif ($order->status == 'shipped')
+                                                    <span class="badge bg-info">Shipped</span>
+                                                @elseif ($order->status == 'delivered')
+                                                    <span class="badge bg-success">Delivered</span>
+                                                @else
+                                                    <span class="badge bg-danger">Cancelled</span>
+                                                @endif          
+                                            </p> 
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                    @else
-                        <div>Orders not found</div>
-                @endif
-            </div>
+                        @endforeach
+                        @else
+                            <div>Orders not found</div>
+                    @endif
+                </div>
         </div>
     </div>
 </section>
