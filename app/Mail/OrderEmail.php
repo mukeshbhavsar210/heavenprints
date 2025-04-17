@@ -15,47 +15,23 @@ class OrderEmail extends Mailable
 
     public $mailData;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($mailData)
-    {
+    public function __construct($mailData) {
         $this->mailData = $mailData;
     }
 
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
-    public function envelope()
-    {
+    public function envelope() {
         return new Envelope(
             subject: $this->mailData['subject'],
         );
     }
 
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
-    public function content()
-    {
+    public function content() {
         return new Content(
             view: 'email.order',
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
-    public function attachments()
-    {
+    public function attachments() {
         return [];
     }
 }
