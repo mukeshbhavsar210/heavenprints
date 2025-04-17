@@ -347,16 +347,19 @@
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card">
-                            <form action="" method="post" name="changeOrderStatusForm" id="changeOrderStatusForm">
+                        <div class="card">                            
+                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                                @csrf
+                                @method('PUT') 
+
                                 <div class="card-body">
                                     <h2 class="h4 mb-3">Order Status</h2>
                                     <div class="mb-3">
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="pending" {{ ($order->status == 'pending') ? 'selected' : ''}}>Pending</option>
-                                            <option value="shipped" {{ ($order->status == 'shipped') ? 'selected' : ''}}>Shipped</option>
-                                            <option value="delivered" {{ ($order->status == 'delivered') ? 'selected' : ''}}>Delivered</option>
-                                            <option value="cancelled" {{ ($order->status == 'cancelled') ? 'selected' : ''}}>Cancelled</option>
+                                        <select name="status"  class="form-control">
+                                            <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                            <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                            <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                         </select>
                                     </div>
 
@@ -365,12 +368,11 @@
                                         <input placeholder="Shipped Date" autocomplete="off" value="{{ $order->shipped_date }}" type="text" name="shipped_date" id="shipped_date" class="form-control">
                                     </div>
 
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary">Update</button>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </form>
                         </div>
+
                         <div class="card">
                             <div class="card-body">
                                 <form action="" method="post" name="sendInvoiceEmail" id="sendInvoiceEmail">
@@ -381,16 +383,13 @@
                                             <option value="admin">Admin</option>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary">Send</button>
-                                    </div>
+                                    <button class="btn btn-primary">Send</button>
                                 </form>
                             </div>
                         </div>
                     </div>
             </div>
-        </div>
-        <!-- /.card -->
+        </div>        
     </section>
 @endsection
 

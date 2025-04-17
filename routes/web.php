@@ -210,6 +210,9 @@ Route::group(['prefix' => 'admin'], function(){
             Route::get('/orders', 'index')->name('orders.index');
             Route::get('/orders/{id}', 'detail')->name('orders.detail');
             Route::post('/order/change-status/{id}', 'changeOrderStatus')->name('orders.changeOrderStatus');
+
+            Route::put('/admin/orders/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
+
             Route::post('/order/send-email/{id}', 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
         });
 

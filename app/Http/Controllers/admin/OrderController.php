@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusChanged;
 use App\Models\CustomerAddress;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -55,7 +57,7 @@ class OrderController extends Controller {
     }
 
     public function changeOrderStatus(Request $request, $orderId){
-        $order = Order::find($orderId);
+        $order = Order::find($orderId);        
         $order->status = $request->status;
         $order->shipped_date = $request->shipped_date;
         $order->save();
@@ -68,6 +70,22 @@ class OrderController extends Controller {
             'status' => true,
             'message' => $message,
         ]);
+    }
+
+
+
+    public function updateStatus(Request $request, $orderId) {
+        $order = Order::with('user', 'items.product')->findOrFail($orderId);
+        $oldStatus = $order->status;
+        $order->status = $request->status;
+        $order->shipped_date = $request->shipped_date;
+        $order->save();
+
+        if (!empty($order->userEmail->email)) {
+            Mail::to($order->userEmail->email)->send(new OrderStatusChanged($order));
+        }
+                
+        return back()->with('success', 'Order status updated and email sent.');
     }
 
 
