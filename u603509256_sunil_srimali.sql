@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 16, 2025 at 09:28 AM
+-- Generation Time: Apr 17, 2025 at 07:58 AM
 -- Server version: 10.11.10-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -33,7 +33,6 @@ CREATE TABLE `banners` (
   `banner_slug` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `image` longtext DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
   `showHome` varchar(255) NOT NULL DEFAULT 'Yes',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -43,8 +42,8 @@ CREATE TABLE `banners` (
 -- Dumping data for table `banners`
 --
 
-INSERT INTO `banners` (`id`, `name`, `banner_slug`, `description`, `image`, `status`, `showHome`, `created_at`, `updated_at`) VALUES
-(37, 'Personalized Gift', 'personalized-gift', NULL, 'personalized-gift.jpg', 1, 'Yes', '2025-04-08 11:43:47', '2025-04-08 11:43:48');
+INSERT INTO `banners` (`id`, `name`, `banner_slug`, `description`, `image`, `showHome`, `created_at`, `updated_at`) VALUES
+(37, 'Personalized Gift', 'personalized-gift', NULL, 'personalized-gift.jpg', 'Yes', '2025-04-08 11:43:47', '2025-04-08 11:43:48');
 
 -- --------------------------------------------------------
 
@@ -169,6 +168,30 @@ CREATE TABLE `customer_addresses` (
 INSERT INTO `customer_addresses` (`id`, `user_id`, `country_id`, `address`, `apartment`, `city`, `zip`, `notes`, `type`, `delivery_at`, `created_at`, `updated_at`) VALUES
 (1, 30, 1, 'Shlok Heights', 'Shlok heights', 'Ahmedabad', '380019', NULL, 'home', 'home', NULL, NULL),
 (20, 46, 1, 'B-1003, Shlok heights, Mansarovar road, Next to Mirada Hall', 'Shlok', 'Ahmedabad', '382424', NULL, 'home', NULL, '2025-04-15 12:31:12', '2025-04-15 12:33:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customizes`
+--
+
+CREATE TABLE `customizes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `category` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customizes`
+--
+
+INSERT INTO `customizes` (`id`, `name`, `price`, `image`, `category`, `type`, `created_at`, `updated_at`) VALUES
+(5, 'Square', '700', NULL, 'first', 'shape', '2025-04-17 05:22:21', '2025-04-17 05:22:21');
 
 -- --------------------------------------------------------
 
@@ -883,12 +906,17 @@ CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `business_line` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `whatsapp` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `address` text DEFAULT NULL,
+  `primary_color` varchar(20) DEFAULT NULL,
+  `secondary_color` varchar(20) DEFAULT NULL,
+  `link_color` varchar(20) DEFAULT NULL,
+  `background_color` varchar(20) DEFAULT NULL,
+  `text_color` varchar(20) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
   `facebook` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
   `twitter` varchar(255) DEFAULT NULL,
@@ -901,8 +929,8 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `name`, `business_line`, `description`, `image`, `phone`, `whatsapp`, `email`, `address`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
-(1, 'Heaven Prints', 'Customized Neon and Frames', 'Hello', 'Heaven Prints.jpg', '9924489907', '9924489907', 'info@heavenprints.in', '2005 delhi chakla  ,Shahpur  Ahmedabad', 'https://www.facebook.com/', 'https://www.instagram.com/heaven__prints?igsh=MXVkZWgzZzQ4NHEzeA==', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-04-01 07:43:35');
+INSERT INTO `settings` (`id`, `name`, `business_line`, `image`, `phone`, `whatsapp`, `email`, `address`, `primary_color`, `secondary_color`, `link_color`, `background_color`, `text_color`, `is_active`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
+(1, 'Heaven Prints', 'Customized Neon and Frames', 'Heaven Prints.jpg', '9924489907', '9924489907', 'info@heavenprints.in', '2005 delhi chakla  ,Shahpur  Ahmedabad', '#0d6efd', '#000000', '#404040', '#ffffff', '#424242', 1, 'https://www.facebook.com/', 'https://www.instagram.com/heaven__prints?igsh=MXVkZWgzZzQ4NHEzeA==', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-04-17 07:52:58');
 
 -- --------------------------------------------------------
 
@@ -1110,6 +1138,12 @@ ALTER TABLE `customer_addresses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_addresses_user_id_foreign` (`user_id`),
   ADD KEY `customer_addresses_country_id_foreign` (`country_id`);
+
+--
+-- Indexes for table `customizes`
+--
+ALTER TABLE `customizes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `custom_totals`
@@ -1345,6 +1379,12 @@ ALTER TABLE `countries`
 --
 ALTER TABLE `customer_addresses`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `customizes`
+--
+ALTER TABLE `customizes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `custom_totals`

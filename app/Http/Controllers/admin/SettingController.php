@@ -4,9 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
-use App\Models\Category;
 use App\Models\Color;
-
 use App\Models\FrameMaterial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,13 +40,25 @@ class SettingController extends Controller {
 
         if ($validator->passes()) {
             $settings = Setting::first() ?? new Setting();  
+
+            if ($request->has('is_active')) {
+                Setting::where('id', '!=', $settings->id)->update(['is_active' => false]);
+                $settings->is_active = true;
+            } else {
+                $settings->is_active = false;
+            }
+
             $settings->name = $request->name;
             $settings->business_line = $request->business_line;
             $settings->phone = $request->phone;
             $settings->whatsapp = $request->whatsapp;
             $settings->email = $request->email;
             $settings->address = $request->address;
-            $settings->description = $request->description;
+            $settings->primary_color = $request->primary_color;
+            $settings->secondary_color = $request->secondary_color;
+            $settings->link_color = $request->link_color;
+            $settings->background_color = $request->background_color;
+            $settings->text_color = $request->text_color;
             $settings->save();
 
             //logo upload
@@ -81,7 +91,7 @@ class SettingController extends Controller {
 
 
 
-    
+  
 
 
     // Update Settings
@@ -105,10 +115,6 @@ class SettingController extends Controller {
         return back()->with('success', 'Social media updated successfully!');
     }
 
-
-    
-
-   
     public function showChangePasswordForm(){
         return view("admin.change-password");
     }
@@ -163,8 +169,7 @@ class SettingController extends Controller {
             $banner = new Banner();
             $banner->name = $request->name;
             $banner->banner_slug = $request->banner_slug;
-            $banner->description = $request->description;
-            $banner->status = $request->status;
+            $banner->description = $request->description;            
             $banner->showHome = $request->showHome;
             $banner->save();
 
@@ -303,5 +308,8 @@ class SettingController extends Controller {
             'message' => 'Size deleted successfully',
         ]);
     }
+
+
+    
 
 }

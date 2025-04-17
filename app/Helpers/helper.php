@@ -19,7 +19,7 @@ use App\Mail\OrderInvoiceMail;
     }
 
     function getBanners(){
-        return Banner::orderBy('name','ASC')->where('status',1)->where('showHome','Yes')->get();
+        return Banner::orderBy('name','ASC')->where('showHome','Yes')->get();
     }
 
     function getCategories(){

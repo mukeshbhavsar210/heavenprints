@@ -274,6 +274,8 @@ input:checked + .slider { box-shadow:0 0 0 2px #007bff,0 0 2px #007bff; }
 }
 
 
+.float-end { float: right;}
+
 
 .checkboxDropdown .dropdown-menu.show { padding:10px;}
 .checkboxDropdown .dropdown-menu.show input[type=checkbox] { margin-right: 5px;}

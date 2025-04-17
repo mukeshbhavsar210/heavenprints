@@ -8,12 +8,18 @@
     </div>
 </nav>
 
+{{-- @if($customizeData->isNotEmpty())
+    @foreach ($customizeData as $value)
+        {{ $value->name }}
+    @endforeach
+@endif --}}
+
 <div class="tab-content mt-2" id="nav-tabContent">
         <div class="tab-pane active show fade {{ session('finalPriceData.name') == 'Canvas' ? 'active show' : '' }} " id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
             <div class="paddWrapper">
                 <div class="radio-group row">
                         @foreach ($canvas_material_data as $key => $size)
-                            <div class="col-md-3 col-3">                                 
+                            <div class="col-md-3 col-4">                                 
                                 <label class="custom-radio product" >
                                     <input type="radio" name="product" value="{{ $key }}" class="frame-option" data-type="Canvas" data-name="{{ $size['name'] }}" data-price="{{ $size['price'] }}" >
                                     <img class="icon" src="{{ asset('uploads/icons/products/'.$size['image']) }}" alt="" />

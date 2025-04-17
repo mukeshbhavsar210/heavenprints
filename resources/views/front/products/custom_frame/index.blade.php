@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	@php
 		$settings = \App\Models\Setting::first();
+        $activeTheme = \App\Models\Setting::where('is_active', true)->first();
 	@endphp
 
 	<title>{{ $settings->business_line }}</title>
@@ -11,12 +12,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
 
 	<meta name="HandheldFriendly" content="True" />
-	<meta name="pinterest" content="nopin" />
-	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick-theme.css') }}" />
+	<meta name="pinterest" content="nopin" />	
 	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
 
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +24,44 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
+
+    <style>
+		:root {
+			--primary-color: {{ $activeTheme->primary_color }};
+			--secondary-color: {{ $activeTheme->secondary_color }};
+			--link-color: {{ $activeTheme->link_color }};
+			--background-color: {{ $activeTheme->background_color }};
+			--text-color: {{ $activeTheme->text_color }};
+		}
+	
+		body {
+			background-color: var(--background-color);
+			color: var(--text-color);
+		}
+
+		a { color: var(--link-color); }
+		a:hover { color: var(--primary-color); }
+	
+		.btn-primary, 
+		.productDetailsTabs .nav .nav-item button.active,
+		.size-picker__input:checked + .size-picker__color,
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link,
+        .cartCount, .nav-tabs .nav-link.active
+		{
+			background-color: var(--primary-color);
+			border-color: var(--primary-color);
+		}
+        a:hover, .breadcrumb-item+.breadcrumb-item, #faq .accordion-button:not(.collapsed) { color: var(--primary-color); }
+		.btn-outline-primary { color: var(--primary-color); border-color: var(--primary-color);}
+        .custom-radio:hover { border-color: var(--primary-color); }
+        .custom-radio.active { border-color: var(--primary-color); color: var(--black); }
+        .custom-radio.active::after { background-color: var(--primary-color); }
+		.btn-secondary {
+			background-color: var(--secondary-color);
+			border-color: var(--secondary-color);
+		}
+	</style>
+
 </head>
 <body data-instant-intensity="mousedown">
     <header id="mainWrapper">
@@ -60,7 +96,7 @@
                                 <a href="{{ route('account.login')}}" class="btn btn-primary loginBtn mt-1 mr-3">Login</a>
                             @endif
 
-                            <a href="{{ route('front.cart') }}" class="d-flex  pt-2 relative hideMobile">
+                            <a href="{{ route('front.cart') }}" class="d-flex  pt-2 relative ">
                                 <?xml version="1.0" encoding="utf-8"?>
                                 <svg width="40px" height="40px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M10.692 17.95C10.6909 18.5286 10.2212 18.9968 9.64268 18.996C9.06414 18.9953 8.59564 18.5259 8.59601 17.9474C8.59638 17.3688 9.06547 16.9 9.64401 16.9C9.92222 16.9003 10.1889 17.0111 10.3855 17.208C10.582 17.4049 10.6923 17.6718 10.692 17.95V17.95Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -71,17 +107,12 @@
                                 <div class="cartCount">{{ Cart::count() }}</div>
                             </a>
 
-                           
-
-                           
-							
                             <button class="navbar-toggler d-lg-none d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <?xml version="1.0" encoding="utf-8"?>
                                 <svg width="30px" height="30px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M6.5 11.75C6.08579 11.75 5.75 12.0858 5.75 12.5C5.75 12.9142 6.08579 13.25 6.5 13.25V11.75ZM18.5 13.25C18.9142 13.25 19.25 12.9142 19.25 12.5C19.25 12.0858 18.9142 11.75 18.5 11.75V13.25ZM6.5 15.75C6.08579 15.75 5.75 16.0858 5.75 16.5C5.75 16.9142 6.08579 17.25 6.5 17.25V15.75ZM18.5 17.25C18.9142 17.25 19.25 16.9142 19.25 16.5C19.25 16.0858 18.9142 15.75 18.5 15.75V17.25ZM6.5 7.75C6.08579 7.75 5.75 8.08579 5.75 8.5C5.75 8.91421 6.08579 9.25 6.5 9.25V7.75ZM18.5 9.25C18.9142 9.25 19.25 8.91421 19.25 8.5C19.25 8.08579 18.9142 7.75 18.5 7.75V9.25ZM6.5 13.25H18.5V11.75H6.5V13.25ZM6.5 17.25H18.5V15.75H6.5V17.25ZM6.5 9.25H18.5V7.75H6.5V9.25Z" fill="#000000"/>
                                 </svg>
                             </button>
-									
 						</div>
 					</div>
 				</div>
@@ -92,7 +123,7 @@
 			<div class="container">
 				<nav class="navbar navbar-expand-xl" id="navbar" >
 					<div class="row">
-						<div class="col-md-8 col-12">
+						<div class="col-md-8 col-2">
 							<div class="collapse navbar-collapse" id="navbarSupportedContent">
 								<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 									@if (getCategories()->isNotEmpty())
@@ -129,8 +160,13 @@
 									@endif
 								</ul>
 							</div>
+                            <nav class="frame_mobile_menu">
+                                <div class="toggle-wrap" onclick="toggleMenu(this)">
+                                    <span class="toggle-bar"></span>
+                                </div>
+                            </nav>
 						</div>
-						<div class="col-md-4 col-12">
+						<div class="col-md-4 col-10">
                             <div class="nameTotal">
                                 <div class="d-flex">
                                     <div class="priceHover  mt-2">   
@@ -144,15 +180,6 @@
                                                 <input type="hidden" id="sessionPrice" value="{{ session('finalPriceData.finalPrice', 0) }}">
                                         </h4>
 
-                                        {{-- ₹<span id="finalPrice">
-                                            @php
-                                                $finalPriceData = session('finalPriceData', []);
-                                                $finalPrice = isset($finalPriceData['finalPrice']) ? $finalPriceData['finalPrice'] : 0;
-                                            @endphp
-                                            {{ number_format($finalPrice, 2) }}
-                                        </span>
-                                        <input type="hidden" id="sessionPrice" value="{{ $finalPrice }}"> --}}
-                        
                                         <div class="breakups" aria-labelledby="dropdownMenuButton">    
                                             <div id="productDetails"></div>
                                             <div id="wrapDetails"></div>
@@ -172,11 +199,9 @@
                                         </div>
                                     </div>
 
-                                    <a class="btn btn-primary mt-1 hideMobile" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
+                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
                                         Add To Cart
-                                    </a>                                    
-    
-                                   
+                                    </a>   
                                 </div>  
                             </div>
 						</div>
@@ -187,59 +212,60 @@
     </header>
     
 <main class="customMain">
-    <div class="row">                                           
-        <div class="col-md-5 col-2">                                 
-            <div class="row">                                           
-                <div class="col-md-2 col-12 noPadMobile"> 
-                    <div class="leftControl" id="left">                            
-                        <ul class="nav nav-pills framesVerTabs" >
-                            <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
-                                    <span class="icon icon_product_1"></span>
-                                    Products                                       
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" onclick="toggleMenu(this)" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
-                                    <span class="icon icon_product_2"></span>
-                                    Upload
-                                </a>
-                            </li>
-                            <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
-                                    <span class="icon icon_product_3"></span>
-                                    Select Size
-                                </a>
-                            </li>
-                            <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
-                                    <span class="icon icon_product_4"></span>
-                                    Wrap & Border
-                                </a>
-                            </li>
-                            <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
-                                    <span class="icon icon_product_5"></span>
-                                    Hardware & Finish
-                                </a>
-                            </li>
-                            <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
-                                    <span class="icon icon_product_6"></span>
-                                    Options
-                                </a>
-                            </li>
-                            <li class="nav-item {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}">
-                                <a class="nav-link" onclick="toggleMenu(this)" id="tab_07" data-bs-toggle="pill" data-bs-target="#product-options">
-                                    <span class="icon icon_product_6"></span>
-                                    Select Product
-                                </a>
-                            </li>
-                        </ul>                            
+    <div class="row">                 
+                                
+            <div class="col-md-5 col-0">   
+                <aside>                               
+                <div class="row">                                           
+                    <div class="col-md-2 col-2 noPadMobile_r">
+                        <div class="leftControl">
+                            <ul class="nav nav-pills framesVerTabs" >
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_01" data-bs-toggle="pill" data-bs-target="#pills-products">
+                                        <span class="icon icon_product_1"></span>
+                                        Products                                       
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="tab_02" data-bs-toggle="pill" data-bs-target="#pills-upload">
+                                        <span class="icon icon_product_2"></span>
+                                        Upload
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_03" data-bs-toggle="pill" data-bs-target="#pills-size">
+                                        <span class="icon icon_product_3"></span>
+                                        Size
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_04" data-bs-toggle="pill" data-bs-target="#pills-border">
+                                        <span class="icon icon_product_4"></span>
+                                        Wrap & Border
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link"id="tab_05" data-bs-toggle="pill" data-bs-target="#pills-hardware">
+                                        <span class="icon icon_product_5"></span>
+                                        Hardware & Finish
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type == 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_06" data-bs-toggle="pill" data-bs-target="#pills-options">
+                                        <span class="icon icon_product_6"></span>
+                                        Options
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}">
+                                    <a class="nav-link" id="tab_07" data-bs-toggle="pill" data-bs-target="#product-options">
+                                        <span class="icon icon_product_6"></span>
+                                        Select Product
+                                    </a>
+                                </li>
+                            </ul>                            
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-10 col-9 noPad_left"> 
-                    <aside>
+                    <div class="col-md-10 col-10 noPadMobile_l ">                     
                         <div class="rightControl">
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ $product->metal_type == 'Others' ? 'd-none' : '' }}" id="pills-products" role="tabpanel" aria-labelledby="tab_01">
@@ -267,28 +293,17 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade {{ $product->metal_type !== 'Others' ? 'd-none' : '' }}" id="product-options" role="tabpanel" aria-labelledby="tab_07">
-                                    <div class="paddWrapper">
-                                        @include('front.products.custom_frame.07_tab')
-                                    </div>
+                                    @include('front.products.custom_frame.07_tab')                                    
                                 </div>
                             </div>
-                        </div>
-                    </aside>
-                </div>                           
-            </div>                         
-        </div>
+                        </div>                        
+                    </div>                           
+                </div> 
+            </aside>                        
+            </div>
+        
             
-        <div class="col-md-7 col-10">
-            <nav class="frame_mobile_menu">
-                <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
-                    Add To Cart
-                </a> 
-
-                <div class="toggle-wrap" onclick="toggleMenu(this)">
-                    <span class="toggle-bar"></span>
-                </div>
-            </nav>
-
+        <div class="col-md-7 col-12">
             {{-- @if(!empty($finalPriceData))
                 <ul>
                     <li><strong>Size:</strong> {{ $finalPriceData['size'] }}</li>
@@ -298,14 +313,23 @@
                 </ul>
             @else
                 <p>No session data found.</p>
-            @endif --}}                            
+            @endif --}}                              
             
-            <div class="create-your-prints">                               
-                <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
-                    <div id="image">          
-                        <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
-                    </div>
-                </div>                               
+            <div class="card mt-3">
+                <div class="card-body height_100vh text-center">
+                        <div style="{{ !$image ? 'display:block;' : 'display:none;' }}"  class="mt-5" >
+                            <?xml version="1.0" encoding="utf-8"?>
+                            <svg width="200px" height="200px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path fill="#2394BC" d="M50 0c27.614 0 50 22.386 50 50s-22.386 50-50 50-50-22.386-50-50 22.386-50 50-50z"/><path fill="#EDEDED" d="M15.592 31.141l51.129-13.699c1.613-.433 3.27.514 3.698 2.114l10.093 37.667c.43 1.601-.531 3.248-2.145 3.681l-51.129 13.7c-1.613.432-3.27-.515-3.698-2.115l-10.093-37.668c-.429-1.6.532-3.248 2.145-3.68z"/><path fill="#4681A0" d="M19.78 34.137l44.78-11.999c1.237-.331 2.508.4 2.838 1.634l8.382 31.28c.331 1.233-.403 2.503-1.641 2.834l-44.78 11.999c-1.236.332-2.508-.4-2.838-1.635l-8.381-31.279c-.33-1.235.404-2.503 1.64-2.834z"/><path fill="#F6F6F6" d="M25.038 31.014h52.933c1.67 0 3.024 1.343 3.024 3v38.996c0 1.656-1.354 2.999-3.024 2.999h-52.933c-1.671 0-3.024-1.343-3.024-2.999v-38.996c0-1.658 1.353-3 3.024-3z"/><path fill="#A3E0F5" d="M28.309 34.991h46.36c1.28 0 2.317 1.036 2.317 2.313v32.383c0 1.277-1.037 2.312-2.317 2.312h-46.36c-1.28 0-2.318-1.035-2.318-2.312v-32.382c-.001-1.278 1.037-2.314 2.318-2.314z"/><path fill="#3DB39E" d="M30.004 60.99c-1.389 0-2.729.116-4.014.313v8.384c0 1.277 1.038 2.312 2.318 2.312h17.482c.131-.49.219-.989.219-1.502.001-5.25-7.165-9.507-16.005-9.507z"/><path fill="#4BC2AD" d="M76.986 69.688v-12.452c-3.096-.796-6.497-1.236-10.064-1.236-14.402 0-26.077 7.164-26.077 16h33.824c1.28 0 2.317-1.035 2.317-2.312z"/><path fill="#EFC75E" d="M25.99 37.305v11.583c.492.059.99.098 1.498.098 6.902 0 12.498-5.593 12.498-12.493 0-.509-.04-1.009-.099-1.502h-11.578c-1.281 0-2.319 1.036-2.319 2.314z"/><path fill="#1F85A9" d="M77.971 76.009h-52.933c-1.671 0-3.024-1.343-3.024-2.999v-38.996c0-.299.058-.582.14-.854-1.236.377-2.14 1.505-2.14 2.854v38.996c0 1.656 1.354 2.999 3.024 2.999h52.933c1.369 0 2.513-.908 2.885-2.146-.282.086-.575.146-.885.146z"/><path fill="#D5D5D5" d="M22.014 66.792v-32.778c0-.299.058-.582.14-.854-1.236.377-2.14 1.505-2.14 2.854v23.314l2 7.464z"/><path fill="#3F7490" d="M21.014 33.806c-.611.545-1 1.327-1 2.208v7.948l2 7.464v-17.412c0-.168.021-.33.052-.489l-1.052.281z"/></svg>
+                            <p class="mt-5 mb-5">Upload your photo wants to print on product.</p>
+                        </div>
+                        <div class="create-your-prints">                               
+                            <div class="preview" id="imagePreview" style="{{ $image ? 'display:block;' : 'display:none;' }}">
+                                <div id="image">          
+                                    <img id="previewImage2" src="{{ session('uploaded_image') ? asset('uploads/custom_frames/' . session('uploaded_image')) : '' }}" style="display: {{ session('uploaded_image') ? 'block' : 'none' }};" />                                                    
+                                </div>
+                            </div> 
+                        </div>
+                </div>
             </div>
         </div>
     </div> 
@@ -314,19 +338,11 @@
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
-@yield('customJs')
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });  
-
+   
     //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
         const shapeData = @json($shapeData);
-       
-        //Select Product
         const canvas_material_data = @json($canvas_material_data);
         const acrylic_material_data = @json($acrylic_material_data);
         const metal_material_data = @json($metal_material_data);
@@ -347,9 +363,7 @@
         const laminationOption = @json($laminationOption);
         const colorFinishingBasic = @json($colorFinishingBasic);
         const productSelection = @json($productSelection);
-        const wrapData = @json($wrapData);
-                
-        // const floatFrame = @json($floatFrame);
+        const wrapData = @json($wrapData);                
         
         let basePrice = parseFloat(document.getElementById('finalPrice').innerText) || 0;
         let finalPrice = basePrice;
@@ -394,7 +408,6 @@
                 }
             }
 
-
             //Product selection
             const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
             if (selectedProduct) {
@@ -416,7 +429,6 @@
                     `;
                 }
             }           
-
 
             //Product Size
             const selectedSizeOption = document.querySelector('input[name="size"]:checked');
@@ -454,10 +466,8 @@
                         `;
                     }
                 }
-
-            
-            
-                // Update selected wrap
+                        
+            // Update selected wrap
             const selectedWrap = document.querySelector('input[name="wrap"]:checked');
             if (selectedWrap) {
                 let wrap = wrapData[selectedWrap.value];
@@ -478,7 +488,6 @@
                     `;
                 }
             }
-
 
             const selectedBorder = document.querySelector('input[name="border"]:checked');
             if (selectedBorder) {
@@ -702,7 +711,6 @@
         let lamination_name = $('input[name="lamination_option"]:checked').data('name');        
         let lamination_price = $('input[name="lamination_option"]:checked').data('price');
         let major = $('textarea[name="major"]').val().trim(); 
-        
         let retouch_names = [];
         let retouch_prices = 0;
 
@@ -713,7 +721,6 @@
 
         let proof_names = [];
         let proof_prices = 0;
-
         let selectedProof = $('input[name="proof"]:checked');
 
         if (selectedProof.length > 0) {
@@ -779,25 +786,8 @@
     function toggleMenu(e) {
         e.classList.toggle("active");
         document.querySelector("aside").classList.toggle("active");
-        document.querySelector("#left").classList.toggle("active");
-    }   
-
-    $(".frame-option").change(function () {
-        let parentLabel = $(this).closest("label");
-        let frameName = $(this).val().toLowerCase();
-        $(".wrapBorder").removeClass().addClass("wrapBorder " + frameName);
-        $.ajax({
-            url: "/store-frame",
-            method: "POST",
-            data: {
-                frame_class: frameName,
-                _token: $('meta[name="csrf-token"]').attr("content")
-            },
-            success: function (response) {
-                console.log("Frame stored in session:", response);
-            }
-        });
-    });        
+        document.querySelector(".mobileNavbar_left").classList.toggle("active");
+    }         
 
     function checkSessionImage() {
         $.ajax({
@@ -896,21 +886,14 @@
     });
     checkSessionImage();
 
-    $(".toggle-btn").click(function() {
-        var id = $(this).data("id"); 
-        var moreContent = $(".more-content-" + id);
-        var button = $(".toggle-btn-" + id);
-
-        if (moreContent.is(":visible")) {
-            moreContent.hide();
-            button.text("Show More");
-        } else {
-            moreContent.show();
-            button.text("Show Less");
-        }
-    });
-
+    window.addEventListener("scroll", function() {
+		let header = document.getElementById("mainWrapper");
+		if (window.scrollY > 100) {
+			header.classList.add("sticky-header");
+		} else {
+			header.classList.remove("sticky-header");
+		}
+	});
 </script>
-
 </body>
 </html>

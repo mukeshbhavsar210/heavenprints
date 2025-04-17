@@ -15,10 +15,10 @@
     <div class="container-fluid">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Banner</a>
+                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Configuration</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#tabs-2" role="tab">Settings</a>
+                <a class="nav-link " data-toggle="tab" href="#tabs-2" role="tab">Banner</a>
             </li>            
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Social Media</a>
@@ -40,12 +40,123 @@
             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                 <div class="card">
                     <div class="card-body">
+                        <form action="{{ route('settings.update') }}" method="post" enctype="multipart/form-data" >
+                            @csrf                               
+                                @if($settings->image)
+                                    <img src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" style="width: 250px" />
+                                @endif            
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-9 col-12">
+                                        <div class="row">
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="status">Logo</label><br />
+                                                    <input type="file" name="image" id="fileInput" class="form-control" accept="image/*" >  
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" id="name"  placeholder="Name" name="name" class="form-control" value="{{ $settings->name }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="business_line">Business Line</label>
+                                                    <input type="text" id="business_line"  placeholder="Name" name="business_line" class="form-control" value="{{ $settings->business_line }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="phone">Phone</label>
+                                                    <input type="text" id="phone"  placeholder="Phone" name="phone" class="form-control" value="{{ $settings->phone }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="whatsapp">Whatsapp</label>
+                                                    <input type="text" id="whatsapp"  placeholder="Whatsapp" name="whatsapp" class="form-control" value="{{ $settings->whatsapp }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-12">
+                                                <div class="mb-3">
+                                                    <label for="email">Email</label>
+                                                    <input type="email" id="email" placeholder="Email" name="email" class="form-control" value="{{ $settings->email }}">
+                                                </div>
+                                            </div>                                            
+                                            <div class="col-md-12 col-12">
+                                                <div class="mb-3">
+                                                    <label for="address">Address</label>
+                                                    <textarea name="address" class="form-control" cols="5" rows="3">{{ $settings->address }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <h4>Theme</h4>
+                                        <div class="card">                                           
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Primary</label><br />
+                                                            <input type="color" name="primary_color" value="{{ $settings->primary_color }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Secondary</label><br />
+                                                            <input type="color" name="secondary_color" value="{{ $settings->secondary_color }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Link</label><br />
+                                                            <input type="color" name="link_color" value="{{ $settings->link_color }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Text</label><br />
+                                                            <input type="color" name="text_color" value="{{ $settings->text_color }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Background</label><br />
+                                                            <input type="color" name="background_color" value="{{ $settings->background_color }}">
+                                                        </div>
+                                                    </div>                                                    
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Active</label><br />
+                                                            <input type="checkbox" name="is_active" value="1" {{ $settings->is_active ? 'checked' : '' }}>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                    </div>                                    
+
+                                    <div class="col-md-6 col-12">
+                                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                                    </div>
+                                </div>
+                            </form>  
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                <div class="card">
+                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-10 col-6">
                                 <h5>Home Banner</h5>
                             </div>
-                            <div class="col-md-2 col-6">
-                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addBanner">Add Banner</button>
+                            <div class="col-md-2 col-6 ">
+                                <button type="button" class="btn btn-primary float-end" data-toggle="modal" data-target="#addBanner">Add Banner</button>
                             </div>
                         </div>
 
@@ -62,7 +173,7 @@
                                         <form action="{{ route('banners.store') }}" method="post" enctype="multipart/form-data" >
                                             @csrf                    
                                             <div class="row">
-                                                <div class="col-md-7 col-12">
+                                                <div class="col-md-12 col-12">
                                                     <label for="status">Media</label>
                                                     <input type="file" name="image" id="fileInput" accept="image/*" hidden>
                                                     <div id="dropZone" class="drop-zone">
@@ -71,39 +182,27 @@
                                                     <div class="preview-container" id="previewContainer">
                                                         
                                                     </div>
+                                                </div>                                               
+                                                <div class="col-md-9 col-12">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                                    <input type="hidden" readonly name="banner_slug" id="banner_slug" class="form-control" placeholder="">
+                                                    <p></p>
                                                 </div>
-                                                <div class="col-md-5 col-6">
-                                                    <div class="mb-3 col-md-12 col-6">
-                                                        <label for="status">Status</label>
-                                                        <select name="status" id="status" class="form-control">
-                                                            <option value="1">Active</option>
-                                                            <option value="0">Block</option>
-                                                        </select>
-                                                    </div>
-                        
-                                                    <div class="col-6 col-md-12">
-                                                        <label for="showHome">Show on Home</label>
-                                                        <select name="showHome" id="showHome" class="form-control">
-                                                            <option value="Yes">Yes</option>
-                                                            <option value="No">No</option>
-                                                        </select>
-                                                    </div>
+                                                <div class="col-md-3 col-6">
+                                                    <label for="showHome">Show</label>
+                                                    <select name="showHome" id="showHome" class="form-control">
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-12 col-12">
-                                                    <div class="mb-3">
-                                                        <label for="name">Name</label>
-                                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                                        <input type="hidden" readonly name="banner_slug" id="banner_slug" class="form-control" placeholder="">
-                                                        <p></p>
-                                                    </div>
-                
-                                                    <div class="mb-3">
-                                                        <label for="description">Description</label>
-                                                        <textarea name="description" id="description" class="form-control" cols="3" rows="3" placeholder="Description"></textarea>
-                                                        <p></p>
-                                                    </div>
+                                                    <label for="description">Description</label>
+                                                    <textarea name="description" id="description" class="form-control" cols="3" rows="3" placeholder="Description"></textarea>
+                                                    <p></p>
+
                                                     <button type="submit" class="btn btn-primary">Create</button>
-                                                </div>
+                                                </div>                                                
                                             </div>
                                         </form>
                                     </div>
@@ -121,20 +220,10 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="row">
-                                                    <div class="col-md-10 col-8">
+                                                    <div class="col-md-11 col-8">
                                                         <h3 class="mb-0">{{ $value->name }}</h3>
                                                     </div>
-                                                    <div class="col-md-2 col-4">
-                                                        @if($value->status == 1)
-                                                            <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                            </svg>
-                                                        @else
-                                                            <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                            </svg>
-                                                        @endif
-                                                    
+                                                    <div class="col-md-1 col-4">
                                                         <a href="#" onclick="deleteBanner({{ $value->id }})"  class="text-danger">
                                                             <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                                 <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
@@ -144,14 +233,8 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-md-6 col-12">
-                                                        <img src="{{ asset('uploads/banners/'.$value->image) }}" alt="" style="width: 100%;" />
-                                                    </div>
-                                                    <div class="col-md-6 col-12">
-                                                        <p>{{ $value->description }}</p>
-                                                    </div>
-                                                </div>
+                                                <img src="{{ asset('uploads/banners/'.$value->image) }}" alt="" style="width: 100%;" />
+                                                <p class="mt-3">{{ $value->description }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -162,82 +245,6 @@
                             </div>
                         @endif
                     </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tab-pane" id="tabs-2" role="tabpanel">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ route('settings.update') }}" method="post" enctype="multipart/form-data" >
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-3 col-12">
-                                    <label for="status">Media</label>
-                                    <input type="file" name="image" id="fileInput" accept="image/*" >
-                                    {{-- <div class="form-group">
-                                        <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                        <div id="dropZone" class="drop-zone">
-                                            Drop files here or click to upload.
-                                        </div>
-                                        <div class="preview-container" id="previewContainer">
-                                            @if(!empty($settings->image))
-                                                <img style="width:200px" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
-                                            @endif
-                                        </div>
-                                    </div> --}}
-                                </div>
-                                <div class="col-md-9 col-12">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-3">
-                                                <label for="name">Website Name</label>
-                                                <input type="text" id="name"  placeholder="Name" name="name" class="form-control" value="{{ $settings->name }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-3">
-                                                <label for="business_line">Business Line</label>
-                                                <input type="text" id="business_line"  placeholder="Name" name="business_line" class="form-control" value="{{ $settings->business_line }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-6">
-                                            <div class="mb-3">
-                                                <label for="phone">Phone</label>
-                                                <input type="text" id="phone"  placeholder="Phone" name="phone" class="form-control" value="{{ $settings->phone }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-6">
-                                            <div class="mb-3">
-                                                <label for="whatsapp">Whatsapp</label>
-                                                <input type="text" id="whatsapp"  placeholder="Whatsapp" name="whatsapp" class="form-control" value="{{ $settings->whatsapp }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-12">
-                                            <div class="mb-3">
-                                                <label for="email">Email</label>
-                                                <input type="email" id="email" placeholder="Email" name="email" class="form-control" value="{{ $settings->email }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-3">
-                                                <label for="address">Address</label>
-                                                <textarea name="address" class="form-control" cols="5" rows="4">{{ $settings->address }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="mb-3">
-                                                <label for="description">Description</label>
-                                                <textarea name="description" class="form-control" cols="5" rows="4">{{ $settings->description }}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <button type="submit" class="btn btn-primary mb-4">Save</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>   
                     </div>
                 </div>
             </div>
@@ -274,7 +281,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mb-4">Save Social Media</button>
+                            <button type="submit" class="btn btn-primary mb-4">Save</button>
                         </form>
                     </div>
                 </div>
@@ -286,10 +293,9 @@
                         <div class="row">
                             <div class="col-md-10 col-9">
                                 <h4>Frame Materials</h4>
-                            </div>
+                            </div>                        
                             <div class="col-md-2 col-9">
-                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addFrameMaterial">Add Material</button>
-
+                                <button type="button" class="btn btn-primary float-end" data-toggle="modal" data-target="#addFrameMaterial">Add Material</button>
                                 <div class="modal fade drawer right-align" id="addFrameMaterial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -326,50 +332,49 @@
                                 </div>
                             </div>
                         </div>
-
-                        <table class="table table-hover text-nowrap mt-3">
-                            <thead>
-                                <tr>
-                                    <th>Frame Material</th>
-                                    <th>Show</th>
-                                    <th width="100">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    @if($frameMaterials)
-                                        @foreach ($frameMaterials as $value)
-                                        <tr>
-                                            <td>{{ $value->name }}</td>
-                                            <td>
-                                                @if ($value->show == 'Yes')
-                                                    <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @else
-                                                    <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @endif 
-                                            </td>
-                                            <td>
-                                                <a href="#" onclick="deleteFrameMaterial( {{ $value->id }} )" class="text-danger w-4 h-4">
-                                                    <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tr>                                    
-                                    @else
-                                        <tr>
-                                            <td>Records not found</td>
-                                        </tr>
-                                    @endif
-                            </tbody>
-                        </table>
                     </div>
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Frame Material</th>
+                                <th>Show</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if($frameMaterials)
+                                    @foreach ($frameMaterials as $value)
+                                    <tr>
+                                        <td>{{ $value->name }}</td>
+                                        <td>
+                                            @if ($value->show == 'Yes')
+                                                <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @else
+                                                <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @endif 
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="deleteFrameMaterial( {{ $value->id }} )" class="text-danger w-4 h-4">
+                                                <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tr>                                    
+                                @else
+                                    <tr>
+                                        <td>Records not found</td>
+                                    </tr>
+                                @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
@@ -381,7 +386,7 @@
                                 <h4>Colors</h4>
                             </div>
                             <div class="col-md-2 col-9">
-                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addColors">Add Colors</button>
+                                <button type="button" class="btn btn-primary float-end" data-toggle="modal" data-target="#addColors">Add Colors</button>
 
                                 <div class="modal fade drawer right-align" id="addColors" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -425,50 +430,51 @@
                                 </div>
                             </div>
                         </div>
-
-                        @if($colors->isNotEmpty())
-                        <table class="table table-hover text-nowrap mt-3">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Color</th>
-                                    <th>Show</th>
-                                    <th width="100">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>                                    
-                                    @foreach ($colors as $value)
-                                        <tr>
-                                            <td>{{ $value->name }}</td>
-                                            <td>
-                                                <p style="height:20px; width:20px; border-radius:100px; background-color: {{ $value->color_code }};">
-                                            </td>
-                                            <td>
-                                                @if ($value->show == 'Yes')
-                                                    <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @else
-                                                    <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @endif 
-                                            </td>
-                                            <td>
-                                                <a href="#" onclick="deleteColor( {{ $value->id }} )" class="text-danger w-4 h-4">
-                                                    <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tr>                                    
-                                </tbody>
-                            </table>
-                        @endif
                     </div>
+
+                    @if($colors->isNotEmpty())
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Color</th>
+                                <th>Show</th>
+                                <th width="100">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                                    
+                                @foreach ($colors as $value)
+                                    <tr>
+                                        <td>{{ $value->name }}</td>
+                                        <td>
+                                            <p style="height:20px; width:20px; border-radius:100px; background-color: {{ $value->color_code }};">
+                                        </td>
+                                        <td>
+                                            @if ($value->show == 'Yes')
+                                                <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @else
+                                                <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @endif 
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="deleteColor( {{ $value->id }} )" class="text-danger w-4 h-4">
+                                                <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tr>                                    
+                            </tbody>
+                        </table>
+                    @endif
+                    
                 </div>
             </div>
 
@@ -480,7 +486,7 @@
                                 <h4>Size</h4>
                             </div>
                             <div class="col-md-2 col-9">
-                                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addSize">Add Size</button>
+                                <button type="button" class="btn btn-primary float-end" data-toggle="modal" data-target="#addSize">Add Size</button>
 
                                 <div class="modal fade drawer right-align" id="addSize" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -518,46 +524,47 @@
                                 </div>
                             </div>
                         </div>
-
-                        @if($sizes->isNotEmpty())
-                            <table class="table table-hover text-nowrap mt-3">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Show</th>
-                                        <th width="100">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        @foreach ($sizes as $value)
-                                        <tr>
-                                            <td>{{ $value->name }}</td>
-                                            <td>
-                                                @if ($value->show == 'Yes')
-                                                    <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @else
-                                                    <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                @endif 
-                                            </td>
-                                            <td>
-                                                <a href="#" onclick="deleteSize( {{ $value->id }} )" class="text-danger w-4 h-4">
-                                                    <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tr>                                    
-                                </tbody>
-                            </table>
-                        @endif
                     </div>
+
+                    @if($sizes->isNotEmpty())
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Show</th>
+                                    <th width="100">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach ($sizes as $value)
+                                    <tr>
+                                        <td>{{ $value->name }}</td>
+                                        <td>
+                                            @if ($value->show == 'Yes')
+                                                <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @else
+                                                <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            @endif 
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="deleteSize( {{ $value->id }} )" class="text-danger w-4 h-4">
+                                                <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path	ath fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tr>                                    
+                            </tbody>
+                        </table>
+                    @endif
+                    
                 </div>
             </div>
             </div> 
@@ -566,7 +573,6 @@
 @endsection
 
 @section('customJs')
-
 <script>
     $('#name').change(function(){
             element = $(this);
@@ -606,70 +612,7 @@
                 }
             });
         }
-    }
-
-    //Dropzone
-    let dropZone = $('#dropZone');
-    let fileInput = $('#fileInput');
-    let previewContainer = $('#previewContainer');
-    let uploadButton = $('#uploadButton');
-
-    // Click to open file selector
-    dropZone.on('click', function () {
-        fileInput.click();
-    });
-
-    // File input change event
-    fileInput.on('change', function (event) {
-        handleFiles(event.target.files);
-    });
-
-    // Drag over event
-    dropZone.on('dragover', function (event) {
-        event.preventDefault();
-        dropZone.addClass('dragover');
-    });
-
-    // Drag leave event
-    dropZone.on('dragleave', function () {
-        dropZone.removeClass('dragover');
-    });
-
-    // Drop event
-    dropZone.on('drop', function (event) {
-        event.preventDefault();
-        dropZone.removeClass('dragover');
-        let files = event.originalEvent.dataTransfer.files;
-        handleFiles(files);
-    });
-
-    function handleFiles(files) {
-        if (files.length > 0) {
-            let file = files[0];
-
-            // Show image preview
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                previewContainer.html(`
-                    <div class="preview-container">
-                        <img src="${e.target.result}" class="preview-image">
-                        <button type="button" class="delete-btn" onclick="removeImage()">×</button>
-                    </div>
-                `);
-                uploadButton.show(); // Show upload button after selecting image
-            };
-            reader.readAsDataURL(file);
-
-            // Assign file to input
-            fileInput.prop('files', files);
-        }
-    }
-
-    function removeImage() {
-        $('#previewContainer').html('');
-        $('#fileInput').val('');
-        $('#uploadButton').hide();
-    }
+    }    
 
     function deleteFrameMaterial(id){
         var url = '{{ route("settings.material.delete","ID") }}'
@@ -734,5 +677,70 @@
         }
     }
     
+
+
+
+     //Dropzone
+     let dropZone = $('#dropZone');
+    let fileInput = $('#fileInput');
+    let previewContainer = $('#previewContainer');
+    let uploadButton = $('#uploadButton');
+
+    // Click to open file selector
+    dropZone.on('click', function () {
+        fileInput.click();
+    });
+
+    // File input change event
+    fileInput.on('change', function (event) {
+        handleFiles(event.target.files);
+    });
+
+    // Drag over event
+    dropZone.on('dragover', function (event) {
+        event.preventDefault();
+        dropZone.addClass('dragover');
+    });
+
+    // Drag leave event
+    dropZone.on('dragleave', function () {
+        dropZone.removeClass('dragover');
+    });
+
+    // Drop event
+    dropZone.on('drop', function (event) {
+        event.preventDefault();
+        dropZone.removeClass('dragover');
+        let files = event.originalEvent.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            let file = files[0];
+
+            // Show image preview
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                previewContainer.html(`
+                    <div class="preview-container">
+                        <img src="${e.target.result}" class="preview-image">
+                        <button type="button" class="delete-btn" onclick="removeImage()">×</button>
+                    </div>
+                `);
+                uploadButton.show(); // Show upload button after selecting image
+            };
+            reader.readAsDataURL(file);
+
+            // Assign file to input
+            fileInput.prop('files', files);
+        }
+    }
+
+    function removeImage() {
+        $('#previewContainer').html('');
+        $('#fileInput').val('');
+        $('#uploadButton').hide();
+    }
 </script>
 @endsection

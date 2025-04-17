@@ -84,7 +84,7 @@
                                                     </div>                                            
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 col-3">
+                                            <div class="col-md-2 col-4">
                                                 <p style="text-align: right" class="mobilePrice">₹{{ $item->price*$item->qty }}</p>
                                             </div>
                                             <div class="col-md-1 col-2" style="text-align: center">
