@@ -13,7 +13,7 @@
         <div class="paddWrapper">
             <div class="radio-group row">
                 @foreach ($recommended_data as $key => $value)
-                    <div class="col-md-3 col-3">
+                    <div class="col-md-3 col-4">
                         <label class="custom-radio size">
                             <input type="radio" name="size" value="{{ $key }}" data-type="Recommended" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -31,7 +31,7 @@
             <div class="radio-group row">
                 @if($square_data)
                     @foreach ($square_data as $key => $value)
-                        <div class="col-md-3 col-3">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $key }}" data-type="Square" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
                                 <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -50,7 +50,7 @@
             <div class="radio-group row">
                 @if($panaromic_data)
                 @foreach ($panaromic_data as $key => $value)
-                    <div class="col-md-3 col-3">     
+                    <div class="col-md-3 col-4">     
                         <label class="custom-radio size" >
                             <input type="radio" name="size" value="{{ $key }}" data-type="Panoromic" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" > 
                             <div class="object" style="height:{{ $value['height'] }}px; width:{{ $value['width'] }}px;"></div>
@@ -69,7 +69,7 @@
             <div class="radio-group row">
                 @if($large_data)
                     @foreach($large_data as $size)
-                        <div class="col-md-3 col-3">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $size['name'] }}" data-type="Large" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>
@@ -87,7 +87,7 @@
             <div class="radio-group row">
                 @if($small_data)
                     @foreach($small_data as $size)
-                        <div class="col-md-3 col-3">     
+                        <div class="col-md-3 col-4">     
                             <label class="custom-radio size" >
                                 <input type="radio" name="size" value="{{ $size['name'] }}" data-type="Small" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}" class="frame-option" >
                                 <div class="object" style="height:{{ $size['height'] }}px; width:{{ $size['width'] }}px;"></div>

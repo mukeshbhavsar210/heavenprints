@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2025 at 11:29 AM
+-- Generation Time: Apr 17, 2025 at 09:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,7 +33,6 @@ CREATE TABLE `banners` (
   `banner_slug` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `image` longtext DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 1,
   `showHome` varchar(255) NOT NULL DEFAULT 'Yes',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -43,9 +42,9 @@ CREATE TABLE `banners` (
 -- Dumping data for table `banners`
 --
 
-INSERT INTO `banners` (`id`, `name`, `banner_slug`, `description`, `image`, `status`, `showHome`, `created_at`, `updated_at`) VALUES
-(32, 'Tshirt', 'tshirt', 'test', 'tshirt.jpg', 1, 'Yes', '2025-04-02 04:37:15', '2025-04-02 04:37:16'),
-(33, 'test', 'test', 'test', 'test.png', 1, 'Yes', '2025-04-02 06:21:24', '2025-04-02 06:21:25');
+INSERT INTO `banners` (`id`, `name`, `banner_slug`, `description`, `image`, `showHome`, `created_at`, `updated_at`) VALUES
+(32, 'Tshirt', 'tshirt', 'test', 'tshirt.jpg', 'Yes', '2025-04-02 04:37:15', '2025-04-02 04:37:16'),
+(33, 'test', 'test', 'test', 'test.png', 'Yes', '2025-04-02 06:21:24', '2025-04-02 06:21:25');
 
 -- --------------------------------------------------------
 
@@ -170,8 +169,32 @@ CREATE TABLE `customer_addresses` (
 --
 
 INSERT INTO `customer_addresses` (`id`, `user_id`, `country_id`, `address`, `apartment`, `city`, `zip`, `notes`, `type`, `delivery_at`, `created_at`, `updated_at`) VALUES
-(30, 30, 2, 'Keerthi Royal Palms, Service', 'Keerthi Royal Palm', 'Banglore', '560100', NULL, 'office', 'home', '2025-04-16 00:54:30', '2025-04-16 00:54:30'),
 (33, 30, 1, 'Mansarovar road, New Chandkheda', 'Shlok heights', 'Ahmedabad', '382424', NULL, 'home', 'home', '2025-04-16 01:55:01', '2025-04-16 01:55:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customizes`
+--
+
+CREATE TABLE `customizes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `category` varchar(255) NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customizes`
+--
+
+INSERT INTO `customizes` (`id`, `name`, `price`, `image`, `category`, `type`, `created_at`, `updated_at`) VALUES
+(9, 'Square', '100', NULL, 'first', 'shape', '2025-04-16 23:45:09', '2025-04-16 23:45:09'),
+(11, 'Dhruv Bhavsar', '700', NULL, 'first', 'custom_1', '2025-04-16 23:47:47', '2025-04-16 23:47:47');
 
 -- --------------------------------------------------------
 
@@ -336,7 +359,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (72, '2025_04_02_052554_create_colors_table', 63),
 (73, '2025_04_02_074223_create_sizes_table', 64),
 (74, '2025_04_05_050623_create_custom_totals_table', 65),
-(75, '2025_04_11_103519_create_orders_table', 66);
+(75, '2025_04_11_103519_create_orders_table', 66),
+(76, '2025_04_16_124539_create_customizes_table', 67),
+(77, '2025_04_17_060253_create_themes_table', 68);
 
 -- --------------------------------------------------------
 
@@ -750,12 +775,17 @@ CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `business_line` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `whatsapp` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `address` text DEFAULT NULL,
+  `primary_color` varchar(100) DEFAULT NULL,
+  `secondary_color` varchar(100) DEFAULT NULL,
+  `link_color` varchar(100) DEFAULT NULL,
+  `background_color` varchar(100) DEFAULT NULL,
+  `text_color` varchar(100) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
   `facebook` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
   `twitter` varchar(255) DEFAULT NULL,
@@ -768,8 +798,8 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `name`, `business_line`, `description`, `image`, `phone`, `whatsapp`, `email`, `address`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
-(1, 'Heaven Prints', 'Customized Neon and Frames', 'Hello', 'Heaven Prints.jpg', '9924489907', '9924489907', 'info@heavenprints.in', 'Shahpur, Ahmedabad', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-04-04 23:10:12');
+INSERT INTO `settings` (`id`, `name`, `business_line`, `image`, `phone`, `whatsapp`, `email`, `address`, `primary_color`, `secondary_color`, `link_color`, `background_color`, `text_color`, `is_active`, `facebook`, `instagram`, `twitter`, `pinterest`, `created_at`, `updated_at`) VALUES
+(1, 'Heaven Prints', 'Customized Neon and Frames', 'Heaven Prints.jpg', '9924489907', '9924489907', 'info@heavenprints.in', 'Shahpur, Ahmedabad', '#0d6efd', '#e60526', '#f5008f', '#ffffff', '#595959', 1, 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', 'https://www.facebook.com/', NULL, '2025-04-17 01:13:03');
 
 -- --------------------------------------------------------
 
@@ -968,6 +998,12 @@ ALTER TABLE `customer_addresses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_addresses_user_id_foreign` (`user_id`),
   ADD KEY `customer_addresses_country_id_foreign` (`country_id`);
+
+--
+-- Indexes for table `customizes`
+--
+ALTER TABLE `customizes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `discount_coupons`
@@ -1199,6 +1235,12 @@ ALTER TABLE `customer_addresses`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
+-- AUTO_INCREMENT for table `customizes`
+--
+ALTER TABLE `customizes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `discount_coupons`
 --
 ALTER TABLE `discount_coupons`
@@ -1220,7 +1262,7 @@ ALTER TABLE `frame_materials`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `orders`

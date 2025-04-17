@@ -110,7 +110,7 @@
                                                         <div class="col-md-6 col-4">  
                                                             <div class="form-group">                                  
                                                                 <label for="type">Select Type</label>
-                                                                <select name="type" id="type" class="form-control">
+                                                                <select name="type" id="type" class="form-select">
                                                                     <option value="home">Home</option>
                                                                     <option value="office">Office</option>
                                                                 </select>
@@ -142,8 +142,8 @@
                                                                 <div class="col-md-7 col-6">
                                                                     <div class="form-group">
                                                                         <label for="country">State</label>
-                                                                        <select name="country_id" id="country_id" class="form-control">
-                                                                            <option value="">Select a State</option>
+                                                                        <select name="country_id" id="country_id" class="form-select">
+                                                                            <option value="">Select</option>
                                                                             @if ($countries->isNotEmpty())
                                                                                 @foreach ($countries as $country)
                                                                                     <option value="{{ $country->id }}">{{ $country->name }}</option>

@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Color;
+use App\Models\Customize;
 use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -164,9 +165,6 @@ class ShopController extends Controller {
     }
 
 
-
-    
-
     //CUSTOM NEON PRODUCT
     public function neonProducts(Request $request, $categorySlug = null, $subCategorySlug = null) {
         $colors = ['#ffffff', '#e5097f', '#009846', '#0000ff', '#834e98', '#ef7b1b', '#62bed3', '#eedfc8', '#e31e24', '#ffed00'];
@@ -283,15 +281,7 @@ class ShopController extends Controller {
             'Large' => 4.00, 
             'Small' => 5.00,            
         ];
-
-        // $sizePrices = [            
-        //     '1' => ['name' => '8" x 8"', 'price' => 0,],
-        //     '2' => ['name' => '10" x 10"', 'price' => 100.00,],
-        //     '3' => ['name' => '12" x 12"', 'price' => 200.00,],
-        //     '4' => ['name' => 'Heart Canvas', 'price' => 1854.68,],
-        //     '5' => ['name' => 'Oval Canvas', 'price' => 1398.67,],         
-        // ];
-
+       
         $sizePrices = [
             '8" x 8"' => 0, 
             '10" x 10"' => 20, 
@@ -302,22 +292,31 @@ class ShopController extends Controller {
         ];
 
         $customSizePrices1 = [
-            8 => 211.00, 
-            10 => 100.00, 12 => 200.00, 
-            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
+            8 => 0.00, 
+            10 => 100.00, 
+            12 => 200.00, 
+            14 => 300.00, 
+            16 => 400.00, 
+            18 => 500.00, 
+            20 => 600.00
         ];
 
         $customSizePrices2 = [
-            8 => 50.00, 10 => 100.00, 12 => 200.00, 
+            8 => 0.00, 10 => 100.00, 12 => 200.00, 
             14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
         ];
 
+        //$shapePrices = Customize::where('category','first')->where('type','shape')->get();
+        //$sizePrices = Customize::where('category','first')->where('type','size')->get();
+        //$customSizePrices1 = Customize::where('category','first')->where('type','custom_1')->get();
+        //$customSizePrices2 = Customize::where('category','first')->where('type','custom_2')->get();
+        
         $data['product'] = $product;
         $data['relatedProducts'] = $relatedProducts;  
         $data['shapePrices'] = $shapePrices;     
         $data['sizePrices'] = $sizePrices;     
         $data['customSizePrices1'] = $customSizePrices1;     
-        $data['customSizePrices2'] = $customSizePrices2;                  
+        $data['customSizePrices2'] = $customSizePrices2;
 
         return view('front.products.index',$data);
     }
@@ -329,6 +328,17 @@ class ShopController extends Controller {
         if($product == null){
             abort(404);
         }
+
+        //$wrapData = Customize::where('category','Wrap_border')->where('type','wrap')->get();
+        //$borderData = Customize::where('category','Wrap_border')->where('type','border')->get();
+        //$standardFrame = Customize::where('category','Frames')->where('type','Standard')->get();
+        //$premiumFrame = Customize::where('category','Frames')->where('type','Premium')->get();        
+
+        $product_data = Customize::where('category','Product')->get();
+        $size__data = Customize::where('category','Selected_Size')->get();
+        
+        $hardware_finish_data = Customize::where('category','Hardware_finish')->get();
+        $options_data = Customize::where('category','Options')->get();        
 
 
         $wrapData = [
@@ -522,6 +532,9 @@ class ShopController extends Controller {
 
         $finalPriceData = session('finalPriceData', []);
 
+       
+        
+
         $data['sizeData'] = $sizeData;
         $data['canvas_material_data'] = $canvas_material_data;
         $data['acrylic_material_data'] = $acrylic_material_data;
@@ -547,8 +560,9 @@ class ShopController extends Controller {
         $data['laminationOption'] = $laminationOption;    
         $data['finalPriceData'] = $finalPriceData;
         $data['productSelection'] = $productSelection;
-        $data['product'] = $product;               
+        $data['product'] = $product;
 
+                
         // Load stored image and options from session
         $image = Session::get('uploaded_image');
         $data['image'] = $image;

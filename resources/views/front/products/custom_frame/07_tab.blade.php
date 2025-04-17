@@ -7,8 +7,6 @@
         use Illuminate\Support\Str;
     @endphp
 
-
-
     <div class="card-body">
         <div class="radio-product row">
             @if ($productSelection->isNotEmpty())                      

@@ -5,12 +5,12 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\CustomizeController;
 use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\OTPController;
 use App\Http\Controllers\admin\PageController;
 use App\Http\Controllers\admin\ProductController;
-use App\Http\Controllers\admin\ProductImageController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\ShippingController;
@@ -233,9 +233,16 @@ Route::group(['prefix' => 'admin'], function(){
             Route::delete('/pages/{page}', 'destroy')->name('pages.delete');
         });
 
-        //Temp image controller
-        //Route::post('/upload-temp-image', [TempImagesController::class, 'create'])->name('temp-images.create');
-
+        //Customize Routes
+        Route::controller(CustomizeController::class)->group(function() {
+            Route::get('/customize', 'index')->name('customize.index');
+            Route::get('/customize/create', 'create')->name('customize.create');
+            Route::post('/customize', 'store')->name('customize.store');
+            Route::get('/customize/{category}/edit', 'edit')->name('customize.edit');
+            Route::post('/customize/{category}', 'update')->name('customize.update');
+            Route::delete('/customize/{category}', 'destroy')->name('customize.delete');
+        });
+        
         //Setting Route
         Route::controller(SettingController::class)->group(function() {
             Route::get('/settings', 'index')->name('settings.index'); 

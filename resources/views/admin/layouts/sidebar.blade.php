@@ -73,6 +73,12 @@
                         <p>Pages</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('customize.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Customize</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

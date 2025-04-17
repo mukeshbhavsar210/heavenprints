@@ -66,18 +66,23 @@
                 </div>
 
                 <h4 id="finalPrice">₹{{ $product->price }}</h4>
-
                 <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
                 <form action="{{ route('store_total') }}" method="post" class="mt-3">                        
                     @csrf
                     <input type="hidden" name="name" id="category_name" value="{{ $product->metal_type }}">
-                    
                     <div class="groupDetails">
                         <div class="row">
                             <div class="col-md-2 col-12">
                                 <p class="mt-3"><b>Shapes:</b></p>
                             </div>
+
+                            {{-- @if($customizeData->isNotEmpty())
+                                @foreach ($customizeData as $value)
+                                    {{ $value->name }}
+                                @endforeach
+                            @endif --}}
+                            
                             <div class="col-md-10 col-12">                        
                                 <div class="size-picker">
                                     @foreach($shapePrices as $shape => $price)
@@ -98,13 +103,6 @@
                             </div>
                             <div class="col-md-10 col-12">
                                 <div class="size-picker">
-                                    {{-- @foreach ($sizePrices as $key => $size)
-                                        <div class="size-picker__item" >                            
-                                            <input @if($loop->first) checked @endif type="radio" name="size" value="{{ $size['price'] }}" id="size_{{ $loop->index + 1 }}" class="size-picker__input" data-price="{{ $size['price'] }}" >                                        
-                                            <label class="size-picker__color" for="size_{{ $loop->index + 1 }}" >{{ $size['name'] }}</label>
-                                        </div>
-                                    @endforeach --}}
-
                                     @foreach($sizePrices as $size => $price)
                                         <div class="size-picker__item" >
                                             <input @if($loop->first) checked @endif  type="radio" name="size" value="{{ $size }}" class="size-picker__input" id="size_{{ $loop->index + 1 }}">
@@ -117,11 +115,12 @@
                                     <div class="col-md-2 col-12">
                                         <p class="mt-2"><b>Custom:</b></p>
                                     </div>
-                                    <div class="col-md-3 col-4">
+                                    <div class="col-md-5 col-7">
                                         <div class="twoDropdowns">
                                             <div class="itemDD">                                                   
-                                                <select id="customSizeSelect_01" class="form-control" name="custom_size_1">
-                                                    @foreach($customSizePrices1 as $value => $price)
+                                                <select id="customSizeSelect_01" class="form-select" name="custom_size_1">
+                                                    <option value="0">Select</option>
+                                                    @foreach($customSizePrices1 as $value => $price)                                                        
                                                         <option value="{{ $value }}"  >{{ $value }}</option>
                                                     @endforeach
                                                 </select>
@@ -130,7 +129,8 @@
                                                 <p class="mt-1">X</p>
                                             </div>
                                             <div class="itemDD">
-                                                <select id="customSizeSelect_02" class="form-control" name="custom_size_2" >
+                                                <select id="customSizeSelect_02" class="form-select" name="custom_size_2" >
+                                                    <option value="0">Select</option>
                                                     @foreach($customSizePrices2 as $value => $price)
                                                         <option value="{{ $value }}">{{ $value }}</option>
                                                     @endforeach
@@ -157,45 +157,40 @@
                                 <a class="btn btn-outline-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">Add to Cart</a>
                             @endif
 
-                            {{-- <p class="mt-2">No Risk, Lowest Prices Guaranteed <br />
-                            Exclusive Bulk Order Deal!</p> --}}
-                        
-                                <div class="productDetailsTabs">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                            {!! $product->description !!}
-                                        </div>
-                                        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-                                            {!! $product->shipping_returns !!}
-                                        </div>
-                                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                            {!! $product->description !!}
-                                        </div>
+                            <div class="productDetailsTabs">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                        {!! $product->description !!}
                                     </div>
-                                </div> 
-                            </div>  
-                        </div>
+                                    <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                                        {!! $product->shipping_returns !!}
+                                    </div>
+                                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                        {!! $product->description !!}
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>  
+                    </div>
                 </div>                
             </div>
-
 
             @if (!empty($relatedProducts))
                 <section class="section-8">                                    
                     <div class="section-title">
                         <h2>Related Products</h2>
-                    </div>
-                    
+                    </div>                    
                     <div class="latestProducts">
                         @foreach ($relatedProducts as $relProduct)                                
                         @php
@@ -204,8 +199,8 @@
                             <div>
                                 <div class="product-image position-relative">
                                     <a href="" class="product-img">
-                                        @if (!empty($productImage->image))
-                                            <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image) }}" >
+                                        @if (!empty($productImage->image1))
+                                            <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                         @else
                                             <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                         @endif
@@ -228,8 +223,8 @@
                                         </a>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="mt-2">
+                                </div>
+                                <div class="mt-2">
                                 <a class="h5" href="">{{ Str::limit($relProduct->name, 16, '...') }}</a>
                                 <div class="price mt-1">
                                         <span class="h5"><strong>₹{{ $relProduct->price }}</strong></span>
@@ -250,21 +245,7 @@
 @endsection
 
 @section('customJs')
-<script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });  
-
-
-
-
-
-        
-       
-
     //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
         const shapePrices = @json($shapePrices);
@@ -272,11 +253,11 @@
         const customSizePrices1 = @json($customSizePrices1);
         const customSizePrices2 = @json($customSizePrices2);
 
-        let basePrice = parseFloat({{ $product->price }}); 
+        let basePrice = parseFloat({{ $product->price }});         
         let finalPrice = basePrice;
 
         function updatePrice() {
-            finalPrice = basePrice; // Reset to base price before calculating
+            finalPrice = basePrice; 
 
             // Get selected shape price
             const selectedShape = document.querySelector('input[name="shape"]:checked');

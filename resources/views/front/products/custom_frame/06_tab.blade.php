@@ -19,7 +19,7 @@
     <div class="container">
         <div class="row">
             @foreach ($retouchingOption as $key => $value)
-                <div class="col-md-6 customCheckbox">                  
+                <div class="col-md-6 col-6 customCheckbox">                  
                     <input id="retouching_02_{{ $loop->index }}" type="checkbox" name="retouching_option" value="{{ $key }}" class="frame-option" data-name="{{ $value['name'] }}" data-price="{{ $value['price'] }}"> 
                     <label for="retouching_02_{{ $loop->index }}" class="lamination" >
                         {{ $value['name'] }}
