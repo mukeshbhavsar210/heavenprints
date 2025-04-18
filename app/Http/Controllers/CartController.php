@@ -691,6 +691,8 @@ class CartController extends Controller {
         }
     }
 
+
+
     public function thankyou($id){
         $order = Order::where('id', $id)->firstOrFail();
         return view('front.checkout.thanks',[
@@ -701,9 +703,7 @@ class CartController extends Controller {
 
     public function failed(){
         return view("front.checkout.failed");
-    }
-
-    
+    }    
 
     public function getOrderSummary(Request $request){
         $subTotal = Cart::subtotal(2,'.','');

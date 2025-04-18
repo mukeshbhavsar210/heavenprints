@@ -37,6 +37,21 @@
                         </div>
                         <div class="col-md-8 col-6">
                             <div class="row">
+                                @if($products->isNotEmpty())
+                                    <div class="col-md-4 col-12">
+                                        <label for="product">Product <span class="required">*</span></label>
+                                        <select name="product" id="product" class="form-control">
+                                            <option value="">Select a Product</option>
+                                            @if ($products->isNotEmpty())
+                                                @foreach ($products as $value)
+                                                    <option value="{{ $value->name }}">
+                                                        {{ $value->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                @endif
                                 <div class="col-md-4 col-6">
                                     <label for="category">Category</label>
                                     <select name="category" id="category" class="form-control">

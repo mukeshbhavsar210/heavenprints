@@ -3,108 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $mailData['subject'] }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            color: #333; background-color: #c6e1ff; padding:30px 0;
-        }
-        .order-container {
-            max-width: 600px;
-            margin: 30px auto;
-            padding: 25px;
-            border: 1px solid #666;
-            background: #ffffff;
-        }
-        .order-header {
-            background: #007bff;
-            color: white;
-            padding: 5px 10px 5px 10px; height: 30px;
-            border-radius: 3px;
-        }
-        .logo { width: 250px; margin:0 auto 15px 30%; }
-        .order-body {
-            margin-top: 20px;
-        }
-        .item {
-            margin-bottom: 15px;
-        }
-        .item-title {
-            font-weight: bold;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 14px;
-            text-align: center;
-            color: #777;
-        }
-    </style>
 </head>
-<body>
-    <div class="order-container">
-        <a href="https://heavenprints.in/" target="_blank"><img class="logo" src="https://heavenprints.in/uploads/logo/Heaven%20Prints.jpg" /></a>
-        
-        <div class="order-header">
-            <h3>{{ $mailData['userType'] == 'customer' ? 'Thank You for Your Order! Keep shopping' : 'New Order Received' }}</h3>
-        </div>
-
-        <div class="order-body">
-            @if($mailData['userType'] == 'customer')
-                <p>Hello, {{ $mailData['order']->customerAddress->first_name ?? '' }} {{ $mailData['order']->customerAddress->last_name ?? '' }},</p>
-                <p>We're happy to confirm we've received your order and it's now being processed.</p>
-            @else
-                <p>You have received a new order. Please see the details below:</p>
-            @endif  
-            
-            <h5>Shipping Address</h5>
-            <p><b>{{ $mailData['order']->customerAddress->first_name ?? '' }} {{ $mailData['order']->customerAddress->last_name ?? '' }}</b><br />
-            {{ $mailData['order']->customerAddress->mobile ?? '' }}<br />
-            {{ $mailData['order']->customerAddress->email ?? '' }}<br />
-            {{ $mailData['order']->customerAddress->apartment ?? '' }}, {{ $mailData['order']->customerAddress->address ?? '' }}, {{ $mailData['order']->customerAddress->city ?? '' }} - {{ $mailData['order']->customerAddress->zip ?? '' }}, {{ $mailData['order']->customerAddress->country->name ?? '' }}.</p>    
-
-            <table cellpadding="5" cellspacing="5" border="0" width="100%">
-                <thead>
-                    <tr style="background: #666666; color:#fff; padding:6px; border-radius:5px;">
-                        <th>Order No.</th>
-                        <th>Product</th>
-                        <th style="text-align: right">Price</th>
-                        <th style="text-align: center">Qty</th>
-                        <th style="text-align: right">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($mailData['order']->items as $item)
-        
-                    @endforeach
+<body style="font-family: Arial, sans-serif; background-color: #f5f8fa; padding: 30px;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; padding: 20px; border-radius: 5px;">
                     <tr>
-                        <td>{{ $mailData['order']->id }}</td>
-                        <td><b>{{ $item->name }}</b></td>
-                        <td style="text-align: right">₹ {{ number_format($item->price,2) }}</td>
-                        <td style="text-align: center">{{ $item->qty }}</td>
-                        <td style="text-align: right">₹ {{ number_format($item->total,2) }}</td>
-                    </tr>        
-                    <tr style="border-top:1px #ccc solid;">
-                        <td colspan="4" style="text-align: right" >Subtotal:</td>
-                        <td style="text-align: right">₹ {{ number_format($mailData['order']->subtotal,2) }}</td>
+                        <td align="center">
+                            <img src="https://heavenprints.in/uploads/logo/Heaven%20Prints.jpg" alt="Logo" width="180" style="margin-bottom: 20px;">
+                        </td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="text-align: right">Discount: {{ (!empty($mailData['order']->coupon_code)) ? '('.$mailData['order']->coupon_code.')' : '' }}</td>
-                        <td style="text-align: right">₹ {{ number_format($mailData['order']->discount,2) }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="4" style="text-align: right">Shipping:</td>
-                        <td style="text-align: right">₹ {{ number_format($mailData['order']->shipping,2) }}</td>
-                    </tr>
-                    <tr style="border-top:1px #ccc solid; border-bottom:1px #ccc solid;">
-                        <td colspan="4" style="text-align: right">Grand Total:</td>
-                        <th style="text-align: right">₹ {{ number_format($mailData['order']->grandtotal,2) }}</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                        <td>                            
+                            @if($mailData['userType'] == 'customer')
+                                <p>Hello, <b>{{ $mailData['order']->user->first_name ?? '' }} {{ $mailData['order']->user->last_name ?? '' }}</b>,</p>
+                                <span style="color: #555;">We're happy to confirm we've received your order and it's now being processed.</span>
+                            @else
+                                <span style="color: #555;">You have received a new order. Please see the details below:</span>
+                            @endif 
 
-        <div class="footer">
-            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
-        </div>
-    </div>
+                            <span style="color: #555;">Thank you for your order! Here are the details:</span>
+                            <p><strong>Order ID:</strong> #{{ $mailData['order']->id }}<br>
+                            <strong>Order Date:</strong> {{ $mailData['order']->created_at->format('d M Y, h:i A') }}</p>
+                        </td>
+                    </tr>
+                    <!-- Order Summary -->
+                    <tr>
+                        <td>
+                            <h3 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">Order Summary</h3>
+                            <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background-color: #f3f3f3;">
+                                        <th align="left">Photo</th>
+                                        <th align="left">Product Name</th>
+                                        <th align="right">Price</th>
+                                        <th align="center">Qty</th>
+                                        <th align="right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($mailData['order']->items as $item)
+                                        <tr style="border-bottom: 1px solid #ddd;">
+                                            <td>
+                                                @if($item->product && $item->product->images->first())
+                                                    <img src="{{ asset('uploads/products/small/' . $item->product->images->first()->image1) }}" 
+                                                         alt="Product Image" 
+                                                         width="60" 
+                                                         style="border-radius: 4px;">
+                                                @endif
+                                            </td>
+                                            <td><b>{{ $item->name }}</b></td>
+                                            <td align="right">₹ {{ number_format($item->price,2) }}</td>
+                                            <td align="center">{{ $item->qty }}</td>
+                                            <td align="right">₹ {{ number_format($item->total,2) }}</td>
+                                        </tr>  
+                                    @endforeach                                    
+                                </tbody>
+                            </table>
+
+                            <table width="100%" cellpadding="6" cellspacing="0" style="margin-top: 15px;">                
+                                <tbody>                         
+                                    <tr style="border-top:1px #ccc solid;">
+                                        <td align="right"><strong>Subtotal:</strong></td>
+                                        <td align="right">₹ {{ number_format($mailData['order']->subtotal,2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Discount: {{ (!empty($mailData['order']->coupon_code)) ? '('.$mailData['order']->coupon_code.')' : '' }}</td>
+                                        <td align="right">₹ {{ number_format($mailData['order']->discount,2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Shipping:</td>
+                                        <td align="right">₹ {{ number_format($mailData['order']->shipping,2) }}</td>
+                                    </tr>
+                                    <tr style="border-top: 1px solid #ccc;">
+                                        <td align="right">Grand Total:</td>
+                                        <th align="right">₹ {{ number_format($mailData['order']->grandtotal,2) }}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Shipping Address -->
+                    <tr>
+                        <td style="padding-top: 25px; border-top: 1px solid #ccc;">
+                            <p><b>Shipping Address:</b></p>
+                            <p>                                
+                                <b>{{ $mailData['order']->user->first_name ?? '' }} {{ $mailData['order']->user->last_name ?? '' }}</b><br />
+                                {{ $mailData['order']->customerAddress->apartment ?? '' }}, {{ $mailData['order']->customerAddress->address ?? '' }}, {{ $mailData['order']->customerAddress->city ?? '' }} - {{ $mailData['order']->customerAddress->zip ?? '' }}, {{ $mailData['order']->customerAddress->country->name ?? '' }}.    
+                                Phone: {{ $mailData['order']->user->mobile ?? '' }}<br />
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="border-top: 1px solid #ccc; padding-top: 30px; font-size: 14px; color: #999;">
+                            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

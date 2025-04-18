@@ -7,7 +7,7 @@ Your order **#{{ $order->id }}** has been updated to:
 
 @if($order->status == 'shipped')
     You can track your order using the button below:
-    @component('mail::button', ['url' => url('/account/order-detail/' . $order->id)])
+    @component('mail::button', ['url' => url('/account/order/track/' . $order->id)])
         Track Your Order
     @endcomponent
 @endif

@@ -10,6 +10,7 @@ class Customize extends Model
     use HasFactory;
 
     protected $fillable = [
+        'product',
         'name',
         'price',
         'image',

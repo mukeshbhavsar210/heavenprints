@@ -124,6 +124,7 @@ Route::group(['prefix' => 'account'], function(){
             Route::get('/my-wishlist','wishlist')->name('account.wishlist');
             Route::post('/remove-product-from-wishlist','removeProductFromWishlist')->name('account.removeProductFromWishlist');
             Route::get('/order-detail/{orderId}','orderDetail')->name('account.orderDetail');
+            Route::get('/order/track/{orderId}', 'trackOrder')->name('order.track');
             Route::get('/logout','logout')->name('account.logout');
         });    
     });
@@ -210,10 +211,12 @@ Route::group(['prefix' => 'admin'], function(){
             Route::get('/orders', 'index')->name('orders.index');
             Route::get('/orders/{id}', 'detail')->name('orders.detail');
             Route::post('/order/change-status/{id}', 'changeOrderStatus')->name('orders.changeOrderStatus');
-
             Route::put('/admin/orders/{order}/status', 'updateStatus')->name('admin.orders.updateStatus');
+            Route::post('/order/send-email/{id}', 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');                        
 
-            Route::post('/order/send-email/{id}', 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
+            //Shiprocket
+            Route::post('ship-order/{id}', 'shipOrder')->name('admin.shipOrder');
+            Route::get('track-order/{awb}', 'trackOrder')->name('admin.trackOrder');
         });
 
         //Users Routes

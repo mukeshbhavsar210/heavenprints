@@ -49,10 +49,11 @@
                         <tr>
                             <th width="60">Order#</th>
                             <th>Customer</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Status</th>
                             <th>Amount</th>
+                            <th>Status</th>
+                            <th>AWB</th>
+                            <th>Courier</th>                                                                                    
+                            <th>Action</th>  
                             <th>Date Purchased</th>
                         </tr>
                     </thead>
@@ -61,9 +62,8 @@
                             @foreach ($orders as $order)
                                 <tr>
                                     <td><a href="{{ route('orders.detail',$order->id) }}">{{ $order->id }}</a></td>
-                                    <td>{{ $order->first_name }} {{ $order->last_name }}</td>
-                                    <td>{{ $order->email }}</td>
-                                    <td>{{ $order->mobile }}</td>
+                                    <td>{{ $order->first_name }} {{ $order->last_name }}</td>                                    
+                                    <td>₹ {{ number_format($order->grandtotal,2) }}</td>
                                     <td>
                                         @if ($order->status == 'pending')
                                             <span class="badge bg-danger">Pending</span>
@@ -75,7 +75,18 @@
                                             <span class="badge bg-danger">Cancelled</span>
                                         @endif
                                     </td>
-                                    <td>₹ {{ number_format($order->grandtotal,2) }}</td>
+                                    <td>{{ $order->awb_code ?? '-' }}</td>
+                                    <td>{{ $order->courier_name ?? '-' }}</td>
+                                    <td>
+                                        @if (!$order->awb_code)
+                                            <form action="{{ route('admin.shipOrder', $order->id) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-primary">Ship Now</button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('admin.trackOrder', $order->awb_code) }}" class="btn btn-success">Track</a>
+                                        @endif
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($order->created_at->format('d M, Y')) }}</td>
                                 </tr>
                             @endforeach

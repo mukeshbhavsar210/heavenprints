@@ -19,19 +19,14 @@ class OrderEmail extends Mailable
         $this->mailData = $mailData;
     }
 
-    public function envelope() {
-        return new Envelope(
-            subject: $this->mailData['subject'],
-        );
+    public function build() {
+        $subject = $this->mailData['userType'] === 'customer'
+            ? 'Thank You for Your Order! Keep shopping'
+            : 'New Order Received';
+
+        return $this->view('email.order')
+                    ->subject($subject)
+                    ->with(['mailData' => $this->mailData]);
     }
 
-    public function content() {
-        return new Content(
-            view: 'email.order',
-        );
-    }
-
-    public function attachments() {
-        return [];
-    }
 }

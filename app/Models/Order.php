@@ -20,6 +20,9 @@ class Order extends Model
                     'coupon_code_id', 
                     'discount', 
                     'grandtotal', 
+                    'shiprocket_order_id', 
+                    'awb_code', 
+                    'courier_name',                     
                     'shipped_date', 
                     'qty', 
                     'price', 
@@ -32,6 +35,10 @@ class Order extends Model
 
     public function payments() {
         return $this->hasMany(Payment::class, 'order_id');
+    }
+
+    public function payment() {
+        return $this->hasOne(Payment::class);
     }
 
     public function customerAddress(){
