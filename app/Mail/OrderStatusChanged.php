@@ -21,7 +21,7 @@ class OrderStatusChanged extends Mailable {
 
     public function build() {
         return $this->subject('Your Order Status has been Updated')
-                    ->markdown('emails.status')
+                    ->markdown('email.status')
                     ->with([
                         'order' => $this->order,
                     ]);

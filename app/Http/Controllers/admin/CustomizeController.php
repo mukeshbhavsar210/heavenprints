@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customize;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
@@ -14,7 +15,7 @@ class CustomizeController extends Controller
 {
     public function index(Request $request){
         $customize = Customize::latest();
-
+        
         if(!empty($request->get('keyword'))){
             $customize = $customize->where('name', 'like', '%'.$request->get('keyword').'%');
         }
@@ -23,11 +24,13 @@ class CustomizeController extends Controller
         return view('admin.customize.list', compact('customize'));
     }
 
+
+
     public function create(){
-        return view('admin.customize.create');
+        $products = Product::whereIn('metal_type', ['Canvas', 'Acrylic', 'Metal', 'Wood'])->get();
+
+        return view('admin.customize.create', compact('products'));
     }
-
-
 
 
     public function store(Request $request){
@@ -36,24 +39,25 @@ class CustomizeController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $data = new Customize();
-            $data->name = $request->name;
-            $data->price = $request->price;
-            $data->category = $request->category;
-            $data->type = $request->type;
-            $data->save();
+            $customize = new Customize();
+            $customize->product = $request->product;
+            $customize->name = $request->name;
+            $customize->price = $request->price;
+            $customize->category = $request->category;
+            $customize->type = $request->type;
+            $customize->save();
 
             //Image upload
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $extenstion = $file->getClientOriginalExtension();
-                $fileName = $data->name.'_'.time().'.'.$extenstion;
+                $fileName = $customize->name.'_'.time().'.'.$extenstion;
                 $path = public_path().'/uploads/customize/'.$fileName;
                 $manager = new ImageManager(new Driver());
                 $image = $manager->read($file);
                 $image->cover(600,600)->save($path);
-                $data->image = $fileName;
-                $data->save();
+                $customize->image = $fileName;
+                $customize->save();
             };
 
             return redirect()->route('customize.index')->with('success','Customize added successfully.');
@@ -64,13 +68,18 @@ class CustomizeController extends Controller
 
 
     public function edit($customizeId, Request $request){
+        $products = Product::whereIn('metal_type', ['Canvas', 'Acrylic', 'Metal', 'Wood'])->get();
+
         $customize = Customize::find($customizeId);
 
         if (empty($customize)) {
             return redirect()->route('customize.index');
         }
 
-        return view('admin.customize.edit', compact('customize'));
+        $data['products'] = $products;
+        $data['customize'] = $customize;
+
+        return view('admin.customize.edit', $data);
     }
 
 
@@ -94,6 +103,7 @@ class CustomizeController extends Controller
 
         if ($validator->passes()) {
             $customize->name = $request->name;
+            $customize->product = $request->product;
             $customize->price = $request->price;
             $customize->image = $request->image;
             $customize->category = $request->category;
@@ -144,7 +154,6 @@ class CustomizeController extends Controller
                 'status' => true,
                 'message' => 'Customize not found'
             ]);
-            //return redirect()->route('customize.index');
         }
 
         //Delete old image

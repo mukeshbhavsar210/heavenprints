@@ -179,9 +179,6 @@ class AuthController extends Controller
     }
 
 
-
-
-
     public function logout(){
         Auth::logout();
         return redirect()->route('account.login')->with('success','You successfully logged out!');;
@@ -226,6 +223,13 @@ class AuthController extends Controller
 
         return view('front.account.order-detail',$data);
     }
+
+    public function trackOrder($id) {
+        $order = Order::findOrFail($id);
+        $steps = ['placed', 'shipped', 'delivered'];
+        return view('front.account.track', compact('order', 'steps'));
+    }
+
 
     public function wishlist(){
         $wishlists = Wishlist::where('user_id', Auth::user()->id)->with('product')->get();

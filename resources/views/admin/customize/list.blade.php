@@ -46,10 +46,10 @@
                         <tr>
                             <th width="60">ID</th>
                             <th>Image</th>
-                            <th>Name</th>
+                            <th>Product</th>    
+                            <th>Category</th>                        
+                            <th>Type</th>                            
                             <th>Price</th>
-                            <th>Type</th>
-                            <th>Category</th>
                             <th width="100">Action</th>
                         </tr>
                     </thead>
@@ -58,17 +58,17 @@
                             @foreach ($customize as $value)
                                 <tr>
                                     <td>{{ $value->id }}</td>
-                                    <td>
+                                    <td style="width: 100px;">
                                         @if (!empty($value->image))
                                             <img src="{{ asset('uploads/customize/'.$value->image) }}" class="img-thumbnail" width="75" >
                                             @else
                                             <img src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" class="img-thumbnail" width="75"  />
                                         @endif                                        
                                     </td>
-                                    <td>{{ $value->name }}</td>
-                                    <td>₹{{ $value->price }}</td>
-                                    <td>{{ $value->type }}</td>
-                                    <td>{{ $value->category }}</td>                                    
+                                    <td>{{ $value->product }}<br />{{ $value->name }}</td>
+                                    <td>{{ $value->category }}</td>
+                                    <td>{{ $value->type }}</td>                                    
+                                    <td>₹{{ $value->price }}</td>                                    
                                     <td>   
                                         <a href="{{ route('customize.edit', $value->id ) }}">
                                             <svg class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

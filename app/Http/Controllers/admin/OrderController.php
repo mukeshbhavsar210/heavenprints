@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Services\ShiprocketService;
 
 class OrderController extends Controller {
     public function index(Request $request){
@@ -36,9 +37,7 @@ class OrderController extends Controller {
                 ->leftJoin('countries', 'customer_addresses.country_id', '=', 'countries.id')
                 ->select('orders.*', 'customer_addresses.address',   )
                 ->first();                                       
-
-        //$orderItems = OrderItem::where('order_id',$orderId)->get();
-
+        
         $orderItems = OrderItem::where('order_id',$orderId)->select(
                             'order_items.*', 
                             'products.font', 
@@ -46,9 +45,7 @@ class OrderController extends Controller {
                             'products.sizes',                            
                         )
                         ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
-                        ->get();
-
-        //dd($order);
+                        ->get();        
 
         return view('admin.orders.detail',[
             'order' => $order,
@@ -56,24 +53,7 @@ class OrderController extends Controller {
         ]);
     }
 
-    public function changeOrderStatus(Request $request, $orderId){
-        $order = Order::find($orderId);        
-        $order->status = $request->status;
-        $order->shipped_date = $request->shipped_date;
-        $order->save();
-
-        $message = 'Order status updated successfully';
-
-        session()->flash('success',$message);
-
-        return response()->json([
-            'status' => true,
-            'message' => $message,
-        ]);
-    }
-
-
-
+   
     public function updateStatus(Request $request, $orderId) {
         $order = Order::with('user', 'items.product')->findOrFail($orderId);
         $oldStatus = $order->status;
@@ -88,14 +68,43 @@ class OrderController extends Controller {
         return back()->with('success', 'Order status updated and email sent.');
     }
 
-
     public function sendInvoiceEmail(Request $request, $orderId) {
-        orderEmail($orderId, 'both');
+        $userType = $request->input('userType');
+        $order = Order::with(['user', 'items', 'customerAddress'])->findOrFail($orderId);
 
-        $message = 'Order email sent to admin and customer successfully';
+        if ($userType === 'customer') {
+            $customerMailData = [
+                'order' => $order,
+                'userType' => 'customer',
+                'subject' => 'Thank You for Your Order! Keep shopping',
+            ];
+
+            Mail::send('email.order', ['mailData' => $customerMailData], function ($message) use ($customerMailData) {
+                $message->to($customerMailData['order']->user->email)
+                        ->subject($customerMailData['subject']);
+            });
+
+            $message = 'Order email sent to Customer successfully.';
+        } elseif ($userType === 'admin') {
+            $adminMailData = [
+                'order' => $order,
+                'userType' => 'admin',
+                'subject' => 'You have received an order',
+            ];
+
+            Mail::send('email.order', ['mailData' => $adminMailData], function ($message) use ($adminMailData) {
+                $message->to('info@heavenprints.in')
+                        ->subject($adminMailData['subject']);
+            });
+
+            $message = 'Order email sent to Admin successfully.';
+        } else {
+            $message = 'Invalid user type selected.';
+        }
 
         session()->flash('success', $message);
 
+         // Return response with a success message
         return response()->json([
             'status' => true,
             'message' => $message,
@@ -103,17 +112,24 @@ class OrderController extends Controller {
     }
 
 
+    public function shipOrder($id) {
+        $order = Order::findOrFail($id);
+        $response = ShiprocketService::createOrder($order);
 
-    // public function sendInvoiceEmail(Request $request, $orderId){
-    //     orderEmail($orderId, $request->userType);
+        if (isset($response['order_id'])) {
+            $order->shiprocket_order_id = $response['order_id'];
+            $order->awb_code = $response['awb_code'] ?? null;
+            $order->courier_name = $response['courier_company_id'] ?? null;
+            $order->shipment_status = 'Shipped';
+            $order->save();
+            return back()->with('success', 'Order shipped successfully.');
+        }
 
-    //     $message = 'Order email sent successfully';
+        return back()->with('error', 'Shiprocket failed to ship order.');
+    }
 
-    //     session()->flash('success',$message);
-
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => $message,
-    //     ]);
-    // }
+    public function trackOrder($awb) {
+        $tracking = ShiprocketService::trackOrder($awb);
+        return view('admin.tracking', ['tracking' => $tracking]);
+    }
 }

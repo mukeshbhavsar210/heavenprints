@@ -55,7 +55,9 @@
 		.btn-outline-primary { color: var(--primary-color); border-color: var(--primary-color);}
         .custom-radio:hover { border-color: var(--primary-color); }
         .custom-radio.active { border-color: var(--primary-color); color: var(--black); }
-        .custom-radio.active::after { background-color: var(--primary-color); }
+        .custom-radio.active::after, .custom-radio-wrap.active .productImg::after { background-color: var(--primary-color); }
+        .custom-radio-wrap.active .productImg { border-color:var(--primary-color);  }
+       
 		.btn-secondary {
 			background-color: var(--secondary-color);
 			border-color: var(--secondary-color);
@@ -193,7 +195,6 @@
                                             <div id="displayOptionDetails"></div>
                                             <div id="displayLaminationDetails"></div>
                                             <div id="displayRetouchingDetails"></div>
-                                            <div id="productDetails"></div>
                                             <div id="displayProofDetails"></div>
                                             <div id="colorFinishingBasicDetails"></div>
                                         </div>
@@ -409,26 +410,47 @@
             }
 
             //Product selection
+            // const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
+            // if (selectedProduct) {
+            //     let product = productSelection[selectedProduct.value];
+            //     if (product) {
+            //         finalPrice += product.price || 0;
+            //         document.getElementById('productDetails').innerHTML = `
+            //             <div class="breakup-details">
+            //                 <div class="photo">
+            //                     <img class="picture_01" src="${product.image}">                                
+            //                 </div>
+            //                 <div class="text">                                 
+            //                     <p>${product.name}</p>
+            //                     <p class="price">₹${product.price.toFixed(2)}</p>
+            //                 </div>                                                     
+            //             </div>                                                
+            //         `;
+            //     }
+            // }    
+            
+            
             const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
             if (selectedProduct) {
-                let product = productSelection[selectedProduct.value];
-                if (product) {
-                    finalPrice += product.price || 0;
-                    document.getElementById('productDetails').innerHTML = `
-                        <div class="breakup-details">
-                            <div class="photo">
-                                <img class="picture_01" src="http://127.0.0.1:8000/uploads/icons/selection/${product.image}">                                
-                            </div>
-                            <div class="text">
-                                <h6>Selected Product</h6>
-                                <p>${product.name}</p>
-                                <p class="price">₹${product.price.toFixed(2)}</p>
-                            </div>
-                             <a href="#" class="icon-tick"><span></span></a>                         
-                        </div>                                                
-                    `;
-                }
-            }           
+                // Pull data from the selected radio button's dataset
+                const image = selectedProduct.dataset.image;
+                const name = selectedProduct.dataset.name;
+                const price = parseFloat(selectedProduct.dataset.price) || 0;
+
+                finalPrice += price;
+
+                document.getElementById('productDetails').innerHTML = `
+                    <div class="breakup-details">
+                        <div class="photo">
+                            <img class="picture_01" src="https://heavenprints.in/uploads/products/small/${image}">                                
+                        </div>
+                        <div class="text">                                 
+                            <p>${name}</p>
+                            <p class="price">₹${price.toFixed(2)}</p>
+                        </div>                                                     
+                    </div>
+                `;
+            }
 
             //Product Size
             const selectedSizeOption = document.querySelector('input[name="size"]:checked');
@@ -894,6 +916,8 @@
 			header.classList.remove("sticky-header");
 		}
 	});
+
+
 </script>
 </body>
 </html>

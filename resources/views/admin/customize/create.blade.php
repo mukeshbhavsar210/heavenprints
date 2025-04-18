@@ -34,7 +34,22 @@
                         </div>
                         <div class="col-md-9 col-6">
                             <div class="row">
-                                <div class="col-md-3 col-6">
+                                @if($products->isNotEmpty())
+                                    <div class="col-md-4 col-12">
+                                        <label for="product">Product <span class="required">*</span></label>
+                                        <select name="product" id="product" class="form-control">
+                                            <option value="">Select a Product</option>
+                                            @if ($products->isNotEmpty())
+                                                @foreach ($products as $value)
+                                                    <option value="{{ $value->name }}">
+                                                        {{ $value->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                @endif
+                                <div class="col-md-4 col-6">
                                     <label for="category">Category</label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select Category</option>
@@ -54,18 +69,18 @@
                                     </select>
                                     <p></p>
                                 </div>
-                                <div class="col-md-5 col-6">
+                                <div class="col-md-4 col-6">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" placeholder="Name">
                                     <p></p>
                                 </div>                                
-                                <div class="col-md-3 col-6">
+                                <div class="col-md-4 col-6">
                                     <label for="price">Price</label>
                                     <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                                     <p></p>
                                 </div>
                                    
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <button type="submit" class="btn btn-primary mt-btn">Create</button>
                                 </div>
                             </div>
@@ -80,7 +95,6 @@
 
 @section('customJs')
 <script>
-
     const subcategories = {
         first: ['Shape', 'Size', 'Custom_1', 'Custom_2'],
         product: ['Canvas', 'Acrylic', 'Metal', 'Wood', 'Other'],
