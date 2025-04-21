@@ -111,8 +111,8 @@
                                                             <div class="form-group">                                  
                                                                 <label for="type">Select Type</label>
                                                                 <select name="type" id="type" class="form-select">
-                                                                    <option value="home">Home</option>
-                                                                    <option value="office">Office</option>
+                                                                    <option value="home" {{ $home_address ? 'disabled' : '' }}>Home</option>
+                                                                    <option value="office" {{ $office_address ? 'disabled' : '' }}>Office</option>
                                                                 </select>
                                                                 <p></p>                                    
                                                             </div>
@@ -124,44 +124,49 @@
                                                                 <p></p>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 col-12">
+                                                        <div class="col-md-12 col-12">
                                                             <div class="form-group">
                                                                 <label for="address">Address</label>
-                                                                <textarea name="address" id="address" cols="30" rows="5" class="form-control"></textarea>
+                                                                <textarea name="address" id="address" cols="30" rows="3" class="form-control"></textarea>
                                                                 <p></p>
                                                             </div>                                                                       
-                                                        </div>                                                                           
-                                                        <div class="col-md-6 col-12">
+                                                        </div>                                                          
+                                                        <div class="col-md-4 col-6">
+                                                            <div class="form-group">
+                                                                <label for="zip">Pin Code</label>
+                                                                <input type="text" id="zip" name="zip" placeholder="Pincode" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-6">
                                                             <div class="form-group">
                                                                 <label for="City">City</label>
-                                                                <input value="" type="text" name="city" id="city" placeholder="Enter Your City" class="form-control">
+                                                                <input value="" type="text" id="city" name="city" class="form-control" >                                                                
                                                                 <p></p>
                                                             </div>
-                                                            
-                                                            <div class="row">
-                                                                <div class="col-md-7 col-6">
-                                                                    <div class="form-group">
-                                                                        <label for="country">State</label>
-                                                                        <select name="country_id" id="country_id" class="form-select">
-                                                                            <option value="">Select</option>
-                                                                            @if ($countries->isNotEmpty())
-                                                                                @foreach ($countries as $country)
-                                                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </select>
-                                                                        <p></p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-5 col-6">
-                                                                    <div class="form-group">
-                                                                        <label for="zip">Pin Code</label>
-                                                                        <input value=""  type="text" name="zip" id="zip" placeholder="Pin" class="form-control">
-                                                                        <p></p>
-                                                                    </div>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-6" id="country_pincode">
+                                                            <div class="form-group">
+                                                                <label for="country">State</label>
+                                                                <input type="text" value="" id="country_name" name="country_name" class="form-control">
+                                                                <input type="hidden" value="" id="country_id_2" name="country_id_2" >
+                                                                <p></p>
                                                             </div>
-                                                        </div> 
+                                                        </div>     
+                                                       
+                                                        <div class="col-md-4 col-6" id="country_details" style="display: none;">
+                                                            <div class="form-group">
+                                                                <label for="country">State</label>
+                                                                <select name="country_id" id="country_id" class="form-select ">
+                                                                    <option value="">Select</option>
+                                                                    @if ($countries->isNotEmpty())
+                                                                        @foreach ($countries as $country)
+                                                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </select>
+                                                                <p></p>
+                                                            </div>                                                            
+                                                        </div>
                                                     </div>                                                    
                                                 </div>
                                                 
@@ -289,7 +294,7 @@
                 }
             });
         }
-        }
+    }
 
     $("#home_addressForm").submit(function(event){
         event.preventDefault();
@@ -343,5 +348,38 @@
         e.classList.toggle("active");
         document.querySelector("aside").classList.toggle("active");        
     }   
+
+    $("#zip").on('blur', function () {
+        const pincode = $(this).val();
+        if (pincode.length === 6) {
+            $.ajax({
+                url: '/get-location-by-pincode',
+                type: 'GET',
+                data: { pincode: pincode },
+                success: function (response) {
+                    if (response.city && response.name) {
+                        $('#city').val(response.city);
+                        $('#country_name').val(response.name);
+                        $('#country_id_2').val(response.id);
+                        $('#country_pincode').val(response.id).show(); 
+                        $('#country_details').hide();
+                    } else {
+                        $('#city').val('');
+                        $('#country_id').val('');
+                        $('#country_pincode').val('').hide();
+                        $('#country_details').val('').show();
+                        $('#country_pincode').hide();
+                    }
+                }
+            });
+        } else {
+            $('#country_pincode').hide();
+            $('#country_id_2').show();
+        }
+    });
+
+
+
+
 </script>
 @endsection

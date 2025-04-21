@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-
+use Illuminate\Support\Facades\DB;
 use function PHPSTORM_META\type;
 
 class AuthController extends Controller
@@ -100,8 +100,8 @@ class AuthController extends Controller
         $user = User::where('id',$userId)->first();
 
         $home_address = CustomerAddress::where('type','home')->where('user_id',$userId)->first();
-        $office_address = CustomerAddress::where('type','office')->where('user_id',$userId)->first();      
-
+        $office_address = CustomerAddress::where('type','office')->where('user_id',$userId)->first();    
+        
         return view('front.account.profile',[
             'user' => $user,
             'countries' => $countries,
@@ -145,23 +145,39 @@ class AuthController extends Controller
         $userId = Auth::user()->id;
 
         $validator = Validator::make($request->all(),[
-            'apartment' => 'required',
-            'country_id' => 'required',
-            'address' => 'required|min:20',
-            'city' => 'required',
-            'zip' => 'required'
+            // 'apartment' => 'required',
+            // 'country_id' => 'required',
+            // 'address' => 'required|min:20',
+            // 'city' => 'required',
+            // 'zip' => 'required'
         ]);
 
         if($validator->passes()){
             CustomerAddress::create([
                 'user_id' => $userId,
-                'country_id' => $request->country_id,
+                'country_id' => $request->country_id ?? $request->country_id_2,
                 'address' => $request->address,
                 'apartment' => $request->apartment,
                 'city' => $request->city,
                 'zip' => $request->zip,
                 'type' => $request->type
             ]);
+
+            
+            $existing = Country::where('name', $request->country_id)
+                   ->where('city', $request->city)
+                   ->where('pincode', $request->zip)
+                   ->first();
+
+            $country = Country::find($request->country_id);
+
+            if (!$existing) {
+                Country::create([
+                    'name' => $country->name,
+                    'city' => $request->city,
+                    'pincode' => $request->zip,
+                ]);
+            }
 
             session()->flash('success','Address updated successfully.');
 
@@ -354,4 +370,6 @@ class AuthController extends Controller
             'message' => 'Address deleted successfully',
         ]);
     }
+
+
 }

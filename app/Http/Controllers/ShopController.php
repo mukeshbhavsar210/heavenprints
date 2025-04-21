@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -273,50 +274,19 @@ class ShopController extends Controller {
             $relatedProducts = Product::whereIn('id',$productArray)->where('status',1)->with('product_images')->get();
         }
 
-        // Define the price arrays
-        $shapePrices = [
-            'Square' => 1.00, 
-            'Rectangle' => 2.00, 
-            'Panoramic' => 3.00, 
-            'Large' => 4.00, 
-            'Small' => 5.00,            
-        ];
-       
-        $sizePrices = [
-            '8" x 8"' => 0, 
-            '10" x 10"' => 20, 
-            '12" x 12"' => 30, 
-            '16" x 16"' => 40, 
-            '20" x 20"' => 50, 
-            '24" x 24"' => 60
-        ];
+        $rows = DB::table('customizes')
+          ->orderBy('name', 'asc')
+          ->get();
 
-        $customSizePrices1 = [
-            8 => 0.00, 
-            10 => 100.00, 
-            12 => 200.00, 
-            14 => 300.00, 
-            16 => 400.00, 
-            18 => 500.00, 
-            20 => 600.00
-        ];
+        $customSizePrices1 = [];
 
-        $customSizePrices2 = [
-            8 => 0.00, 10 => 100.00, 12 => 200.00, 
-            14 => 300.00, 16 => 400.00, 18 => 500.00, 20 => 600.00
-        ];
-
-        //$shapePrices = Customize::where('category','first')->where('type','shape')->get();
-        //$sizePrices = Customize::where('category','first')->where('type','size')->get();
-        //$customSizePrices1 = Customize::where('category','first')->where('type','custom_1')->get();
-        //$customSizePrices2 = Customize::where('category','first')->where('type','custom_2')->get();
+        foreach ($rows as $row) {
+            $customSizePrices1[(int) $row->name] = (float) $row->price;
+        }
         
         $data['product'] = $product;
         $data['relatedProducts'] = $relatedProducts;  
-        $data['shapePrices'] = $shapePrices;     
-        $data['sizePrices'] = $sizePrices;     
-        $data['customSizePrices1'] = $customSizePrices1;     
-        $data['customSizePrices2'] = $customSizePrices2;
+        $data['customSizePrices1'] = $customSizePrices1;
 
         return view('front.products.index',$data);
     }

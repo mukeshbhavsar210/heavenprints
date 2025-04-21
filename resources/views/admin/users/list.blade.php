@@ -3,10 +3,11 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Users</h1>
+                <span class="counts">{{ $counts }}</span>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="{{ route('users.create') }}" class="btn btn-primary">New User</a>
@@ -59,7 +60,7 @@
                         @if ($users->isNotEmpty())
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
+                                    <td><a href="{{ route('users.edit', $user->id ) }}">{{ $user->id }}</a></td>
                                     <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
@@ -111,7 +112,8 @@
                 </table>
             </div>
 
-            <div class="card-footer clearfix">
+            <hr class="m-0" />
+            <div class="card-body pb-0 clearfix">
                 {{ $users->links() }}
             </div>
         </div>

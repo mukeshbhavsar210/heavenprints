@@ -3,13 +3,11 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Orders</h1>
-            </div>
-            <div class="col-sm-6 text-right">
-
+                <span class="counts">{{ $counts }}</span>
             </div>
         </div>
     </div>

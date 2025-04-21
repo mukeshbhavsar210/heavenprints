@@ -18,13 +18,15 @@ class SubCategoryController extends Controller {
             ->latest('sub_categories.id')
             ->leftJoin('categories', 'categories.id', 'sub_categories.category_id');
 
+        $counts = SubCategory::count();
+
         if(!empty($request->get('keyword'))){
             $subCategories = $subCategories->where('sub_categories.name', 'like', '%'.$request->get('keyword').'%');
             $subCategories = $subCategories->orWhere('categories.name', 'like', '%'.$request->get('keyword').'%');
         }
 
         $subCategories = $subCategories->paginate(10);
-        return view('admin.sub_category.list', compact('subCategories'));
+        return view('admin.sub_category.list', compact('subCategories','counts'));
     }
 
 

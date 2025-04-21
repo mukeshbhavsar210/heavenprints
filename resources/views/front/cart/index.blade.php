@@ -131,12 +131,20 @@
                                         <div class="row">
                                             <div class="col-md-5 col-12">
                                                 <div class="card">
-                                                    <div class="card-header">Use my uploaded photo for print.</div>
+                                                    <div class="card-header">
+                                                        @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
+                                                            Make NEON light as per below details.
+                                                        @elseif ($item->options->category == 'Customize')  
+                                                            Use my uploaded photo for print.
+                                                        @else
+                                                            Product details
+                                                        @endif
+                                                    </div>
                                                     <div class="card-body">                                          
                                                         @if($item->options->neon_light == 'NEON' || $item->options->neon_light == 'FLORO')
                                                             <div class="neon-thumb">
                                                                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                                                                    <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="10" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
+                                                                    <text x="0" y="50%" font-family="{{ $item->options->neon_font }}" font-size="40" fill="{{ $item->options->neon_color }}" text-anchor="left" alignment-baseline="left">{{ $item->options->custom_neon }}</text>
                                                                 </svg>
                                                             </div>
                                                         @elseif ($item->options->category == 'Customize')          
@@ -284,28 +292,39 @@
                                                             @elseif($item->options->category == 'Neon light')
                                                                 @if($item->options->custom_neon )
                                                                     <div class="row">
-                                                                        <div class="col-md-3 col-3"><b>Text</b></div>
-                                                                        <div class="col-md-9 col-9">: {{ $item->options->custom_neon }}</div>
+                                                                        <div class="col-md-4 col-4"><b>Entered Text</b></div>
+                                                                        <div class="col-md-8 col-8">: {{ $item->options->custom_neon }}</div>
                                                                     </div>
+                                                                    <hr class="mt-2 mb-2" />
                                                                 @endif
                                                                 @if($item->options->neon_color)
                                                                     <div class="row">
-                                                                        <div class="col-md-3 col-3"><b>Color</b></div>
-                                                                        <div class="col-md-9 col-9">: {{ $item->options->neon_color }}</div>
+                                                                        <div class="col-md-4 col-4"><b>Selected Color</b></div>
+                                                                        <div class="col-md-8 col-8">: {{ $item->options->neon_color }}</div>
                                                                     </div>
+                                                                    <hr class="mt-2 mb-2" />
                                                                 @endif
-                                                                @if($item->options->neon_size)
-                                                                    <div class="row">
-                                                                        <div class="col-md-3 col-3"><b>Size</b></div>
-                                                                        <div class="col-md-9 col-9">: {{ $item->options->neon_size }}</div>
-                                                                    </div>
-                                                                @endif        
                                                                 @if($item->options->neon_font)
                                                                     <div class="row">
-                                                                        <div class="col-md-3 col-3"><b>Font</b></div>
-                                                                        <div class="col-md-9 col-9">: {{ $item->options->neon_font }}</div>
+                                                                        <div class="col-md-4 col-4"><b>Selected Font</b></div>
+                                                                        <div class="col-md-8 col-8">: {{ $item->options->neon_font }}</div>
                                                                     </div>
+                                                                    <hr class="mt-2 mb-2" />
                                                                 @endif   
+                                                                @if($item->options->neon_size)
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-4"><b>Selected Size</b></div>
+                                                                        <div class="col-md-8 col-8">: {{ $item->options->neon_size }}</div>
+                                                                    </div>
+                                                                    <hr class="mt-2 mb-2" />
+                                                                @endif
+                                                                @if($item->options->neon_dimensions)
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-4"><b>Dimensions</b></div>
+                                                                        <div class="col-md-8 col-8">: {{ $item->options->neon_dimensions }}</div>
+                                                                    </div>
+                                                                @endif
+                                                                
                                                                 @if($item->options->size)
                                                                     <div class="row">
                                                                         <div class="col-md-3 col-3"><b>Size</b></div>

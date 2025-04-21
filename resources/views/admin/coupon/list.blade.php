@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
             <div class="col-sm-6">
                 <h1>Discount Coupon</h1>
@@ -61,7 +61,7 @@
                         @if ($discountCoupons->isNotEmpty())
                             @foreach ($discountCoupons as $discountCoupon)
                                 <tr>
-                                    <td>{{ $discountCoupon->id }}</td>
+                                    <td><a href="{{ route('coupons.edit', $discountCoupon->id ) }}">{{ $discountCoupon->id }}</a></td>
                                     <td>{{ $discountCoupon->code }}</td>
                                     <td>{{ $discountCoupon->name }}</td>
                                     <td>

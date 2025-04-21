@@ -3,21 +3,19 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Sub Categories</h1>
+                <span class="counts">{{ $counts }}</span>
             </div>
-            <div class="col-sm-6 text-right">
+            <div class="col-sm-6 col-12 text-right">
                 <a href="{{ route('sub-categories.create') }}" class="btn btn-primary">New Sub Category</a>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
 </section>
-<!-- Main content -->
 <section class="content">
-    <!-- Default box -->
     <div class="container-fluid">
 
         @include('admin.message')
@@ -59,7 +57,7 @@
                         @if ($subCategories->isNotEmpty())
                             @foreach ($subCategories as $subCategory)
                                 <tr>
-                                    <td>{{ $subCategory->id }}</td>
+                                    <td><a href="{{ route('sub-categories.edit', $subCategory->id ) }}">{{ $subCategory->id }}</a></td>
                                     <td><img class="img-thumbnail" width="60" src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" /></td>
                                     <td>{{ $subCategory->name }}</td>
                                     <td>{{ $subCategory->categoryName }}</td>
@@ -98,7 +96,8 @@
                 </table>
             </div>
 
-            <div class="card-footer clearfix">
+            <hr class="m-0" />
+            <div class="card-body pb-0 clearfix">
                 {{ $subCategories->links() }}
             </div>
         </div>

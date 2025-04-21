@@ -124,6 +124,8 @@
                                     <p>₹{{ $item->price*$item->qty }}</p>
                                 </div>
                             @endforeach                         
+                            
+                            <hr class="mt-0" >
 
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Subtotal</p>
@@ -134,46 +136,37 @@
                                 @if (Session::has('code'))                                         
                                 @endif
                             </div>
-
-                            @if($totalShiipingCharge)
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-2">Shipping</p>
-                                    <p id="shippingAmount" class="mb-2">₹ {{ number_format($totalShiipingCharge,2) }}</p>
-                                </div>
-                            @endif
-                            
-                            <hr class="mt-1 mb-2" />
-
                             <div class="d-flex justify-content-between">
-                                <p>To Pay</p>
+                                <p class="mb-2">Shipping</p>
+                                <p id="shippingAmount" class="mb-2">₹ {{ number_format($totalShiipingCharge,2) }}</p>
+                            </div>
+                            <hr class="mt-1 mb-2" />
+                            <div class="d-flex justify-content-between">
+                                <p><b>To Pay</b></p>
                                 <p id="grandTotal"><b>₹{{ number_format($grandTotal,2) }}</b></p>
-                            </div>
-
-                            <div class="input-group apply-coupan mt-1">
-                                <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code">
-                                <button class="btn btn-secondary" type="button" id="apply-discount">Apply Coupon</button>
-                            </div>
-                            
-                            <div id="discount-response-wrapper">
-                                @if (Session::has('code'))
-                                    <div id="discount-response">
-                                        <div class="card-body p-2">
-                                            {{ Session::get('code')->code }}
-                                            <a id="remove-discount"><i class="fa fa-times"></i></a>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
 
                             @if($discountCode->isNotEmpty())
                                 @foreach ($discountCode as $value)
-                                    <a class="toggle-btn toggle-btn-1 btn btn-outline-dark btn-sm toggle-btn mt-3" data-id="1">Show Discount</a>
-                                    <div class="more-content mt-3 more-content-1" style="display: none;">
-                                        <div class="card">
-                                            <div class="card-body py-2">
-                                                {{ $value->code }} ({{ $value->name }})
-                                            </div>
+                                    <a class="toggle-btn" href="javascript:void{0}">Discount?</a>
+                                    <div class="discount_wrapper" style="display: none;">
+                                        <div id="discount-response-wrapper" >
+                                            @if (Session::has('code'))
+                                                <div id="discount-response">
+                                                    <div class="card-body p-2">
+                                                        {{ Session::get('code')->code }}
+                                                        <a id="remove-discount"><i class="fa fa-times"></i></a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
+
+                                        <div class="input-group apply-coupan mt-1" >
+                                            <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code">
+                                            <button class="btn btn-secondary" type="button" id="apply-discount">Apply Coupon</button>
+                                        </div>
+
+                                        <p class="mt-2">{{ $value->code }}</p>
                                     </div>
                                 @endforeach
                             @endif
@@ -455,12 +448,12 @@
 
     $(".toggle-btn").click(function() {
         var id = $(this).data("id"); 
-        var moreContent = $(".more-content-" + id);
-        var button = $(".toggle-btn-" + id);
+        var moreContent = $(".discount_wrapper");
+        var button = $(".toggle-btn");
 
         if (moreContent.is(":visible")) {
             moreContent.hide();
-            button.text("Show Discount");
+            button.text("Discount");
         } else {
             moreContent.show();
             button.text("Hide Discount");

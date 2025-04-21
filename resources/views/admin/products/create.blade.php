@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
             <div class="col-sm-6">
                 <h1>Create Product</h1>
@@ -89,16 +89,41 @@
                         <div class="card-body">
                             <h2 class="h4 mb-3">Pricing</h2>
                             <div class="row">
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-6">
                                     <label for="price">Price <span class="required">*</span></label>
-                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
-                                    <p></p>
+                                    <div class="input-group">                                            
+                                        <span class="input-group-text" id="basic-addon1">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                        <p></p>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-6">
                                     <label for="compare_price">Compare at Price</label>
-                                    <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
+                                    <div class="input-group">                                            
+                                        <span class="input-group-text" id="basic-addon1">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-3 col-6">
+                                    <label for="per_inch">Per inch</label>
+                                    <div class="input-group">                                            
+                                        <span class="input-group-text" id="basic-addon1">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                            </svg>
+                                        </span>
+                                        <input type="text" name="per_inch" id="per_inch" class="form-control" placeholder="Per Inch">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
                                     <p class="mb-2"><b>Status</b></p>
                                     <div class="form-group">
                                         <select name="status" id="status" class="form-control">
@@ -251,23 +276,17 @@
                                     <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
                                     <p class="error"></p>
                                 </div>
-
-                                <div class="col-md-6 col-8">
-                                    <label for="barcode">Barcode</label>
-                                    <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
-                                </div>
-
                                 <div class="col-md-6 col-4">
                                     <div class="custom-control custom-checkbox">
                                         <input type="hidden" name="track_qty" value="No" >
                                         <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
                                         <label for="track_qty" class="custom-control-label">Track <span class="required">*</span></label>
-                                        <p></p>
                                     </div>
-                                    <div>
-                                        <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty">
-                                        <p></p>
-                                    </div>
+                                    <input type="number" min="0" name="qty" id="qty" class="form-control mt-2" placeholder="Qty">
+                                </div>
+                                <div class="col-md-6 col-8">
+                                    <label for="barcode">Barcode</label>
+                                    <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
                                 </div>
                             </div>
                         </div>

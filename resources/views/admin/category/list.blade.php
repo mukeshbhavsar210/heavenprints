@@ -3,12 +3,13 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Categories</h1>
+                <span class="counts">{{ $counts }}</span>
             </div>
-            <div class="col-sm-6 text-right">
+            <div class="col-sm-6 col-12 text-right">
                 <a href="{{ route('categories.create') }}" class="btn btn-primary">New Category</a>
             </div>
         </div>
@@ -58,7 +59,7 @@
                         @if ($categories->isNotEmpty())
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td>{{ $category->id }}</td>
+                                    <td><a href="{{ route('categories.edit', $category->id ) }}">{{ $category->id }}</a></td>
                                     <td><img style="border-radius: 5px; width:50px; height:50px" src="{{ asset('uploads/category/'.$category->image) }}" alt="" /></td>
                                     <td>{{ $category->name }}</td>
                                     <td>
@@ -109,7 +110,8 @@
                 </table>
             </div>
 
-            <div class="card-footer clearfix">
+            <hr class="m-0" />
+            <div class="card-body pb-0 clearfix">
                 {{ $categories->links() }}
             </div>
         </div>

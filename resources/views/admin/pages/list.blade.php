@@ -3,10 +3,11 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Pages</h1>
+                <span class="counts">{{ $counts }}</span>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="{{ route('pages.create') }}" class="btn btn-primary">New Page</a>
@@ -57,7 +58,7 @@
                         @if ($pages->isNotEmpty())
                             @foreach ($pages as $page)
                                 <tr>
-                                    <td>{{ $page->id }}</td>
+                                    <td><a href="{{ route('pages.edit', $page->id ) }}">{{ $page->id }}</a></td>
                                     <td>{{ $page->name }}</td>
                                     <td>{{ $page->category }}</td>
                                     <td>
@@ -83,7 +84,8 @@
                 </table>
             </div>
 
-            <div class="card-footer clearfix">
+            <hr class="m-0" />
+            <div class="card-body pb-0 clearfix">
                 {{ $pages->links() }}
             </div>
         </div>

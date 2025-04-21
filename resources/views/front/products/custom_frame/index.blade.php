@@ -174,12 +174,12 @@
                                     <div class="priceHover  mt-2">   
                                         <h4 type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                             ₹<span id="finalPrice">
-                                                @if(session()->has('finalPriceData') && isset(session('finalPriceData')['finalPrice']))
-                                                    {{ number_format(session('finalPriceData')['finalPrice'], 2) }}
-                                                @else
-                                                    0.00
-                                                @endif
-                                                <input type="hidden" id="sessionPrice" value="{{ session('finalPriceData.finalPrice', 0) }}">
+                                            @if(session()->has('finalPriceData') && isset(session('finalPriceData')['finalPrice']))
+                                                {{ number_format(session('finalPriceData')['finalPrice'], 2) }}
+                                            @else
+                                                0.00
+                                            @endif
+                                            <input type="hidden" id="sessionPrice" value="{{ session('finalPriceData.finalPrice', 0) }}">
                                         </h4>
 
                                         <div class="breakups" aria-labelledby="dropdownMenuButton">    
@@ -200,9 +200,7 @@
                                         </div>
                                     </div>
 
-                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">
-                                        Add To Cart
-                                    </a>   
+                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">Add To Cart</a>   
                                 </div>  
                             </div>
 						</div>
@@ -214,7 +212,6 @@
     
 <main class="customMain">
     <div class="row">                 
-                                
             <div class="col-md-5 col-0">   
                 <aside>                               
                 <div class="row">                                           
@@ -301,20 +298,17 @@
                     </div>                           
                 </div> 
             </aside>                        
-            </div>
-        
-            
+        </div>
+                    
         <div class="col-md-7 col-12">
             {{-- @if(!empty($finalPriceData))
-                <ul>
-                    <li><strong>Size:</strong> {{ $finalPriceData['size'] }}</li>
-                    <li><strong>Shape:</strong> {{ $finalPriceData['shape'] }}</li>
+                <ul>              
                     <li><strong>Custom Size 1:</strong> {{ $finalPriceData['custom_size_1'] }}</li>
                     <li><strong>Custom Size 2:</strong> {{ $finalPriceData['custom_size_2'] }}</li>
                 </ul>
             @else
                 <p>No session data found.</p>
-            @endif --}}                              
+            @endif                           --}}
             
             <div class="card mt-3">
                 <div class="card-body height_100vh text-center">
@@ -339,8 +333,7 @@
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
-<script>
-   
+<script>   
     //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
         const shapeData = @json($shapeData);
@@ -409,27 +402,6 @@
                 }
             }
 
-            //Product selection
-            // const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
-            // if (selectedProduct) {
-            //     let product = productSelection[selectedProduct.value];
-            //     if (product) {
-            //         finalPrice += product.price || 0;
-            //         document.getElementById('productDetails').innerHTML = `
-            //             <div class="breakup-details">
-            //                 <div class="photo">
-            //                     <img class="picture_01" src="${product.image}">                                
-            //                 </div>
-            //                 <div class="text">                                 
-            //                     <p>${product.name}</p>
-            //                     <p class="price">₹${product.price.toFixed(2)}</p>
-            //                 </div>                                                     
-            //             </div>                                                
-            //         `;
-            //     }
-            // }    
-            
-            
             const selectedProduct = document.querySelector('input[name="product_selection"]:checked');
             if (selectedProduct) {
                 // Pull data from the selected radio button's dataset

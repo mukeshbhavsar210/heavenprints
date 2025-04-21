@@ -20,6 +20,14 @@
                 </div>
                         
                 <div class="col-md-5 col-12">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {!! session('success') !!}
+                        </div>
+                    @endif
+
+                    <div id="formErrors"></div>
+                    
                     @if ($products->isNotEmpty())
                         @foreach ($products as $product)
                         
@@ -41,7 +49,7 @@
                             
                             <p class="mb-1 mt-3"><b>Type your text</b></p>   
                             <input type="text" id="text" name="custom_neon" placeholder="Enter text" class="fotm-control">
-
+                          
                             <!-- Font Selection -->
                             <p class="mb-1 mt-4"><b>Pick your font</b></p>
                             <div class="fontScroll">
@@ -74,35 +82,35 @@
                             <div class="groupDetails">
                                 <p>Pick Your Size?</p>
                                 <div class="pickSize">
+                                    <input type="hidden" id="selectedSize" name="selectedSize">
+                                    <input type="hidden" id="selectedDimensions" name="selectedDimensions">
                                     <div class="size-picker">
                                         <div class="size-picker__item" >
-                                            <input checked type="radio" name="neon_size" value="Regular" onclick="applySize(50)" id="size_picker_01" class="size-picker__input">
+                                            <input checked type="radio" value="Regular" name="neon_size" onclick="applySize(50)" id="size_picker_01" class="size-picker__input">
                                             <label class="size-picker__color" for="size_picker_01">
                                                 <h6>Regular</h6>
-                                                <p>Width:3" <br/> Height:10"</p>
+                                                <p id="regularSize">Width: 3 " <br/> Height: 10 "</p>
                                             </label>
                                         </div>
                                         <div class="size-picker__item" >
-                                            <input type="radio" name="neon_size" value="Medium" onclick="applySize(60)" id="size_picker_02" class="size-picker__input">
+                                            <input type="radio" value="Medium" name="neon_size" onclick="applySize(60)" id="size_picker_02" class="size-picker__input">
                                             <label class="size-picker__color" for="size_picker_02">
                                                 <h6>Medium</h6>
-                                                <p>Width:3" <br/> Height:10"</p>
+                                                <p id="mediumSize">Width: 4 " <br/> Height: 13 "</p>
                                             </label>
                                         </div>
                                         <div class="size-picker__item" >
-                                            <input type="radio" name="neon_size" value="Large" onclick="applySize(70)" id="size_picker_03" class="size-picker__input">
+                                            <input type="radio" value="Large" name="neon_size" onclick="applySize(70)" id="size_picker_03" class="size-picker__input">
                                             <label class="size-picker__color" for="size_picker_03">
                                                 <h6>Large</h6>
-                                                <p>Width:3" <br/> Height:10"</p>
+                                                <p id="largeSize">Width: 5 " <br/> Height: 15 "</p>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCartNeon({{ $product->id }})">
-                                <i class="fa fa-shopping-cart"></i> Add To Cart
-                            </a>
+                            <a class="btn btn-primary" href="javascript:void(0);" onclick="addToCartNeon({{ $product->id }})">Add To Cart</a>
                         @endforeach
                     @endif
                 </div>
@@ -207,12 +215,21 @@
 <script>
 	function addToCartNeon(id){
 		let neon_color = $("input[name='neon_color']:checked").val();
-		let neon_size = $("input[name='neon_size']:checked").val();
 		let neon_font = $("input[name='neon_font']:checked").val();
 		let neon_light = $("input[name='neon_light']:checked").val();
 		let custom_neon = $("input[name='custom_neon']").val();
-
         let selectedPrice = $("#price").text();
+        let neon_size = $("input[name='neon_size']:checked").val();        
+        
+        // Get the associated width text based on selected neon_size
+        let neon_dimensions = '';
+        if (neon_size === 'Regular') {
+            neon_dimensions = $("#regularSize").text().trim();
+        } else if (neon_size === 'Medium') {
+            neon_dimensions = $("#mediumSize").text().trim();
+        } else if (neon_size === 'Large') {
+            neon_dimensions = $("#largeSize").text().trim();
+        }
 
         $.ajax({
             url: '{{ route("addToCart_neon") }}',
@@ -222,10 +239,11 @@
 				id: id,
                 price: selectedPrice,
 				neon_color: neon_color,
-				neon_size: neon_size,
 				neon_font: neon_font,
 				neon_light: neon_light,
-				custom_neon: custom_neon
+				custom_neon: custom_neon,
+                neon_size: neon_size,
+                neon_dimensions: neon_dimensions,
 			},
             dataType: 'json',
             success: function(response){
@@ -234,13 +252,45 @@
                 } else {
                     alert(response.message);
                 }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    let errorMessage = "";
+                    for (let field in errors) {
+                        errorMessage += errors[field][0] + "\n";
+                    }
+                    alert("Validation Error:\n" + errorMessage);
+
+                    $("#error-message").html(`<div class="alert alert-danger">${errorMessage.replace(/\n/g, "<br>")}</div>`);
+                }
             }
         })
     }
 </script>
+
 <script>
-    
-    //SVG
+    document.querySelectorAll(".size-picker__input").forEach(radio => {
+      radio.addEventListener("change", function () {
+        const selectedSize = this.value;
+  
+        let dimensions = '';
+        if (selectedSize === 'Regular') {
+          dimensions = document.getElementById("regularSize").innerText;
+        } else if (selectedSize === 'Medium') {
+          dimensions = document.getElementById("mediumSize").innerText;
+        } else if (selectedSize === 'Large') {
+          dimensions = document.getElementById("largeSize").innerText;
+        }
+  
+        // Optional: Store values in hidden inputs or log them
+        console.log("Selected:", selectedSize, dimensions);
+        document.getElementById("selectedSize").value = selectedSize;
+        document.getElementById("selectedDimensions").value = dimensions;
+      });
+    });
+  </script>
+<script>
     document.getElementById("text-input2").addEventListener("input", function() {
         let text = this.value;
 
@@ -275,16 +325,12 @@
         }
     }    
 </script>
-
-
 <script>
     let selectedFontSize = 40; // Default size
-
     function applySize(neon_size) {
         selectedFontSize = neon_size;
         updatePreview();
     }
-
     function updatePreview() {
         let text = $('#text').val() || "Preview Text";
         let fontColor = $('#color').val() || "#000000";
@@ -293,7 +339,7 @@
         let neon_color = $('input[name="neon_color"]:checked').val() || "#000000";
         let neon_size = $('input[name="neon_size"]:checked').val() || "#000000";
         let charCount = text.length;
-        let price = charCount * 3000;
+        let price = charCount * 1000;
         let encodedFont = neon_font.replace(/\s+/g, '+'); // Convert "Times New Roman" -> "Times+New+Roman"
         let svgContent = `
             <svg width="100%" height="250" style="background: black"  xmlns="http://www.w3.org/2000/svg">
@@ -312,11 +358,28 @@
         $('#previewContainer').html(svgContent);
         $('#price').text(price);
     }
-    
-
     $('#text').on('input', updatePreview);
     $('input[name="neon_font"]').on('change', updatePreview);
     $('input[name="neon_color"]').on('change', updatePreview);
 </script>
 
+<script>
+    const input = document.getElementById("text");
+    const regular = document.getElementById("regularSize");
+    const medium = document.getElementById("mediumSize");
+    const large = document.getElementById("largeSize");
+    
+    input.addEventListener("input", () => {
+      const length = input.value.length;
+  
+      // Example: start with width 3", and increase 1" every 2 characters
+      const regular_width = 3 + Math.floor(length / 2) * 3;
+      const medium_width = 3 + Math.floor(length / 2) * 7;
+      const large_width = 6 + Math.floor(length / 2) * 8;
+  
+      regular.innerHTML = `Width: ${regular_width} " <br /> Height: 10 "`;
+      medium.innerHTML = `Width: ${medium_width} " <br /> Height: 13 "`;
+      large.innerHTML = `Width: ${large_width} " <br /> Height: 15 "`;
+    });
+  </script>
 @endsection

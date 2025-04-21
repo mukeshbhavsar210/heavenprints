@@ -11,6 +11,7 @@ class BrandController extends Controller {
 
     public function index(Request $request){
         $brands = Brand::latest('id');
+        $counts = Brand::count();
 
         if ($request->get('keyword')){
             $brands = $brands->where('name', 'like', '%'.$request->keyword.'%');
@@ -18,7 +19,7 @@ class BrandController extends Controller {
 
         $brands = $brands->paginate(10);
 
-        return view('admin.brands.list',compact('brands'));
+        return view('admin.brands.list',compact('brands','counts'));
     }
 
 

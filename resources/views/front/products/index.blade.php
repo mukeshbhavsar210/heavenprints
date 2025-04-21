@@ -65,126 +65,79 @@
                     <small class="pt-1">(99 Reviews)</small>
                 </div>
 
-                <h4 id="finalPrice">₹{{ $product->price }}</h4>
+                <h4>₹<span id="finalPrice">{{ $product->price }}</span></h4> 
+                (Rate: ₹{{ $product->per_inch }} x <span id="totalInches">0</span> inches = ₹<span id="subTotalInches">0</span>)
                 <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
                 <form action="{{ route('store_total') }}" method="post" class="mt-3">                        
                     @csrf
                     <input type="hidden" name="name" id="category_name" value="{{ $product->metal_type }}">
-                    <div class="groupDetails">
-                        <div class="row">
-                            <div class="col-md-2 col-12">
-                                <p class="mt-3"><b>Shapes:</b></p>
-                            </div>
-
-                            {{-- @if($customizeData->isNotEmpty())
-                                @foreach ($customizeData as $value)
-                                    {{ $value->name }}
-                                @endforeach
-                            @endif --}}
-                            
-                            <div class="col-md-10 col-12">                        
-                                <div class="size-picker">
-                                    @foreach($shapePrices as $shape => $price)
-                                        <div class="size-picker__item" >
-                                            <input  type="radio" name="shape" value="{{ $shape }}"  class="size-picker__input" id="shape_{{ $loop->index + 1 }}">
-                                            <label class="size-picker__color" for="shape_{{ $loop->index + 1 }}" >{{ $shape }}</label>
-                                        </div>
-                                    @endforeach
-                                </div> 
+                                     
+                    <div class="row mt-4">
+                        <div class="col-md-4 col-7">
+                            <div class="twoDropdowns">
+                                <div class="itemDD">
+                                    <p class="mb-1">Height</p>
+                                    <select id="customSizeSelect_01" class="form-select" name="custom_size_1">
+                                        <option value="0">Select</option>
+                                        @foreach($customSizePrices1 as $value => $item)                                                        
+                                            <option value="{{ $value }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="itemDD"> 
+                                    <p style="margin-top: 30px;">X</p>
+                                </div>
+                                <div class="itemDD">
+                                    <p class="mb-1">Width</p>
+                                    <select id="customSizeSelect_02" class="form-select" name="custom_size_2" >
+                                        <option value="0">Select</option>
+                                        @foreach($customSizePrices1 as $value => $item)                                                        
+                                            <option value="{{ $value }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                                        
+                    <div class="row">
+                        <div class="col-md-10 col-12">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">  
+                            <input type="hidden" id="finalPriceInput" name="total" value="{{ $product->price }}">
+                            <span style="display: none" id="finalPrice2" >{{ $product->price }}</span>                                                            
+                            <input type="hidden" name="name" value="{{ $product->metal_type }}"> 
+                            <button type="submit" class="btn btn-primary mt-3 mb-3 mr-4">Create Frame</button>
+                        </form>
 
-                    <div class="groupDetails">
-                        <div class="row">
-                            <div class="col-md-2 col-12">
-                                <p class="mt-3"><b>Sizes:</b></p>
+                        <div class="productDetailsTabs">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                    {!! $product->description !!}
+                                </div>
+                                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                                    {!! $product->shipping_returns !!}
+                                </div>
+                                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                    {!! $product->description !!}
+                                </div>
                             </div>
-                            <div class="col-md-10 col-12">
-                                <div class="size-picker">
-                                    @foreach($sizePrices as $size => $price)
-                                        <div class="size-picker__item" >
-                                            <input @if($loop->first) checked @endif  type="radio" name="size" value="{{ $size }}" class="size-picker__input" id="size_{{ $loop->index + 1 }}">
-                                            <label class="size-picker__color" for="size_{{ $loop->index + 1 }}" >{{ $size }}</label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                
-                                <div class="row mt-4">
-                                    <div class="col-md-2 col-12">
-                                        <p class="mt-2"><b>Custom:</b></p>
-                                    </div>
-                                    <div class="col-md-5 col-7">
-                                        <div class="twoDropdowns">
-                                            <div class="itemDD">                                                   
-                                                <select id="customSizeSelect_01" class="form-select" name="custom_size_1">
-                                                    <option value="0">Select</option>
-                                                    @foreach($customSizePrices1 as $value => $price)                                                        
-                                                        <option value="{{ $value }}"  >{{ $value }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="itemDD"> 
-                                                <p class="mt-1">X</p>
-                                            </div>
-                                            <div class="itemDD">
-                                                <select id="customSizeSelect_02" class="form-select" name="custom_size_2" >
-                                                    <option value="0">Select</option>
-                                                    @foreach($customSizePrices2 as $value => $price)
-                                                        <option value="{{ $value }}">{{ $value }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">  
-                                <input type="hidden" id="finalPriceInput" name="total" value="{{ $product->price }}">
-                                <span style="display: none" id="finalPrice2" >{{ $product->price }}</span>                                                            
-                                <input type="hidden" name="name" value="{{ $product->metal_type }}"> 
-                                <button type="submit" class="btn btn-primary mt-3 mb-3 mr-4">Create Frame</button>
-                            </form>
-
-                            @if ($product->track_qty == 'Yes')
-                                @if ($product->qty > 0)
-                                    <a class="btn btn-outline-primary " href="javascript:void(0);" onclick="addToCart({{ $product->id }})">Add to Cart</a>
-                                @else
-                                    <a class="btn btn-outline-primary" href="javascript:void(0);">OUT OF STOCK</a>
-                                @endif
-                            @else
-                                <a class="btn btn-outline-primary" href="javascript:void(0);" onclick="addToCart({{ $product->id }})">Add to Cart</a>
-                            @endif
-
-                            <div class="productDetailsTabs">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Description</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping & Returns</button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                        {!! $product->description !!}
-                                    </div>
-                                    <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-                                        {!! $product->shipping_returns !!}
-                                    </div>
-                                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                        {!! $product->description !!}
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>  
-                    </div>
-                </div>                
-            </div>
+                        </div> 
+                    </div>  
+                </div>
+            </div>                
+        </div>
 
             @if (!empty($relatedProducts))
                 <section class="section-8">                                    
@@ -248,50 +201,37 @@
 <script>
     //Main Calculation
     document.addEventListener('DOMContentLoaded', function () {
-        const shapePrices = @json($shapePrices);
-        const sizePrices = @json($sizePrices);
         const customSizePrices1 = @json($customSizePrices1);
-        const customSizePrices2 = @json($customSizePrices2);
+        const customSizePrices2 = @json($customSizePrices1);
 
-        let basePrice = parseFloat({{ $product->price }});         
-        let finalPrice = basePrice;
+        let basePrice = parseFloat({{ $product->price }});
+        let per_inch = parseFloat({{ $product->per_inch }});
+        let finalPrice = basePrice;        
 
-        function updatePrice() {
-            finalPrice = basePrice; 
+        function updatePrice() {      
+            const selectedSize1 = parseInt(document.getElementById('customSizeSelect_01').value);
+            const selectedSize2 = parseInt(document.getElementById('customSizeSelect_02').value);
 
-            // Get selected shape price
-            const selectedShape = document.querySelector('input[name="shape"]:checked');
-            if (selectedShape) {
-                finalPrice += shapePrices[selectedShape.value] || 0;
+            // Only proceed if both are selected
+            if (!selectedSize1 || !selectedSize2) {
+                return;
             }
 
-            const selectedSize = document.querySelector('input[name="size"]:checked');
-            if (selectedSize) {
-                finalPrice += sizePrices[selectedSize.value] || 0;
-            }
-            
-            //Custom value 01
-            const selectedCustomSize = parseInt(document.getElementById('customSizeSelect_01').value);
-            if (selectedCustomSize && customSizePrices1[selectedCustomSize]) {
-                finalPrice += customSizePrices1[selectedCustomSize];                
-            } 
+            const width = customSizePrices1[selectedSize1] || 1;
+            const height = customSizePrices2[selectedSize2] || 1;
+            const area = width * height;
 
-            //Custom value 01
-            const selectedCustomSize_02 = parseInt(document.getElementById('customSizeSelect_02').value);
-            if (selectedCustomSize_02 && customSizePrices2[selectedCustomSize_02]) {
-                finalPrice += customSizePrices2[selectedCustomSize_02];                
-            } 
+            finalPrice = basePrice + (per_inch * area);
+            totalInches = area;
+            subTotalInches = (per_inch * area);
 
+            document.getElementById('totalInches').innerText = totalInches;
+            document.getElementById('subTotalInches').innerText = subTotalInches.toFixed(2);
             document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
             document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         }
 
-        // **Attach event listeners**
-        document.querySelectorAll('input[type="radio"]').forEach(input => {
-            input.addEventListener('change', updatePrice);
-        });
-       
-         // Add event listener for dropdown selection
+        // Add event listener for dropdown selection
         document.getElementById('customSizeSelect_01').addEventListener('change', updatePrice);
         document.getElementById('customSizeSelect_02').addEventListener('change', updatePrice);
 
