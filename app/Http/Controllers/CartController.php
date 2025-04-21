@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ShiprocketService;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Country;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use Razorpay\Api\Api;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 use function Ramsey\Uuid\v1;
 
@@ -239,12 +241,28 @@ class CartController extends Controller {
 
 
     public function addToCart_neon(Request $request){
+
+      
+
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:products,id',
+            'price' => 'required|numeric|min:0',
+            'neon_color' => 'required|string',
+            'neon_font' => 'required|string',
+            'neon_light' => 'required|string',
+            'custom_neon' => 'required|string',
+            'neon_size' => 'required|string',
+        ]);
+
+
         $product = Product::with('product_images')->find($request->id);
-        $neon_color = $request->neon_color ?? 'Default Red';
-        $neon_size = $request->neon_size ?? 'Default Red';
-        $neon_font = $request->neon_font ?? 'Default Red';
-        $neon_light = $request->neon_light ?? 'Default Light';
-        $custom_neon = $request->custom_neon ?? 'Default Light';
+        $neon_color = $request->neon_color;
+        $neon_font = $request->neon_font;
+        $neon_light = $request->neon_light;
+        $custom_neon = $request->custom_neon;
+        $neon_size = $request->neon_size;
+        $neon_dimensions = $request->neon_dimensions;
+        
 
         if ($product == null) {
             return response()->json([
@@ -273,10 +291,11 @@ class CartController extends Controller {
                             'category' => 'Neon light', 
                             'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                             'neon_color' => $request->neon_color,
-                            'neon_size' => $request->neon_size,
                             'neon_font' => $request->neon_font,
                             'neon_light' => $request->neon_light,
-                            'custom_neon' => $request->custom_neon
+                            'custom_neon' => $request->custom_neon,
+                            'neon_size' => $request->neon_size,
+                            'neon_dimensions' => $request->neon_dimensions,
                         ]
                 );
                 $status = true;
@@ -297,16 +316,17 @@ class CartController extends Controller {
                         'category' => 'Neon light', 
                         'productImage' => (!empty($product->product_images)) ? $product->product_images->first() : '',
                         'neon_color' => $request->neon_color,
-                        'neon_size' => $request->neon_size,
                         'neon_font' => $request->neon_font,
                         'neon_light' => $request->neon_light,
-                        'custom_neon' => $request->custom_neon                        
+                        'custom_neon' => $request->custom_neon,
+                        'neon_size' => $request->neon_size,
+                        'neon_dimensions' => $request->neon_dimensions,                      
                         
                     ]);
             $status = true;
             $message = '<strong>'.$product->naammee.'</strong> added in your cart successfully.';
             session()->flash('success', $message);
-        }
+        }       
 
         return response()->json([
             "status"=> $status,
@@ -492,7 +512,7 @@ class CartController extends Controller {
     // Generate Razorpay Order
     public function processCheckout(Request $request) {
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
-        $amount = $request->amount * 100; // Convert to paise
+        $amount = floatval($request->amount) * 100; // Convert to paise   
 
         $order = $api->order->create([
             'receipt' => 'order_'.rand(1000, 9999),
@@ -511,12 +531,12 @@ class CartController extends Controller {
 
 
 
-    // Verify Payment
-    public function verifyPayment(Request $request) {
-        $amount = $request->amount ?? 0;                
+     // Verify Payment
+     public function verifyPayment(Request $request) {
+        $amount = $request->amount ?? 0;
         $order_notes = $request->order_notes;                
         $country = $request->country;
-        $address_type = $request->address_type;        
+        $address_type = $request->address_type; 
 
         try {
             $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
@@ -530,8 +550,8 @@ class CartController extends Controller {
             $api->utility->verifyPaymentSignature($attributes);
 
             //Step 1: apply validations while make orders
-            $validator = Validator::make($request->all(),[                                
-                // 'zip' => 'required'
+            $validator = Validator::make($request->all(),[
+               
             ]);
 
             if ($validator->fails()){
@@ -540,7 +560,7 @@ class CartController extends Controller {
                     'status' => false,
                     'errors' => $validator->errors()
                 ]);
-            }           
+            }
 
             $user = Auth::user();
 
@@ -572,7 +592,7 @@ class CartController extends Controller {
                         'delivery_at' => 'office',
                     ]
                 );
-            }            
+            }
             
             //Step 3: Store data in orders table
             $discountCodeId = NULL;
@@ -634,7 +654,6 @@ class CartController extends Controller {
                 'status' => 'pending',
             ]);        
             
-            //Order Item update
             foreach (Cart::content() as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -655,13 +674,14 @@ class CartController extends Controller {
                     'hardware_display' => $item->options->display_name,
                     'lamination' => $item->options->lamination_name,
                     'retouching' => json_encode($item->options->retouch_names),                    
+                    //'proof' => $item->options->proof_names,
+                    // 'hardware_finishing'=> $item->options->hardware_finishing,
                     'qty' => $item->qty,
                     'price' => $item->price,
                     'total' => $item->price * $item->qty,                    
                 ]);
             }
 
-            //Payment table update
             Payment::create([
                 'order_id' => $order->id,
                 'product_id' => $item->id,
@@ -674,14 +694,63 @@ class CartController extends Controller {
                 'payment_data' => json_encode($request->all()),               
             ]);
 
-            //Send confirmed order email onilne for ONLINE NOT for LOCAL
+            //SHIPROCKET ORDER
+            if ($request->payment_status === 'success') {
+                $payment = $order->payment;
+                $payment->status = 'Paid';
+                $payment->save();
+        
+                // Create shipping order in Shiprocket
+                $response = ShiprocketService::createOrder($order);
+        
+                if (isset($response['order_id'])) {
+                    $order->shiprocket_order_id = $response['order_id'];
+                    $order->awb_code = $response['awb_code'] ?? null;
+                    $order->courier_name = $response['courier_company_id'] ?? null;
+                    $order->shipment_status = 'Shipped';
+                    $order->save();
+                }
+        
+                return redirect()->route('thankyou')->with('success', 'Order placed & shipped.');
+            }
+
+
+
+
+            //Send confirmed order email
             //orderEmail($order->id, 'customer');
 
+
+             // ✅ 1. Send email to Customer
+            $customerMailData = [
+                'order' => $order,
+                'userType' => 'customer',
+            ];
+
+            Mail::send('email.order', ['mailData' => $customerMailData], function ($message) use ($customerMailData) {
+                $message->to($customerMailData['order']->user->email)
+                        ->subject('Thank You for Your Order! Keep shopping');
+            });
+
+            // ✅ 2. Send email to Admin
+            $adminMailData = [
+                'order' => $order,
+                'userType' => 'admin',
+            ];
+
+            Mail::send('email.order', ['mailData' => $adminMailData], function ($message) use ($adminMailData) {
+                $message->to('info@heavenprints.in') // Replace with actual admin email or config value
+                        ->subject('New Order Received');
+            });
+
+
+
             Cart::destroy();
+
             session()->forget(['grand_total']);
 
             return response()->json([
-                'status' => 'success',                
+                'status' => 'success', 
                 'orderId' => $order->id,
                 'message' => 'Payment verified successfully'
             ]);
@@ -855,6 +924,18 @@ class CartController extends Controller {
         return $this->getOrderSummary($request);
     }
 
+
+
+    public function testShipping(ShiprocketService $shiprocket) {
+        $response = $shiprocket->getShippingRates([
+            'pickup_postcode' => '110030',
+            'delivery_postcode' => '400001',
+            'weight' => 0.5,
+            'cod' => 0,
+        ]);
+
+        return $response->json();
+    }
 
     
 }

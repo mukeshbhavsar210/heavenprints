@@ -31,14 +31,15 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // 'razorpay' => [
-    //     'key' => env('RAZORPAY_KEY_ID'),
-    //     'secret' => env('RAZORPAY_KEY_SECRET'),
-    // ],
-
     'razorpay' => [
         'key' => env('RAZORPAY_KEY'),
         'secret' => env('RAZORPAY_SECRET'),
+    ],
+
+    'shiprocket' => [
+        'email' => env('mukeshbhavsar210@gmail.com'),
+        'password' => env('mindPower@#35005'),
+        'api_url' => env('SHIPROCKET_API_URL', 'https://apiv2.shiprocket.in/v1/external'),
     ],
 
 ];

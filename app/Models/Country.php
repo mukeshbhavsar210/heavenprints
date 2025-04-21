@@ -12,4 +12,6 @@ class Country extends Model
     public function shippingAddresses() {
         return $this->hasMany(CustomerAddress::class);
     }
+
+    protected $fillable = ['name', 'pincode', 'city'];
 }

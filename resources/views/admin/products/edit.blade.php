@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <div class="container-fluid">
+        <div class="container-fluid" id="adminHeader">
             <div class="row">
                 <div class="col-sm-6">
                     <h1>Edit Product</h1>
@@ -132,7 +132,7 @@
                             <div class="card-body">
                                 <h2 class="h4 mb-2">Pricing </h2>
                                 <div class="row">
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-3 col-6">
                                         <label for="compare_price">Price <span class="required">*</span></label>
                                         <div class="input-group">                                            
                                             <span class="input-group-text" id="basic-addon1">
@@ -144,7 +144,7 @@
                                           </div>
                                         <p></p>
                                     </div>
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-3 col-6">
                                         <label for="compare_price">Compare at Price</label>
                                         <div class="input-group">                                            
                                             <span class="input-group-text" id="basic-addon1">
@@ -155,7 +155,18 @@
                                             <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price" value="{{ $product->compare_price }}">
                                           </div>                                        
                                     </div>
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-3 col-6">
+                                        <label for="per_inch">Per inch</label>
+                                        <div class="input-group">                                            
+                                            <span class="input-group-text" id="basic-addon1">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" name="per_inch" id="per_inch" class="form-control" placeholder="Per Inch" value="{{ $product->per_inch }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-6">
                                         <p class="mb-2"><b>Status</b></p>  
                                         <div class="form-group">
                                         <select name="status" id="status" class="form-control">
@@ -364,12 +375,6 @@
                                         <input type="text" name="sku" id="sku" class="form-control" placeholder="sku" value="{{ $product->sku }}">
                                         <p class="error"></p>
                                     </div>
-
-                                    <div class="col-md-6 col-6">
-                                        <label for="barcode">Barcode</label>
-                                        <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode" value="{{ $product->barcode }}">
-                                    </div>
-
                                     <div class="col-md-6 col-6">
                                         <div class="custom-control custom-checkbox">
                                             <input type="hidden" name="track_qty" value="No" >
@@ -378,9 +383,13 @@
                                         </div>
 
                                         <div>
-                                            <input type="number" min="0" name="qty" id="qty" class="form-control" placeholder="Qty" value="{{ $product->qty }}">
+                                            <input type="number" min="0" name="qty" id="qty" class="form-control mt-2" placeholder="Qty" value="{{ $product->qty }}">
                                             <p class="error"></p>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6 col-6">
+                                        <label for="barcode">Barcode</label>
+                                        <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode" value="{{ $product->barcode }}">
                                     </div>
                                 </div>
                             </div>

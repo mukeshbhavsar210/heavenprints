@@ -15,19 +15,22 @@ class CustomizeController extends Controller
 {
     public function index(Request $request){
         $customize = Customize::latest();
+        $counts = Customize::count();        
         
         if(!empty($request->get('keyword'))){
             $customize = $customize->where('name', 'like', '%'.$request->get('keyword').'%');
         }
 
         $customize = $customize->paginate(10);
-        return view('admin.customize.list', compact('customize'));
+        $counts = $counts;
+
+        return view('admin.customize.list', compact('customize','counts'));
     }
 
 
 
     public function create(){
-        $products = Product::whereIn('metal_type', ['Canvas', 'Acrylic', 'Metal', 'Wood'])->get();
+        $products = Product::where('metal_type', '!=', 'Others')->get();
 
         return view('admin.customize.create', compact('products'));
     }
@@ -40,7 +43,6 @@ class CustomizeController extends Controller
 
         if ($validator->passes()) {
             $customize = new Customize();
-            $customize->product = $request->product;
             $customize->name = $request->name;
             $customize->price = $request->price;
             $customize->category = $request->category;
@@ -103,7 +105,6 @@ class CustomizeController extends Controller
 
         if ($validator->passes()) {
             $customize->name = $request->name;
-            $customize->product = $request->product;
             $customize->price = $request->price;
             $customize->image = $request->image;
             $customize->category = $request->category;

@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\DiscountCodeController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\OTPController;
 use App\Http\Controllers\admin\PageController;
+use App\Http\Controllers\admin\PincodeController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ProductSubCategoryController;
 use App\Http\Controllers\admin\SettingController;
@@ -30,6 +31,8 @@ Route::controller(FrontController::class)->group(function() {
     Route::get('/page/{slug}', 'page')->name('front.page');
     Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');      
 });
+
+
 
 
 Route::controller(ShopController::class)->group(function() {
@@ -70,7 +73,6 @@ Route::controller(CartController::class)->group(function() {
     Route::post('/get-order-summary','getOrderSummary')->name('front.getOrderSummary');
     Route::post('/apply-discount','applyDiscount')->name('front.applyDiscount');
     Route::post('/remove-discount','removeCoupon')->name('front.removeCoupon');
-    
 
     //Update price for Cart
     Route::post('/update-cart-new', 'updateCart_new');
@@ -79,11 +81,13 @@ Route::controller(CartController::class)->group(function() {
     Route::post('payment', 'payment')->name('razor_payment');
     Route::post('/verify-payment', 'verifyPayment')->name('verify.payment');
     Route::post('checkout/razorpay', 'razorpayPayment')->name('checkout.razorpay');
-    //Route::get('/order/success','success')->name('order.success');
-    //Route::get('/order/success/{order}','success')->name('order.success');
     Route::get('payment-failed', 'failed')->name('order.failed');
 
+    Route::get('/test-shiprocket', 'testShipping');
 });
+
+//PINCODE
+Route::get('/get-location-by-pincode', [PincodeController::class, 'getLocation']);
 
 //OTP login
 Route::controller(OTPController::class)->group(function() {

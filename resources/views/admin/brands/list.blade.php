@@ -3,10 +3,11 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-12 d-flex">
                 <h1>Brands</h1>
+                <span class="counts">{{ $counts }}</span>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="{{ route('brands.create') }}" class="btn btn-primary">New Brand</a>
@@ -94,7 +95,8 @@
                 </table>
             </div>
 
-            <div class="card-footer clearfix">
+            <hr class="m-0" />
+            <div class="card-body pb-0 clearfix">
                 {{ $brands->links() }}
             </div>
         </div>

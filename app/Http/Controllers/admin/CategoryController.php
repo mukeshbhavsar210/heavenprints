@@ -14,13 +14,14 @@ use Intervention\Image\Drivers\Gd\Driver;
 class CategoryController extends Controller {
     public function index(Request $request){
         $categories = Category::latest();
+        $counts = Category::count();
 
         if(!empty($request->get('keyword'))){
             $categories = $categories->where('name', 'like', '%'.$request->get('keyword').'%');
         }
 
         $categories = $categories->paginate(10);
-        return view('admin.category.list', compact('categories'));
+        return view('admin.category.list', compact('categories','counts'));
     }
 
     public function create(){

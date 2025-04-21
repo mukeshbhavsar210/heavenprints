@@ -2,7 +2,7 @@
 
 @section('content')
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
             <div class="col-sm-6">
                 <h1>Shipping Management</h1>
@@ -26,7 +26,7 @@
                                 <select name="country" id="country" class="form-control">
                                     <option value="">Select a State</option>
                                     @if ($countries->isNotEmpty())
-                                        @foreach ($countries as $country)
+                                        @foreach ($countries->unique('name') as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}</option>
                                         @endforeach
                                         <option value="rest_of_world">Rest of the state</option>
@@ -68,7 +68,7 @@
                             @if ($shippingCharges->isNotEmpty())
                                 @foreach ($shippingCharges as $shippingCharge)
                                 <tr>
-                                    <td>{{ $shippingCharge->id }}</td>
+                                    <td><a href="{{ route('shipping.edit', $shippingCharge->id ) }}" >{{ $shippingCharge->id }}</a></td>
                                     <td>{{ ($shippingCharge->country_id == 'rest_of_world') ? 'Rest of the world' : $shippingCharge->name }}</td>
                                     <td>₹{{ $shippingCharge->amount }}.00</td>
                                     <td>

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller {
     public function index(Request $request){
         $users = User::latest();
+        $counts = User::count();
 
         if(!empty($request->get('keyword'))){
             $users = $users->where('name','like','%'.$request->get('keyword').'%');
@@ -20,7 +21,8 @@ class UserController extends Controller {
         $users = $users->paginate(10);
 
         return view("admin.users.list", [
-            'users' => $users
+            'users' => $users,
+            'counts' => $counts,
             ]);
     }
 

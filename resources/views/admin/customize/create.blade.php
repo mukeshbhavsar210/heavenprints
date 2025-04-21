@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid" id="adminHeader">
         <div class="row">
             <div class="col-sm-6">
                 <h1>Create Customize</h1>
@@ -33,23 +33,8 @@
                             </div>
                         </div>
                         <div class="col-md-9 col-6">
-                            <div class="row">
-                                @if($products->isNotEmpty())
-                                    <div class="col-md-4 col-12">
-                                        <label for="product">Product <span class="required">*</span></label>
-                                        <select name="product" id="product" class="form-control">
-                                            <option value="">Select a Product</option>
-                                            @if ($products->isNotEmpty())
-                                                @foreach ($products as $value)
-                                                    <option value="{{ $value->name }}">
-                                                        {{ $value->name }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
-                                @endif
-                                <div class="col-md-4 col-6">
+                            <div class="row">                               
+                                <div class="col-md-6 col-6">
                                     <label for="category">Category</label>
                                     <select name="category" id="category" class="form-control">
                                         <option value="">Select Category</option>
@@ -62,14 +47,14 @@
                                         <option value="frames">Frames</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 col-6">
+                                <div class="col-md-6 col-6">
                                     <label for="type">Type</label>
                                     <select id="type" name="type" class="form-control">
                                         <option value="">Select Type</option>
                                     </select>
                                     <p></p>
                                 </div>
-                                <div class="col-md-4 col-6">
+                                <div class="col-md-6 col-6">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" placeholder="Name">
                                     <p></p>
@@ -80,7 +65,7 @@
                                     <p></p>
                                 </div>
                                    
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-2 col-12">
                                     <button type="submit" class="btn btn-primary mt-btn">Create</button>
                                 </div>
                             </div>
@@ -96,7 +81,7 @@
 @section('customJs')
 <script>
     const subcategories = {
-        first: ['Shape', 'Size', 'Custom_1', 'Custom_2'],
+        first: ['Frame',],
         product: ['Canvas', 'Acrylic', 'Metal', 'Wood', 'Other'],
         size: ['Recommended', 'Square', 'Panoromic', 'Large', 'Small'],
         wrap_border: ['Wrap', 'Border',],

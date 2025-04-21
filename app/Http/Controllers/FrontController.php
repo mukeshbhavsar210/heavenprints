@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class FrontController extends Controller {
     public function index(){
-        $products = Product::where('is_featured','Yes')->orderBy('id','DESC')->where('status',1)->get();
+        $products = Product::orderBy('id','DESC')->where('status',1)->get();
         $latestProducts = Product::orderBy('id','DESC')->where('status',1)->get();  
         $totalProducts = Product::where('status', 1)->count();
         

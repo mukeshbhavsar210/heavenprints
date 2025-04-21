@@ -9,11 +9,8 @@
 		@endphp
 
 		<title>{{ $settings->business_line }}</title>
-		<!-- Google Font: Source Sans Pro -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-		<!-- Font Awesome -->
 		<link rel="stylesheet" href="{{ asset('admin-assets/plugins/fontawesome-free/css/all.min.css') }}">
-		<!-- Theme style -->
 		<link rel="stylesheet" href="{{ asset('admin-assets/css/adminlte.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.css') }}">
 		<link rel="stylesheet" href="{{ asset('admin-assets/css/custom.css') }} ">
@@ -24,11 +21,8 @@
 	</head>
 
 	<body class="hold-transition sidebar-mini">
-		<!-- Site wrapper -->
 		<div class="wrapper">
-			<!-- Navbar -->
 			<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-				<!-- Right navbar links -->
 				<ul class="navbar-nav">
 					<li class="nav-item">
 					  	<a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -70,30 +64,22 @@
 					</li>
 				</ul>
 			</nav>
-			<!-- /.navbar -->
 
             @include('admin/layouts/sidebar')
 
-			<!-- Content Wrapper. Contains page content -->
-			<div class="content-wrapper">
-
+			<div class="content-wrapper" >
                 @yield('content')
 			</div>
 		</div>
-		<!-- ./wrapper -->
-		<!-- jQuery -->
+
 		<script src="{{ asset('admin-assets/plugins/jquery/jquery.min.js') }}"></script>
-		<!-- Bootstrap 4 -->
 		<script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-		<!-- AdminLTE App -->
 		<script src="{{ asset('admin-assets/js/adminlte.min.js') }}"></script>
         <script src="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
         <script src="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
         <script src="{{ asset('admin-assets/plugins/select2/js/select2.min.js') }}"></script>
         <script src="{{ asset('admin-assets/js/datetimepicker.js') }}"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<!-- AdminLTE for demo purposes -->
-		{{-- <script src="{{ asset('admin-assets/js/demo.js') }}"></script> --}}
         <script type="text/javascript">
             $.ajaxSetup({
                 headers: {
@@ -112,6 +98,14 @@
                 $('.alert').fadeOut(300);
             }, 1500);
 
+			window.addEventListener("scroll", function() {
+				let header = document.getElementById("adminHeader");
+				if (window.scrollY > 100) {
+					header.classList.add("sticky-header");
+				} else {
+					header.classList.remove("sticky-header");
+				}
+			});
 
         </script>
 

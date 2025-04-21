@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <div class="container-fluid my-2">
+        <div class="container-fluid my-2" id="adminHeader">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Order: #{{ $order->id }}</h1>

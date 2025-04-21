@@ -13,7 +13,7 @@ use App\Services\ShiprocketService;
 
 class OrderController extends Controller {
     public function index(Request $request){
-
+        $counts = Order::count();
         $orders = Order::latest('orders.created_at')->select('orders.*','users.first_name','users.last_name','users.email');
         $orders = $orders->leftJoin('users','users.id','orders.user_id');
 
@@ -26,7 +26,8 @@ class OrderController extends Controller {
         $orders = $orders->paginate(10);
 
         return view('admin.orders.list',[
-            'orders' => $orders
+            'orders' => $orders,
+            'counts' => $counts,
         ]);
     }
 

@@ -20,15 +20,23 @@ use Intervention\Image\Drivers\Gd\Driver;
 class ProductController extends Controller {
 
     public function index(Request $request){
-        $products = Product::latest('id')->with('product_images');
+        $sortBy = request()->get('sort_by', 'name'); 
+        $order = request()->get('order', 'asc');
+        $counts = Product::count();
+
+        //$products = Product::latest('id')->with('product_images')->orderBy($sortBy, $order);
+        $products = Product::with('product_images')->orderBy($sortBy, $order);
         
         if ($request->get('keyword') != ""){
             $products = $products->where('name', 'like', '%'.$request->keyword.'%');
-        }
+        }       
 
         $products = $products->paginate();
 
         $data['products'] = $products;
+        $data['sortBy'] = $sortBy;
+        $data['order'] = $order;
+        $data['counts'] = $counts;
 
         return view ('admin.products.list',$data);
     }
@@ -64,13 +72,13 @@ class ProductController extends Controller {
         if($validator->passes()) {
             $product = new Product;
             $product->name = $request->name;   
-            $product->slug = $request->slug;
-            // $product->product_type = $request->product_type;         
+            $product->slug = $request->slug;        
             $product->metal_type = $request->metal_type;
             $product->height = $request->height;
             $product->width = $request->width;
             $product->description = $request->description;
             $product->price = $request->price;
+            $product->per_inch = $request->per_inch;
             $product->compare_price = $request->compare_price;
             $product->sku = $request->sku;
             $product->barcode = $request->barcode;
@@ -199,12 +207,12 @@ class ProductController extends Controller {
         if($validator->passes()) {
             $product->name = $request->name;
             $product->slug = $request->slug;
-            //$product->product_type = $request->product_type;
             $product->height = $request->height;
             $product->width = $request->width;
             $product->metal_type = $request->metal_type;
             $product->description = $request->description;
             $product->price = $request->price;
+            $product->per_inch = $request->per_inch;
             $product->compare_price = $request->compare_price;
             $product->sku = $request->sku;
             $product->barcode = $request->barcode;

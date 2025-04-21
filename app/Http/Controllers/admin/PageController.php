@@ -11,6 +11,7 @@ class PageController extends Controller
 {
     public function index(Request $request){
         $pages = Page::latest();
+        $counts = Page::count();
 
         if($request->keyword != ''){
             $pages = $pages->where('name','like','%'.$request->keyword.'%');
@@ -19,7 +20,8 @@ class PageController extends Controller
         $pages = $pages->paginate(10);
 
         return view('admin.pages.list',[
-            'pages' => $pages
+            'pages' => $pages,
+            'counts' => $counts,
         ]);
     }
 
