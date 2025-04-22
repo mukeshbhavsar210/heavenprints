@@ -1,60 +1,59 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Shipping Management</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Shipping Management</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
-    </div>    
-</section>
-
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
-        <form action="" method="post" id="shippingForm" name="shippingForm">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <div class="mb-3">
-                                <select name="country" id="country" class="form-control">
-                                    <option value="">Select a State</option>
-                                    @if ($countries->isNotEmpty())
-                                        @foreach ($countries->unique('name') as $country)
-                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                        @endforeach
-                                        <option value="rest_of_world">Rest of the state</option>
-                                    @endif
-                                </select>
-                                <p></p>
-                            </div>
+    </div>
+    <hr class="m-0" />
+    <div class="card">
+        <div class="card-body">
+            <form action="" method="post" id="shippingForm" name="shippingForm">           
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <select name="country" id="country" class="form-select">
+                                <option value="">Select a State</option>
+                                @if ($countries->isNotEmpty())
+                                    @foreach ($countries->unique('name') as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                    <option value="rest_of_world">Rest of the state</option>
+                                @endif
+                            </select>
+                            <p></p>
                         </div>
+                    </div>
 
-                        <div class="col-md-5">
-                            <div class="mb-3">
-                                <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount">
-                                <p></p>
-                            </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount">
+                            <p></p>
                         </div>
+                    </div>
 
-                        <div class="col-md-2">
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                    <div class="col-md-2">
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
-
-        <div class="card">
-            <div class="card-body">
+            </form>
+      
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table table-striped">
@@ -83,9 +82,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-</section>
 @endsection
 
 @section('customJs')

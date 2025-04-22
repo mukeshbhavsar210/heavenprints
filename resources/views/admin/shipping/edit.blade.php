@@ -1,33 +1,30 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+<div class="card mainPage">
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Edit Shipping Management</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Edit Shipping Management</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
-
-        @include('admin.message')
-
+    <hr class="m-0" />
         <form action="" method="post" id="shippingForm" name="shippingForm">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="mb-3">
-                                <select name="country" id="country" class="form-control">
+                                <select name="country" id="country" class="form-select">
                                     <option value="">Select a country</option>
                                     @if ($countries->isNotEmpty())
                                         @foreach ($countries as $country)
@@ -40,7 +37,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-3">
                             <div class="mb-3">
                                 <input value={{ $shippingCharge->amount }} type="text" name="amount" id="amount" class="form-control" placeholder="Amount">
                                 <p></p>
@@ -56,8 +53,8 @@
                 </div>
             </div>
         </form>
-    </div>
-</section>
+</div>
+
 @endsection
 
 @section('customJs')

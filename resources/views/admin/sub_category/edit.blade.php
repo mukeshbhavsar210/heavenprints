@@ -1,34 +1,44 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Edit Sub Category</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Edit Sub Category</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
-        
-        <form action="{{ route('sub-categories.update',$subCategory->id) }}" method="post" enctype="multipart/form-data" >
-            @csrf
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here<br /> or click to upload.
+    <hr class="m-0" />
+
+    <form action="{{ route('sub-categories.update',$subCategory->id) }}" method="post" enctype="multipart/form-data" >
+        @csrf
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5 col-12">
+                        <div class="row">
+                            <div class="col-md-9 col-9">
+                                <div class="form-group">
+                                    <label for="status">Media</label>
+                                    <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                                    <div id="dropZone" class="drop-zone">
+                                        Drop files here<br /> or click to upload.
+                                    </div>                                    
                                 </div>
+                            </div>
+                            <div class="col-md-3 col-3">
+                                <label for="status">Image</label>
                                 <div class="preview-container" id="previewContainer">
                                     @if(!empty($subCategory->image))
                                         <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
@@ -36,61 +46,61 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-12">
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="name">Category</label>
-                                        <select name="category" id="category" class="form-control">
-                                            <option value="">Select a category</option>
-                                            @if($categories->isNotEmpty())
-                                                @foreach ($categories as $category)
-                                                    <option {{ ($subCategory->category_id == $category->id) ? 'selected' : ' ' }} value="{{ $category->id }}">{{ $category->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <p></p>
-                                    </div>
+                    </div>
+                    <div class="col-md-7 col-12">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="name">Category</label>
+                                    <select name="category" id="category" class="form-select">
+                                        <option value="">Select a category</option>
+                                        @if($categories->isNotEmpty())
+                                            @foreach ($categories as $category)
+                                                <option {{ ($subCategory->category_id == $category->id) ? 'selected' : ' ' }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <p></p>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $subCategory->name }}">
-                                        <input type="hidden" name="slug" id="slug"  value="{{ $subCategory->slug }}">
-                                        <p></p>
-                                    </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{ $subCategory->name }}">
+                                    <input type="hidden" name="slug" id="slug"  value="{{ $subCategory->slug }}">
+                                    <p></p>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select name="status" id="status" class="form-control">
-                                            <option {{ ($subCategory->status == 1) ? 'selected' : ' ' }} value="1">Active</option>
-                                            <option {{ ($subCategory->status == 0) ? 'selected' : ' ' }} value="0">Block</option>
-                                        </select>
-                                        <p></p>
-                                    </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="form-select">
+                                        <option {{ ($subCategory->status == 1) ? 'selected' : ' ' }} value="1">Active</option>
+                                        <option {{ ($subCategory->status == 0) ? 'selected' : ' ' }} value="0">Block</option>
+                                    </select>
+                                    <p></p>
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="showHome">Show on Home</label>
-                                        <select name="showHome" id="showHome" class="form-control">
-                                            <option {{ ($subCategory->showHome == 'Yes' ? 'selected' : '')}} value="Yes">Yes</option>
-                                            <option  {{ ($subCategory->showHome == 'No' ? 'selected' : '')}} value="No">No</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="form-group">
+                                    <label for="showHome">Show on Home</label>
+                                    <select name="showHome" id="showHome" class="form-select">
+                                        <option {{ ($subCategory->showHome == 'Yes' ? 'selected' : '')}} value="Yes">Yes</option>
+                                        <option  {{ ($subCategory->showHome == 'No' ? 'selected' : '')}} value="No">No</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <button type="submit" class="btn btn-primary mt-btn">Update</button>                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('sub-categories.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>
-        </form>
-    </div>
-</section>
+        </div>
+        
+    </form>
+   
 @endsection
 
 @section('customJs')

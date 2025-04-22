@@ -1,44 +1,56 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Edit Category</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Edit Category</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
-        @include('admin.message')
-        <form action="{{ route('categories.update',$category->id) }}" method="post" enctype="multipart/form-data" >
+    <hr class="m-0" />
+    
+    <form action="{{ route('categories.update',$category->id) }}" method="post" enctype="multipart/form-data" >
             @csrf
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 col-12">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here<br /> or click to upload.
+                        <div class="col-md-5 col-12">
+                            <div class="row">
+                                <div class="col-md-9 col-9">
+                                    <div class="form-group">
+                                        <label for="status">Media</label>
+                                        <div class="form-group">
+                                            <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                                            <div id="dropZone" class="drop-zone">
+                                                Drop files here<br /> or click to upload.
+                                            </div>                               
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="preview-container" id="previewContainer">
-                                    @if(!empty($category->image))
-                                        <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/category/'.$category->image) }}" alt="" />
-                                    @endif
+                                <div class="col-md-3 col-3">
+                                    <div class="form-group">
+                                        <label for="status">Image</label><br />
+                                        <div class="preview-container" id="previewContainer">
+                                            @if(!empty($category->image))
+                                                <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/category/'.$category->image) }}" alt="" />
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-6">
+                        <div class="col-md-7 col-12">
                             <div class="row">
                                 <div class="col-md-6 col-6">
                                     <label for="name">Name</label>
@@ -59,17 +71,16 @@
                                         <option {{ ($category->showHome == 'Yes' ? 'selected' : '')}} value="Yes">Yes</option>
                                         <option  {{ ($category->showHome == 'No' ? 'selected' : '')}} value="No">No</option>
                                     </select>
-                                </div>
-                                <div class="col-md-2 col-12">
-                                    <button type="submit" class="btn btn-primary mt-btn">Update</button>
-                                </div>
+                                </div>  
+                                <div class="col-md-6 col-6">
+                                    <button type="submit" class="btn btn-primary mt-2">Update</button>
+                                </div>                              
+                            </div>                            
+                        </div>
                     </div>
                 </div>
             </div>
         </form>
-    </div>
-    <!-- /.card -->
-</section>
 @endsection
 
 @section('customJs')

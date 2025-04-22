@@ -1,23 +1,28 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Update User</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Update User</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
+    <hr class="m-0" />
+
+
+
 
         {{-- <form action="{{ route('users.update',$user->id) }}" method="post" enctype="multipart/form-data">
             @csrf --}}
@@ -26,58 +31,58 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3 col-6">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="first_name">First Name</label>
                                 <input value="{{ $user->first_name }}" type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-3 col-6">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="last_name">Last Name</label>
                                 <input value="{{ $user->last_name }}" type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input value="{{ $user->email }}" type="text" name="email" id="email" class="form-control" placeholder="Email">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-                                <span style="font-size: 13px;">To change password you have to enter a value. otherwise leave a blank.</span>
+                                <span style="font-size: 13px; margin-top:3px;">To change password you have to enter a value. otherwise leave a blank.</span>
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
+                        <div class="col-md-2 col-6">
+                            <div class="form-group">
                                 <label for="phone">Phone</label>
                                 <input value="{{ $user->phone }}" type="text"  name="phone" id="phone" class="form-control" placeholder="Phone">
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
+                        <div class="col-md-2 col-6">
+                            <div class="form-group">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control">
+                                <select name="status" id="status" class="form-select">
                                     <option {{ ($user->status == 1) ? 'selected' : ' '}} value="1">Active</option>
                                     <option {{ ($user->status == 0) ? 'selected' : ' '}} value="0">Block</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-2 col-6">
+                            <button type="submit" class="btn btn-primary mt-btn">Update</button>                
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('users.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>
+            
         </form>
     </div>
 </section>

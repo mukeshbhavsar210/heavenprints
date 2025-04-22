@@ -2,67 +2,86 @@
 
 @section('content')
 
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Create Customize</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create Customize</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('customize.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('customize.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
+    <hr class="m-0" />
+
+
         <form action="{{ route('customize.store') }}" method="post" enctype="multipart/form-data" >
             @csrf
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3 col-12">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here<br /> or click to upload.
+                        <div class="col-md-5 col-12">
+                            <div class="row">
+                                <div class="col-md-6 col-6">
+                                    <div class="form-group">
+                                        <label for="status">Media</label>                            
+                                        <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                                        <div id="dropZone" class="drop-zone">
+                                            Drop files here<br /> or click to upload.
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="preview-container" id="previewContainer"></div>
+                                <div class="col-md-6 col-6">
+                                    <label for="status">Image</label> 
+                                    <div class="preview-container" id="previewContainer"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-9 col-6">
+                        <div class="col-md-7 col-12">
                             <div class="row">                               
                                 <div class="col-md-6 col-6">
-                                    <label for="category">Category</label>
-                                    <select name="category" id="category" class="form-control">
-                                        <option value="">Select Category</option>
-                                        <option value="first">First Level</option>                                        
-                                        <option value="product">Product</option>
-                                        <option value="size">Size</option>
-                                        <option value="wrap_border">Wrap & Border</option>
-                                        <option value="hardware_finish">Hardware & Finish</option>
-                                        <option value="options">Options</option>
-                                        <option value="frames">Frames</option>
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select name="category" id="category" class="form-control">
+                                            <option value="">Select Category</option>
+                                            <option value="first">First Level</option>                                        
+                                            <option value="product">Product</option>
+                                            <option value="size">Size</option>
+                                            <option value="wrap_border">Wrap & Border</option>
+                                            <option value="hardware_finish">Hardware & Finish</option>
+                                            <option value="options">Options</option>
+                                            <option value="frames">Frames</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 col-6">
-                                    <label for="type">Type</label>
-                                    <select id="type" name="type" class="form-control">
-                                        <option value="">Select Type</option>
-                                    </select>
-                                    <p></p>
+                                    <div class="form-group">
+                                        <label for="type">Type</label>
+                                        <select id="type" name="type" class="form-control">
+                                            <option value="">Select Type</option>
+                                        </select>
+                                        <p></p>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 col-6">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                    <p></p>
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                        <p></p>
+                                    </div>
                                 </div>                                
                                 <div class="col-md-4 col-6">
-                                    <label for="price">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
-                                    <p></p>
+                                    <div class="form-group">
+                                        <label for="price">Price</label>
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                                        <p></p>
+                                    </div>
                                 </div>
                                    
                                 <div class="col-md-2 col-12">

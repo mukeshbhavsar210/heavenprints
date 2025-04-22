@@ -2,69 +2,72 @@
 
 @section('content')
 
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Create Category</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create Category</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
-        <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data" >
-            @csrf
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here<br /> or click to upload.
-                                </div>
-                                <div class="preview-container" id="previewContainer"></div>
+    <hr class="m-0" />
+    
+    <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data" >
+        @csrf
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <label for="status">Media</label>
+                        <div class="form-group">
+                            <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                            <div id="dropZone" class="drop-zone">
+                                Drop files here<br /> or click to upload.
+                            </div>
+                            <div class="preview-container" id="previewContainer"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-6">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
+                                <p></p>
+                            </div>                        
+                            <div class="col-md-3 col-6">
+                                <label for="status">Status</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="1">Active</option>
+                                    <option value="0">Block</option>
+                                </select>
+                            </div>    
+                            <div class="col-md-3 col-6">
+                                <label for="showHome">Home</label>
+                                <select name="showHome" id="showHome" class="form-control">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <button type="submit" class="btn btn-primary mt-btn">Create</button>
                             </div>
                         </div>
-                        <div class="col-md-8 col-6">
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-                                    <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
-                                    <p></p>
-                                </div>                        
-                                <div class="col-md-6 col-6">
-                                    <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="1">Active</option>
-                                        <option value="0">Block</option>
-                                    </select>
-                                </div>    
-                                <div class="col-md-6 col-6">
-                                    <label for="showHome">Home</label>
-                                    <select name="showHome" id="showHome" class="form-control">
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <button type="submit" class="btn btn-primary mt-btn">Create</button>
-                                </div>
-                            </div>
-                        </div>                    
-                    </div>
+                    </div>                    
                 </div>
             </div>
-        </form>
-    </div>
-</section>
+        </div>
+    </form>
+</div>
+        
 @endsection
 
 @section('customJs')

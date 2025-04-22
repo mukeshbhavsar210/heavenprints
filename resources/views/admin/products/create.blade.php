@@ -2,34 +2,37 @@
 
 @section('content')
 
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Create Product</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create Product</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('products.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
-        
+
+    <hr class="m-0" />
         <form action="" method="post" name="productForm" id="productForm" enctype="multipart/form-data" >           
             @csrf       
-            
-            <div class="row">
-                <div class="col-md-8 col-12">
-                    <div class="card">
-                        <div class="card-body">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8 col-12">                    
                             <div class="row">
                                 <div class="col-md-12 col-12">
-                                    <label class="name">Name <span class="required">*</span></label>
-                                    <input type="text" id="name" class="form-control" placeholder="Name" id="name" name="name">                                
-                                    <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
+                                    <div class="form-group">
+                                        <label class="name">Name <span class="required">*</span></label>
+                                        <input type="text" id="name" class="form-control" placeholder="Name" id="name" name="name">                                
+                                        <input type="hidden" readonly name="slug" id="slug" class="form-control" placeholder="">
+                                    </div>
                                     <p></p>
                                 </div>
                             </div>
@@ -42,19 +45,21 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
-                                    <label for="short_description">Short Description</label>
-                                    <textarea name="short_description" id="short_description" cols="30" rows="3" class="form-control" ></textarea>
+                                    <div class="form-group">
+                                        <label for="short_description">Short Description</label>
+                                        <textarea name="short_description" id="short_description" cols="30" rows="3" class="form-control" ></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 col-12">
-                                    <label for="shipping_returns">Shipping & Returns</label>
-                                    <textarea name="shipping_returns" id="shipping_returns" cols="30" rows="3" class="form-control"  ></textarea>
+                                    <div class="form-group">
+                                        <label for="shipping_returns">Shipping & Returns</label>
+                                        <textarea name="shipping_returns" id="shipping_returns" cols="30" rows="3" class="form-control"  ></textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                       
+                            <hr />
 
-                    <div class="card mb-3">
-                        <div class="card-body">
                             <div class="row">
                                 <div class="col-md-10 col-9">
                                     <h2 class="h4 mb-3">Media</h2>
@@ -81,15 +86,14 @@
                                         </div>                                  
                                     </div> 
                                 @endfor
-                            </div>                            
-                        </div>
-                    </div>                     
-
-                    <div class="card mb-3">
-                        <div class="card-body">
+                            </div>     
+                            
+                            <hr />
+                                          
                             <h2 class="h4 mb-3">Pricing</h2>
                             <div class="row">
                                 <div class="col-md-3 col-6">
+                                    <div class="form-group">
                                     <label for="price">Price <span class="required">*</span></label>
                                     <div class="input-group">                                            
                                         <span class="input-group-text" id="basic-addon1">
@@ -100,206 +104,210 @@
                                         <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                                         <p></p>
                                     </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <label for="compare_price">Compare at Price</label>
-                                    <div class="input-group">                                            
-                                        <span class="input-group-text" id="basic-addon1">
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
-                                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
-                                            </svg>
-                                        </span>
-                                        <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-6">
-                                    <label for="per_inch">Per inch</label>
-                                    <div class="input-group">                                            
-                                        <span class="input-group-text" id="basic-addon1">
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
-                                            <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
-                                            </svg>
-                                        </span>
-                                        <input type="text" name="per_inch" id="per_inch" class="form-control" placeholder="Per Inch">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <p class="mb-2"><b>Status</b></p>
                                     <div class="form-group">
-                                        <select name="status" id="status" class="form-control">
+                                        <label for="compare_price">Compare at Price</label>
+                                        <div class="input-group">                                            
+                                            <span class="input-group-text" id="basic-addon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" name="compare_price" id="compare_price" class="form-control" placeholder="Compare Price">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="form-group">
+                                        <label for="per_inch">Per inch</label>
+                                        <div class="input-group">                                            
+                                            <span class="input-group-text" id="basic-addon1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                                                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"></path>
+                                                </svg>
+                                            </span>
+                                            <input type="text" name="per_inch" id="per_inch" class="form-control" placeholder="Per Inch">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <select name="status" id="status" class="form-select">
                                             <option value="1">Active</option>
                                             <option value="0">Block</option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>                                        
-                        </div>
-                    </div>
-
-                    <div class="card mb-3">
-                        <div class="card-body">
+                            </div>      
+                            
+                            <hr />
+                      
                             <h2 class="h4 mb-1">Related products</h2>
                             <select multiple class="related-product" name="related_products[]" id="related_products">
 
                             </select>
-                        </div>
-                    </div>
-                </div>
+                    </div>                
 
-                <div class="col-md-4 col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">                                           
-                                @if($frameMaterials)
-                                    <div class="form-group">
-                                        <label for="metal_type">Select Type <span class="required">*</span></label>
-                                        <select name="metal_type" id="metal_type" class="form-control">
-                                            <option value="">Select</option>
-                                            @foreach ($frameMaterials as $value)
-                                                <option value="{{ $value->name }}">{{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                @endif
-                                <p class="error"></p>                                           
-                            </div>                       
+                <div class="col-md-1 col-0"></div>
 
-                            <div class="row">
-                                <div class="col-md-6 col-12">  
-                                    <div class="form-group">
-                                        <label for="size">Size</label>
-                                        <div class="dropdown checkboxDropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                {{-- <span class="dropdown-text"> Select Options</span> --}}
-                                                <span> Select Size</span>
-                                            <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                            <li><a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a></li>
-                                            
-                                            @if($sizes)
-                                                    @foreach ($sizes as $index => $value)
-                                                        <li>
-                                                           <label>
-                                                                <input type="checkbox"  name="sizes[]" value="{{ $value->name }}" class="option justone" >{{ $value->name }}
-                                                            </label>
-                                                        </li>
-                                                    @endforeach
-                                                @endif
-                                            </ul>
-                                        </div>
-                                        <p class="error"></p>                                           
-                                    </div>  
-                                </div>  
-
-                                <div class="col-md-6 col-12" >
-                                    <div class="form-group">
-                                        <label for="colors">Colors</label>
-                                        <div class="dropdown checkboxDropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                {{-- <span class="dropdown-text"> Select Options</span> --}}
-                                                <span> Select Colors</span>
-                                            <span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a></li>                                            
-                                                @if($colors)
-                                                    @foreach ($colors as $index => $value)
-                                                        <li>
-                                                            <label>
-                                                                <input type="checkbox"  name="colors[]" value="{{ $value->name }}" class="option justone" >{{ $value->name }}
-                                                            </label>                                                            
-                                                        </li>
-                                                    @endforeach
-                                                @endif
-                                            </ul>
-                                        </div>
-                                        <p class="error"></p>
-                                    </div>
-                                </div> 
-                                
-                                <div class="col-md-6 col-6">                                            
-                                    <label class="height">Height</label>
-                                    <input type="text" id="height" class="form-control" placeholder="Height" id="height" name="height">                                
-                                </div> 
-                                <div class="col-md-6 col-6">
-                                    <label class="width">Width</label>
-                                    <input type="text" id="width" class="form-control" placeholder="Width" id="width" name="width">                                
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
-
-                        <div class="card">
-                            <div class="card-body">
-                            <h2 class="h4  mb-3">Product category</h2>
-                            <div class="mb-3">
-                                <label for="category">Category <span class="required">*</span></label>
-                                <select name="category" id="category" class="form-control">
-                                    <option value="">Select a category</option>
-
-                                    @if ($categories->isNotEmpty())
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $category->id == 296 ? 'disabled' : '' }}>
-                                                {{ $category->name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
+                <div class="col-md-3 col-12">                   
+                    <div class="form-group">                                           
+                        @if($frameMaterials)
+                            <div class="form-group">
+                                <label for="metal_type">Select Type <span class="required">*</span></label>
+                                <select name="metal_type" id="metal_type" class="form-select">
+                                    <option value="">Select</option>
+                                    @foreach ($frameMaterials as $value)
+                                        <option value="{{ $value->name }}">{{ $value->name }}</option>
+                                    @endforeach
                                 </select>
-                                <p></p>
                             </div>
-                            <div class="mb-3">
-                                <label for="category">Sub category <span class="required">*</span></label>
-                                <select name="sub_category" id="sub_category" class="form-control">
-                                    <option value="">Select a Sub category</option>
-                                </select>
-                                <p></p>
-                            </div>
-                                <div class="mb-3">
-                                    <label for="category">Product brand</label>
-                                    <select name="brand" id="brand" class="form-control">
-                                        <option value="">Select a brand</option>
+                        @endif
+                        <p class="error"></p>                                           
+                    </div>                       
 
-                                        @if ($brands->isNotEmpty())
-                                            @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                    <div class="row">
+                        <div class="col-md-6 col-12">  
+                            <div class="form-group">
+                                <label for="size">Size</label>
+                                <div class="dropdown checkboxDropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        {{-- <span class="dropdown-text"> Select Options</span> --}}
+                                        <span> Select Size</span>
+                                    <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                    <li><a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a></li>
+                                    
+                                    @if($sizes)
+                                            @foreach ($sizes as $index => $value)
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox"  name="sizes[]" value="{{ $value->name }}" class="option justone" >{{ $value->name }}
+                                                    </label>
+                                                </li>
                                             @endforeach
                                         @endif
-                                    </select>
+                                    </ul>
                                 </div>
-                        </div>
-                    </div>
-                    <div class="card mb-3 " >
-                        <div class="card-body">
-                            <h2 class="h4 mb-3">Inventory</h2>
-                            <div class="row">
-                                <div class="col-md-12 col-12">
-                                    <label for="sku">SKU (Stock Keeping Unit)</label>
-                                    <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
-                                    <p class="error"></p>
+                                <p class="error"></p>                                           
+                            </div>  
+                        </div>  
+
+                        <div class="col-md-6 col-12" >
+                            <div class="form-group">
+                                <label for="colors">Colors</label>
+                                <div class="dropdown checkboxDropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        {{-- <span class="dropdown-text"> Select Options</span> --}}
+                                        <span> Select Colors</span>
+                                    <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#"><label><input type="checkbox" class="selectall" /><span class="select-text"> Select</span> All</label></a></li>                                            
+                                        @if($colors)
+                                            @foreach ($colors as $index => $value)
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox"  name="colors[]" value="{{ $value->name }}" class="option justone" >{{ $value->name }}
+                                                    </label>                                                            
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
                                 </div>
-                                <div class="col-md-6 col-4">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="hidden" name="track_qty" value="No" >
-                                        <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
-                                        <label for="track_qty" class="custom-control-label">Track <span class="required">*</span></label>
-                                    </div>
-                                    <input type="number" min="0" name="qty" id="qty" class="form-control mt-2" placeholder="Qty">
-                                </div>
-                                <div class="col-md-6 col-8">
-                                    <label for="barcode">Barcode</label>
-                                    <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
-                                </div>
+                                <p class="error"></p>
                             </div>
+                        </div> 
+                        
+                        <div class="col-md-6 col-6">        
+                            <div class="form-group">                                    
+                                <label class="height">Height</label>
+                                <input type="text" id="height" class="form-control" placeholder="Height" id="height" name="height">                                
+                            </div> 
+                        </div> 
+                        <div class="col-md-6 col-6">
+                            <div class="form-group">
+                                <label class="width">Width</label>
+                                <input type="text" id="width" class="form-control" placeholder="Width" id="width" name="width">                                
+                            </div> 
+                        </div> 
+                    </div>           
+                    
+                    <hr />
+                       
+                    <h2 class="h4  mb-3">Product category</h2>
+                    <div class="form-group">
+                        <label for="category">Category <span class="required">*</span></label>
+                        <select name="category" id="category" class="form-select">
+                            <option value="">Select a category</option>
+
+                            @if ($categories->isNotEmpty())
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $category->id == 296 ? 'disabled' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                        <p></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Sub category <span class="required">*</span></label>
+                        <select name="sub_category" id="sub_category" class="form-select">
+                            <option value="">Select a Sub category</option>
+                        </select>
+                        <p></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Product brand</label>
+                        <select name="brand" id="brand" class="form-select">
+                            <option value="">Select a brand</option>
+
+                            @if ($brands->isNotEmpty())
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                       
+                    <hr />
+                
+                    <h2 class="h4 mb-3">Inventory</h2>
+                    <div class="row">
+                        <div class="col-md-12 col-12">
+                            <label for="sku">SKU (Stock Keeping Unit)</label>
+                            <input type="text" name="sku" id="sku" class="form-control" placeholder="sku">
+                            <p class="error"></p>
+                        </div>
+                        <div class="col-md-6 col-4">
+                            <div class="custom-control custom-checkbox">
+                                <input type="hidden" name="track_qty" value="No" >
+                                <input class="custom-control-input" type="checkbox" id="track_qty" name="track_qty" value="Yes" checked>
+                                <label for="track_qty" class="custom-control-label">Track <span class="required">*</span></label>
+                            </div>
+                            <input type="number" min="0" name="qty" id="qty" class="form-control mt-2" placeholder="Qty">
+                        </div>
+                        <div class="col-md-6 col-8">
+                            <label for="barcode">Barcode</label>
+                            <input type="text" name="barcode" id="barcode" class="form-control" placeholder="Barcode">
                         </div>
                     </div>
+                       
                 </div>
+            
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <a href="{{ route('products.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                </div>               
             </div>
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('products.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>               
-        </form>
-    </div>
-</section>
+        </div>
+    </form>    
+</div>
 @endsection
 
 @section('customJs')
