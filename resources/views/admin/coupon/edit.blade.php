@@ -1,23 +1,24 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Edit Coupon Code</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Edit Coupon Code</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('coupons.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('coupons.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
+    <hr class="m-0" />
         <form action="" method="post" id="discountForm" name="discountForm">
             <div class="card">
                 <div class="card-body">
@@ -25,14 +26,14 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="code">Code</label>
                                         <input type="text" name="code" id="code" class="form-control" placeholder="Coupon Code" value="{{ $coupon->code}}">
                                         <p></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" placeholder="Coupon Code Name" value="{{ $coupon->name}}">
                                         <p></p>
@@ -43,21 +44,21 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="max_uses">Max uses</label>
                                         <input type="number" name="max_uses" id="max_uses" class="form-control" placeholder="Max Uses" value="{{ $coupon->max_uses}}">
                                         <p></p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="max_uses_user">Max uses User</label>
                                         <input type="text" name="max_uses_user" id="max_uses_user" class="form-control" placeholder="Max uses User" value="{{ $coupon->max_uses_user}}">
                                         <p></p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="type">Type</label>
                                         <select name="type" id="type" class="form-control">
                                             <option {{ ($coupon->type == 'percent') ? 'selected' : '' }} value="Percent">Percent</option>
@@ -71,7 +72,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="description">Description</label>
                                 <textarea name="description" id="description" cols="30" rows="5" class="form-control">{{ $coupon->description }}</textarea>
                                 <p></p>
@@ -81,7 +82,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="discount_amount">Discount Amount</label>
                                         <input type="text" name="discount_amount" id="discount_amount" class="form-control" placeholder="Discount amount" value="{{ $coupon->discount_amount }}" >
                                         <p></p>
@@ -89,7 +90,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="min_amount">Min Amount</label>
                                         <input type="text" name="min_amount" id="min_amount" class="form-control" placeholder="Min Amount" value="{{ $coupon->min_amount }}" >
                                         <p></p>
@@ -97,7 +98,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="mb-3">
+                                    <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-control">
                                             <option {{ ($coupon->status == 1) ? 'selected' : '' }}  value="1">Active</option>
@@ -106,20 +107,24 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="mb-3">
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
                                         <label for="starts_at">Starts at</label>
                                         <input autocomplete="off" type="text" name="starts_at" id="starts_at" class="form-control" placeholder="Starts at" value="{{ $coupon->starts_at }}">
                                         <p></p>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="mb-3">
+                                <div class="col-md-4 col-6">
+                                    <div class="form-group">
                                         <label for="expires_at">Expires at</label>
                                         <input autocomplete="off" type="text" name="expires_at" id="expires_at" class="form-control" placeholder="Expires at" value="{{ $coupon->expires_at }}">
                                         <p></p>
                                     </div>
+                                </div>
+
+                                <div class="col-md-4 col-6">
+                                    <button type="submit" class="btn btn-primary mt-btn">Update</button>
                                 </div>
                             </div>
                         </div>
@@ -127,8 +132,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('coupons.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                
+                
             </div>
             </div>
         </form>

@@ -1,87 +1,78 @@
-<!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="{{ route('front.home') }}" class="text-decoration-none" title="{{ $settings->name }}">
-        <img style="width: 130px; margin:15px 10px;" src="{{ asset('uploads/logo/'.$settings->image) }}" alt="" />
-    </a>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar user (optional) -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+<ul class="navbar-nav mb-auto w-100">
+    <li class="menu-label pt-0 mt-0">
+        <span>Main Menu</span>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ route('admin.dashboard') }}" >
+            <i class="iconoir-view-grid menu-icon"></i>
+            <span>Dashboards</span>
+        </a>   
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#sidebarApplications" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApplications">
+            <i class="iconoir-compact-disc menu-icon"></i>
+            <span>Products</span>
+        </a>
+        <div class="collapse " id="sidebarApplications">
+            <ul class="nav flex-column">
                 <li class="nav-item">
                     <a href="{{ route('categories.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Category</p>
+                        <span>Category</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('sub-categories.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Sub Category</p>
+                        <span>Sub Category</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('brands.index') }}" class="nav-link">
-                        <svg class="h-6 nav-icon w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                          </svg>
-                        <p>Brands</p>
+                        <span>Brands</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('products.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-tag"></i>
-                        <p>Products</p>
+                        <span>Products</span>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('shipping.create') }}" class="nav-link">
-                        <!-- <i class="nav-icon fas fa-tag"></i> -->
-                        <i class="fas fa-truck nav-icon"></i>
-                        <p>Shipping</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('orders.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p>Orders</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('coupons.index') }}" class="nav-link">
-                        <i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
-                        <p>Discount</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('users.index') }}" class="nav-link">
-                        <i class="nav-icon  fas fa-users"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('pages.index') }}" class="nav-link">
-                        <i class="nav-icon  far fa-file-alt"></i>
-                        <p>Pages</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('customize.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>Customize</p>
-                    </a>
-                </li>
+                </li>                               
             </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
- </aside>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('customize.index') }}" class="nav-link">
+            <i class="iconoir-home-simple menu-icon"></i>
+            <span>Customize</span>
+        </a>
+    </li> 
+    <li class="nav-item">
+        <a href="{{ route('shipping.create') }}" class="nav-link">
+            <i class="iconoir-home-simple menu-icon"></i>
+            <span>Shipping</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('orders.index') }}" class="nav-link">
+            <i class="iconoir-trophy menu-icon"></i>
+            <span>Orders</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('coupons.index') }}" class="nav-link">
+            <i class="iconoir-home-simple menu-icon"></i>
+            <span>Discount</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a href="{{ route('users.index') }}" class="nav-link">
+            <i class="iconoir-table-rows menu-icon"></i>
+            <span>Users</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ route('pages.index') }}" class="nav-link">
+            <i class="iconoir-home-simple menu-icon"></i>
+            <span>Pages</span>
+        </a>
+    </li>  
+</ul>

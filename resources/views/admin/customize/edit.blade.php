@@ -1,43 +1,55 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+<div class="card mainPage">
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Edit Customize</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Edit Customize</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('customize.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('customize.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
-        <form action="{{ route('customize.update',$customize->id) }}" method="post" enctype="multipart/form-data" >
-            @csrf
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <label for="status">Media</label>
-                            <div class="form-group">
-                                <input type="file" name="image" id="fileInput" accept="image/*" hidden>
-                                <div id="dropZone" class="drop-zone">
-                                    Drop files here<br /> or click to upload.
+    <hr class="m-0" />
+    <form action="{{ route('customize.update',$customize->id) }}" method="post" enctype="multipart/form-data" >
+        @csrf
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5 col-12">
+                        <div class="row">
+                            <div class="col-md-6 col-6">
+                                <div class="form-group">
+                                    <label for="status">Media</label>
+                                    <input type="file" name="image" id="fileInput" accept="image/*" hidden>
+                                    <div id="dropZone" class="drop-zone">
+                                        Drop files here<br /> or click to upload.
+                                    </div>
                                 </div>
-                                <div class="preview-container" id="previewContainer">
-                                    @if(!empty($customize->image))
-                                        <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/customize/'.$customize->image) }}" alt="" />
-                                    @endif
+                            </div>
+                            <div class="col-md-6 col-6">
+                                <div class="form-group">
+                                    <label for="status">Image</label>
+                                    <div class="preview-container" id="previewContainer">
+                                        @if(!empty($customize->image))
+                                            <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/customize/'.$customize->image) }}" alt="" />
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-6">
-                            <div class="row">                                
-                                <div class="col-md-6 col-6">
+                    </div>
+                    <div class="col-md-7 col-6">
+                        <div class="row">                                
+                            <div class="col-md-6 col-6">
+                                <div class="form-group">
                                     <label for="category">Category</label>
                                     <select name="category" id="category" class="form-control">
                                         <option {{ ($customize->category == 'Product' ? 'selected' : '')}} value="Product">Product</option>
@@ -45,33 +57,40 @@
                                         <option {{ ($customize->category == 'Wrap_border' ? 'selected' : '')}} value="Wrap_border">Wrap & Border</option>
                                         <option {{ ($customize->category == 'Hardware_finish' ? 'selected' : '')}} value="Hardware_finish">Hardware & Finish</option>
                                         <option {{ ($customize->category == 'Options' ? 'selected' : '')}} value="Options">Options</option>
-                                        
                                     </select>
                                 </div>
-                                <div class="col-md-6 col-6">
+                            </div>
+                            <div class="col-md-6 col-6">
+                                <div class="form-group">
                                     <label for="type">Type</label>
                                     <input type="type" value="{{ $customize->type}}" name="type" id="type" class="form-control" placeholder="Type">
                                     <p></p>
                                 </div>
-                                <div class="col-md-6 col-6">
+                            </div>
+                            <div class="col-md-6 col-6">
+                                <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" value="{{ $customize->name}}" name="name" id="name" class="form-control" placeholder="Name">
                                     <p></p>
                                 </div>
-                                <div class="col-md-4 col-6">
+                            </div>
+                            <div class="col-md-4 col-6">
+                                <div class="form-group">
                                     <label for="price">Price</label>
                                     <input type="text" value="{{ $customize->price}}" name="price" id="price" class="form-control" placeholder="Price">
                                     <p></p>
                                 </div>
-                                <div class="col-md-2 col-12">
-                                    <button type="submit" class="btn btn-primary mt-btn">Update</button>
-                                </div>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <button type="submit" class="btn btn-primary mt-btn">Update</button>
+                            </div>
+                </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-</section>
+        </div>
+    </form>
+</div>
 @endsection
 
 @section('customJs')

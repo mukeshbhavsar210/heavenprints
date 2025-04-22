@@ -1,72 +1,72 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Create User</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create User</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('users.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
+    <hr class="m-0" />
+
         <form action="" method="post" id="userForm" name="userForm">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                        <div class="col-md-6 col-6">
+                            <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                        <div class="col-md-6 col-6">
+                            <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="text" name="email" id="email" class="form-control" placeholder="Email">
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                        <div class="col-md-6 col-6">
+                            <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
+                        <div class="col-md-2 col-6">
+                            <div class="form-group">
                                 <label for="phone">Phone</label>
                                 <input type="text"  name="phone" id="phone" class="form-control" placeholder="Phone">
                                 <p></p>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <div class="mb-3">
+                        <div class="col-md-2 col-6">
+                            <div class="form-group">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control">
+                                <select name="status" id="status" class="form-select">
                                     <option value="1">Active</option>
                                     <option value="0">Block</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-2 col-6">
+                            <button type="submit" class="btn btn-primary mt-btn">Create</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('users.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>

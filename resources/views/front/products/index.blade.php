@@ -65,8 +65,13 @@
                     <small class="pt-1">(99 Reviews)</small>
                 </div>
 
-                <h4>₹<span id="finalPrice">{{ $product->price }}</span></h4> 
-                (Rate: ₹{{ $product->per_inch }} x <span id="totalInches">0</span> inches = ₹<span id="subTotalInches">0</span>)
+                <h4>₹<span id="finalPrice">{{ $product->price }}</span></h4>
+                <p style="font-size: 11px"> (Height: <span id="showHeights">0</span> x Width: <span id="showWidths">0</span> x Rate: ₹{{ $product->per_inch }} =
+                <span id="totalInches">0</span> inches = ₹<span id="subTotalInches">0</span>)
+                </p>
+
+                
+
                 <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
                 <form action="{{ route('store_total') }}" method="post" class="mt-3">                        
@@ -224,7 +229,11 @@
             finalPrice = basePrice + (per_inch * area);
             totalInches = area;
             subTotalInches = (per_inch * area);
+            showWidth = width;
+            showHeight = height;
 
+            document.getElementById('showWidths').innerText = showWidth;
+            document.getElementById('showHeights').innerText = showHeight;
             document.getElementById('totalInches').innerText = totalInches;
             document.getElementById('subTotalInches').innerText = subTotalInches.toFixed(2);
             document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);

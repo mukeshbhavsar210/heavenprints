@@ -2,29 +2,29 @@
 
 @section('content')
 
-<section class="content-header">
-    <div class="container-fluid" id="adminHeader">
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>Create Brand</h1>
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create Brand</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('brands.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('brands.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
+    <hr class="m-0" />
         <form action="" method="post" id="createBrandForm" name="createBrandForm">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8 col-12">
-                            <div class="mb-3">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
                                 <input readonly type="hidden" name="slug" id="slug" class="form-control" placeholder="Slug">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-12">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control">
                                     <option value="1">Active</option>
@@ -40,17 +40,14 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-2 col-12">
+                            <button type="submit" class="btn btn-primary mt-2">Create</button>                            
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('brands.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>
         </form>
     </div>
-    <!-- /.card -->
-</section>
 @endsection
 
 @section('customJs')

@@ -1,22 +1,25 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<section class="content-header">
-    <div class="container-fluid my-2" id="adminHeader">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Create Sub Category</h1>
+
+
+<div class="card mainPage">
+    
+    @include('admin.message')
+
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-11 col-12">
+                <h4 class="mt-1 mb-0">Create Sub Category</h4>
             </div>
-            <div class="col-sm-6 text-right">
-                <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
+            <div class="col-sm-1 col-12">
+                <div class="pull-right">
+                    <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
+                </div>
             </div>
         </div>
     </div>
-</section>
-
-<section class="content">
-    <div class="container-fluid">
-        @include('admin.message')
+    <hr class="m-0" />
 
         <form action="{{ route('sub-categories.store') }}" method="post" enctype="multipart/form-data" >
             @csrf
@@ -24,8 +27,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            <label for="status">Media</label>
                             <div class="form-group">
+                                <label for="status">Media</label>                            
                                 <input type="file" name="image" id="fileInput" accept="image/*" hidden>
                                 <div id="dropZone" class="drop-zone">
                                     Drop files here<br /> or click to upload.
@@ -38,7 +41,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="name">Category</label>
-                                        <select name="category" id="category" class="form-control">
+                                        <select name="category" id="category" class="form-select">
                                             <option value="">Select a category</option>
                                             @if($categories->isNotEmpty())
                                                 @foreach ($categories as $category)
@@ -60,21 +63,24 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="showHome">Show</label>
-                                        <select name="showHome" id="showHome" class="form-control">
+                                        <select name="showHome" id="showHome" class="form-select">
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select name="status" id="status" class="form-control">
+                                        <select name="status" id="status" class="form-select">
                                             <option value="1">Active</option>
                                             <option value="0">Block</option>
                                         </select>
                                         <p></p>
                                     </div>
+                                </div>
+                                <div class="col-md-2 col-12">
+                                    <button type="submit" class="btn btn-primary mt-btn">Create</button>
                                 </div>
                             </div>
                         </div>
@@ -82,14 +88,11 @@
                     </div>
                 </div>
             
-                <div class="pb-5">
-                    <button type="submit" class="btn btn-primary">Create</button>
-                    <a href="{{ route('sub-categories.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-                </div>
+               
             </div>
         </form>
     </div>
-</section>
+
 @endsection
 
 @section('customJs')
