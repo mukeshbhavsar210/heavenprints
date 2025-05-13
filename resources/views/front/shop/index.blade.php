@@ -87,7 +87,7 @@
                     <div class="row mb-3">
                         <div class="col-md-10 col-8"><h3>Products</h3></div>
                         <div class="col-md-2 col-4">                            
-                            <select name="sort" id="sort" class="form-control">
+                            <select name="sort" id="sort" class="form-select">
                                 <option value="Latest" {{ ($sort == 'latest') ? 'selected' : ' ' }}>Latest</option>
                                 <option value="price_desc" {{ ($sort == 'price_desc') ? 'selected' : ' ' }}>Price High</option>
                                 <option value="price_asc" {{ ($sort == 'price_asc') ? 'selected' : ' ' }}>Price Low</option>
@@ -106,15 +106,23 @@
                                     <div class="product-image position-relative ">
                                         <a href="{{ route('front.product',$product->slug) }}" class="product-img">
                                             @if (!empty($productImage->image1))
-                                                <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
+                                            <div class="product-image-wrapper">
+                                                <div class="image-loader"></div>
+                                                <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" loading="lazy" onload="this.previousElementSibling.style.display='none';" />
+                                            </div>
+                                                
                                             @else
                                                 <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                             @endif
                                         </a>
 
                                         <div class="product-action">
-                                            <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)">
-                                                <i class="far fa-heart"></i>
+                                            <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)">                                                
+                                                <div id="heart-container">
+                                                <input type="checkbox" id="toggle">
+                                                    <div id="twitter-heart"></div>
+                                                </input>
+                                                </div>
                                             </a>
 
                                             @if($product->metal_type)
@@ -139,7 +147,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="price mt-2">
+                                    <div class="price mt-4">
                                         <h5>{{ Str::limit($product->name, 20, '...') }}</h5>
                                         {{-- <a href="{{ route('front.product',$product->slug) }}" class="product-title">{{ Str::limit($product->name, 20, '...') }}</a> --}}
                                         <div class="product-price mt-1">
@@ -149,16 +157,17 @@
                                             @endif
                                         </div>
 
-                                        <div class="row mt-2 mb-2">
-                                            <div class="col-md-6 col-6">
+                                        <div class="row mt-2 mb-1">
+                                            <div class="col-md-6 col-6 mb-2">
                                                 @if(!empty($product->sizes))
                                                     @php
                                                         $decodedSizes = json_decode($product->sizes, true); // Decode as an array
                                                     @endphp
+
                                                     <div class="form-group">
                                                         @if(is_array($decodedSizes))                                                        
-                                                            <select name="size" class="form-control">
-                                                                <option value="">Select Size</option>
+                                                            <select name="size" class="form-select" style="font-size: 13px;">
+                                                                <option value="">Size</option>
                                                                 @foreach($decodedSizes as $size)
                                                                     <option value="{{ $size }}">{{ $size }}</option>
                                                                 @endforeach
@@ -168,15 +177,15 @@
                                                 @endif
                                             </div>
 
-                                            <div class="col-md-6 col-6">
+                                            <div class="col-md-6 col-6 mb-2">
                                                 @if(!empty($product->colors))
                                                     @php
                                                         $decodedColors = json_decode($product->colors, true);
                                                     @endphp    
                                                     <div class="form-group">                                            
-                                                        @if(is_array($decodedColors))
-                                                            <select name="color" class="form-control">
-                                                                <option value="">Select Color</option>
+                                                        @if(is_array($decodedColors)) 
+                                                            <select name="color" class="form-select" style="font-size: 13px;">
+                                                                <option value="">Color</option>
                                                                 @foreach($decodedColors as $color)
                                                                     <option value="{{ $color }}">{{ ucfirst($color) }}</option>
                                                                 @endforeach
@@ -188,10 +197,11 @@
                                         </div>
 
                                         @if($product->metal_type == 'Others')
-                                            <a href="{{ route('front.product.details',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
+                                            <a href="{{ route('front.product.details',$product->slug) }}" class="btn btn-primary">Customize</a>
                                         @else
-                                            <a href="{{ route('front.product',$product->slug) }}" class="btn btn-outline-primary">Customize</a>
+                                            <a href="{{ route('front.product',$product->slug) }}" class="btn btn-primary">Customize</a>
                                         @endif
+                                        
                                     </div>
                                 </div>
                             @endforeach

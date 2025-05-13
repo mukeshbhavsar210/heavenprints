@@ -200,7 +200,7 @@
                                         </div>
                                     </div>
 
-                                    <a class="btn btn-primary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">Add To Cart</a>   
+                                    <a class="btn btn-secondary mt-1" href="javascript:void(0);" onclick="addToCartCustomize({{ $product->id }})">Add To Cart</a>   
                                 </div>  
                             </div>
 						</div>
