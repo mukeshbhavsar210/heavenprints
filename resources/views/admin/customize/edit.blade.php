@@ -52,6 +52,7 @@
                                 <div class="form-group">
                                     <label for="category">Category</label>
                                     <select name="category" id="category" class="form-control">
+                                        <option {{ ($customize->category == 'first' ? 'selected' : '')}} value="first">First Level</option>
                                         <option {{ ($customize->category == 'Product' ? 'selected' : '')}} value="Product">Product</option>
                                         <option {{ ($customize->category == 'Size' ? 'selected' : '')}} value="Size">Size</option>
                                         <option {{ ($customize->category == 'Wrap_border' ? 'selected' : '')}} value="Wrap_border">Wrap & Border</option>

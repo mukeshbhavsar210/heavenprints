@@ -66,15 +66,13 @@
                 </div>
 
                 <h4>₹<span id="finalPrice">{{ $product->price }}</span></h4>
-                <p style="font-size: 11px"> (Height: <span id="showHeights">0</span> x Width: <span id="showWidths">0</span> x Rate: ₹{{ $product->per_inch }} =
+                <p style="font-size: 11px; display:none;"> (Height: <span id="showHeights">0</span> x Width: <span id="showWidths">0</span> x Rate: ₹{{ $product->per_inch }} =
                 <span id="totalInches">0</span> inches = ₹<span id="subTotalInches">0</span>)
                 </p>
 
-                
-
                 <div class="mt-2 mb-3">{!! $product->short_description !!}</div>
 
-                <form action="{{ route('store_total') }}" method="post" class="mt-3">                        
+                <form action="{{ route('store_total') }}" method="post" class="mt-3" id="form">                        
                     @csrf
                     <input type="hidden" name="name" id="category_name" value="{{ $product->metal_type }}">
                                      
@@ -83,10 +81,14 @@
                             <div class="twoDropdowns">
                                 <div class="itemDD">
                                     <p class="mb-1">Height</p>
-                                    <select id="customSizeSelect_01" class="form-select" name="custom_size_1">
+                                    <select id="customSizeSelect_01" class="form-select" name="custom_size_1" required>
                                         <option value="0">Select</option>
-                                        @foreach($customSizePrices1 as $value => $item)                                                        
-                                            <option value="{{ $value }}">{{ $value }}</option>
+                                        
+                                        @foreach($customSizePrices1 as $value => $item)    
+                                            <option value="{{ $value }}" 
+                                                {{ isset($product->custom_height) && $product->custom_height == $value ? 'selected' : '' }}>
+                                                {{ $value }}
+                                            </option>  
                                         @endforeach
                                     </select>
                                 </div>
@@ -95,16 +97,21 @@
                                 </div>
                                 <div class="itemDD">
                                     <p class="mb-1">Width</p>
-                                    <select id="customSizeSelect_02" class="form-select" name="custom_size_2" >
-                                        <option value="0">Select</option>
-                                        @foreach($customSizePrices1 as $value => $item)                                                        
-                                            <option value="{{ $value }}">{{ $value }}</option>
+                                    <select id="customSizeSelect_02" class="form-select" name="custom_size_2" required >
+                                        <option value="0">Select</option>    
+                                        @foreach($customSizePrices1 as $value => $item)       
+                                            <option value="{{ $value }}" 
+                                                {{ isset($product->custom_width) && $product->custom_width == $value ? 'selected' : '' }}>
+                                                {{ $value }}
+                                            </option>  
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div id="flash-message" class="alert alert-danger d-none" role="alert"></div>
                                         
                     <div class="row">
                         <div class="col-md-10 col-12">
@@ -226,16 +233,9 @@
             const height = customSizePrices2[selectedSize2] || 1;
             const area = width * height;
 
-            finalPrice = basePrice + (per_inch * area);
-            totalInches = area;
-            subTotalInches = (per_inch * area);
-            showWidth = width;
-            showHeight = height;
-
-            document.getElementById('showWidths').innerText = showWidth;
-            document.getElementById('showHeights').innerText = showHeight;
-            document.getElementById('totalInches').innerText = totalInches;
-            document.getElementById('subTotalInches').innerText = subTotalInches.toFixed(2);
+            //finalPrice = basePrice + (per_inch * area);
+            finalPrice = 0 + (per_inch * area);
+            
             document.getElementById('finalPrice').innerText = finalPrice.toFixed(2);
             document.getElementById('finalPriceInput').value = finalPrice.toFixed(2);
         }
@@ -294,5 +294,40 @@
                 result.css('backgroundPosition', '-' + ( x - img.offset().left ) * cx  + 'px -' + ( y - img.offset().top ) * cy + 'px');
             }
         }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('form'); // adjust if multiple forms
+            const customSize1 = document.getElementById('customSizeSelect_01');
+            const customSize2 = document.getElementById('customSizeSelect_02');
+            const flashMessage = document.getElementById('flash-message');
+
+            form.addEventListener('submit', function (e) {
+                let valid = true;
+                let errorMessage = '';
+
+                if (customSize1.value === "0" || customSize1.value === "") {
+                    valid = false;
+                    errorMessage += 'Please select a Height<br>';
+                }
+
+                if (customSize2.value === "0" || customSize2.value === "") {
+                    valid = false;
+                    errorMessage += 'Please select a Width<br>';
+                }
+
+                if (!valid) {
+                    e.preventDefault(); // prevent form submission
+
+                    flashMessage.innerHTML = errorMessage;
+                    flashMessage.classList.remove('d-none');
+
+                    // Optional: auto-hide the message after 5 seconds
+                    setTimeout(() => {
+                        flashMessage.classList.add('d-none');
+                    }, 5000);
+                }
+            });
+        });
 </script>
 @endsection

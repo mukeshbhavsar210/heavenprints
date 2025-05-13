@@ -36,6 +36,7 @@
 										</div>
 									</div>
 									<div class="card-body pt-0"> 
+										
 										@include('admin.message')
 
 										<form class="mt-3"  action="{{ route('admin.authenticate') }}" method="post">

@@ -1,80 +1,87 @@
 @extends('front.layouts.app')
 
 @section('content')
-<section class="section-5">
-    <div class="container">
-        <div class="light-font">
-            <ol class="breadcrumb primary-color mb-0">
-                <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                <li class="breadcrumb-item">Register</li>
-            </ol>
-        </div>
-    </div>
-</section>
 
-<section class="section-10">
-    <div class="container">
-        <div class="login-form">
-            <form action="" method="post" name="registrationForm" id="registrationForm">            
-                <h4 class="modal-title">Register Now</h4>
+<div class="row vh-100 d-flex justify-content-center">
+    <div class="col-12 align-self-center">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4 mx-auto">
+                    <div class="card">
+                        <div class="card-body p-0 bg-black auth-header-box rounded-top">
+                            <div class="text-center p-3">
+                                <img src="{{ asset('front-assets/images/Heaven.jpg') }}" style="width: 50px" alt="logo" class="auth-logo" />
+                                <h4 class="mt-3 mb-1 fw-semibold text-white fs-18">Create an account</h4>   
+                                <p class="text-muted fw-medium mb-0">Enter your detail to Create your account today.</p>  
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">           
+                            <form action="" method="post" name="registrationForm" id="registrationForm">                                                                    
+                                <div class="row mt-3">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mb-2">
+                                            <label class="form-label" for="first_name">First Name</label>
+                                            <input type="text" id="first_name" class="form-control" placeholder="First Name" id="first_name" name="first_name">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label class="last_name">Last Name</label>
+                                            <input type="text" id="last_name" class="form-control" placeholder="Last Name" id="last_name" name="last_name">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label class="email">Email</label>
+                                    <input type="text" class="form-control" placeholder="Email" id="email" name="email">
+                                    <p></p>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label class="phone">Phone</label>
+                                    <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone">
+                                    <p></p>
+                                </div>
 
-                <div class="row">
-                    <div class="col-md-6 col-6">
-                        <div class="form-group">
-                            <label class="first_name">First Name</label>
-                            <input type="text" id="first_name" class="form-control" placeholder="First Name" id="first_name" name="first_name">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6">
-                        <div class="form-group">
-                            <label class="last_name">Last Name</label>
-                            <input type="text" id="last_name" class="form-control" placeholder="Last Name" id="last_name" name="last_name">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label class="email">Email</label>
-                            <input type="text" class="form-control" placeholder="Email" id="email" name="email">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label class="phone">Phone</label>
-                            <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6">
-                        <div class="form-group">
-                            <label class="password">Password</label>
-                            <input type="password" id="password" class="form-control" placeholder="Password" id="password" name="password">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6">
-                        <div class="form-group">
-                            <label class="confirm_password">Confirm Password</label>
-                            <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" id="password_confirmation" name="password_confirmation">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-6 mt-2">
-                        <a href="#">Forgot Password?</a>
-                    </div>
-                    <div class="col-md-6 col-6">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-primary" value="Register">Register Account</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="text-center small">Already have an account? <a href="{{ route('account.login') }}">Login Now</a></div>
-        </div>
-    </div>
-</section>
+                                <div class="row mt-3">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label class="password">Password</label>
+                                            <input type="password" id="password" class="form-control" placeholder="Password" id="password" name="password">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label class="confirm_password">Confirm Password</label>
+                                            <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" id="password_confirmation" name="password_confirmation">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-0 row">
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary" value="Register">Register Account <i class="fas fa-sign-in-alt ms-1"></i></button>                                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                            <div class="text-center">
+                                <p class="text-muted">Already have an account ?  <a href="{{ route('account.login') }}" class="text-primary ms-2">Log in</a></p>
+                            </div>
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end card-body-->
+</div>
+                                
 @endsection
 
 @section('customJs')

@@ -8,12 +8,6 @@
     </div>
 </nav>
 
-{{-- @if($customizeData->isNotEmpty())
-    @foreach ($customizeData as $value)
-        {{ $value->name }}
-    @endforeach
-@endif --}}
-
 <div class="tab-content mt-2" id="nav-tabContent">
         <div class="tab-pane active show fade {{ session('finalPriceData.name') == 'Canvas' ? 'active show' : '' }} " id="nav_1" role="tabpanel" aria-labelledby="nav-canvas">        
             <div class="paddWrapper">

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class FrontController extends Controller {
     public function index(){
@@ -22,6 +23,11 @@ class FrontController extends Controller {
         $data['featuredProducts'] = $products;            
 
         return view("front.home.index",$data);
+    }  
+
+
+    public function contact(){
+        return view("front.contact");
     }  
 
     public function addToWishlist(Request $request){
@@ -100,5 +106,31 @@ class FrontController extends Controller {
                 'errors' => $validator->errors()
             ]);
         }
+    }
+
+
+
+
+    public function send(Request $request){
+        // Validate input
+        $request->validate([
+            'name'    => 'required',
+            'email'   => 'required|email',
+            'subject' => 'required',
+            'message' => 'required',
+        ]);
+
+        // Send email
+        Mail::send('emails.contact', [
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'subject' => $request->subject,
+            'bodyMessage' => $request->message,
+        ], function($message) use ($request) {
+            $message->to('info@heavenprints.in') // Set admin email here
+                    ->subject($request->subject);
+        });
+
+        return back()->with('success', 'Thank you for contacting us!');
     }
 }

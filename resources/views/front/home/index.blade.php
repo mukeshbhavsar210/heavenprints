@@ -11,13 +11,8 @@
         <div id="homeBanner">
             @foreach (getBanners() as $key => $value)
                 <div>
-                    <img class="w-100 h-100" src="{{ asset('uploads/banners/'.$value->image) }}" alt="Image">
-                    {{-- <div class="container relative">
-                        <div class="banner-details">
-                            <h3>{{ $value->name }}</h3>
-                            <p>{{ $value->description }}</p>
-                        </div>
-                    </div> --}}
+                    <div class="loader"></div>
+                    <img class="w-100 h-100" data-lazy="{{ asset('uploads/banners/'.$value->image) }}" alt="Image">                  
                 </div>
             @endforeach                    
         </div>
@@ -41,9 +36,10 @@
                             <div class="product-image position-relative">    
                                 <a href="" class="product-img">
                                     @if (!empty($productImage->image1))
-                                        <img class="card-img-top" src="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
+                                        <div class="loader"></div>
+                                        <img class="card-img-top" data-lazy="{{ asset('uploads/products/small/'.$productImage->image1) }}" >
                                     @else
-                                        <img class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
+                                        <img class="card-img-top" data-lazy="{{ asset('admin-assets/img/default-150x150.png') }}" alt="" />
                                     @endif
                                 </a>
 
