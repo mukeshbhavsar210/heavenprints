@@ -12,7 +12,7 @@
             @foreach (getBanners() as $key => $value)
                 <div>
                     <div class="loader"></div>
-                    <img class="w-100 h-100" data-lazy="{{ asset('uploads/banners/'.$value->image) }}" alt="Image">                  
+                    <img class="w-100 h-100" data-lazy="{{ asset('uploads/banners/'.$value->image) }}" alt="">                  
                 </div>
             @endforeach                    
         </div>
@@ -44,7 +44,13 @@
                                 </a>
 
                                 <div class="product-action">
-                                    <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)"><i class="far fa-heart"></i></a>
+                                    <a onclick="addToWishlist({{ $product->id }})" class="whishlist" href="javascript:void(0)">
+                                        <div id="heart-container">
+                                            <input type="checkbox" id="toggle">
+                                                <div id="twitter-heart"></div>
+                                            </input>
+                                        </div>
+                                    </a>
 
                                     @if($product->metal_type)
                                         <span class="selectedCategory">{{ $product->metal_type }}</span>    
@@ -77,9 +83,9 @@
                                 </div>
                                 
                                 @if($product->metal_type == 'Others')
-                                    <a href="{{ request()->root() }}/product/details/{{ $product->slug }}" class="btn btn-outline-primary">Customize</a>
+                                    <a href="{{ request()->root() }}/product/details/{{ $product->slug }}" class="btn btn-primary">Customize</a>
                                 @else
-                                <a href="{{ request()->root() }}/product/{{ $product->slug }}" class="btn btn-outline-primary">Customize</a>
+                                <a href="{{ request()->root() }}/product/{{ $product->slug }}" class="btn btn-primary">Customize</a>
                                 @endif 
                             </div>
                         </div>                            
