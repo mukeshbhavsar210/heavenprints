@@ -9,10 +9,10 @@
 
     <div class="card-header">
         <div class="row">
-            <div class="col-sm-11 col-12">
+            <div class="col-sm-11 col-9">
                 <h4 class="mt-1 mb-0">Edit Sub Category</h4>
             </div>
-            <div class="col-sm-1 col-12">
+            <div class="col-sm-1 col-3">
                 <div class="pull-right">
                     <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="col-md-5 col-12">
                         <div class="row">
-                            <div class="col-md-9 col-9">
+                            <div class="col-md-9 col-8">
                                 <div class="form-group">
                                     <label for="status">Media</label>
                                     <input type="file" name="image" id="fileInput" accept="image/*" hidden>
@@ -37,12 +37,14 @@
                                     </div>                                    
                                 </div>
                             </div>
-                            <div class="col-md-3 col-3">
+                            <div class="col-md-3 col-4">
+                                <div class="form-group">
                                 <label for="status">Image</label>
                                 <div class="preview-container" id="previewContainer">
                                     @if(!empty($subCategory->image))
                                         <img style="border-radius: 7px; width:100px" src="{{ asset('uploads/sub_category/'.$subCategory->image) }}" alt="" />
                                     @endif
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +73,7 @@
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-12">
+                            <div class="col-md-6 col-6">
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-select">
@@ -81,7 +83,7 @@
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-12">
+                            <div class="col-md-4 col-6">
                                 <div class="form-group">
                                     <label for="showHome">Show on Home</label>
                                     <select name="showHome" id="showHome" class="form-select">

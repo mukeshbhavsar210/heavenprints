@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
 
@@ -37,7 +38,7 @@ class ProductController extends Controller {
         $data['sortBy'] = $sortBy;
         $data['order'] = $order;
         $data['counts'] = $counts;
-
+        
         return view ('admin.products.list',$data);
     }
 
@@ -51,11 +52,22 @@ class ProductController extends Controller {
         $colors = Color::get();
         $sizes = Size::get();
 
+        $customSizePrices1 = [];
+
+        $rows = DB::table('customizes')
+          ->orderBy('name', 'asc')
+          ->get();
+
+        foreach ($rows as $row) {
+            $customSizePrices1[(int) $row->name] = (float) $row->price;
+        }
+
         $data['categories'] = $categories;
         $data['brands'] = $brands;
         $data['frameMaterials'] = $frameMaterials;
         $data['colors'] = $colors;
         $data['sizes'] = $sizes;
+        $data['customSizePrices1'] = $customSizePrices1;
 
         return view('admin.products.create', $data);
     }
@@ -74,6 +86,8 @@ class ProductController extends Controller {
             $product->name = $request->name;   
             $product->slug = $request->slug;        
             $product->metal_type = $request->metal_type;
+            $product->custom_height = $request->custom_height;
+            $product->custom_width = $request->custom_width; 
             $product->height = $request->height;
             $product->width = $request->width;
             $product->description = $request->description;
@@ -178,6 +192,17 @@ class ProductController extends Controller {
         $data = [];
         $categories = Category::orderBy('name','ASC')->get();
         $brands = Brand::orderBy('name','ASC')->get();
+
+        $customSizePrices1 = [];
+
+        $rows = DB::table('customizes')
+          ->orderBy('name', 'asc')
+          ->get();
+
+        foreach ($rows as $row) {
+            $customSizePrices1[(int) $row->name] = (float) $row->price;
+        }
+        
         $data['categories'] = $categories;
         $data['brands'] = $brands;
         $data['product'] = $product;
@@ -186,7 +211,8 @@ class ProductController extends Controller {
         $data['relatedProducts'] = $relatedProducts;    
         $data['frameMaterials'] = $frameMaterials;    
         $data['colors'] = $colors;    
-        $data['sizes'] = $sizes;            
+        $data['sizes'] = $sizes;         
+        $data['customSizePrices1'] = $customSizePrices1;           
 
         return view('admin.products.edit',$data);
     }
@@ -210,6 +236,8 @@ class ProductController extends Controller {
             $product->height = $request->height;
             $product->width = $request->width;
             $product->metal_type = $request->metal_type;
+            $product->custom_height = $request->custom_height;
+            $product->custom_width = $request->custom_width;            
             $product->description = $request->description;
             $product->price = $request->price;
             $product->per_inch = $request->per_inch;

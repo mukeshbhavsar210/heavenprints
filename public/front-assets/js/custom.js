@@ -98,6 +98,7 @@ $(document).ready(function(){
     
     $('#homeBanner').slick({
         dots: false,
+        lazyLoad: 'ondemand',
         infinite: true,
         autoplay: true, // Enables auto-play
         autoplaySpeed: 3000, // 2 seconds per slide
@@ -105,8 +106,13 @@ $(document).ready(function(){
         arrows: true,
     });
 
+    $('#homeBanner').on('lazyLoaded', function(event, slick, image, imageSource) {
+        $(image).siblings('.loader').fadeOut(300);
+    });
+
     $('.slider-for').slick({
         slidesToShow: 1,
+        lazyLoad: 'ondemand',
         slidesToScroll: 1,
         arrows: false,
         fade: true,
@@ -200,6 +206,7 @@ $(document).ready(function(){
         infinite: true,
         autoplaySpeed: 4000,
         autoplay: true,
+        lazyLoad: 'ondemand',
         responsive: [
         {
             breakpoint: 991,
@@ -223,6 +230,14 @@ $(document).ready(function(){
         }
         ]
     });
+
+    
+    // Remove loader when image loads
+    $('.latestProducts').on('lazyLoaded', function(event, slick, image, imageSource) {
+    $(image).siblings('.loader').fadeOut(300);
+    });
+
+   
 
     $('.customProducts').slick({
         slidesToShow: 5,
@@ -306,4 +321,12 @@ $(document).ready(function(){
             $("#shippingForm").addClass('d-none');
         }
     });
+});
+
+
+$('.slick-gallery').slick({
+  lazyLoad: 'ondemand',
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  dots: true
 });

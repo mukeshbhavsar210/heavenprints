@@ -16,8 +16,8 @@
 <link href="{{ asset('admin-assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('admin-assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('admin-assets/css/custom.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.css') }} ">
-<link rel="stylesheet" href="{{ asset('admin-assets/plugins/select2/css/select2.min.css') }} ">
+<link href="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.css') }}" rel="stylesheet" type="text/css" >
+<link href="{{ asset('admin-assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" >
 <meta name="csrf-token" content="{{ csrf_token() }}">	
 
 </head>
@@ -268,10 +268,10 @@
                     <span>
                         <img class="logo-sm" src="{{ asset('admin-assets/img/Heaven.jpg') }}" alt="" />
                     </span>
-                    <span class="">
-                        <img class="logo-lg logo-light" src="{{ asset('admin-assets/img/Heaven_Prints.jpg') }}" alt="" />
-                        <img class="logo-lg logo-dark" src="{{ asset('admin-assets/img/Heaven_Prints.jpg') }}" alt="" />
-                    </span>                    
+                    {{-- <span class="">
+                        <img class="logo-lg logo-light" src="{{ asset('admin-assets/img/Heaven.jpg') }}" alt="" />
+                        <img class="logo-lg logo-dark" src="{{ asset('admin-assets/img/Heaven.jpg') }}" alt="" />
+                    </span>                     --}}
                 </a>
             </div>
             <div class="startbar-menu">

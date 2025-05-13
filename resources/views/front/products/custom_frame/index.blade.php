@@ -300,16 +300,7 @@
             </aside>                        
         </div>
                     
-        <div class="col-md-7 col-12">
-            {{-- @if(!empty($finalPriceData))
-                <ul>              
-                    <li><strong>Custom Size 1:</strong> {{ $finalPriceData['custom_size_1'] }}</li>
-                    <li><strong>Custom Size 2:</strong> {{ $finalPriceData['custom_size_2'] }}</li>
-                </ul>
-            @else
-                <p>No session data found.</p>
-            @endif                           --}}
-            
+        <div class="col-md-7 col-12">                      
             <div class="card mt-3">
                 <div class="card-body height_100vh text-center">
                         <div style="{{ !$image ? 'display:block;' : 'display:none;' }}"  class="mt-5" >

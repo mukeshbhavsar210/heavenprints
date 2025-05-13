@@ -8,10 +8,10 @@
 
     <div class="card-header">
         <div class="row">
-            <div class="col-sm-11 col-12">
+            <div class="col-sm-11 col-9">
                 <h4 class="mt-1 mb-0">Edit Category</h4>
             </div>
-            <div class="col-sm-1 col-12">
+            <div class="col-sm-1 col-3">
                 <div class="pull-right">
                     <a href="{{ route('categories.index') }}" class="btn btn-primary">Back</a>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-md-5 col-12">
                             <div class="row">
-                                <div class="col-md-9 col-9">
+                                <div class="col-md-9 col-8">
                                     <div class="form-group">
                                         <label for="status">Media</label>
                                         <div class="form-group">
@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-3">
+                                <div class="col-md-3 col-4">
                                     <div class="form-group">
                                         <label for="status">Image</label><br />
                                         <div class="preview-container" id="previewContainer">
@@ -52,25 +52,31 @@
                         </div>
                         <div class="col-md-7 col-12">
                             <div class="row">
-                                <div class="col-md-6 col-6">
-                                    <label for="name">Name</label>
-                                    <input type="text" value="{{ $category->name}}" name="name" id="name" class="form-control" placeholder="Name">
-                                    <input type="hidden" value="{{ $category->slug}}" readonly name="slug" id="slug" class="form-control" placeholder="">
-                                    <p></p>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" value="{{ $category->name}}" name="name" id="name" class="form-control" placeholder="Name">
+                                        <input type="hidden" value="{{ $category->slug}}" readonly name="slug" id="slug" class="form-control" placeholder="">
+                                        <p></p>
+                                    </div>
                                 </div>                     
                                 <div class="col-md-6 col-6">
-                                    <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option {{ ($category->status == 1 ? 'selected' : '')}} value="1">Active</option>
-                                        <option  {{ ($category->status == 0 ? 'selected' : '')}} value="0">Block</option>
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select name="status" id="status" class="form-select">
+                                            <option {{ ($category->status == 1 ? 'selected' : '')}} value="1">Active</option>
+                                            <option  {{ ($category->status == 0 ? 'selected' : '')}} value="0">Block</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 col-6">
-                                    <label for="showHome">Home</label>
-                                    <select name="showHome" id="showHome" class="form-control">
-                                        <option {{ ($category->showHome == 'Yes' ? 'selected' : '')}} value="Yes">Yes</option>
-                                        <option  {{ ($category->showHome == 'No' ? 'selected' : '')}} value="No">No</option>
-                                    </select>
+                                    <div class="form-group">
+                                        <label for="showHome">Home</label>
+                                        <select name="showHome" id="showHome" class="form-select">
+                                            <option {{ ($category->showHome == 'Yes' ? 'selected' : '')}} value="Yes">Yes</option>
+                                            <option  {{ ($category->showHome == 'No' ? 'selected' : '')}} value="No">No</option>
+                                        </select>
+                                    </div>
                                 </div>  
                                 <div class="col-md-6 col-6">
                                     <button type="submit" class="btn btn-primary mt-2">Update</button>

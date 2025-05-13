@@ -173,7 +173,8 @@
 
                             <div class="mt-2">
                                 <input type="hidden" name="amount" id="grand_total" value="{{ number_format($grandTotal, 2, '.', '') }}" class="form-control" readonly>
-                                <button type="submit" class="btn btn-primary w-100" id="payment-btn" disabled>Make Payment</button>
+                                <img src="{{ asset('front-assets/images/trust.png') }}" alt="" />
+                                <button type="submit" class="btn btn-primary w-100" id="payment-btn" disabled>Make Payment</button>                                
                             </div>
                         </form>
             </div>

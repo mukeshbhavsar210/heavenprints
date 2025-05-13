@@ -29,11 +29,10 @@ Route::controller(FrontController::class)->group(function() {
     Route::get('/', 'index')->name('front.home');
     Route::post('/add-to-wishlist', 'addToWishlist')->name('front.addToWishlist');
     Route::get('/page/{slug}', 'page')->name('front.page');
-    Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');      
+    Route::post('/send-contact-email', 'sendContactEmail')->name('front.sendContactEmail');   
+    Route::post('/contact/send', 'send')->name('contact.send');   
+    Route::get('/contact', 'contact')->name('front.contact');
 });
-
-
-
 
 Route::controller(ShopController::class)->group(function() {
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');    

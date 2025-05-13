@@ -545,25 +545,23 @@ class ShopController extends Controller {
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'name' => 'nullable|string',
-            'size' => 'nullable|string',
-            'shape' => 'nullable|string',
-            'total' => 'nullable|numeric',
-            'custom_size_1' => 'nullable|string',
-            'custom_size_2' => 'nullable|string',
+            'custom_size_1' => 'required|string',
+            'custom_size_2' => 'required|string',
+        ], [
+            'custom_size_1.required' => 'Custom Size 1 is required.',
+            'custom_size_2.required' => 'Custom Size 2 is required.',
         ]);
 
         // 🗑️ Remove Old Stored Data
         session()->forget('finalPriceData');  
 
         // Perform First-Level Calculation (Example: Add 10% Tax or any logic)
-        $finalPrice = $request->total ? $request->total * 1.10 : 0; // Example: Adding 10% to total
+        $finalPrice = $request->total; 
 
         // Store Calculation Data in Session
         session()->put('finalPriceData', [
             'product_id' => $request->product_id,
             'name' => $request->name,
-            'size' => $request->size,
-            'shape' => $request->shape,
             'finalPrice' => $finalPrice,
             'custom_size_1' => $request->custom_size_1,
             'custom_size_2' => $request->custom_size_2

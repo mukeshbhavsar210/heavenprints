@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-3 col-12">
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Name">
@@ -31,17 +31,17 @@
                                 <p></p>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-2 col-12">
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control">
+                                <select name="status" id="status" class="form-select">
                                     <option value="1">Active</option>
                                     <option value="0">Block</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2 col-12">
-                            <button type="submit" class="btn btn-primary mt-2">Create</button>                            
+                            <button type="submit" class="btn btn-primary mt-btn">Create</button>                            
                         </div>
                     </div>
                 </div>

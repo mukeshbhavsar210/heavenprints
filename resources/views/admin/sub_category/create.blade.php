@@ -9,10 +9,10 @@
 
     <div class="card-header">
         <div class="row">
-            <div class="col-sm-11 col-12">
+            <div class="col-sm-11 col-9">
                 <h4 class="mt-1 mb-0">Create Sub Category</h4>
             </div>
-            <div class="col-sm-1 col-12">
+            <div class="col-sm-1 col-3">
                 <div class="pull-right">
                     <a href="{{ route('sub-categories.index') }}" class="btn btn-primary">Back</a>
                 </div>
@@ -36,7 +36,7 @@
                                 <div class="preview-container" id="previewContainer"></div>
                             </div>
                         </div>
-                        <div class="col-md-8 col-6">
+                        <div class="col-md-8 col-12">
                             <div class="row">                    
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
@@ -60,7 +60,7 @@
                                         <p></p>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-6 col-6">
                                     <div class="form-group">
                                         <label for="showHome">Show</label>
                                         <select name="showHome" id="showHome" class="form-select">
@@ -69,7 +69,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-4 col-6">
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" id="status" class="form-select">
@@ -87,9 +87,6 @@
                     </div>
                     </div>
                 </div>
-            
-               
-            </div>
         </form>
     </div>
 

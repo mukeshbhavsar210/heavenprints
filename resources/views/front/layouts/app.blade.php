@@ -216,6 +216,7 @@
 								<li><a href="{{ route('front.page',$page->slug) }}" title="{{ $page->name }}">{{ $page->name }}</a></li>
 							@endforeach
 						@endif
+						<li><a href="{{ route('front.contact') }}" title="Contact us">Contact Us</a></li>
 					</ul>					
 				</div>
 				<div class="col-md-3 col-6">

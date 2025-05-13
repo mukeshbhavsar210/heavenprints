@@ -29,7 +29,7 @@ class Product extends Model
         return $this->belongsTo(Product::class);
     }
 
-    protected $fillable = ['name', 'slug', 'sizes', 'colors'];
+    protected $fillable = ['name', 'slug', 'product_type', 'metal_type', 'sizes', 'colors', 'custom_height', 'custom_width', ];
 
     protected $casts = [
         'sizes' => 'array',
